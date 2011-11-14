@@ -1,5 +1,5 @@
 <?php
-namespace org\opencomb\coresystem ;
+namespace org\opencomb\coresystem\user ;
 
 use jc\message\Message;
 
@@ -53,14 +53,19 @@ class Register extends Controller
             	$this->viewRegister->exchangeData(DataExchanger::WIDGET_TO_MODEL) ;
 
             	// 注册时间
-            	$this->viewRegister->model()->setData('registerTime',time()) ;
+            	$this->modelUser->setData('registerTime',time()) ;
+            	$this->modelUser->setData('registerIp',$_SERVER['REMOTE_ADDR']) ;
+            	$this->modelUser->setData('info.nickname',$this->modelUser->username) ;
+            	
+            	$sPassword = md5(md5(md5($this->viewRegister->widget('password')->value())).md5($this->viewRegister->widget('password')->value())) ;
+            	$this->modelUser->setData('password',$sPassword) ;
 
             	try {
-            		$this->viewRegister->model()->save() ;
+            		$this->modelUser->save() ;
             		$this->viewRegister->createMessage( Message::success, "注册成功！" ) ;
-            		
-            		$this->viewRegister->model()->setData('success',"1") ;
             			
+            		$this->viewRegister->hideForm() ;
+            		
             	} catch (ExecuteException $e) {
             			
             		if($e->isDuplicate())
@@ -68,7 +73,7 @@ class Register extends Controller
             			$this->viewRegister->createMessage(
             					Message::error
             					, "用户名：%s 已经存在"
-            					, $this->viewRegister->model()->data('username')
+            					, $this->aParams->get('username')
             			) ;
             		}
             		else

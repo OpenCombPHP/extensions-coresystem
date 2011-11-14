@@ -3,7 +3,6 @@ return array(
 	'id' => 'password' ,
 	'class' => 'text' ,
 	'title' => '密码' ,
-	
 	'type' => 'password' ,
 
 	'verifier:length' => array(

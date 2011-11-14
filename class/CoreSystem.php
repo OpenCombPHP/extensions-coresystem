@@ -8,8 +8,8 @@ class CoreSystem extends Extension
 	public function load()
 	{
 		$aAccessRouter = $this->application()->accessRouter() ;
-		$aAccessRouter->addController("org\\opencomb\\coresystem\\Register",'register','coresystem') ;
+		$aAccessRouter->addController("org\\opencomb\\coresystem\\user\\Register",'register','') ;
 		
-		$aAccessRouter->setDefaultController('org\\opencomb\\coresystem\\Register') ;
+		$aAccessRouter->setDefaultController('org\\opencomb\\coresystem\\user\\Register') ;
 	}
 }

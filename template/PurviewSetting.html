@@ -1,0 +1,23 @@
+
+<h1>权限设置</h1>
+
+<msgqueue />
+
+<form method="post">
+
+	<foreach for="$arrRegisteredPurviews" item="arrExtension">
+	<div>
+		<h3>{=$arrExtension['title']} ({=$arrExtension['name']})</h3>
+	
+		<foreach for="$arrExtension['purviews']" item="arrPurviews">
+		<label for="purview-{=$arrExtension['name']}-{=$arrPurviews['name']}-{=$arrPurviews['bit']}">
+			<input type="checkbox" id="purview-{=$arrExtension['name']}-{=$arrPurviews['name']}-{=$arrPurviews['bit']}" name="purviews[{=$arrExtension['name']}][{=$arrPurviews['name']}][{=$arrPurviews['bit']}]" value='1' {#? if(!empty($arrPurviews['checked'])){ #}checked{#? } #}/>
+			{=$arrPurviews['title']}
+		</label>
+		</foreach>
+	
+	</div>
+	</foreach>
+
+	<input type="submit" value="保存" />
+</form>
