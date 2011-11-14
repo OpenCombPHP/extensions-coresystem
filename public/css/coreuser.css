@@ -1,0 +1,82 @@
+
+/*register*/
+.register,.alluser,.subscribe,.update{
+	border:1px solid #ccc;
+	padding:20px;
+}
+.register div,.update div{
+	margin:0 0 20px 0;
+	height:22px;
+}
+.register strong, .update strong {
+	width:130px;
+	display: block;
+	float: left;
+	padding-top:2px;
+	text-align: right;
+	vertical-align: middle;
+	font-size:13px;
+	font-weight:bold;
+	line-height:20px;
+}
+.register span, .update span {
+	float:left;
+}
+.regi_text, .update_text {
+	width:200px;
+	height:16px;
+	padding:2px;
+	border:1px solid #ddd;
+}
+.register input, .register select, .update input, .update select {
+	margin-left:6px;
+}
+.register select, .update select {
+	height:20px;
+	margin-top:2px;
+}
+.sex input {
+	margin-top:2px;
+	margin-right:4px;
+}
+.sex .female {
+	margin-left:20px;
+}
+.sex {
+	height:17px;
+	padding-top: 3px;
+}
+.register .register_btn, .update .update_btn {
+	margin:0 0 10px 136px;
+	width:84px;
+	height:25px;
+	font-size:16px;
+	line-height:25px;
+	cursor:pointer;
+	background:#005eac;
+	color:#fff;
+	border:1px solid #024073
+}
+
+.register .jc_message_queue, .update .jc_message_queue {
+	float:left;
+	background-color: #FFF4F0;
+	border-color: #FF3510;
+	border-style: solid;
+	border-width: 1px;
+	height: 16px;
+	padding: 2px 15px;
+	text-align: left;
+}
+
+
+/*alluser*/
+.alluser,.subscribe{ overflow:hidden; zoom:1;}
+.alluser h4,.subscribe h4, .update h4,.register h4{ font-size:14px; font-weight:bold; color:#005eac; border-bottom:1px solid #ccc;padding-bottom:6px;margin-bottom:20px;}
+.alluser li,.subscribe li{width:200px; padding:10px; float:left; display:inline; margin:0px; height:55px; margin:0 4px 10px 0;}
+.alluser_avatar,.subscribe_avatar{height:48px; width:48px; overflow:hidden; padding:1px; border:1px solid #ccc; display:block; float:left; margin-right:6px;}
+.alluser_avatar img, .subscribe_avatar img{ height:48px; width:48px;}
+.alluser_info, .subscribe_info{ float:left; height:50px; width:140px; overflow:hidden}
+.alluser_info h5, .subscribe_info h5{margin-bottom:14px; font-size:13px;}
+.alluser_info h5 a:hover, .subscribe_info h5 a:hover{ text-decoration:none;color:#f90;}
+.addConcern,.cancelConcern{color:#666;}

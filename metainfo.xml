@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Extension>
+
+	<name>coresystem</name>
+	<version>0.1</version>
+	
+	<title></title>
+	<description></description>
+	
+	
+	<class>org.opencomb.coresystem.CoreSystem</class>
+	<classSetup>org.opencomb.coresystem.CoreSystemSetup</classSetup>
+	
+	<package folder="/class" namespace="org.opencomb.coresystem" />
+
+	<publicFolder folder="/public" />
+	
+	<template folder="/template" />
+	
+	<beanFolder folder="/bean" />
+	
+	
+	<language locale="zh_CN" path="/path/in/extension/folder/aadd" />
+	<language locale="zh_TW" path="/path/in/extension/folder/aadd" />
+	
+	
+	
+	<!-- 依赖脚本语言-->
+	<requireScript item="php">
+		<version value="1.1" />
+	</requireScript>
+	
+	<!-- 依赖脚本语言模块-->
+	<requireModule item="gd2">
+		<version value="2.1-" />
+	</requireModule>
+	
+	<!-- 依赖蜂巢系统-->
+	<requirePlatform>
+		<version value="1.1" />
+	</requirePlatform>
+	
+	<!-- 依赖其他扩展-->
+	<requireExtension item="com.companyB.extensionA">
+		<version value="1.4" />
+		<version value="1.5" />
+		<version scope="2->3" />
+	</requireExtension>
+	
+	<requireExtension item="com.companyB.extensionB">
+		<version value="1.4" />
+		<version value="1.5" />
+		<version scope="2->3" />
+	</requireExtension>
+	
+	<!-- 支持其他扩展-->
+	<supportExtension item="com.companyC.extensionA">
+		<version value="1.4" />
+		<version value="1.5" />
+		<version scope="2->3" />
+	</supportExtension>
+
+
+</Extension>
