@@ -5,15 +5,17 @@
 
 <form method="post">
 
-	<foreach for="$arrRegisteredPurviews" item="arrExtension">
+	<foreach for="$arrRegisteredPurviews" item="arrExtension" key="sExtName">
 	<div>
-		<h3>{=$arrExtension['title']} ({=$arrExtension['name']})</h3>
+		<h3>{=$arrExtension['title']} ({=$sExtName})</h3>
 	
-		<foreach for="$arrExtension['purviews']" item="arrPurviews">
-		<label for="purview-{=$arrExtension['name']}-{=$arrPurviews['name']}-{=$arrPurviews['bit']}">
-			<input type="checkbox" id="purview-{=$arrExtension['name']}-{=$arrPurviews['name']}-{=$arrPurviews['bit']}" name="purviews[{=$arrExtension['name']}][{=$arrPurviews['name']}][{=$arrPurviews['bit']}]" value='1' {#? if(!empty($arrPurviews['checked'])){ #}checked{#? } #}/>
-			{=$arrPurviews['title']}
-		</label>
+		<foreach for="$arrExtension['purviews']" item="arrPurviews" key="sPurviewName">
+			<foreach for="$arrPurviews" item="arrPurviewBit" key="nBit">
+			<label for="purview-{=$sExtName}-{=$sPurviewName}-{=$nBit}">
+				<input type="checkbox" id="purview-{=$sExtName}-{=$sPurviewName}-{=$nBit}" name="purviews[{=$sExtName}][{=$sPurviewName}][{=$nBit}]" value='{=$arrPurviewBit['title']}' {#? if(!empty($arrPurviewBit['checked'])){ #}checked{#? } #}/>
+				{=$arrPurviewBit['title']}
+			</label>
+			</foreach>
 		</foreach>
 	
 	</div>

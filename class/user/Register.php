@@ -2,10 +2,9 @@
 namespace org\opencomb\coresystem\user ;
 
 use jc\message\Message;
-
 use jc\mvc\view\DataExchanger;
 use jc\db\ExecuteException;
-use oc\mvc\controller\Controller ;
+use org\opencomb\coresystem\mvc\controller\Controller ;
 
 class Register extends Controller
 {
@@ -14,20 +13,13 @@ class Register extends Controller
 		return array(
 		
 			// 模型
-			'model:User' => array(
-				'orm' => array(
-					'table' => 'user' ,
-					'hasOne:info' => array(
-						'table' => 'userinfo' ,
-					) ,
-				) ,
-			) ,
+			'model:user' => array( 'conf' => 'model/user' ) ,
 			
 			// 视图
-			'view:Register' => array(
+			'view:register' => array(
 				'template' => 'Register.html' ,
 				'class' => 'form' ,
-				'model' => 'User' ,
+				'model' => 'user' ,
 				
 				'widgets' => array(
 					array( 'conf' => 'widget/username' ) ,
@@ -44,6 +36,8 @@ class Register extends Controller
 	{
 	    if( $this->viewRegister->isSubmit( $this->aParams ) )		 
 		{
+            $this->aParams['username'] = trim($this->aParams['username']) ;
+            
             // 加载 视图窗体的数据
             $this->viewRegister->loadWidgets( $this->aParams ) ;
             
@@ -57,7 +51,7 @@ class Register extends Controller
             	$this->modelUser->setData('registerIp',$_SERVER['REMOTE_ADDR']) ;
             	$this->modelUser->setData('info.nickname',$this->modelUser->username) ;
             	
-            	$sPassword = md5(md5(md5($this->viewRegister->widget('password')->value())).md5($this->viewRegister->widget('password')->value())) ;
+            	$sPassword = Id::encryptPassword($this->modelUser->username,$this->viewRegister->widget('password')->value()) ;
             	$this->modelUser->setData('password',$sPassword) ;
 
             	try {
