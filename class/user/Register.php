@@ -34,12 +34,12 @@ class Register extends Controller
 	
 	public function process()
 	{
-	    if( $this->viewRegister->isSubmit( $this->aParams ) )		 
+	    if( $this->viewRegister->isSubmit( $this->params ) )		 
 		{
-            $this->aParams['username'] = trim($this->aParams['username']) ;
+            $this->params['username'] = trim($this->params['username']) ;
             
             // 加载 视图窗体的数据
-            $this->viewRegister->loadWidgets( $this->aParams ) ;
+            $this->viewRegister->loadWidgets( $this->params ) ;
             
             // 校验 视图窗体的数据
             if( $this->viewRegister->verifyWidgets() )
@@ -67,7 +67,7 @@ class Register extends Controller
             			$this->viewRegister->createMessage(
             					Message::error
             					, "用户名：%s 已经存在"
-            					, $this->aParams->get('username')
+            					, $this->params->get('username')
             			) ;
             		}
             		else

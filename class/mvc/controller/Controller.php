@@ -40,7 +40,7 @@ class Controller extends JcController
     	}
     	catch (AuthenticationException $e)
     	{
-    		$aController = new PermissionDenied($this->aParams) ;
+    		$aController = new PermissionDenied($this->params) ;
     		$this->add($aController) ;
     		
     		if( $sMessage = $e->message() )

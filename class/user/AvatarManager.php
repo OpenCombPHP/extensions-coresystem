@@ -47,9 +47,9 @@ class AvatarManager extends ControlPanel
 		
 		
 		// 处理用户上传新头像
-		if( $this->viewAvatarManager->isSubmit($this->aParams) )
+		if( $this->viewAvatarManager->isSubmit($this->params) )
 		{
-			$this->viewAvatarManager->loadWidgets($this->aParams) ;
+			$this->viewAvatarManager->loadWidgets($this->params) ;
 			
 			if( !$this->viewAvatarManager->verifyWidgets() )
 			{

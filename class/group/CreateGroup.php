@@ -1,42 +1,48 @@
 <?php
 namespace org\opencomb\coresystem\group ;
 
+use jc\message\Message;
+
+use jc\mvc\model\db\Category;
 use jc\mvc\view\DataExchanger;
+use org\opencomb\coresystem\mvc\controller\ControlPanel;
 
-use org\opencomb\coresystem\mvc\controller\Controller;
-
-class CreateGroup extends Controller
+class CreateGroup extends ControlPanel
 {
 	public function createBeanConfig()
-	{
+	{		
 		return array(
 				
-				'model:group' => array(
-					'class' => 'category' ,
-					'orm' => array(
-						'table' => 'group' ,
-					) ,		
-				) ,
-
+				'model:groupTree' => array( 'config' => 'model/group' ) ,
+				'model:newGroup' => array( 'config' => 'model/group' ) ,
+				
 				'view:groupForm' => array(
 					'class' => 'form' ,
 					'template' => 'GroupForm.html' ,
-					'model' => 'group' ,
-					'widget:groupName' => array(
-						'class' => 'text' ,
-						'title' => '名称' ,
-						'verifier:length' => array('min'=>3,'max'=>60) ,	
-						'exchange' => 'name' ,
-					)
+					'model' => 'newGroup' ,
+						
+					'widget:groupName' => array( 'config'=>'widget/groupName' ) ,
+					'widget:parentGroup' => array(
+						'class' => 'select' ,
+						'title' => '所属分组' ,
+						'options' => array(
+							array('顶级分类',0)
+						)
+					) ,
 				) ,
 		) ;
 	}
 	
 	public function process()
-	{
-		if( $this->viewGroupForm->isSubmit($this->aParams) )
+	{		
+		// 权限认证
+		$aId = $this->requireLogined() ;
+		
+		
+		// 保存新分组
+		if( $this->viewGroupForm->isSubmit($this->params) )
 		{do{
-			$this->viewGroupForm->loadWidgets($this->aParams) ;
+			$this->viewGroupForm->loadWidgets($this->params) ;
 			
 			if( !$this->viewGroupForm->verifyWidgets() )
 			{
@@ -45,9 +51,30 @@ class CreateGroup extends Controller
 			
 			$this->viewGroupForm->exchangeData(DataExchanger::WIDGET_TO_MODEL) ;
 			
-			$this->modelGroup->insertCategory() ;
+			$this->modelNewGroup->save() ;
 			
-		} while(0) ;}		
+			if($nGrpRgtFoot=$this->viewGroupForm->parentGroup->value())
+			{
+				$this->modelNewGroup->insertCategoryToPoint($nGrpRgtFoot) ;
+			}
+			else
+			{
+				$this->modelNewGroup->insertBefore(Category::end) ;
+			}
+			
+			$this->viewGroupForm->createMessage(Message::success,"分组%s已经保存",$this->modelNewGroup->name) ;
+			
+			$this->viewGroupForm->hideForm() ;
+			
+		} while(0) ;}
+
+		
+		// 加载已有分组菜单
+		foreach(Category::loadTotalCategory($this->modelNewGroup->prototype()) as $aCategory)
+		{
+			$sText = str_repeat('--',$aCategory->depth()) . $aCategory->name ;
+			$this->viewGroupForm->parentGroup->addOption($sText,$aCategory->rgt) ;
+		}
 	}
 }
 

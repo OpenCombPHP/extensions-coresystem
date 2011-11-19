@@ -1,0 +1,16 @@
+<subtemplate name="groupList" >
+	<ul>
+	<foreach for="$theParentModel->childCategoryIterator()" item="theModel">
+		<li>
+			<data>name</data>
+			<a href="{/*.uri}&delete_category={=$theModel->gid}">删除</a>
+			
+			<subtemplate:call name="groupList" var.theParentModel="$theModel" />
+		</li>
+	</foreach>
+	</ul>
+</subtemplate>
+
+<msgqueue />
+
+<subtemplate:call name="groupList" var.theParentModel="$theModel" />

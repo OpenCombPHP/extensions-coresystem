@@ -51,7 +51,7 @@ class PurviewSetting extends ControlPanel
 		}
 		
 		// 检查参数
-		if( !$nUId = $this->aParams->int('uid') )
+		if( !$nUId = $this->params->int('uid') )
 		{
 			$this->viewSetting->hideForm() ;
 			$this->viewSetting->createMessage(Message::error,"缺少参数 uid") ;
@@ -69,7 +69,7 @@ class PurviewSetting extends ControlPanel
 		
 		
 		// 修改用户权限
-		if( $this->viewSetting->isSubmit($this->aParams) )
+		if( $this->viewSetting->isSubmit($this->params) )
 		{
 			$this->modifyUserPurviews($nUId) ;
 		}
@@ -82,9 +82,9 @@ class PurviewSetting extends ControlPanel
 	{
 		$arrUserPurviews = PurviewManager::singleton()->userPurviews($nUId) ;
 		
-		if(empty($this->aParams['purviews']))
+		if(empty($this->params['purviews']))
 		{
-			$this->aParams->purviews = array() ;
+			$this->params->purviews = array() ;
 		}
 		
 		$aViewVars = $this->viewSetting->variables() ;
@@ -97,7 +97,7 @@ class PurviewSetting extends ControlPanel
 				foreach($arrPurviewBits as $nBit=>&$arrBit)
 				{
 					// 未勾选
-					if( empty($this->aParams['purviews'][$sExtName][$sPurviewName][$nBit]) )
+					if( empty($this->params['purviews'][$sExtName][$sPurviewName][$nBit]) )
 					{
 						// 用户本来拥有此权限， 取消权限
 						if( !empty($arrUserPurviews[$sExtName][$sPurviewName]) and ($arrUserPurviews[$sExtName][$sPurviewName]&$nBit)==$nBit)

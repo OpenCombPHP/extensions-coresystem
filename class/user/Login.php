@@ -34,12 +34,12 @@ class Login extends Controller
 	
 	public function process()
 	{
-	    if( $this->viewLogin->isSubmit( $this->aParams ) )		 
+	    if( $this->viewLogin->isSubmit( $this->params ) )		 
 		{do{
-            $this->aParams['username'] = trim($this->aParams['username']) ;
+            $this->params['username'] = trim($this->params['username']) ;
             
             // 加载 视图窗体的数据
-            $this->viewLogin->loadWidgets( $this->aParams ) ;
+            $this->viewLogin->loadWidgets( $this->params ) ;
             
             // 校验 视图窗体的数据
             if( !$this->viewLogin->verifyWidgets() )
@@ -47,14 +47,14 @@ class Login extends Controller
             	break ;
             }
 
-            $this->modelUser->load( $this->aParams['username'], 'username' ) ;
+            $this->modelUser->load( $this->params['username'], 'username' ) ;
 			if( $this->modelUser->isEmpty() )
 			{
 				$this->viewLogin->createMessage(Message::failed,"用户名无效") ;
 				break ;
 			}
 				
-			if( $this->modelUser->password != Id::encryptPassword($this->aParams['username'],$this->aParams['password']) )
+			if( $this->modelUser->password != Id::encryptPassword($this->params['username'],$this->params['password']) )
 			{
 				$this->viewLogin->createMessage(Message::failed,"密码错误，请检查键盘大小写状态") ;
 				break ;
