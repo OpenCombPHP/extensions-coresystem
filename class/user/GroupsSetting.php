@@ -12,10 +12,10 @@ class GroupsSetting extends ControlPanel
 	public function createBeanConfig()
 	{
 		// 加载 Model group 的 Bean Config
-		$arrGroupConf = BeanFactory::singleton()->findConfig('model/group') ;
+		$arrGroupConf = BeanFactory::singleton()->findConfig('model/group','coresystem') ;
 		
 		// 在 group Config 中添加一个 hasAndBelongsToMany 关联
-		$arrGroupConf['orm']['hasAndBelongsToMany:user'] = array(
+		/*$arrGroupConf['orm']['hasAndBelongsToMany:user'] = array(
 		
 						'bridge' => 'user' ,
 		
@@ -24,11 +24,11 @@ class GroupsSetting extends ControlPanel
 						'fromkBridgeKeys'=>'uid' ,
 						'toKeys'=>'uid' ,
 						
-						'on' => array( 'eq', 'bridge.uid', $this->params->string('uid') ) ,
+						// 'on' => array( 'eq', 'bridge.uid', $this->params->string('uid') ) ,
 		
 						'table' => 'user' ,
 						'colums' => 'uid' ,
-					) ;
+					) ;*/
 		
 					
 		return array(
@@ -53,5 +53,7 @@ class GroupsSetting extends ControlPanel
 			return ;
 		}
 		
+		$this->groups->load($this->params->string('uid')) ;
+		$this->groups->printStruct() ;
 	}
 }
