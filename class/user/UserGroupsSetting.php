@@ -13,7 +13,7 @@ use jc\message\Message;
 
 use org\opencomb\coresystem\mvc\controller\ControlPanel;
 
-class GroupsSetting extends ControlPanel
+class UserGroupsSetting extends ControlPanel
 {
 	public function createBeanConfig()
 	{
@@ -42,7 +42,7 @@ class GroupsSetting extends ControlPanel
 		
 			// views
 			'view:userGroups' => array(
-				'template' => 'GourpsSetting.html' ,
+				'template' => 'UserGroupsSetting.html' ,
 				'class' => 'form' ,
 				'model' => 'groups' ,
 			) 
