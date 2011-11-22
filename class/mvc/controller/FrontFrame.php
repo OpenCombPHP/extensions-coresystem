@@ -17,11 +17,18 @@ class FrontFrame extends WebpageFrame
 		
 		// 菜单
 		$aFrameView->addWidget(
-			BeanFactory::singleton()->createBeanByConfig('widget/frame-menu','coresystem')
+			BeanFactory::singleton()->createBeanByConfig('widget/front-frame-menu','coresystem')
 		) ;
 	}
 	
-	
+	public function build(array & $arrConfig,$sNamespace='*')
+	{
+		if($sNamespace=='*')
+		{
+			$sNamespace = $this->application()->extensions()->extensionNameByClass( get_class($this) )?: '*' ;
+		}
+		return parent::build($arrConfig,$sNamespace) ;
+	}
 }
 
 ?>
