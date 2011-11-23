@@ -14,7 +14,7 @@ class ControlPanelFrame extends WebpageFrame
 					
 					'template' => 'ControlPanelFrame.html' ,
 					
-					'widget:mainMenu' => array( 'config'=>'widget/control-panel-menu' ) ,
+					'widget:mainMenu' => array( 'config'=>'widget/control-panel-frame-menu' ) ,
 			) ,
 		) ;
 	}

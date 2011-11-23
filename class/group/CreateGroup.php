@@ -70,7 +70,9 @@ class CreateGroup extends ControlPanel
 
 		
 		// 加载已有分组菜单
-		foreach(Category::loadTotalCategory($this->modelNewGroup->prototype()) as $aCategory)
+		$aGroupIter = Category::loadTotalCategory($this->modelNewGroup->prototype()) ;
+		Category::buildTree($aGroupIter) ;
+		foreach($aGroupIter as $aCategory)
 		{
 			$sText = str_repeat('--',$aCategory->depth()) . $aCategory->name ;
 			$this->viewGroupForm->parentGroup->addOption($sText,$aCategory->rgt) ;

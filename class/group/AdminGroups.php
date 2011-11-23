@@ -49,7 +49,9 @@ class AdminGroups extends ControlPanel
 			}
 		}
 		
-		Category::loadTotalCategory($this->groupTree->prototype(),true,false,$this->groupTree) ;
+		
+		$aGroupIter = Category::loadTotalCategory($this->groupTree->prototype()) ;
+		Category::buildTree($aGroupIter,$this->groupTree) ;
 	}
 }
 

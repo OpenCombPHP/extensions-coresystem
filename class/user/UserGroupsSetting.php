@@ -62,7 +62,8 @@ class UserGroupsSetting extends ControlPanel
 			return ;
 		}
 		
-		foreach(Category::loadTotalCategory($this->groups->prototype(),true,false) as $aGroup)
+		$aGoupsIter = Category::loadTotalCategory($this->groups->prototype()) ;
+		foreach(Category::buildTree($aGoupsIter) as $aGroup)
 		{
 			$this->groups->addChild($aGroup) ;
 		}
