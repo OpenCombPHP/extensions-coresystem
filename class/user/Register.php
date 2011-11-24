@@ -1,9 +1,9 @@
 <?php
 namespace org\opencomb\coresystem\user ;
 
-use jc\message\Message;
-use jc\mvc\view\DataExchanger;
-use jc\db\ExecuteException;
+use org\jecat\framework\message\Message;
+use org\jecat\framework\mvc\view\DataExchanger;
+use org\jecat\framework\db\ExecuteException;
 use org\opencomb\coresystem\mvc\controller\Controller ;
 
 class Register extends Controller

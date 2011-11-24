@@ -1,10 +1,10 @@
 <?php
 namespace org\opencomb\coresystem\mvc\controller ;
 
-use jc\bean\BeanFactory;
+use org\jecat\framework\bean\BeanFactory;
 
-use jc\mvc\controller\WebpageFrame;
-use jc\mvc\view\View;
+use org\jecat\framework\mvc\controller\WebpageFrame;
+use org\jecat\framework\mvc\view\View;
 
 class FrontFrame extends WebpageFrame
 {

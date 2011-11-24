@@ -1,12 +1,12 @@
 <?php
 namespace org\opencomb\coresystem\user ;
 
-use jc\auth\PurviewManager;
-use jc\bean\BeanFactory;
-use jc\db\DB;
-use jc\auth\IdManager;
+use org\jecat\framework\auth\PurviewManager;
+use org\jecat\framework\bean\BeanFactory;
+use org\jecat\framework\db\DB;
+use org\jecat\framework\auth\IdManager;
 use org\opencomb\coresystem\mvc\controller\ControlPanel;
-use jc\message\Message;
+use org\jecat\framework\message\Message;
 
 class PurviewSetting extends ControlPanel
 {

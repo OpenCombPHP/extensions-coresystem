@@ -1,11 +1,11 @@
 <?php
 namespace org\opencomb\coresystem\user ;
 
-use jc\auth\IdManager;
+use org\jecat\framework\auth\IdManager;
 
-use jc\db\DB;
+use org\jecat\framework\db\DB;
 
-use jc\message\Message;
+use org\jecat\framework\message\Message;
 use org\opencomb\coresystem\mvc\controller\Controller ;
 
 class Login extends Controller

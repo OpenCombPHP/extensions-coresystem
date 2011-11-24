@@ -1,9 +1,9 @@
 <?php
 namespace org\opencomb\coresystem\user ;
 
-use jc\mvc\view\DataExchanger;
+use org\jecat\framework\mvc\view\DataExchanger;
 
-use jc\message\Message;
+use org\jecat\framework\message\Message;
 
 use org\opencomb\coresystem\mvc\controller\ControlPanel;
 

@@ -1,10 +1,10 @@
 <?php
 namespace org\opencomb\coresystem ;
 
-use jc\system\AccessRouter;
-use jc\auth\DBPurviewManager;
-use jc\auth\PurviewManager;
-use oc\ext\Extension;
+use org\jecat\framework\system\AccessRouter;
+use org\jecat\framework\auth\DBPurviewManager;
+use org\jecat\framework\auth\PurviewManager;
+use org\opencomb\ext\Extension;
 
 class CoreSystem extends Extension
 {

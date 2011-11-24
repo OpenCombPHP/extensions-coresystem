@@ -1,9 +1,9 @@
 <?php
 namespace org\opencomb\coresystem\user ;
 
-use oc\base\FrontFrame;
-use jc\auth\IdManager;
-use jc\message\Message;
+use org\opencomb\base\FrontFrame;
+use org\jecat\framework\auth\IdManager;
+use org\jecat\framework\message\Message;
 use org\opencomb\coresystem\mvc\controller\Controller;
 
 class Logout extends Controller

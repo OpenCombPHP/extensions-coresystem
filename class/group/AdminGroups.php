@@ -1,15 +1,15 @@
 <?php
 namespace org\opencomb\coresystem\group ;
 
-use jc\system\Request;
+use org\jecat\framework\system\Request;
 
-use jc\message\Message;
+use org\jecat\framework\message\Message;
 
-use jc\system\Application;
+use org\jecat\framework\system\Application;
 
-use jc\mvc\controller\Relocater;
+use org\jecat\framework\mvc\controller\Relocater;
 
-use jc\mvc\model\db\Category;
+use org\jecat\framework\mvc\model\db\Category;
 use org\opencomb\coresystem\mvc\controller\ControlPanel;
 
 class AdminGroups extends ControlPanel

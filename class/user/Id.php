@@ -1,7 +1,7 @@
 <?php
 namespace org\opencomb\coresystem\user ;
 
-use jc\auth\Id as JcId ;
+use org\jecat\framework\auth\Id as JcId ;
 
 class Id extends JcId
 {

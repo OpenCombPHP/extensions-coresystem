@@ -1,10 +1,10 @@
 <?php
 namespace org\opencomb\coresystem\group ;
 
-use jc\message\Message;
+use org\jecat\framework\message\Message;
 
-use jc\mvc\model\db\Category;
-use jc\mvc\view\DataExchanger;
+use org\jecat\framework\mvc\model\db\Category;
+use org\jecat\framework\mvc\view\DataExchanger;
 use org\opencomb\coresystem\mvc\controller\ControlPanel;
 
 class CreateGroup extends ControlPanel

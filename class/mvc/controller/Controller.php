@@ -1,23 +1,23 @@
 <?php
 namespace org\opencomb\coresystem\mvc\controller ;
 
-use jc\mvc\model\db\orm\Prototype;
-use jc\auth\IdManager;
-use oc\ext\Extension;
-use jc\auth\AuthenticationException;
-use jc\mvc\controller\Controller as JcController ;
+use org\jecat\framework\mvc\model\db\orm\Prototype;
+use org\jecat\framework\auth\IdManager;
+use org\opencomb\ext\Extension;
+use org\jecat\framework\auth\AuthenticationException;
+use org\jecat\framework\mvc\controller\Controller as JcController ;
 
 class Controller extends JcController
 {
     /**
      * properties:
      * 	name				string						名称
-     * 	params				array,jc\util\IDataSrc 		参数
+     * 	params				array,org\jecat\framework\util\IDataSrc 		参数
      *  model.ooxx			config
      *  view.ooxx			config
      *  controller.ooxx		config
      * 
-     * @see jc\bean\IBean::build()
+     * @see org\jecat\framework\bean\IBean::build()
      */
     public function build(array & $arrConfig,$sNamespace='*')
     {
@@ -53,7 +53,7 @@ class Controller extends JcController
     }
     
     /**
-     * @return jc\auth\IIdentity
+     * @return org\jecat\framework\auth\IIdentity
      */
     protected function requireLogined($sMessage=null,array $arrArgvs=array()) 
     {

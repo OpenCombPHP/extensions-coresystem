@@ -1,11 +1,11 @@
 <?php
 namespace org\opencomb\coresystem\user ;
 
-use oc\mvc\model\db\orm\Prototype;
-use jc\db\DB;
-use jc\mvc\model\db\Category;
-use jc\bean\BeanFactory;
-use jc\message\Message;
+use org\opencomb\mvc\model\db\orm\Prototype;
+use org\jecat\framework\db\DB;
+use org\jecat\framework\mvc\model\db\Category;
+use org\jecat\framework\bean\BeanFactory;
+use org\jecat\framework\message\Message;
 use org\opencomb\coresystem\mvc\controller\ControlPanel;
 
 class UserGroupsSetting extends ControlPanel
