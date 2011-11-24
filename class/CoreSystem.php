@@ -1,6 +1,7 @@
 <?php
 namespace org\opencomb\coresystem ;
 
+use jc\system\AccessRouter;
 use jc\auth\DBPurviewManager;
 use jc\auth\PurviewManager;
 use oc\ext\Extension;
@@ -9,7 +10,7 @@ class CoreSystem extends Extension
 {
 	public function load()
 	{
-		$aAccessRouter = $this->application()->accessRouter() ;
+		$aAccessRouter = AccessRouter::singleton() ;
 		$aAccessRouter->addController("org\\opencomb\\coresystem\\user\\Register",'register','') ;
 		$aAccessRouter->addController("org\\opencomb\\coresystem\\user\\Login",'login','') ;
 		$aAccessRouter->addController("org\\opencomb\\coresystem\\user\\Logout",'logout','') ;

@@ -1,6 +1,8 @@
 <?php
 namespace org\opencomb\coresystem\group ;
 
+use jc\system\Request;
+
 use jc\message\Message;
 
 use jc\system\Application;
@@ -44,7 +46,7 @@ class AdminGroups extends ControlPanel
 				$aDelCategory->delete() ;
 			
 				$this->location(
-						Application::singleton()->request()->uri('delete_category'), "用户组%s 已经删除", $aDelCategory->name
+						Request::singleton()->uri('delete_category'), "用户组%s 已经删除", $aDelCategory->name
 				) ;
 			}
 		}
