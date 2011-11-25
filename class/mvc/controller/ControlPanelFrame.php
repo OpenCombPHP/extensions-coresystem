@@ -19,13 +19,13 @@ class ControlPanelFrame extends WebpageFrame
 		) ;
 	}
 	
-	public function build(array & $arrConfig,$sNamespace='*')
+	public function buildBean(array & $arrConfig,$sNamespace='*',\org\jecat\framework\bean\BeanFactory $aBeanFactory=null)
 	{
 		if($sNamespace=='*')
 		{
 			$sNamespace = $this->application()->extensions()->extensionNameByClass( get_class($this) )?: '*' ;
 		}
-		return parent::build($arrConfig,$sNamespace) ;
+		return parent::buildBean($arrConfig,$sNamespace) ;
 	}
 }
 
