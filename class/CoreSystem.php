@@ -1,6 +1,7 @@
 <?php
 namespace org\opencomb\coresystem ;
 
+use org\opencomb\Platform;
 use org\jecat\framework\system\AccessRouter;
 use org\jecat\framework\auth\DBPurviewManager;
 use org\jecat\framework\auth\PurviewManager;
@@ -16,8 +17,11 @@ class CoreSystem extends Extension
 		$aAccessRouter->addController("org\\opencomb\\coresystem\\user\\Logout",'logout','') ;
 		
 		$aAccessRouter->setDefaultController('org\\opencomb\\coresystem\\user\\AvatarManager') ;
-		
-		// 权限管理器
-		PurviewManager::setSingleton( new DBPurviewManager('coresystem_purview') ) ;
+	}
+	
+	public function active(Platform $aPlatform)
+	{
+		// 设置权限管理器
+		PurviewManager::setSingleton( DBPurviewManager::singleton(true,'coresystem_purview') ) ;
 	}
 }

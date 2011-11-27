@@ -14,7 +14,7 @@ return array(
 				'items' => array(
 					array(
 						'title'=>'用户管理' ,
-						'link'=>'' ,
+						'link'=>'?c=org.opencomb.coresystem.user.AdminUsers' ,
 					) ,
 						
 					array(
