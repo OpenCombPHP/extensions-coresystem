@@ -38,12 +38,18 @@ body{ background:url(../images/main.jpg) repeat-y 0 0; font:14px "微软雅黑",
 .secondnav a:hover{  background:url(../images/secondh.jpg) no-repeat 0 0;}
 .on2 a,.on2 a:hover{  background:url(../images/secondon.jpg) no-repeat 0 0;}
 
-
-
-
-
-
+/* content */
 .content{margin:0 0 0 173px; background:#fff url(../images/content.gif) repeat-x 0 0; padding:10px; font-size:13px;}
 
-a{color:#09c; text-decoration:none;}
-a:hover{ color:#8D7754;}
+a{color:#666; text-decoration:none;}
+a:hover{ color:#09c; text-decoration:underline}
+
+table{ width:100%;color:#666; font-size:12px;border-top:2px solid #dfdfdf;}
+th{ font-weight:bold; color:#666;height: 25px;line-height: 25px;padding-left: 10px;}
+tr{border-bottom:1px solid #dfdfdf;}
+tr:hover{ background:#F9F7EA}
+td{  line-height: 140%;padding:8px 0 8px 10px; vertical-align: top;}
+
+
+#pageNums{ margin-top:10px; text-align:right}
+#pageNums a{padding:2px; color:#09c}
