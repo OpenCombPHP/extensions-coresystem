@@ -10,24 +10,25 @@ body{ background:url(../images/main.jpg) repeat-y 0 0; font:12px "微软雅黑",
 		.coresystem-othernav a:hover{ text-decoration:underline;}
 	.coresystem-slogan{ height:32px; width:100%; overflow:hidden; text-indent:-9999em; background:url(../images/slogan.jpg) no-repeat 73px 0;}
 	.coresystem-mainnav{ height:40px; width:100%; background:url(../images/content.gif) repeat-x 0 0;padding-top:3px; overflow:hidden;}
-	.coresystem-mainnav ul a,.coresystem-mainnav ul a:hover{color:#fff; font-size:16px;}
+	.coresystem-mainnav ul a,.coresystem-mainnav ul a:hover,.coresystem-mainnav span{color:#fff; font-size:16px;}
 	.coresystem-mainnav ul{background:#54D0ED url(../images/mainnav.jpg) repeat-y 0 0;height:40px;padding-left:170px;}
 	.coresystem-mainnav li{ float:left;  height:26px;_height:40px; line-height:26px;_line-height:40px;margin:6px 15px 0 0;_margin:0 15px 0 0;}
-	.coresystem-mainnav a{  float:left; display:block} 
-	.coresystem-mainnav a:hover{ _background:#1C7BB6;}
-	.coresystem-mainnav span{padding-left:15px; float:left; display:block; -webkit-border-radius:13px 0 0 13px;-moz-border-radius:13px 0 0 13px;border-radius:13px 0 0 13px; cursor:pointer;}
+	.coresystem-mainnav a{  float:left; display:block; padding:0 16px;} 
+	.coresystem-mainnav a:hover{ background:#1C7BB6; border-radius:13px;}
+	.coresystem-mainnav span{ padding:0 4px;}
+/*	.coresystem-mainnav span{padding-left:15px; float:left; display:block; -webkit-border-radius:13px 0 0 13px;-moz-border-radius:13px 0 0 13px;border-radius:13px 0 0 13px; cursor:pointer;}
 	.coresystem-mainnav em{ float:left; display:block;width:15px; height:26px;-webkit-border-radius:0 13px 13px 0;-moz-border-radius:0 13px 13px 0;border-radius:0 13px 13px 0; cursor:pointer; }
 	.coresystem-mainnav a:hover span{background:url(../images/firston.gif) no-repeat 0 0;}
-	.coresystem-mainnav a:hover em{background:url(../images/firston.gif) no-repeat right 0; }
+	.coresystem-mainnav a:hover em{background:url(../images/firston.gif) no-repeat right 0; }*/
 
 
 
 .coresystem-main{width:100%; clear:both; background:#F9F7EA url(../images/main.jpg) repeat-y 0 0; position:relative}
 
 /* leftnav */
-.coresystem-leftnav{width:173px; float:left;background:url( ../images/leftnav.jpg) no-repeat 0 0;padding-top:10px; position:absolute; top:0; left:0;}
-
-.coresystem-secondnav .coresystem-thirdnav .coresystem-forthnav {padding:0 0 0 20px; line-height:24px;}
+.coresystem-leftnav{width:173px; float:left;background:url( ../images/leftnav.jpg) no-repeat 0 0;padding-top:10px; position:absolute; top:0; left:0; color:#8D7754}
+.coresystem-leftnav li{ height:26px; line-height:26px;}
+/*.coresystem-secondnav .coresystem-thirdnav .coresystem-forthnav {padding:0 0 0 20px; line-height:24px;}
 .coresystem-secondnav .coresystem-thirdnav .coresystem-forthnav a{ padding-left:20px; background:url(../images/list.gif) no-repeat 4px -41px; font-size:12px;width:113px;}
 .coresystem-secondnav .coresystem-thirdnav .coresystem-forthnav a:hover,.coresystem-secondnav .coresystem-thirdnav .coresystem-on4 a{  background:url(../images/list.gif) no-repeat 4px -68px;}
 .coresystem-secondnav .coresystem-thirdnav {padding:0 0 0 20px; line-height:24px;}
@@ -36,23 +37,46 @@ body{ background:url(../images/main.jpg) repeat-y 0 0; font:12px "微软雅黑",
 .coresystem-secondnav {line-height:24px;}
 .coresystem-secondnav a{width:153px; height:26px; display:block;padding-left:20px;font-size:14px;}
 .coresystem-secondnav a:hover{  background:url(../images/secondh.jpg) no-repeat 0 0;}
-.coresystem-on2 a,.coresystem-on2 a:hover{  background:url(../images/secondon.jpg) no-repeat 0 0;}
+.coresystem-on2 a,.coresystem-on2 a:hover{  background:url(../images/secondon.jpg) no-repeat 0 0;}*/
+
+
+
+
+.jc-widget-menu-depth-2 { }
+.jc-widget-menu-depth-2 span{width:153px; height:26px; display:block;padding-left:20px;font-size:14px; cursor:pointer}
+.jc-widget-menu-depth-2 span:hover{  background:url(../images/secondh.jpg) no-repeat 0 0;}
+.jc-widget-menu-depth-2 .jc-widget-menu-item-active span{  background:url(../images/secondon.jpg) no-repeat 0 0;}
+
+.jc-widget-menu-depth-2 .jc-widget-menu-depth-3 {padding:0 0 0 20px; }
+.jc-widget-menu-depth-2 .jc-widget-menu-depth-3 span{ padding-left:20px; background:url(../images/list.gif) no-repeat 4px 9px;font-size:13px;width:133px; cursor:pointer}
+.jc-widget-menu-depth-2 .jc-widget-menu-depth-3 span:hover,.jc-widget-menu-depth-2 .jc-widget-menu-depth-3 .jc-widget-menu-item-active span{background:url(../images/list.gif) no-repeat 4px -16px;}
+
+.jc-widget-menu-depth-2 .jc-widget-menu-depth-3 .jc-widget-menu-depth-4 {padding:0 0 0 20px;}
+.jc-widget-menu-depth-2 .jc-widget-menu-depth-3 .jc-widget-menu-depth-4 span{ padding-left:20px; background:url(../images/list.gif) no-repeat 4px -41px; font-size:12px;width:113px;}
+.jc-widget-menu-depth-2 .jc-widget-menu-depth-3 .jc-widget-menu-depth-4 span:hover,.jc-widget-menu-depth-2 .jc-widget-menu-depth-3 .jc-widget-menu-depth-4 .jc-widget-menu-item-active span{  background:url(../images/list.gif) no-repeat 4px -68px;
+}
+
+
 
 /* content */
 .coresystem-content{margin:0 0 0 173px; background:#fff url(../images/content.gif) repeat-x 0 0; padding:10px 15px 10px 10px; }
-.coresystem-c-inner{ width:100%}
+.coresystem-c-inner{ width:100%; min-height:300px;}
 
 a{color:#666; text-decoration:none;}
 a:hover{ color:#09c; text-decoration:underline}
 
-h2{padding:6px 2px;  border-bottom:1px solid #e4e4e4; color:#09c; font-size:14px; font-weight:bold;}
-.coresystem-submenu{ text-align:right;padding: 6px 2px;}
+h2{padding:6px 2px;  border-bottom:1px solid #e4e4e4; color:#09c; font-size:14px; font-weight:bold;margin:0 0 10px 0}
+
+.coresystem-submenu{ text-align:right;padding:0 2px 6px;}
 
 table{ width:100%;color:#666; font-size:12px;border:1px solid #e4e4e4; background:url(../images/tablebg.gif) repeat 0 0;}
 th{ font-weight:bold; color:#666;height:30px;padding:0 8px; background:url(../images/thbg.jpg) repeat-x 0 0;}
 tr{}
 tr:hover{ background:#F9F7EA}
 td{ height:30px; vertical-align: middle; padding:0 8px;}
+
+
+
 
 /* page style */
 .coresystem-listfoot{margin-top:15px; text-align:right;}
@@ -62,3 +86,10 @@ a.coresystem-page{border:1px solid #ccc;}
 a:hover.coresystem-page{ background:url(../images/page.jpg) repeat-x 0 0; color:#666; text-decoration:none;}
 a.coresystem-pagecurrent{border:1px solid #3198C8; background:url(../images/page.jpg) repeat-x 0 -30px; color:#fff; cursor:default; }
 a:hover.coresystem-pagecurrent{ text-decoration:none;}
+
+
+/* art*/
+
+
+
+
