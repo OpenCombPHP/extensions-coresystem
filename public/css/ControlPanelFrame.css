@@ -25,7 +25,7 @@ body{ background:url(../images/main.jpg) repeat-y 0 0; font:14px "微软雅黑",
 .coresystem-main{width:100%; clear:both; background:#F9F7EA url(../images/main.jpg) repeat-y 0 0;}
 
 /* leftnav */
-.coresystem-leftnav{width:173px; float:left;background:url( ../images/leftnav.jpg) no-repeat 0 0;padding-top:10px;}
+.coresystem-leftnav{width:173px; float:left;background:url( ../images/leftnav.jpg) no-repeat 0 0;padding-top:10px; display:inline;}
 
 .coresystem-secondnav .coresystem-thirdnav .coresystem-forthnav {padding:0 0 0 20px; line-height:24px;}
 .coresystem-secondnav .coresystem-thirdnav .coresystem-forthnav a{ padding-left:20px; background:url(../images/list.gif) no-repeat 4px -41px; font-size:12px;width:113px;}
@@ -40,15 +40,17 @@ body{ background:url(../images/main.jpg) repeat-y 0 0; font:14px "微软雅黑",
 
 /* content */
 .coresystem-content{margin:0 0 0 173px; background:#fff url(../images/content.gif) repeat-x 0 0; padding:10px; font-size:13px;}
+.content{ width:100%}
+
 
 a{color:#666; text-decoration:none;}
 a:hover{ color:#09c; text-decoration:underline}
 
-table{ width:100%;color:#666; font-size:12px;border-top:2px solid #dfdfdf;}
-th{ font-weight:bold; color:#666;height: 25px;line-height: 25px;padding-left: 10px;}
-tr{border-bottom:1px solid #dfdfdf;}
+table{ width:100%;color:#666; font-size:12px;border:1px solid #e4e4e4; background:url(../images/tablebg.gif) repeat 0 0;}
+th{ font-weight:bold; color:#666;height:30px;padding:0 8px; background:url(../images/thbg.jpg) repeat-x 0 0;}
+tr{}
 tr:hover{ background:#F9F7EA}
-td{  line-height: 140%;padding:8px 0 8px 10px; vertical-align: top;}
+td{ height:30px; vertical-align: middle; padding:0 8px;}
 
 
 #pageNums{ margin-top:10px; text-align:right}
