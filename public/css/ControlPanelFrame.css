@@ -22,10 +22,10 @@ body{ background:url(../images/main.jpg) repeat-y 0 0; font:14px "微软雅黑",
 
 
 
-.coresystem-main{width:100%; clear:both; background:#F9F7EA url(../images/main.jpg) repeat-y 0 0;}
+.coresystem-main{width:100%; clear:both; background:#F9F7EA url(../images/main.jpg) repeat-y 0 0; position:relative}
 
 /* leftnav */
-.coresystem-leftnav{width:173px; float:left;background:url( ../images/leftnav.jpg) no-repeat 0 0;padding-top:10px; display:inline;}
+.coresystem-leftnav{width:173px; float:left;background:url( ../images/leftnav.jpg) no-repeat 0 0;padding-top:10px; position:absolute; top:0; left:0;}
 
 .coresystem-secondnav .coresystem-thirdnav .coresystem-forthnav {padding:0 0 0 20px; line-height:24px;}
 .coresystem-secondnav .coresystem-thirdnav .coresystem-forthnav a{ padding-left:20px; background:url(../images/list.gif) no-repeat 4px -41px; font-size:12px;width:113px;}
@@ -40,6 +40,7 @@ body{ background:url(../images/main.jpg) repeat-y 0 0; font:14px "微软雅黑",
 
 /* content */
 .coresystem-content{margin:0 0 0 173px; background:#fff url(../images/content.gif) repeat-x 0 0; padding:10px; font-size:13px;}
+.content{ width:100%}
 
 
 a{color:#666; text-decoration:none;}
