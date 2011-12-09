@@ -1,4 +1,4 @@
-body{ background:url(../images/main.jpg) repeat-y 0 0; font:14px "微软雅黑","宋体"}
+body{ background:url(../images/main.jpg) repeat-y 0 0; font:12px "微软雅黑","宋体"}
 .coresystem-header a,.coresystem-header a:hover,.coresystem-leftnav a,.coresystem-leftnav a:hover{ color:#8D7754; text-decoration:none;}
 
 /* coresystem-header part */
@@ -34,17 +34,19 @@ body{ background:url(../images/main.jpg) repeat-y 0 0; font:14px "微软雅黑",
 .coresystem-secondnav .coresystem-thirdnav a{ padding-left:20px; background:url(../images/list.gif) no-repeat 4px 9px;font-size:13px;width:133px;}
 .coresystem-secondnav .coresystem-thirdnav a:hover,.coresystem-secondnav .coresystem-on3 a{  background:url(../images/list.gif) no-repeat 4px -16px;}
 .coresystem-secondnav {line-height:24px;}
-.coresystem-secondnav a{width:153px; height:26px; display:block;padding-left:20px;}
+.coresystem-secondnav a{width:153px; height:26px; display:block;padding-left:20px;font-size:14px;}
 .coresystem-secondnav a:hover{  background:url(../images/secondh.jpg) no-repeat 0 0;}
 .coresystem-on2 a,.coresystem-on2 a:hover{  background:url(../images/secondon.jpg) no-repeat 0 0;}
 
 /* content */
-.coresystem-content{margin:0 0 0 173px; background:#fff url(../images/content.gif) repeat-x 0 0; padding:10px; font-size:13px;}
-.content{ width:100%}
-
+.coresystem-content{margin:0 0 0 173px; background:#fff url(../images/content.gif) repeat-x 0 0; padding:10px 15px 10px 10px; }
+.coresystem-c-inner{ width:100%}
 
 a{color:#666; text-decoration:none;}
 a:hover{ color:#09c; text-decoration:underline}
+
+h2{padding:6px 2px;  border-bottom:1px solid #e4e4e4; color:#09c; font-size:14px; font-weight:bold;}
+.coresystem-submenu{ text-align:right;padding: 6px 2px;}
 
 table{ width:100%;color:#666; font-size:12px;border:1px solid #e4e4e4; background:url(../images/tablebg.gif) repeat 0 0;}
 th{ font-weight:bold; color:#666;height:30px;padding:0 8px; background:url(../images/thbg.jpg) repeat-x 0 0;}
