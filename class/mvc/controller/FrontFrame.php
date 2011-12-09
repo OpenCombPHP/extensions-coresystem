@@ -8,9 +8,9 @@ use org\jecat\framework\mvc\view\View;
 
 class FrontFrame extends WebpageFrame
 {
-	public function __construct()
+	public function __construct($params=null)
 	{
-		parent::__construct() ;
+		parent::__construct($params) ;
 		
 		$aFrameView = new View('frameView',"coresystem:FrontFrame.html") ;
 		$this->addFrameView($aFrameView) ;

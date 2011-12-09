@@ -7,7 +7,7 @@ class ControlPanel extends Controller
 {
     public function createFrame()
     {
-    	return new ControlPanelFrame() ;
+    	return new ControlPanelFrame($this->params()) ;
     }
 }
 

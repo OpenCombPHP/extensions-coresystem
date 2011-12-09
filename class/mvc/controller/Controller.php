@@ -72,7 +72,7 @@ class Controller extends JcController
 
     public function createFrame()
     {
-    	return new FrontFrame() ;
+    	return new FrontFrame($this->params()) ;
     }
 }
 
