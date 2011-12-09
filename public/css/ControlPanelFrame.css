@@ -54,6 +54,11 @@ tr{}
 tr:hover{ background:#F9F7EA}
 td{ height:30px; vertical-align: middle; padding:0 8px;}
 
-
-#pageNums{ margin-top:10px; text-align:right}
-#pageNums a{padding:2px; color:#09c}
+/* page style */
+.coresystem-listfoot{margin-top:15px; text-align:right;}
+.coresystem-listfoot a{margin:0 3px 0 0}
+a.coresystem-page, a.coresystem-pagecurrent{ border:1px solid #ccc; padding:1px 6px; border-radius:2px;}
+a.coresystem-page{border:1px solid #ccc;}
+a:hover.coresystem-page{ background:url(../images/page.jpg) repeat-x 0 0; color:#666; text-decoration:none;}
+a.coresystem-pagecurrent{border:1px solid #3198C8; background:url(../images/page.jpg) repeat-x 0 -30px; color:#fff; cursor:default; }
+a:hover.coresystem-pagecurrent{ text-decoration:none;}
