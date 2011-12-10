@@ -1,4 +1,4 @@
-body{ background:url(../images/main.jpg) repeat-y 0 0; font:12px "微软雅黑","宋体"}
+body{ background:url(../images/main.jpg) repeat-y 0 0; font:13px "微软雅黑","宋体"; line-height: 19px;}
 .coresystem-header a,.coresystem-header a:hover,.coresystem-leftnav a,.coresystem-leftnav a:hover{ color:#8D7754; text-decoration:none;}
 
 /* coresystem-header part */
