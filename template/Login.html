@@ -1,5 +1,12 @@
 <msgqueue />
 
+<if "$forwarding">
+	<a href="{=$forwarding}">正在前往您准备浏览的网页……</a>
+	<script type="text/javascript">
+	setInterval(function(){location='{=$forwarding}'},3000) ;
+	</script>
+</if>
+
 <form method="post">
 
 	<div>
@@ -13,7 +20,7 @@
 	</div>
 	
 	
-	
+	<input type='hidden' name='forward' value='{=$theParams->get('forward')}'  />
 	<input type="submit" value="登录" /> 
 	
 	<a href="?c=register">注册新用户</a>

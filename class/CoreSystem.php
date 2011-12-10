@@ -15,6 +15,7 @@ class CoreSystem extends Extension
 		$aAccessRouter->addController("org\\opencomb\\coresystem\\user\\Register",'register','') ;
 		$aAccessRouter->addController("org\\opencomb\\coresystem\\user\\Login",'login','') ;
 		$aAccessRouter->addController("org\\opencomb\\coresystem\\user\\Logout",'logout','') ;
+		$aAccessRouter->addController("org\\opencomb\\coresystem\\mvc\\controller\\WelcomeControlPanel",'control.panel','') ;
 	}
 	
 	public function active(Platform $aPlatform)

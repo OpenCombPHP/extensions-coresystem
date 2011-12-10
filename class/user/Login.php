@@ -34,15 +34,15 @@ class Login extends Controller
 	
 	public function process()
 	{
-	    if( $this->viewLogin->isSubmit( $this->params ) )		 
+	    if( $this->login->isSubmit( $this->params ) )		 
 		{do{
             $this->params['username'] = trim($this->params['username']) ;
             
             // 加载 视图窗体的数据
-            $this->viewLogin->loadWidgets( $this->params ) ;
+            $this->login->loadWidgets( $this->params ) ;
             
             // 校验 视图窗体的数据
-            if( !$this->viewLogin->verifyWidgets() )
+            if( !$this->login->verifyWidgets() )
             {
             	break ;
             }
@@ -50,21 +50,26 @@ class Login extends Controller
             $this->modelUser->load( $this->params['username'], 'username' ) ;
 			if( $this->modelUser->isEmpty() )
 			{
-				$this->viewLogin->createMessage(Message::failed,"用户名无效") ;
+				$this->login->createMessage(Message::failed,"用户名无效") ;
 				break ;
 			}
 				
 			if( $this->modelUser->password != Id::encryptPassword($this->params['username'],$this->params['password']) )
 			{
-				$this->viewLogin->createMessage(Message::failed,"密码错误，请检查键盘大小写状态") ;
+				$this->login->createMessage(Message::failed,"密码错误，请检查键盘大小写状态") ;
 				break ;
 			}
 
 			// 
 			IdManager::fromSession()->addId(new Id($this->modelUser)) ;
            	
-			$this->viewLogin->createMessage(Message::success,"登录成功") ;
-			$this->viewLogin->hideForm() ;
+			$this->login->createMessage(Message::success,"登录成功") ;
+			$this->login->hideForm() ;
+			
+			if( $this->params['forward'] )
+			{
+				$this->login->variables()->set('forwarding',$this->params['forward']) ;
+			}
 			
 		} while(0) ; }
 	}
