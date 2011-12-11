@@ -1,10 +1,9 @@
 <?php
 namespace org\opencomb\coresystem\user ;
 
+use org\opencomb\coresystem\user\Id;
 use org\jecat\framework\auth\IdManager;
-
 use org\jecat\framework\db\DB;
-
 use org\jecat\framework\message\Message;
 use org\opencomb\coresystem\mvc\controller\Controller ;
 
@@ -15,7 +14,7 @@ class Login extends Controller
 		return array(
 		
 			// 模型
-			'model:user' => array( 'conf' => 'model/user' ) ,
+			'model:user' => Id::createModelBeanConfig() ,
 			
 			// 视图
 			'view:login' => array(
@@ -61,7 +60,12 @@ class Login extends Controller
 			}
 
 			// 
-			IdManager::fromSession()->addId(new Id($this->modelUser)) ;
+			$aId = new Id($this->modelUser) ;
+			IdManager::fromSession()->addId($aId) ;
+			
+			// 保存 last login 信息
+			Id::makeLoginInfo($aId) ;
+			$this->modelUser->save() ;
            	
 			$this->login->createMessage(Message::success,"登录成功") ;
 			$this->login->hideForm() ;
@@ -71,8 +75,16 @@ class Login extends Controller
 				$this->login->variables()->set('forwarding',$this->params['forward']) ;
 			}
 			
+			// 
+			if( !empty($this->params['rememberme']) )
+			{
+				Id::buryCookie($aId) ;
+			}
+			
+			
 		} while(0) ; }
 	}
+	
 }
 
 ?>
