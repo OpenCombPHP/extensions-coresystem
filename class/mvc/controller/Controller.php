@@ -57,7 +57,7 @@ class Controller extends JcController
      */
     protected function requireLogined($sMessage=null,array $arrArgvs=array()) 
     {
-    	if( !$aId=IdManager::fromSession()->currentId() )
+    	if( !$aId=IdManager::singleton()->currentId() )
     	{
     		$this->permissionDenied($sMessage,$arrArgvs) ;
     	}

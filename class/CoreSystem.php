@@ -1,6 +1,9 @@
 <?php
 namespace org\opencomb\coresystem ;
 
+use org\opencomb\coresystem\user\Id;
+
+use org\jecat\framework\auth\IdManager;
 use org\opencomb\Platform;
 use org\jecat\framework\system\AccessRouter;
 use org\jecat\framework\auth\DBPurviewManager;
@@ -22,5 +25,15 @@ class CoreSystem extends Extension
 	{
 		// 设置权限管理器
 		PurviewManager::setSingleton( DBPurviewManager::singleton(true,'coresystem_purview') ) ;
+		
+		
+		// 从 cookie 中回复 id
+		if( !IdManager::singleton()->currentId() )
+		{
+			if( $aId = Id::restoreFromCookie() )
+			{
+				IdManager::singleton()->addId($aId) ;
+			}
+		}
 	}
 }
