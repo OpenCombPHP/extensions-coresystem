@@ -32,8 +32,7 @@ class Logout extends Controller
 		if( $aId=$aIdMgr->currentId() )
 		{
 			$this->viewLogout->createMessage(Message::notice,"自动切换到 %s 的用户身份。",$aId->username()) ;
-			
-			// 埋下cookie
+			 
 			Id::buryCookie($aId) ;
 		}
 		else 

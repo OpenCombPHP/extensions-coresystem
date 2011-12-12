@@ -9,7 +9,11 @@ class AdminUsers extends ControlPanel
 	public function createBeanConfig()
 	{
 		return array(
-
+				
+			'title' => '用户管理' ,
+			'keywords' => '用户' ,
+			'description' => '用户' ,
+			
 			// 模型
 			'model:users' => array(
 				'conf' => 'model/user' ,

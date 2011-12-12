@@ -1,11 +1,16 @@
 <?php
 namespace org\opencomb\coresystem\mvc\controller ;
 
+use org\jecat\framework\mvc\view\IView;
+
 use org\jecat\framework\mvc\model\db\orm\Prototype;
 use org\jecat\framework\auth\IdManager;
 use org\opencomb\ext\Extension;
 use org\jecat\framework\auth\AuthenticationException;
 use org\jecat\framework\mvc\controller\Controller as JcController ;
+use org\opencomb\ext\ExtensionManager;
+use org\jecat\framework\setting\Setting;
+use org\jecat\framework\mvc\view\Webpage;
 
 class Controller extends JcController
 {
@@ -73,6 +78,33 @@ class Controller extends JcController
     public function createFrame()
     {
     	return new FrontFrame($this->params()) ;
+    }
+    
+    public function renderMainView(IView $aMainView)
+    {
+    	if( $aMainView instanceof Webpage )
+    	{
+    		$this->setupWebpageHtmlHead($aMainView) ;
+    	}
+    
+    	parent::renderMainView($aMainView) ;
+    }
+    
+    protected function setupWebpageHtmlHead(Webpage $aWebpage)
+    {
+    	$aSetting = ExtensionManager::singleton()->extension('coresystem')->setting() ;
+    		
+    	// title
+    	$sTitleTemplate = $aSetting = $aSetting->item('/webpage','title-template','%s') ;
+    	$aWebpage->setTitle(sprintf($sTitleTemplate,$this->title())) ;
+    
+    	// description
+    	$sTemplate = $aSetting->item('/webpage','description-template','%s') ;
+    	$aWebpage->setDescription(sprintf($sTemplate,$this->description())) ;
+    
+    	// keywords
+    	$sTemplate = $aSetting->item('/webpage','keywords-template','%s') ;
+    	$aWebpage->setKeywords(sprintf($sTemplate,$this->keywords())) ;
     }
 }
 
