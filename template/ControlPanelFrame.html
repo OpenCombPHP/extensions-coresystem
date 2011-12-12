@@ -5,7 +5,8 @@
 	<div class="coresystem-htop">
 		<h1><a href="#" class="coresystem-logo">OpenComb</a></h1>
 		<p class="coresystem-othernav">
-			<a href="#">huiling</a>|<a href="?c=logout">退出</a>
+			{=\org\jecat\framework\auth\IdManager::singleton()->currentId()->username()}
+			| <a href="?c=logout">退出</a>
 		</p>
 	</div>
 	<p class="coresystem-slogan">Hi, here is the Control Panel of OpenComb.</p>
