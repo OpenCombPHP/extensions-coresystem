@@ -1,4 +1,4 @@
-body{ background:url(../images/main.jpg) repeat-y 0 0; font:13px "微软雅黑","宋体"; line-height: 19px;}
+body{ background:url(../images/main.jpg) repeat-y 0 0; font:13px "微软雅黑","宋体"; line-height: 19px;color:#666;}
 .coresystem-header a,.coresystem-header a:hover,.coresystem-leftnav a,.coresystem-leftnav a:hover{ color:#8D7754; text-decoration:none;}
 
 /* coresystem-header part */
@@ -82,4 +82,7 @@ a:hover.coresystem-pagecurrent{ text-decoration:none;}
 .coresystem-form-button input{width:85px; height:28px; line-height:28px; border:none; background:url(../images/form-btn.jpg) no-repeat 0 0; overflow:hidden; font-size:14px; cursor:pointer}
 .coresystem-form-button input:hover{ background-position:-85px 0; color:#fff;}
 .coresystem-form-checkbox input{ vertical-align:-2px; margin-right:4px;}
+
+/*coresystem-grouplist-ul*/
+.coresystem-grouplist-ul li{ padding-left:20px; line-height:30px; color:#333; background:url(../images/li.gif) no-repeat 6px 13px;}
 
