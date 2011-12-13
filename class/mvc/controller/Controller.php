@@ -95,7 +95,7 @@ class Controller extends JcController
     	$aSetting = ExtensionManager::singleton()->extension('coresystem')->setting() ;
     		
     	// title
-    	$sTitleTemplate = $aSetting = $aSetting->item('/webpage','title-template','%s') ;
+    	$sTitleTemplate = $aSetting->item('/webpage','title-template','%s') ;
     	$aWebpage->setTitle(sprintf($sTitleTemplate,$this->title())) ;
     
     	// description
