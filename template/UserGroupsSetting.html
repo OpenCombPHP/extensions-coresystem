@@ -1,17 +1,18 @@
+<h2>用户组分类</h2>
 <msgqueue />
 
 <form method="post">
 
 	<model:foreach>
-	<div>
+	
 		{=str_repeat('　',$theModel->depth())}
 		<label>
-			<input type="checkbox" name="groups[]" value="{=$theModel->gid}" {= $theModel['user.uid']?'checked':''}/>
-			<data>name</data>
+			<div class="coresystem-form-checkbox"><input type="checkbox" name="groups[]" value="{=$theModel->gid}" {= $theModel['user.uid']?'checked':''}/>
+			<data>name</data></div>
 		</label>
-	</div>
+	
 	</model:foreach>
 
-	<input type="submit" value="保存" />
+	<div class="coresystem-form-button"><input type="submit" value="保 存" /></div>
 	
 </form>
