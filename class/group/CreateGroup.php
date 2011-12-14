@@ -54,9 +54,7 @@ class CreateGroup extends ControlPanel
 			}
 			
 			$this->viewGroupForm->exchangeData(DataExchanger::WIDGET_TO_MODEL) ;
-			
-			$this->modelNewGroup->save() ;
-			
+						
 			$aNewCategory = new Category($this->modelNewGroup) ;
 			
 			if($nGrpRgtFoot=$this->viewGroupForm->parentGroup->value())
