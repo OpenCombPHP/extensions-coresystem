@@ -1,6 +1,8 @@
 <?php
 namespace org\opencomb\coresystem\user ;
 
+use org\opencomb\coresystem\auth\Id;
+
 use org\opencomb\coresystem\mvc\controller\ControlPanel;
 
 class AdminUsers extends ControlPanel
