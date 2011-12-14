@@ -79,8 +79,8 @@ a:hover.coresystem-pagecurrent{ text-decoration:none;}
 .coresystem-form-title input:focus,.coresystem-form-input input:focus{border:1px solid #09C}
 .coresystem-form-textarea textarea{ width:100%; height:260px; border:1px solid #ccc;padding:4px;}
 .coresystem-form-select select{ margin-left:3px;}
-.coresystem-form-button input{width:85px; height:28px; line-height:28px; border:none; background:url(../images/form-btn.jpg) no-repeat 0 0; overflow:hidden; font-size:14px; cursor:pointer}
-.coresystem-form-button input:hover{ background-position:-85px 0; color:#fff;}
+.coresystem-form-button{width:85px; height:28px; line-height:28px; border:none; background:url(../images/form-btn.jpg) no-repeat 0 0; overflow:hidden; font-size:14px; cursor:pointer}
+.coresystem-form-button:hover{ background-position:-85px 0; color:#fff;}
 .coresystem-form-checkbox input{ vertical-align:-2px; margin-right:4px;}
 
 /*coresystem-grouplist-ul*/
