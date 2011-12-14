@@ -1,0 +1,43 @@
+<subtemplate:define name="displayGroups" >
+<foreach for="$arrGroups" item="arrPurviewList" key="sGroupName">
+	<div style="margin-left:20px">
+		<h4>用户组：{=$sGroupName}</h4>
+		
+		<subtemplate:call name="displayPurviewList" var.arrPurviewList="$arrPurviewList" />
+
+	</div>
+</foreach>
+</subtemplate:define>
+
+<subtemplate:define name="displayPurviewList" >
+<foreach for="$arrPurviewList" item="arrPurview">
+	<div style="margin-left:20px">
+		<span style="margin-right:20px">
+			权限：{= \org\opencomb\coresystem\auth\Authorizer::queryPurviewTitle($arrPurview['extension'],$arrPurview['name'],$arrPurview['target']) }
+		</span>
+		
+		<if "$arrPurview['target']!==null">
+		<span style="margin-right:20px">id: {=$arrPurview['target']}</span>
+		</if>
+		
+		(扩展：{=$arrPurview['extension']})
+	</div>
+</foreach>
+</subtemplate:define>
+
+<h2>权限构成</h2>
+
+
+<h3>拥有的权限</h3>
+<subtemplate:call name="displayPurviewList" var.arrPurviewList="$selfPurviews['*']" />
+<br /><br />
+
+
+<h3>从上级用户组继承到的权限</h3>
+<subtemplate:call name="displayGroups" var.arrGroups="$parentGroupPurviews" />
+<br /><br />
+
+
+<h3>通过下级用户组”冒泡”机制获得的权限</h3>
+<subtemplate:call name="displayGroups" var.arrGroups="$childGroupPurviews" />
+<br /><br />

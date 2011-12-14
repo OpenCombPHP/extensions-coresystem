@@ -26,7 +26,7 @@ class CreateGroup extends ControlPanel
 						'class' => 'select' ,
 						'title' => '所属分组' ,
 						'options' => array(
-							array('顶级分类',0)
+							array('顶级分组',0)
 						)
 					) ,
 				) ,

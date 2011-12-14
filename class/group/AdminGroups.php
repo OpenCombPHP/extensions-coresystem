@@ -40,6 +40,9 @@ class AdminGroups extends ControlPanel
 			}
 			else
 			{
+				// 清理权限
+				// todo ...
+				
 				// 解除用户关系
 				// todo ...
 				

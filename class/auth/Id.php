@@ -1,14 +1,12 @@
 <?php
-namespace org\opencomb\coresystem\user ;
+namespace org\opencomb\coresystem\auth ;
 
 use org\jecat\framework\bean\BeanFactory;
-
 use org\jecat\framework\auth\Id as JcId ;
 
 class Id extends JcId
 {
 	const PLATFORM_ADMIN = 'PLATFORM_ADMIN' ;
-	const PLATFORM_ADMIN_BIT = 1 ;
 	
 	static public function encryptPassword($sUsername,$sPassword)
 	{

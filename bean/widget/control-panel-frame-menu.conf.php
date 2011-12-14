@@ -14,8 +14,12 @@ return array(
 				'items' => array(
 					'user-manager' => array(
 						'title'=>'用户管理' ,
-						'quote' => 'c=org.opencomb.coresystem.user.AdminUsers' ,
 						'link'=>'?c=org.opencomb.coresystem.user.AdminUsers' ,
+						'quote' => array(
+								'c=org.opencomb.coresystem.user.AdminUsers' ,
+								'c=org.opencomb.coresystem.auth.PurviewSetting&type=user' ,
+								'c=org.opencomb.coresystem.user.UserGroupsSetting' ,
+						) ,
 					) ,
 						
 					'group' => array(
@@ -30,7 +34,10 @@ return array(
 								'group-manager' => array(
 										'title'=>'管理用户组'
 										,'link'=>'?c=org.opencomb.coresystem.group.AdminGroups'
-										,'quote'=>'c=org.opencomb.coresystem.group.AdminGroups'
+										,'quote'=> array(
+												'c=org.opencomb.coresystem.group.AdminGroups' ,
+												'c=org.opencomb.coresystem.auth.PurviewSetting&type=group' ,
+										)
 								) ,
 							)
 						)

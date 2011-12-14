@@ -3,6 +3,7 @@
 	<foreach for="$theParentModel->childCategoryIterator()" item="theModel">
 		<li>
 			<data>name</data>
+			<a href="?c=org.opencomb.coresystem.auth.PurviewSetting&id={=$theModel->gid}&type=group">权限</a>
 			<a href="{/*.uri}&delete_category={=$theModel->gid}">删除</a>
 			
 			<subtemplate:call name="groupList" var.theParentModel="$theModel" />

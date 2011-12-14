@@ -1,5 +1,12 @@
+<style>
+div.purview{
+	float:left ;
+	margin-top:6px;	
+	margin-right:20px;	
+}
+</style>
 
-<h1>权限设置</h1>
+<h2>{=$sPageTitle}</h2>
 
 <msgqueue />
 
@@ -7,17 +14,47 @@
 
 	<foreach for="$arrRegisteredPurviews" item="arrExtension" key="sExtName">
 	<div>
-		<h3>{=$arrExtension['title']} ({=$sExtName})</h3>
+		<h3>扩展：{=\org\opencomb\ext\Extension::flyweight($sExtName)->metainfo()->title()} ({=$sExtName})</h3>
 	
-		<foreach for="$arrExtension['purviews']" item="arrPurviews" key="sPurviewName">
-			<foreach for="$arrPurviews" item="arrPurviewBit" key="nBit">
-			<label for="purview-{=$sExtName}-{=$sPurviewName}-{=$nBit}">
-				<input type="checkbox" id="purview-{=$sExtName}-{=$sPurviewName}-{=$nBit}" name="purviews[{=$sExtName}][{=$sPurviewName}][{=$nBit}]" value='{=$arrPurviewBit['title']}' {#? if(!empty($arrPurviewBit['checked'])){ #}checked{#? } #}/>
-				{=$arrPurviewBit['title']}
-			</label>
+		<foreach for="$arrExtension" item="arrPurviewList" key="sPurviewCategory">
+		<div style="margin-left:30px;margin-top:10px;">
+			<h4>{=$sPurviewCategory}</h4>
+		
+			<foreach for="$arrPurviewList" item="arrPurview">
+				
+				<div class="purview">
+					<label>
+						<input type="checkbox" name="purviews[{=$sExtName}][{=$arrPurview['name']}][{=$arrPurview['target']}][checked]" value='1' {#? if(!empty($arrPurview['checked'])){ #}checked{#? } #}/>
+						{=$arrPurview['title']}
+					</label>
+					
+					<if "$type=='group'">
+					<div style="margin-left:20px">
+						<div>
+							<label>
+								<input type="checkbox" name="purviews[{=$sExtName}][{=$arrPurview['name']}][{=$arrPurview['target']}][checked:inheritance]" title='下级分类可继承此权限' value='1' {#? if(!empty($arrPurview['checked:inheritance'])){ #}checked{#? } #}/>
+								向下继承
+							</label>
+						</div>
+						<div>
+							<label>
+								<input type="checkbox" name="purviews[{=$sExtName}][{=$arrPurview['name']}][{=$arrPurview['target']}][checked:bubble]" title='上级分类可获得此权限' value='1' {#? if(!empty($arrPurview['checked:bubble'])){ #}checked{#? } #}/>
+								向上”冒泡“
+							</label>
+						</div>
+					</div>
+					</if>
+				</div>
+				
 			</foreach>
+
+			<div style="clear:both"></div>
+			
+		</div>
 		</foreach>
 	
+		<div style="clear:both"></div>
+		
 	</div>
 	</foreach>
 

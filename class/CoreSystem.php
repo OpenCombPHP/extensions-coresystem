@@ -11,7 +11,7 @@ use org\jecat\framework\auth\PurviewManager;
 use org\opencomb\ext\Extension;
 
 class CoreSystem extends Extension
-{
+{	
 	public function load()
 	{
 		$aAccessRouter = AccessRouter::singleton() ;
@@ -22,12 +22,8 @@ class CoreSystem extends Extension
 	}
 	
 	public function active(Platform $aPlatform)
-	{
-		// 设置权限管理器
-		PurviewManager::setSingleton( DBPurviewManager::singleton(true,'coresystem_purview') ) ;
-		
-		
-		// 从 cookie 中回复 id
+	{		
+		// 从 cookie 中恢复 id
 		if( !IdManager::singleton()->currentId() )
 		{
 			if( $aId = Id::restoreFromCookie() )
