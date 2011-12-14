@@ -1,7 +1,7 @@
 <?php
 namespace org\opencomb\coresystem\user ;
 
-use org\opencomb\coresystem\user\Id;
+use org\opencomb\coresystem\auth\Id;
 use org\jecat\framework\auth\IdManager;
 use org\jecat\framework\db\DB;
 use org\jecat\framework\message\Message;

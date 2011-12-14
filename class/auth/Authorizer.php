@@ -1,6 +1,8 @@
 <?php
 namespace org\opencomb\coresystem\auth ;
 
+use org\jecat\framework\auth\IIdentity;
+
 use org\opencomb\mvc\model\db\orm\Prototype;
 use org\opencomb\coresystem\CoreSystem;
 use org\jecat\framework\db\sql\Insert;
@@ -30,8 +32,18 @@ class Authorizer extends Object
 		$this->sTableGroupUserLink = Prototype::transTableName('group_user_link','coresystem') ;
 	}
 	
+	/**
+	 * 
+	 * @param string,org\jecat\framework\auth\IIdentity $uid
+	 * @return boolean
+	 */
 	public function hasPurview($uid,$sNamespace,$sPurviewName,$target=null,$nAuthLevel=self::auth_default)
 	{
+		if( $uid instanceof IIdentity )
+		{
+			$uid = $uid->userId() ;
+		}
+		
 		// 检查用户组
 		if( ($nAuthLevel&self::auth_group)==self::auth_group and $this->queryUserGroupPurview($uid,$sNamespace,$sPurviewName,$target) )
 		{
@@ -195,6 +207,14 @@ class Authorizer extends Object
 		$sSQL.= $target===null? " and {$sTableAlias}target IS NULL": (" and {$sTableAlias}target='".addslashes($target)."'") ;
 		
 		return $sSQL ;
+	}
+	
+	/**
+	 * @return org\opencomb\coresystem\auth\Authorizer
+	 */
+	static public function singleton($bCreateNew=true,$createArgvs=null,$sClass=null)
+	{
+		return parent::singleton($bCreateNew,$createArgvs,$sClass?:__CLASS__) ;
 	}
 	
 	private $sPurviewTable ;

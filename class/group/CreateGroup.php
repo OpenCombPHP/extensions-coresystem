@@ -35,8 +35,8 @@ class CreateGroup extends ControlPanel
 	
 	public function process()
 	{		
-		// 权限认证
-		$aId = $this->requireLogined() ;
+		// 权限检查
+		$this->requirePurview(Id::PLATFORM_ADMIN,'coresystem') ;
 		
 		
 		// 保存新分组

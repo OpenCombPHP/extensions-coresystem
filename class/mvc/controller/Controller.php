@@ -1,8 +1,8 @@
 <?php
 namespace org\opencomb\coresystem\mvc\controller ;
 
+use org\opencomb\coresystem\auth\Authorizer;
 use org\jecat\framework\mvc\view\IView;
-
 use org\jecat\framework\mvc\model\db\orm\Prototype;
 use org\jecat\framework\auth\IdManager;
 use org\opencomb\ext\Extension;
@@ -54,6 +54,22 @@ class Controller extends JcController
     		}
     		
     		$aController->mainRun() ;
+    	}
+    }
+    
+    /**
+     * @return org\opencomb\coresystem\auth\Authorizer
+     */
+    public function authorizer()
+    {
+    	return Authorizer::singleton() ;
+    }
+    
+    protected function requirePurview($sPurview,$sExtension,$target=null,$sMessage=null,array $arrArgvs=array())
+    {
+    	if( !$this->authorizer()->hasPurview($this->requireLogined(),$sExtension,$sPurview) )
+    	{
+    		$this->permissionDenied($sMessage,$arrArgvs) ;
     	}
     }
     

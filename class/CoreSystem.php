@@ -1,13 +1,10 @@
 <?php
 namespace org\opencomb\coresystem ;
 
-use org\opencomb\coresystem\user\Id;
-
+use org\opencomb\coresystem\auth\Id;
 use org\jecat\framework\auth\IdManager;
 use org\opencomb\Platform;
 use org\jecat\framework\system\AccessRouter;
-use org\jecat\framework\auth\DBPurviewManager;
-use org\jecat\framework\auth\PurviewManager;
 use org\opencomb\ext\Extension;
 
 class CoreSystem extends Extension

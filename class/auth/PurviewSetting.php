@@ -25,7 +25,6 @@ class PurviewSetting extends ControlPanel
 				'template' => 'PurviewSetting.html' ,
 				'class' => 'form' ,
 		
-		
 				'vars' => array(
 					'arrRegisteredPurviews' => Authorizer::registeredPurviews()
 				) ,
@@ -38,12 +37,8 @@ class PurviewSetting extends ControlPanel
 	public function process()
 	{
 		// 权限检查
-		/*$aId = $this->requireLogined() ;
-		$aId->userId() ;
-		if( !$aId->hasPurview('coresystem',Id::PLATFORM_ADMIN,null,Id::PLATFORM_ADMIN_BIT) )
-		{
-			$this->permissionDenied("缺少访问此网页的权限") ;
-		}*/
+		$this->requirePurview(Id::PLATFORM_ADMIN,'coresystem') ;
+		
 		
 		if(!$this->params->string('type'))
 		{

@@ -31,7 +31,8 @@ class AdminUsers extends ControlPanel
 	
 	public function process()
 	{		
-		$aId = $this->requireLogined() ;
+		// 权限检查
+		$this->requirePurview(Id::PLATFORM_ADMIN,'coresystem') ;
 		
 		$this->users->load() ;
 	}
