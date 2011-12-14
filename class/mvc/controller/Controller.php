@@ -14,6 +14,24 @@ use org\jecat\framework\mvc\view\Webpage;
 
 class Controller extends JcController
 {
+	public function createBeanConfig()
+	{
+		// 用自己的类名做为模板文件名创建一个视图
+		
+		$sClassName = get_class($this) ;
+		$arrSlices = explode('\\', $sClassName) ;
+		if( count($arrSlices)>3 )		// 去掉前面的3段（org/com,组织名,扩展名）
+		{
+			$arrSlices = array_slice($arrSlices,3) ; 
+		}
+		
+		return array(
+			'view:view' => array(
+				'template' => implode('/',$arrSlices).'.html' ,
+			)
+		) ;
+	}
+	
     /**
      * properties:
      * 	name				string						名称
