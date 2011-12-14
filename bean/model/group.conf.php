@@ -1,6 +1,7 @@
 <?php return array(
-	'class' => 'category' ,
+	'class' => 'model' ,
 	'orm' => array(
-		'config' => 'model/orm/group'
+		'table' => 'group' ,
+		'limit' => -1 ,
 	) ,
 ) ;

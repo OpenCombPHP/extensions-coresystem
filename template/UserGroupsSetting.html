@@ -5,8 +5,7 @@
 
 	<model:foreach>
 	
-		{=str_repeat('　',$theModel->depth())}
-		<label>
+		<label style="margin-left:{=$theModel->__category_depth*30}px">
 			<div class="coresystem-form-checkbox"><input type="checkbox" name="groups[]" value="{=$theModel->gid}" {= $theModel['user.uid']?'checked':''}/>
 			<data>name</data></div>
 		</label>

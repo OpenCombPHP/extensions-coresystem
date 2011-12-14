@@ -14,6 +14,7 @@ class UserGroupsSetting extends ControlPanel
 	{
 		// 加载 Model group 的 Bean Config
 		$arrGroupConf = BeanFactory::singleton()->findConfig('model/group','coresystem') ;
+		$arrGroupConf['list'] = true ;
 		
 		// 在 group Config 中添加一个 hasAndBelongsToMany 关联
 		$arrGroupConf['orm']['belongsTo:user'] = array(
@@ -62,13 +63,8 @@ class UserGroupsSetting extends ControlPanel
 			return ;
 		}
 		
-		$aGoupsIter = Category::loadTotalCategory($this->groups->prototype()) ;
-		Category::buildTree($aGoupsIter) ;
-		
-		foreach($aGoupsIter as $aGroup)
-		{
-			$this->groups->addChild($aGroup) ;
-		}
+		$this->groups->load() ;
+		Category::buildTree($this->groups) ;
 		
 		if( $this->userGroups->isSubmit($this->params) )
 		{

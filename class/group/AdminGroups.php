@@ -18,11 +18,11 @@ class AdminGroups extends ControlPanel
 	{		
 		return array(
 				
-				'model:groupTree' => array( 'config' => 'model/group' ) ,
+				'model:groupTree' => array( 'config' => 'model/group', 'list'=>true ) ,
 				
 				'view:groupList' => array(
 					'class' => 'form' ,
-					'template' => 'GroupList.html' ,
+					'template' => 'AdminGroups.html' ,
 					'model' => 'groupTree' ,
 				) ,
 		) ;
@@ -33,13 +33,15 @@ class AdminGroups extends ControlPanel
 	{
 		if(!empty($this->params['delete_category']))
 		{
-			$aDelCategory = $this->groupTree->prototype()->createModel() ;
-			if( !$aDelCategory->load($this->params['delete_category']) )
+			$aDelModel = $this->groupTree->prototype()->createModel() ;
+			if( !$aDelModel->load($this->params['delete_category']) )
 			{
 				$this->groupList->createMessage(Message::error,"id为 %d 的用户组不存在",$this->params['delete_category']) ;
 			}
 			else
 			{
+				$aDelCategory = new Category($aDelModel) ;
+				
 				// 清理权限
 				// todo ...
 				
@@ -49,14 +51,13 @@ class AdminGroups extends ControlPanel
 				$aDelCategory->delete() ;
 			
 				$this->location(
-						Request::singleton()->uri('delete_category'), "用户组%s 已经删除", $aDelCategory->name
+						Request::singleton()->uri('delete_category'), "用户组%s 已经删除", $aDelModel->name
 				) ;
 			}
 		}
-		
-		
-		$aGroupIter = Category::loadTotalCategory($this->groupTree->prototype()) ;
-		Category::buildTree($aGroupIter,$this->groupTree) ;
+
+		$this->groupTree->load() ;
+		Category::buildTree($this->groupTree) ;
 	}
 }
 

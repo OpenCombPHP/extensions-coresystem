@@ -14,7 +14,10 @@ class CreateGroup extends ControlPanel
 	{		
 		return array(
 				
-				'model:groupTree' => array( 'config' => 'model/group' ) ,
+				'model:groupTree' => array(
+					'config' => 'model/group' ,
+					'list' => true ,
+				) ,
 				'model:newGroup' => array( 'config' => 'model/group' ) ,
 				
 				'view:groupForm' => array(
@@ -54,13 +57,15 @@ class CreateGroup extends ControlPanel
 			
 			$this->modelNewGroup->save() ;
 			
+			$aNewCategory = new Category($this->modelNewGroup) ;
+			
 			if($nGrpRgtFoot=$this->viewGroupForm->parentGroup->value())
 			{
-				$this->modelNewGroup->insertCategoryToPoint($nGrpRgtFoot) ;
+				$aNewCategory->insertCategoryToPoint($nGrpRgtFoot) ;
 			}
 			else
 			{
-				$this->modelNewGroup->insertBefore(Category::end) ;
+				$aNewCategory->insertBefore(Category::end) ;
 			}
 			
 			$this->viewGroupForm->createMessage(Message::success,"分组%s已经保存",$this->modelNewGroup->name) ;
@@ -71,11 +76,11 @@ class CreateGroup extends ControlPanel
 
 		
 		// 加载已有分组菜单
-		$aGroupIter = Category::loadTotalCategory($this->modelNewGroup->prototype()) ;
-		Category::buildTree($aGroupIter) ;
-		foreach($aGroupIter as $aCategory)
+		$this->groupTree->load() ;
+		Category::buildTree($this->groupTree) ;
+		foreach($this->groupTree->childIterator() as $aCategory)
 		{
-			$sText = str_repeat('--',$aCategory->depth()) . $aCategory->name ;
+			$sText = str_repeat('--',Category::depth($aCategory)) . $aCategory->name ;
 			$this->viewGroupForm->parentGroup->addOption($sText,$aCategory->rgt) ;
 		}
 	}

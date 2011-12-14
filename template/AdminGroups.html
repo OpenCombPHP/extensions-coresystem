@@ -1,0 +1,11 @@
+<h2>管理用户组</h2>
+
+<ul class="coresystem-grouplist-ul">
+<model:foreach>
+	<li style="margin-left:{=$theModel->__category_depth * 40}px">
+		<data>name</data>
+		<a href="?c=org.opencomb.coresystem.auth.PurviewSetting&id={=$theModel->gid}&type=group">权限</a>
+		<a href="{/*.uri}&delete_category={=$theModel->gid}">删除</a>
+	</li>
+</model:foreach>
+</ul>
