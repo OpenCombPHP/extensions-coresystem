@@ -1,8 +1,8 @@
 <?php
 namespace org\opencomb\coresystem\auth ;
 
-use org\opencomb\mvc\model\db\orm\Prototype;
-use org\opencomb\ext\Extension;
+use org\opencomb\platform\mvc\model\db\orm\Prototype;
+use org\opencomb\platform\ext\Extension;
 use org\opencomb\coresystem\auth\PurviewAction;
 use org\opencomb\coresystem\auth\Authorizer;
 use org\jecat\framework\bean\BeanFactory;

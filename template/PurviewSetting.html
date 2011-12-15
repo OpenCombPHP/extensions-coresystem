@@ -14,7 +14,7 @@ div.purview{
 
 	<foreach for="$arrRegisteredPurviews" item="arrExtension" key="sExtName">
 	<div>
-		<h3>扩展：{=\org\opencomb\ext\Extension::flyweight($sExtName)->metainfo()->title()} ({=$sExtName})</h3>
+		<h3>扩展：{=\org\opencomb\platform\ext\Extension::flyweight($sExtName)->metainfo()->title()} ({=$sExtName})</h3>
 	
 		<foreach for="$arrExtension" item="arrPurviewList" key="sPurviewCategory">
 		<div style="margin-left:30px;margin-top:10px;">

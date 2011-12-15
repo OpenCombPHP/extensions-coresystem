@@ -3,9 +3,9 @@ namespace org\opencomb\coresystem ;
 
 use org\opencomb\coresystem\auth\Id;
 use org\jecat\framework\auth\IdManager;
-use org\opencomb\Platform;
+use org\opencomb\platform\Platform;
 use org\jecat\framework\system\AccessRouter;
-use org\opencomb\ext\Extension;
+use org\opencomb\platform\ext\Extension;
 
 class CoreSystem extends Extension
 {	

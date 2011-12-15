@@ -2,7 +2,7 @@
 namespace org\opencomb\coresystem\mvc\controller ;
 
 use org\opencomb\coresystem\mvc\controller\Controller;
-use org\opencomb\ext\ExtensionManager;
+use org\opencomb\platform\ext\ExtensionManager;
 use org\jecat\framework\mvc\view\Webpage;
 
 class ControlPanel extends Controller

@@ -7,10 +7,10 @@ use org\opencomb\coresystem\auth\Authorizer;
 use org\jecat\framework\mvc\view\IView;
 use org\jecat\framework\mvc\model\db\orm\Prototype;
 use org\jecat\framework\auth\IdManager;
-use org\opencomb\ext\Extension;
+use org\opencomb\platform\ext\Extension;
 use org\jecat\framework\auth\AuthenticationException;
 use org\jecat\framework\mvc\controller\Controller as JcController ;
-use org\opencomb\ext\ExtensionManager;
+use org\opencomb\platform\ext\ExtensionManager;
 use org\jecat\framework\setting\Setting;
 use org\jecat\framework\mvc\view\Webpage;
 

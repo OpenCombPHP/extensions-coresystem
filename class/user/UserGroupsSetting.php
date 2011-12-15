@@ -1,7 +1,7 @@
 <?php
 namespace org\opencomb\coresystem\user ;
 
-use org\opencomb\mvc\model\db\orm\Prototype;
+use org\opencomb\platform\mvc\model\db\orm\Prototype;
 use org\jecat\framework\db\DB;
 use org\jecat\framework\mvc\model\db\Category;
 use org\jecat\framework\bean\BeanFactory;
