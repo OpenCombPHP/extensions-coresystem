@@ -1,6 +1,7 @@
 <?php
 namespace org\opencomb\coresystem\user ;
 
+use org\opencomb\coresystem\auth\Id;
 use org\jecat\framework\message\Message;
 use org\jecat\framework\mvc\view\DataExchanger;
 use org\jecat\framework\db\ExecuteException;

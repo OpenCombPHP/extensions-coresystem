@@ -61,7 +61,7 @@ class Login extends Controller
 
 			// 
 			$aId = new Id($this->modelUser) ;
-			IdManager::singleton()->addId($aId) ;
+			IdManager::singleton()->addId($aId,true) ;
 			
 			// 保存 last login 信息
 			Id::makeLoginInfo($aId) ;

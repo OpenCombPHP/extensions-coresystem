@@ -1,6 +1,7 @@
 <?php
 namespace org\opencomb\coresystem\user ;
 
+use org\opencomb\coresystem\auth\Id;
 use org\opencomb\base\FrontFrame;
 use org\jecat\framework\auth\IdManager;
 use org\jecat\framework\message\Message;
