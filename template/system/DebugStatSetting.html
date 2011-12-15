@@ -1,0 +1,20 @@
+<h2>系统调式状态</h2>
+
+<msgqueue />
+
+<form method="post">
+
+	<foreach for="$arrStats" key='sKeyPath' item='arrItemList'>
+		<foreach for="$arrItemList" key='sItemName' item='arrItem'>
+			<div>
+				<label>
+					<input type="checkbox" name="stat[{=$sKeyPath}][{=$sItemName}]" value="1" {#? if($arrItem['checked']){ #} checked{#? } #}/>
+					{=$arrItem['title']}
+				</label>
+			</div>
+		</foreach>
+	</foreach>
+	
+	<input type="submit" value="保存" />
+	
+</form>

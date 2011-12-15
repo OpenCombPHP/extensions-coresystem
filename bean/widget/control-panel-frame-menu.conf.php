@@ -6,6 +6,17 @@ return array(
 	'items' => array(
 		'system' => array(
 			'title' => '系统' ,
+			'link' => '?c=org.opencomb.coresystem.system.DebugStatSetting' ,
+			'quote' => 'c=org.opencomb.coresystem.system.DebugStatSetting' ,
+			'menu' => array(
+				'items' => array(
+					'debug-stat' => array(
+						'title'=>'调式状态' ,
+						'link' => '?c=org.opencomb.coresystem.system.DebugStatSetting' ,
+						'quote' => 'c=org.opencomb.coresystem.system.DebugStatSetting' ,
+					) ,
+				) ,
+			) ,
 		) ,
 		'user' => array(
 			'title' => '用户' ,
