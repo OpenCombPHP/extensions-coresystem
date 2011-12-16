@@ -7,13 +7,13 @@ return array(
 		'system' => array(
 			'title' => '系统' ,
 			'link' => '?c=org.opencomb.coresystem.system.DebugStatSetting' ,
-			'quote' => 'c=org.opencomb.coresystem.system.DebugStatSetting' ,
+			'query' => 'c=org.opencomb.coresystem.system.DebugStatSetting' ,
 			'menu' => array(
 				'items' => array(
 					'debug-stat' => array(
 						'title'=>'调式状态' ,
 						'link' => '?c=org.opencomb.coresystem.system.DebugStatSetting' ,
-						'quote' => 'c=org.opencomb.coresystem.system.DebugStatSetting' ,
+						'query' => 'c=org.opencomb.coresystem.system.DebugStatSetting' ,
 					) ,
 				) ,
 			) ,
@@ -26,7 +26,7 @@ return array(
 					'user-manager' => array(
 						'title'=>'用户管理' ,
 						'link'=>'?c=org.opencomb.coresystem.user.AdminUsers' ,
-						'quote' => array(
+						'query' => array(
 								'c=org.opencomb.coresystem.user.AdminUsers' ,
 								'c=org.opencomb.coresystem.auth.PurviewSetting&type=user' ,
 								'c=org.opencomb.coresystem.user.UserGroupsSetting' ,
@@ -40,12 +40,12 @@ return array(
 								'create-group' => array(
 										'title'=>'新建用户组'
 										, 'link'=>'?c=org.opencomb.coresystem.group.CreateGroup'
-										, 'quote'=>'c=org.opencomb.coresystem.group.CreateGroup'
+										, 'query'=>'c=org.opencomb.coresystem.group.CreateGroup'
 								) ,
 								'group-manager' => array(
 										'title'=>'管理用户组'
 										,'link'=>'?c=org.opencomb.coresystem.group.AdminGroups'
-										,'quote'=> array(
+										,'query'=> array(
 												'c=org.opencomb.coresystem.group.AdminGroups' ,
 												'c=org.opencomb.coresystem.auth.PurviewSetting&type=group' ,
 										)
