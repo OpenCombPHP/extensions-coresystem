@@ -8,16 +8,13 @@ use org\jecat\framework\mvc\view\View;
 
 class FrontFrame extends WebpageFrame
 {
-	public function __construct($params=null)
+	public function createBeanConfig()
 	{
-		parent::__construct($params) ;
-		
-		$aFrameView = new View('frameView',"coresystem:FrontFrame.html") ;
-		$this->addFrameView($aFrameView) ;
-		
-		// 菜单
-		$aFrameView->addWidget(
-			BeanFactory::singleton()->createBeanByConfig('widget/front-frame-menu','coresystem')
+		return array(
+			'frameview:frameView' => array(
+				'template' => 'FrontFrame.html' ,
+				'widget:mainMenu' => array( 'config'=>'widget/front-frame-menu' ) ,
+			) ,
 		) ;
 	}
 	
@@ -30,5 +27,4 @@ class FrontFrame extends WebpageFrame
 		return parent::buildBean($arrConfig,$sNamespace) ;
 	}
 }
-
 ?>
