@@ -1,0 +1,53 @@
+<h2>已经启用的扩展</h2>
+<foreach for="$arrEnabledExtensions" item="aExtension">
+<div>
+	<div>
+		<span>
+			{=$aExtension->metainfo()->title()}
+			版本：{=$aExtension->metainfo()->version()}
+		</span>
+		<span style="float:right;margin-left:20px">
+			禁用
+		</span>
+		<span style="float:right">
+			优先级：{=$aExtension->runtimePriority()}
+		</span>
+	</div>
+	
+	<div>
+		<pre>{=$aExtension->metainfo()->description()}</pre>
+	</div>
+	
+	<div>
+		依赖关系：
+		<if "$aDependence=$aExtension->metainfo()->dependence()">
+			<foreach for="$aDependence->iterator()">
+			<li></li>
+			</foreach>
+		<else />
+			无
+		</if>
+	</div>
+</div>
+</foreach>
+
+
+<h2>禁用的扩展</h2>
+<foreach for="$arrDisabledExtensionMetainfos" item="aExtensionMetainfo">
+<div>
+	<div>
+		<span>
+			{=$aExtensionMetainfo->title()}
+			版本：{=$aExtensionMetainfo->version()}
+		</span>
+		<span style="float:right;margin-left:20px">
+			启用
+		</span>
+		<span style="float:right">
+			优先级：{=$aExtensionMetainfo->priority()}
+		</span>
+	</div>
+</div>
+<foreach:else />
+	无
+</foreach>
