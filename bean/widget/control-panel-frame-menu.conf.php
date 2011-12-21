@@ -10,10 +10,34 @@ return array(
 			'query' => 'c=org.opencomb.coresystem.system.DebugStatSetting' ,
 			'menu' => array(
 				'items' => array(
-					'debug-stat' => array(
-						'title'=>'调式状态' ,
-						'link' => '?c=org.opencomb.coresystem.system.DebugStatSetting' ,
-						'query' => 'c=org.opencomb.coresystem.system.DebugStatSetting' ,
+					'platform-manage' => array(
+						'title'=>'平台维护' ,
+						'link' => '?c=org.opencomb.coresystem.system.ExtensionSetup' ,
+						'menu' => array(
+							'items' => array(
+									'extension-setup' => array(
+											'title'=>'安装扩展' ,
+											'link' => '?c=org.opencomb.coresystem.system.ExtensionSetup' ,
+											'query' => 'c=org.opencomb.coresystem.system.ExtensionSetup' ,
+									) ,
+									'extension-manage' => array(
+											'title'=>'扩展管理' ,
+											'link' => '?c=org.opencomb.coresystem.system.ExtensionManager' ,
+											'query' => 'c=org.opencomb.coresystem.system.ExtensionManager' ,
+									) ,
+									'platform-upgrade' => array(
+											'title'=>'平台升级' ,
+											'link' => '?c=org.opencomb.coresystem.system.PlatformUpgrade' ,
+											'query' => 'c=org.opencomb.coresystem.system.PlatformUpgrade' ,
+									) ,
+									'debug-stat' => array(
+											'title'=>'调式状态' ,
+											'link' => '?c=org.opencomb.coresystem.system.DebugStatSetting' ,
+											'query' => 'c=org.opencomb.coresystem.system.DebugStatSetting' ,									
+									) ,
+							) ,								
+						)
+							
 					) ,
 				) ,
 			) ,
