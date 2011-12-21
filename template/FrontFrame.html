@@ -1,3 +1,12 @@
+<if "$aId=\org\jecat\framework\auth\IdManager::singleton()->currentId()">
+	hi, {=$aId->username()}
+	<if "\org\opencomb\coresystem\auth\Authorizer::singleton()->hasPurview($aId,\org\opencomb\coresystem\auth\Id::PLATFORM_ADMIN,'coresystem')">
+		<a href="?c=control.panel">平台管理</a>
+	</if>
+<else />
+	<a href="?c=login">登录</a>
+</if>
+
 <widget id="mainMenu" />
 
 <hr />
