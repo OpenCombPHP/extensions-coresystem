@@ -12,8 +12,8 @@ class FrontFrame extends WebpageFrame
 	{
 		return array(
 			'frameview:frameView' => array(
-				'template' => 'FrontFrame.html' ,
-				'widget:mainMenu' => array( 'config'=>'widget/front-frame-menu' ) ,
+				'template' => 'coresystem:FrontFrame.html' ,
+				'widget:mainMenu' => array( 'config'=>'coresystem:widget/front-frame-menu' ) ,
 			) ,
 		) ;
 	}
