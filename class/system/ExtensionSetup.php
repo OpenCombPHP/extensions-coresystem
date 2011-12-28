@@ -6,6 +6,8 @@ use org\jecat\framework\message\Message;
 use org\jecat\framework\fs\FileSystem;
 use org\opencomb\coresystem\mvc\controller\ControlPanel;
 use org\opencomb\platform\ext\ExtensionSetup as ExtensionSetupOperator ;
+use org\opencomb\platform\Platform ;
+use org\opencomb\platform\system\PlatformFactory ;
 
 class ExtensionSetup extends ControlPanel 
 {
@@ -44,7 +46,7 @@ class ExtensionSetup extends ControlPanel
 			}
 			
 			try{
-				
+				PlatformFactory::clearRestoreCache(Platform::singleton());
 				// 安装
 				$aExtMeta = ExtensionSetupOperator::singleton()->install($aExtFolder) ;
 				
