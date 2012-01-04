@@ -1,6 +1,7 @@
 <?php
 namespace org\opencomb\coresystem\system ;
 
+use org\opencomb\platform\system\PlatformSerializer;
 use org\jecat\framework\lang\Exception;
 use org\jecat\framework\message\Message;
 use org\jecat\framework\fs\FileSystem;
@@ -46,7 +47,8 @@ class ExtensionSetup extends ControlPanel
 			}
 			
 			try{
-				PlatformFactory::clearRestoreCache(Platform::singleton());
+				PlatformSerializer::singleton()->clearRestoreCache(Platform::singleton());
+				
 				// 安装
 				$aExtMeta = ExtensionSetupOperator::singleton()->install($aExtFolder) ;
 				

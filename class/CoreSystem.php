@@ -8,9 +8,10 @@ use org\jecat\framework\system\AccessRouter;
 use org\opencomb\platform\ext\Extension;
 
 class CoreSystem extends Extension
-{	
+{
 	public function load()
 	{
+		echo __FILE__, '<br />' ;
 		$aAccessRouter = AccessRouter::singleton() ;
 		$aAccessRouter->addController("org\\opencomb\\coresystem\\user\\Register",'register','') ;
 		$aAccessRouter->addController("org\\opencomb\\coresystem\\user\\Login",'login','') ;
