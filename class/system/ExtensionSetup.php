@@ -72,6 +72,10 @@ class ExtensionSetup extends ControlPanel
 						, array( $aExtMeta->title(), $aExtMeta->name(), $aExtMeta->version() )
 				) ;
 				
+				foreach( $aExtMeta->pakcageIterator() as $package){
+					$aClassLoader->removePackage($package[0]);
+				}
+				
 			}catch(Exception $e){
 				$this->view->createMessage(Message::error,$e->getMessage(),$e->messageArgvs()) ;
 			}
