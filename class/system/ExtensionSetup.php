@@ -8,6 +8,7 @@ use org\opencomb\coresystem\mvc\controller\ControlPanel;
 use org\opencomb\platform\ext\ExtensionSetup as ExtensionSetupOperator ;
 use org\opencomb\platform\Platform ;
 use org\opencomb\platform\system\PlatformFactory ;
+use org\jecat\framework\lang\oop\ClassLoader ;
 
 class ExtensionSetup extends ControlPanel 
 {
@@ -57,7 +58,13 @@ class ExtensionSetup extends ControlPanel
 				) ;
 
 				// 激活
-				ExtensionSetupOperator::singleton()->enable($aExtMeta->name()) ;
+				$aClassLoader = ClassLoader::singleton();
+				foreach( $aExtMeta->pakcageIterator() as $package){
+					$sSourceFolder = $aExtFolder->path().$package[1];
+					$aClassLoader->addPackage($package[0],$sSourceFolder);
+				}
+				
+				ExtensionSetupOperator::singleton()->enable($aExtMeta->name() , $this->view->messageQueue() ) ;
 				
 				$this->view->createMessage(
 						Message::success
