@@ -9,7 +9,6 @@ use org\opencomb\coresystem\mvc\controller\ControlPanel;
 use org\opencomb\platform\ext\ExtensionSetup as ExtensionSetupOperator ;
 use org\opencomb\platform\Platform ;
 use org\opencomb\platform\system\PlatformFactory ;
-use org\jecat\framework\lang\oop\ClassLoader ;
 
 class ExtensionSetup extends ControlPanel 
 {
@@ -48,10 +47,11 @@ class ExtensionSetup extends ControlPanel
 			}
 			
 			try{
+				// 清理缓存
 				PlatformSerializer::singleton()->clearRestoreCache(Platform::singleton());
 				
 				// 安装
-				$aExtMeta = ExtensionSetupOperator::singleton()->install($aExtFolder) ;
+				$aExtMeta = ExtensionSetupOperator::singleton()->install($aExtFolder , $this->view->messageQueue() ) ;
 				
 				$this->view->createMessage(
 						Message::success
@@ -60,28 +60,16 @@ class ExtensionSetup extends ControlPanel
 				) ;
 
 				// 激活
-				$aClassLoader = ClassLoader::singleton();
-				foreach( $aExtMeta->pakcageIterator() as $package){
-					$sSourceFolder = $aExtFolder->path().$package[1];
-					$aClassLoader->addPackage($package[0],$sSourceFolder);
-				}
-				
-				ExtensionSetupOperator::singleton()->enable($aExtMeta->name() , $this->view->messageQueue() ) ;
+				ExtensionSetupOperator::singleton()->enable($aExtMeta->name()) ;
 				
 				$this->view->createMessage(
 						Message::success
 						, "扩展 %s(%s:%s) 已经激活使用。"
 						, array( $aExtMeta->title(), $aExtMeta->name(), $aExtMeta->version() )
 				) ;
-				
-				foreach( $aExtMeta->pakcageIterator() as $package){
-					$aClassLoader->removePackage($package[0]);
-				}
-				
 			}catch(Exception $e){
 				$this->view->createMessage(Message::error,$e->getMessage(),$e->messageArgvs()) ;
 			}
-			
 
 		} while(0); }
 	}
