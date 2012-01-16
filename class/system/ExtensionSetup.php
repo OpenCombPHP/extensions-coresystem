@@ -25,6 +25,9 @@ class ExtensionSetup extends ControlPanel
 						'verifier:notempty' => array() ,
 				) 
 			) ,
+			'controller:byUpload' => array(
+					'class' => 'org\\opencomb\\coresystem\\system\\ExtensionSetupByUpload' ,
+			) ,
 		) ;
 	}
 	
