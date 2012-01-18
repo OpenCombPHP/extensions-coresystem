@@ -1,7 +1,7 @@
 <?php
 namespace org\opencomb\coresystem\group ;
 
-use org\jecat\framework\system\Request;
+use org\jecat\framework\mvc\controller\Request;
 
 use org\jecat\framework\message\Message;
 
