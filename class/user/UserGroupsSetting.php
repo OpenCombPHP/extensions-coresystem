@@ -84,7 +84,7 @@ class UserGroupsSetting extends ControlPanel
 					{
 						$this->newUsrGrpLink->uid = $this->user->uid ;
 						$this->newUsrGrpLink->gid = $aGroup->gid ;
-						if( $this->newUsrGrpLink->setSerialized(false)->save() )
+						if( $this->newUsrGrpLink->save() )
 						{
 							$aGroup['user.uid'] = $this->user->uid ;
 							$this->userGroups->createMessage(Message::success,"用户 %s 已经加入了分组 %s",array($this->user['username'],$aGroup['name'])) ;
