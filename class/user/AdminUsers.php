@@ -27,6 +27,9 @@ class AdminUsers extends ControlPanel
 				'template' => 'AdminUsers.html' ,
 				'class' => 'form' ,
 				'model' => 'users' ,
+				'widget:paginator' => array(
+					'class' => 'paginator' ,
+				) 
 			) ,
 		) ;
 	}
