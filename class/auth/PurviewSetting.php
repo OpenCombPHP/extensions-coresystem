@@ -3,8 +3,6 @@ namespace org\opencomb\coresystem\auth ;
 
 use org\opencomb\platform\mvc\model\db\orm\Prototype;
 use org\opencomb\platform\ext\Extension;
-use org\opencomb\coresystem\auth\PurviewAction;
-use org\opencomb\coresystem\auth\Authorizer;
 use org\jecat\framework\bean\BeanFactory;
 use org\jecat\framework\db\DB;
 use org\jecat\framework\auth\IdManager;
@@ -26,7 +24,7 @@ class PurviewSetting extends ControlPanel
 				'class' => 'form' ,
 		
 				'vars' => array(
-					'arrRegisteredPurviews' => Authorizer::registeredPurviews()
+					'arrRegisteredPurviews' => self::registeredPurviews()
 				) ,
 				
 			) ,
@@ -39,10 +37,9 @@ class PurviewSetting extends ControlPanel
 		// 权限检查
 		$this->requirePurview(Id::PLATFORM_ADMIN,'coresystem') ;
 		
-		
 		if(!$this->params->string('type'))
 		{
-			$this->params->set('type',Authorizer::user) ;
+			$this->params->set('type',PurviewQuery::user) ;
 		}
 		
 		// 检查参数
@@ -53,11 +50,11 @@ class PurviewSetting extends ControlPanel
 			return ;
 		}
 		
-		if( $this->params->string('type')==Authorizer::user )
+		if( $this->params->string('type')==PurviewQuery::user )
 		{
 			$aModel = BeanFactory::singleton()->createBeanByConfig('model/user','coresystem') ;
 		}
-		else if( $this->params->string('type')==Authorizer::group )
+		else if( $this->params->string('type')==PurviewQuery::group )
 		{
 			$aModel = BeanFactory::singleton()->createBeanByConfig('model/group','coresystem') ;
 		}
@@ -87,7 +84,7 @@ class PurviewSetting extends ControlPanel
 		
 		// view variables
 		$this->viewSetting->variables()->set('type',$this->params->string('type')) ;
-		if( $this->params->string('type')==Authorizer::user )
+		if( $this->params->string('type')==PurviewQuery::user )
 		{
 			$this->viewSetting->variables()->set('sPageTitle',"设置用户“{$aModel->username}”的权限") ;
 		}
@@ -99,7 +96,7 @@ class PurviewSetting extends ControlPanel
 	
 	private function modifyPurviews($sId)
 	{
-		$arrExistsPurviews = Authorizer::singleton()->queryPurviews($sId,$this->params->string('type')) ;
+		$arrExistsPurviews = PurviewQuery::singleton()->queryPurviews($sId,$this->params->string('type')) ;
 					
 		if(empty($this->params['purviews']))
 		{
@@ -156,7 +153,7 @@ class PurviewSetting extends ControlPanel
 	private function loadPurviews($sId)
 	{
 		// 自己直接拥有的权限
-		$arrExistsPurviews = Authorizer::singleton()->queryPurviews($sId,$this->params->string('type')) ;
+		$arrExistsPurviews = PurviewQuery::singleton()->queryPurviews($sId,$this->params->string('type')) ;
 		
 		$aViewVars = $this->viewSetting->variables() ;
 		$arrRegisteredPurviews = $aViewVars->get('arrRegisteredPurviews') ;
@@ -188,6 +185,67 @@ class PurviewSetting extends ControlPanel
 		
 		$aViewVars->set('arrRegisteredPurviews',$arrRegisteredPurviews) ;
 	}
+	
+	/////////////////////////////////////////////////////
+	
+	static public function registeredPurviews()
+	{
+		return self::$arrRegisteredPurviews ;
+	}
+	
+	static public function queryPurviewTitle($sExtension,$sPurviewName,$target)
+	{
+		foreach(self::$arrRegisteredPurviews[$sExtension] as &$arrPurviewList)
+		{
+			foreach($arrPurviewList as &$arrPurview)
+			{
+				if( $arrPurview['name']==$sPurviewName and $arrPurview['target']==$target )
+				{
+					return $arrPurview['title'] ;
+				}
+			}
+		}
+	
+		return $sPurviewName ;
+	}
+	
+	
+	static private $arrRegisteredPurviews = array(
+	
+			'coresystem' => array(									// 扩展 =========
+	
+					'系统' => array(									// 分类 ---------
+							array(
+									'name' => Id::PLATFORM_ADMIN ,		// 权限名称
+									'title' => '平台管理员' ,				// 权限标题
+									'target' => null ,					// 目标内容id
+							) ,
+					) ,
+	
+					'测试' => array(									// 分类 ---------
+							array(
+									'name' => 'test-purview1' ,
+									'title' => '测试权限1' ,
+									'target' => null ,
+							) ,
+							array(
+									'name' => 'test-purview1' ,
+									'title' => '测试权限1- targe 20' ,
+									'target' => 20 ,
+							) ,
+	
+							array(
+									'name' => 'test-purview2' ,
+									'title' => '测试权限2' ,
+									'target' => null ,
+							) ,
+							array(
+									'name' => 'test-purview3' ,
+									'title' => '测试权限3' ,
+									'target' => null ,
+							) ,
+					) ,
+			) ,
+	) ;
 }
 
-?>

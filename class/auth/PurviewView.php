@@ -33,7 +33,7 @@ class PurviewView extends ControlPanel
 	{
 		if(!$this->params->string('type'))
 		{
-			$this->params->set('type',Authorizer::user) ;
+			$this->params->set('type',PurviewQuery::user) ;
 		}
 		
 		// 检查参数
@@ -44,11 +44,11 @@ class PurviewView extends ControlPanel
 			return ;
 		}
 		
-		if( $this->params->string('type')==Authorizer::user )
+		if( $this->params->string('type')==PurviewQuery::user )
 		{
 			$aModel = BeanFactory::singleton()->createBeanByConfig('model/user','coresystem') ;
 		}
-		else if( $this->params->string('type')==Authorizer::group )
+		else if( $this->params->string('type')==PurviewQuery::group )
 		{
 			$aModel = BeanFactory::singleton()->createBeanByConfig('model/group','coresystem') ;
 		}

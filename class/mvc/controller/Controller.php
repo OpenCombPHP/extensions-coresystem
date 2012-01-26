@@ -1,8 +1,8 @@
 <?php
 namespace org\opencomb\coresystem\mvc\controller ;
 
+use org\opencomb\coresystem\auth\PurviewPermission;
 use org\jecat\framework\mvc\view\UIFactory;
-
 use org\opencomb\coresystem\auth\Authorizer;
 use org\jecat\framework\mvc\view\IView;
 use org\jecat\framework\mvc\model\db\orm\Prototype;
@@ -97,38 +97,39 @@ class Controller extends JcController
     	}
     }
     
-    /**
-     * @return org\opencomb\coresystem\auth\Authorizer
-     */
-    public function authorizer()
+    protected function requirePurview($sPurview,$sExtension,$target=null,$sDenyMessage=null,array $arrDenyArgvs=array())
     {
-    	return Authorizer::singleton() ;
-    }
-    
-    protected function requirePurview($sPurview,$sExtension,$target=null,$sMessage=null,array $arrArgvs=array())
-    {
-    	if( !$this->authorizer()->hasPurview($this->requireLogined(),$sExtension,$sPurview) )
-    	{
-    		$this->permissionDenied($sMessage,$arrArgvs) ;
-    	}
+    	// 添加权限许可
+    	$this->authorizer()->requirePermission(
+    			new PurviewPermission($sPurview,$target,$sExtension)
+    	) ;
+    	
+    	$this->checkPermissions($sDenyMessage,$arrDenyArgvs) ;
     }
     
     /**
      * @return org\jecat\framework\auth\IIdentity
      */
-    protected function requireLogined($sMessage=null,array $arrArgvs=array()) 
+    protected function requireLogined($sDenyMessage=null,array $arrDenyArgvs=array()) 
     {
     	if( !$aId=IdManager::singleton()->currentId() )
     	{
-    		$this->permissionDenied($sMessage,$arrArgvs) ;
+    		$this->permissionDenied($sDenyMessage,$arrDenyArgvs) ;
     	}
-    	
     	return $aId ;
     }
     
-	protected function permissionDenied($sMessage=null,array $arrArgvs=array())
+    protected function checkPermissions($sDenyMessage,array $arrDenyArgvs=array())
+    {
+    	if( !$this->authorizer()->check(IdManager::singleton()) )
+    	{
+    		$this->permissionDenied($sDenyMessage,$arrDenyArgvs) ;
+    	}
+    }
+    
+	protected function permissionDenied($sDenyMessage,array $arrDenyArgvs=array())
 	{
-		throw new AuthenticationException($this,$sMessage,$arrArgvs) ;
+		throw new AuthenticationException($this,$sDenyMessage,$arrDenyArgvs) ;
 	}
 
     public function createFrame()

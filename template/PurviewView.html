@@ -13,7 +13,7 @@
 <foreach for="$arrPurviewList" item="arrPurview">
 	<div style="margin-left:20px">
 		<span style="margin-right:20px">
-			权限：{= \org\opencomb\coresystem\auth\Authorizer::queryPurviewTitle($arrPurview['extension'],$arrPurview['name'],$arrPurview['target']) }
+			权限：{= \org\opencomb\coresystem\auth\PurviewSetting::queryPurviewTitle($arrPurview['extension'],$arrPurview['name'],$arrPurview['target']) }
 		</span>
 		
 		<if "$arrPurview['target']!==null">

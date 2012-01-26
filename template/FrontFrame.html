@@ -8,7 +8,7 @@
 	<p class="frontframe-othernav">
 	<if "$aId=\org\jecat\framework\auth\IdManager::singleton()->currentId()">
 		Hi, {=$aId->username()} | 
-		<if "\org\opencomb\coresystem\auth\Authorizer::singleton()->hasPurview($aId,\org\opencomb\coresystem\auth\Id::PLATFORM_ADMIN,'coresystem')">
+		<if "\org\opencomb\coresystem\auth\PurviewQuery::singleton()->hasPurview($aId,\org\opencomb\coresystem\auth\Id::PLATFORM_ADMIN,'coresystem')">
 			<a href="?c=control.panel">平台管理</a>
 		</if>
 	<else />

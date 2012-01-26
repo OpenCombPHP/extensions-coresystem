@@ -1,8 +1,8 @@
 <?php 
 namespace org\opencomb\coresystem\auth ;
 
+use org\jecat\framework\auth\AuthenticationException;
 use org\jecat\framework\message\Message;
-
 use org\jecat\framework\auth\IdManager;
 use org\opencomb\coresystem\mvc\controller\ControlPanel;
 
@@ -11,7 +11,7 @@ class TestPurview extends ControlPanel
 	public function createBeanConfig()
 	{
 		$arrPurview = array() ;
-		foreach(Authorizer::registeredPurviews() as $sExtName=>$arrPurviewsOfExt)
+		foreach(PurviewSetting::registeredPurviews() as $sExtName=>$arrPurviewsOfExt)
 		{
 			foreach($arrPurviewsOfExt as $arrPurviewList)
 			{
@@ -60,17 +60,18 @@ class TestPurview extends ControlPanel
 				$target = null ;
 			}
 			
+			// -- 指定uid用户 -----------------------------------
 			$arrTestLevels = array(
-					Authorizer::auth_user=>'用户权限' ,
-					Authorizer::auth_group=>'所属用户组权限' ,
-					Authorizer::auth_group_bubble=>'下级用户组“冒泡”权限' ,
-					Authorizer::auth_group_inheritance=>'上级用户组“可继承”权限' ,
-					Authorizer::auth_platform_admin=>'平台管理员权限' ,
+					PurviewQuery::auth_user=>'用户权限' ,
+					PurviewQuery::auth_group=>'所属用户组权限' ,
+					PurviewQuery::auth_group_bubble=>'下级用户组“冒泡”权限' ,
+					PurviewQuery::auth_group_inheritance=>'上级用户组“可继承”权限' ,
+					//PurviewQuery::auth_platform_admin=>'平台管理员权限' ,
 			) ;
 			
 			foreach($arrTestLevels as $nLevel=>$sName)
 			{
-				if( Authorizer::singleton()->hasPurview(
+				if( PurviewQuery::singleton()->hasPurview(
 					$this->test->widget('userid')->value()
 					, $sNamespace, $sPurview, $target, $nLevel
 				) )
@@ -81,6 +82,15 @@ class TestPurview extends ControlPanel
 				{
 					$this->test->createMessage(Message::forbid,"[权限验证等级] %s：拒绝",$sName) ;
 				}
+			}
+			
+			// -- 当前登录用户 -----------------------------------
+			try{
+				$this->requirePurview($sPurview,$sNamespace,$target) ;
+				$this->test->createMessage(Message::success,"当前登录用户权限检查：通过") ;
+			}catch(AuthenticationException $e){
+				
+				$this->test->createMessage(Message::forbid,"当前登录用户权限检查：".$e->messageSentence(),$e->messageArgvs()) ;
 			}
 		}
 			
