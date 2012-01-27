@@ -1,17 +1,24 @@
 <?php
 namespace org\opencomb\coresystem\auth ;
 
+use org\jecat\framework\auth\GroupPermission;
 use org\jecat\framework\auth\Authorizer as JcAuthorizer ;
 
 class Authorizer extends JcAuthorizer
 {
-	public function __construct()
+	public function requirePermission(IPermission $aPermission,$bRestrict=false)
 	{
 		// 增加平台管理员许可
-		$this->requirePermission(new PurviewPermission(
-				Id::PLATFORM_ADMIN, null, 'coresystem'
-		)) ;
+		if( $aPermission instanceof PurviewPermission )
+		{
+			$aGrpPerm = new GroupPermission() ;
+			$aGrpPerm->add($aPermission,$bRestrict) ;
+			$aGrpPerm->add(new PurviewPermission(Id::PLATFORM_ADMIN, null, 'coresystem'),$bRestrict) ;
+			
+			$aPermission = $aGrpPerm ;
+		}
+		
+		return parent::requirePermission($aPermission,$bRestrict) ;
 	}
-	
 }
 
