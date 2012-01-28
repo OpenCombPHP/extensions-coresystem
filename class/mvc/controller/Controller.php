@@ -147,19 +147,32 @@ class Controller extends JcController
     	parent::renderMainView($aMainView) ;
     }
     
+    /**
+     * @exmaple /配置/访问扩展的配置
+     * @forwiki /配置
+     * 
+     * 设置网页 html head 信息
+     * 
+     * @param Webpage $aWebpage
+     */
     protected function setupWebpageHtmlHead(Webpage $aWebpage)
     {
-    	$aSetting = ExtensionManager::singleton()->extension('coresystem')->setting() ;
+    	// 通过 Extension::flyweight() 方法取得 扩展coresystem 的享元对象。
+    	// 每个激活的扩展，在系统运行时都有一个Extension类的享元对象，该对象负责维护对应扩展的相关信息和状态。
+    	// 然后通过 扩展享元对象的setting() 方法取得该扩展的Setting 对象。
+    	// Extentsion::setting() 返回的 Setting对象只包含对应扩展的配置信息；
+    	// Setting::singleton() 返回的 Setting对象包含全系统的配置信息，各个扩展的配置信息只是全系统配置树结构上的一个分支。
+    	$aSetting = Extension::flyweight('coresystem')->setting() ;
     		
-    	// title
+    	// 系统缺省的网页title
     	$sTitleTemplate = $aSetting->item('/webpage','title-template','%s') ;
     	$aWebpage->setTitle(sprintf($sTitleTemplate,$this->title())) ;
     
-    	// description
+    	// 系统缺省的网页description
     	$sTemplate = $aSetting->item('/webpage','description-template','%s') ;
     	$aWebpage->setDescription(sprintf($sTemplate,$this->description())) ;
     
-    	// keywords
+    	// 系统缺省的网页keywords
     	$sTemplate = $aSetting->item('/webpage','keywords-template','%s') ;
     	$aWebpage->setKeywords(sprintf($sTemplate,$this->keywords())) ;
     }

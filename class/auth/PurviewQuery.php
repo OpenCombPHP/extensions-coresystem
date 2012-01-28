@@ -19,7 +19,8 @@ class PurviewQuery extends Object
 	const auth_group = 2 ;
 	const auth_group_inheritance = 4 ;
 	const auth_group_bubble = 8 ;
-	// const auth_platform_admin = 16 ;
+	const auth_platform_admin = 16 ;
+	const auth_common = 15 ; // auth_user|auth_group|auth_group_inheritance|auth_group_bubble
 	const auth_all = 31 ;
 	const auth_default = self::auth_all ;
 	
@@ -68,10 +69,10 @@ class PurviewQuery extends Object
 		}
 		
 		// 最后检查特殊权限"平台管理员"，该权限可涵盖所有系统中的权限
-		/*if( ($nAuthLevel&self::auth_platform_admin)==self::auth_platform_admin and ($sNamespace!='coresystem' or $sPurviewName!=Id::PLATFORM_ADMIN) )
+		if( ($nAuthLevel&self::auth_platform_admin)==self::auth_platform_admin and ($sNamespace!='coresystem' or $sPurviewName!=Id::PLATFORM_ADMIN) )
 		{
 			return $this->hasPurview($uid,'coresystem',Id::PLATFORM_ADMIN,$target,self::auth_all) ;
-		}*/
+		}
 		
 		return false ;
 	}

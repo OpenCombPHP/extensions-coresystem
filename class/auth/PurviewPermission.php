@@ -87,6 +87,6 @@ class PurviewPermission extends PermissionBase
 	private $sPurviewName ;
 	private $sPurviewNamespace ;
 	private $purviewTarget ;
-	private $nQueryFlag = PurviewQuery::auth_default ;
+	private $nQueryFlag = PurviewQuery::auth_common ;
 }
 

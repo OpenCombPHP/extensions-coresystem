@@ -1,6 +1,7 @@
 <?php
 namespace org\opencomb\coresystem\auth ;
 
+use org\jecat\framework\auth\IPermission;
 use org\jecat\framework\auth\GroupPermission;
 use org\jecat\framework\auth\Authorizer as JcAuthorizer ;
 

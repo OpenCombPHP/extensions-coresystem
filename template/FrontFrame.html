@@ -7,13 +7,14 @@
 <div class="frontframe-header">
 	<p class="frontframe-othernav">
 	<if "$aId=\org\jecat\framework\auth\IdManager::singleton()->currentId()">
-		Hi, {=$aId->username()} | 
+		Hi, {=$aId->username()}
 		<if "\org\opencomb\coresystem\auth\PurviewQuery::singleton()->hasPurview($aId,\org\opencomb\coresystem\auth\Id::PLATFORM_ADMIN,'coresystem')">
-			<a href="?c=control.panel">平台管理</a>
+			| <a href="?c=control.panel">平台管理</a>
 		</if>
+		| <a href="?c=logout">退出</a>
 	<else />
 		<a href="?c=login">登录</a>
-	</if> | <a href="?c=logout">退出</a>
+	</if>
 	</p>
 	<h1><a href="#" class="frontframe-logo">OpenComb</a></h1>
 </div>
