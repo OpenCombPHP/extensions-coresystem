@@ -8,7 +8,7 @@ use org\opencomb\platform\ext\ExtensionMetainfo ;
 use org\jecat\framework\fs\FileSystem ;
 use org\jecat\framework\fs\IFile ;
 use org\jecat\framework\fs\IFolder ;
-use org\opencomb\platform\ext\ExtensionSetup ;
+use org\opencomb\platform\ext\ExtensionSetup as ExtensionSetupOperator ;;
 use org\jecat\framework\lang\Exception ;
 use org\opencomb\platform\system\PlatformSerializer ;
 use org\opencomb\platform\Platform ;
@@ -91,7 +91,7 @@ class ExtensionSetupFunctions
 	public function installPackage(IFolder $aExtFolder){
 		// 安装
 		try{
-			$aExtMeta = ExtensionSetup::singleton()->install($aExtFolder , $this->aMessageQueue ) ;
+			$aExtMeta = ExtensionSetupOperator::singleton()->install($aExtFolder , $this->aMessageQueue ) ;
 		
 			$this->aMessageQueue->create(
 					Message::success
@@ -114,7 +114,7 @@ class ExtensionSetupFunctions
 		$sName = $aExtMeta->name() ;
 		// 激活
 		try{
-			ExtensionSetup::singleton()->enable($sName) ;
+			ExtensionSetupOperator::singleton()->enable($sName) ;
 			
 			$this->aMessageQueue->create(
 					Message::success
