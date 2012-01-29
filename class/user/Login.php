@@ -53,7 +53,7 @@ class Login extends Controller
 				break ;
 			}
 				
-			if( $this->modelUser->password != Id::encryptPassword($this->params['username'],$this->params['password']) )
+			if( $this->modelUser->password != Id::encryptPassword($this->modelUser,$this->params['username'],$this->params['password']) )
 			{
 				$this->login->createMessage(Message::failed,"密码错误，请检查键盘大小写状态") ;
 				break ;

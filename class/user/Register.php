@@ -52,7 +52,7 @@ class Register extends Controller
             	$this->modelUser->setData('registerIp',$_SERVER['REMOTE_ADDR']) ;
             	$this->modelUser->setData('info.nickname',$this->modelUser->username) ;
             	
-            	$sPassword = Id::encryptPassword($this->modelUser->username,$this->viewRegister->widget('password')->value()) ;
+            	$sPassword = Id::encryptPassword($this->modelUser,$this->modelUser->username,$this->viewRegister->widget('password')->value()) ;
             	$this->modelUser->setData('password',$sPassword) ;
 
             	try {
