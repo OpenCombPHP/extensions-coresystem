@@ -7,7 +7,6 @@ use org\opencomb\coresystem\mvc\controller\ControlPanel;
 
 class AdminUsers extends ControlPanel
 {
-
 	public function createBeanConfig()
 	{
 		return array(
@@ -27,7 +26,7 @@ class AdminUsers extends ControlPanel
 				'template' => 'AdminUsers.html' ,
 				'class' => 'form' ,
 				'model' => 'users' ,
-				'widget:paginator' => array(
+				'widget:paginator' => array(    //分页器bean配置方法
 					'class' => 'paginator' ,
 				) 
 			) ,
