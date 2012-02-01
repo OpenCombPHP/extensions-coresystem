@@ -132,9 +132,9 @@ class Controller extends JcController
 		throw new AuthenticationException($this,$sDenyMessage,$arrDenyArgvs) ;
 	}
 
-    public function createFrame()
+    protected function defaultFrameConfig()
     {
-    	return new FrontFrame($this->params()) ;
+    	return array('class'=>'org\\opencomb\\coresystem\\mvc\\controller\\FrontFrame') ;
     }
     
     public function renderMainView(IView $aMainView)

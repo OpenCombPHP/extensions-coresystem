@@ -7,9 +7,9 @@ use org\jecat\framework\mvc\view\Webpage;
 
 class ControlPanel extends Controller
 {
-    public function createFrame()
+    protected function defaultFrameConfig()
     {
-    	return new ControlPanelFrame($this->params()) ;
+    	return array('class'=>'org\\opencomb\\coresystem\\mvc\\controller\\ControlPanelFrame') ;
     }
     
     protected function setupWebpageHtmlHead(Webpage $aWebpage)
