@@ -28,5 +28,4 @@ class ControlPanelFrame extends WebpageFrame
 		return parent::buildBean($arrConfig,$sNamespace) ;
 	}
 }
-
 ?>
