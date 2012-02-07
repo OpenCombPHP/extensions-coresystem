@@ -23,6 +23,7 @@ class CoreSystem extends Extension
 		// bean class alias
 		BeanFactory::singleton()->registerBeanClass("org\\opencomb\\coresystem\\auth\\Authorizer",'authorizer') ;
 		BeanFactory::singleton()->registerBeanClass("org\\opencomb\\coresystem\\auth\\PurviewPermission",'perm.purview') ;
+		BeanFactory::singleton()->registerBeanClass("org\\opencomb\\coresystem\\widget\\NameCard",'namecard') ;
 	}
 	
 	public function active(Platform $aPlatform)
