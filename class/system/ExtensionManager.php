@@ -7,6 +7,7 @@ use org\jecat\framework\message\Message ;
 use org\opencomb\platform\ext\ExtensionSetup ;
 use org\jecat\framework\lang\Exception;
 use org\opencomb\platform\system\PlatformSerializer;
+use org\opencomb\platform\Platform;
 use org\opencomb\platform\ext\dependence\RequireItem ;
 
 class ExtensionManager extends ControlPanel
@@ -77,10 +78,10 @@ class ExtensionManager extends ControlPanel
 		
 		try{
 			$this->recursivelyUninstall($sExtName , $sCode ,$sData);
-			PlatformSerializer::singleton()->clearRestoreCache();
 		}catch(Exception $e){
 			$this->view->createMessage(Message::error,$e->getMessage(),$e->messageArgvs()) ;
 		}
+		PlatformSerializer::singleton()->clearRestoreCache();
 		$this->location('/?c=org.opencomb.coresystem.system.ExtensionManager',3);
 	}
 	
@@ -219,8 +220,7 @@ class ExtensionManager extends ControlPanel
 			}
 		}
 		
-		$aExtensionSetup->disable($sExtName);
-		$aExtensionSetup->uninstall($sExtName , $sData);
+		$aExtensionSetup->uninstall($sExtName , $sCode ,$sData);
 		$this->view->createMessage(Message::success,'卸载 `%s` 成功',array($sExtName)) ;
 	}
 	
