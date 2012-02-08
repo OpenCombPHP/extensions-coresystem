@@ -3,6 +3,9 @@
 .warning{
 	color:red;
 }
+.notice{
+	color:blue;
+}
 .selectUnistallType{
 	display:none;
 }
@@ -21,9 +24,13 @@
 .ulDepByList{
 	padding-left:20px;
 }
+.ulDepList{
+	padding-left:20px;
+}
 </style>
 <script type='text/javascript'>
 var arrDependenceBy={=json_encode($arrDependenceBy)};
+var arrEnableState={=json_encode($arrEnableState)};
 function changePriority(name,priority){
 	window.location='/?c=org.opencomb.coresystem.system.ExtensionManager&act=changePriority&name='+name+'&priority='+priority;
 }
@@ -87,11 +94,15 @@ function getDependenceByRecursively(sExtName){
 	str += '<ul class="ulDepByList">';
 	for(var i=0;i<arrDependenceBy[sExtName].length;++i){
 		var sDepByExtName = arrDependenceBy[sExtName][i];
-		str += '<li>'+sDepByExtName;
-		if(typeof(arrDependenceBy[sDepByExtName]) != 'undefined'){
-			str += getDependenceByRecursively(sDepByExtName);
+		
+		// 不包含未启用的扩展
+		if(arrEnableState[sDepByExtName]){
+			str += '<li>'+sDepByExtName;
+			if(typeof(arrDependenceBy[sDepByExtName]) != 'undefined'){
+				str += getDependenceByRecursively(sDepByExtName);
+			}
+			str += '</li>';
 		}
-		str += '</li>';
 	}
 	str += '</ul>';
 	return str;
@@ -133,6 +144,63 @@ function disableExtension(sExtName){
 		bgiframe:true,
 		title:'确认禁用'
 	});
+}
+</script>
+<div id="dialogEnable" class="dialog">
+	<div class="notice depnotice">
+		将会激活以下扩展：
+		<div class="depBlock">
+			<ul class="ulDepList">
+			</ul>
+		</div>
+	</div>
+</div>
+<script type='text/javascript'>
+var arrDependence = {=json_encode($arrDependence)};
+function enableExtension(sExtName){
+	var objDialog = jQuery('#dialogEnable');
+	var divDep = objDialog.find('.depnotice');
+	var objDepList = objDialog.find('.depBlock');
+	
+	objDepList.empty();
+	if( typeof(arrDependence[sExtName]) == 'undefined'){
+		divDep.css('display','none');
+	}else{
+		divDep.css('display','block');
+		objDepList.append(getDependenceRecursively(sExtName));
+	}
+	
+	objDialog.dialog({
+		buttons:{
+			'确定':function(){
+				window.location='/?c=org.opencomb.coresystem.system.ExtensionManager&act=enable&name='+sExtName;
+				jQuery(this).dialog('close');
+			},
+			'取消':function(){
+				jQuery(this).dialog('close');
+			}
+		},
+		bgiframe:true,
+		title:'确认激活'
+	});
+}
+function getDependenceRecursively(sExtName){
+	var str = '';
+	str += '<ul class="ulDepList">';
+	for(var i=0;i<arrDependence[sExtName].length;++i){
+		var sDepByExtName = arrDependence[sExtName][i];
+		
+		// 不包含已启用的扩展
+		if(!arrEnableState[sDepByExtName]){
+			str += '<li>'+sDepByExtName;
+			if(typeof(arrDependence[sDepByExtName]) != 'undefined'){
+				str += getDependenceRecursively(sDepByExtName);
+			}
+			str += '</li>';
+		}
+	}
+	str += '</ul>';
+	return str;
 }
 </script>
 <msgqueue />
@@ -187,7 +255,7 @@ function disableExtension(sExtName){
 			<td>{=$aExtensionMetainfo->title()}</td>
 			<td>{=$aExtensionMetainfo->version()}</td>
 			<td>
-				<a href='/?c=org.opencomb.coresystem.system.ExtensionManager&act=enable&name={=$aExtensionMetainfo->name()}'>启用</a>
+				<a href='#' onclick='enableExtension("{=$aExtensionMetainfo->name()}")'>启用</a>
 			</td>
 		</tr>
 	</foreach>

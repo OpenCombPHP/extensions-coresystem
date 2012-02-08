@@ -34,6 +34,9 @@ class ExtensionManager extends ControlPanel
 		{
 			$arrEnabledExtensions[$aExtension->metainfo()->name()] = $aExtension ;
 			$arrPriority[$aExtension->metainfo()->priority()][] = $aExtension->metainfo()->name();
+			
+			$sExtName = $aExtension->metainfo()->name() ;
+			$arrEnableState[$sExtName] = true;
 		}
 		
 		// 禁用的扩展
@@ -42,11 +45,16 @@ class ExtensionManager extends ControlPanel
 		{
 			if(!isset($arrEnabledExtensions[$aExtensionMetainfo->name()]))
 			{
+				$sExtName = $aExtensionMetainfo->name() ;
 				$arrDisabledExtensionMetainfos[] = $aExtensionMetainfo ;
+				
+				$arrEnableState[$sExtName] = false;
 			}
 		}
 		
 		// dependence
+		$arrDependence = $this->getDependence();
+		
 		$arrDependenceBy = $this->getDependenceBy() ;
 		$arrDependenceByRecursively = array() ;
 		foreach($arrDependenceBy as $sExtName => $v){
@@ -56,7 +64,9 @@ class ExtensionManager extends ControlPanel
 		$this->view->variables()->set('arrPriority',$arrPriority);
 		$this->view->variables()->set('arrEnabledExtensions',$arrEnabledExtensions) ;
 		$this->view->variables()->set('arrDisabledExtensionMetainfos',$arrDisabledExtensionMetainfos) ;
+		$this->view->variables()->set('arrDependence',$arrDependence);
 		$this->view->variables()->set('arrDependenceBy',$arrDependenceBy);
+		$this->view->variables()->set('arrEnableState',$arrEnableState);
 	}
 	
 	public function actionDisable(){
@@ -113,9 +123,9 @@ class ExtensionManager extends ControlPanel
 		if( null === $this->arrDependenceBy ){
 			$aExtMgr = ExtensionManagerOperator::singleton() ;
 			$this->arrDependenceBy = array();
-			foreach($aExtMgr->iterator() as $aExtension){
-				$sExtName = $aExtension->metainfo()->name();
-				foreach($aExtension->metainfo()->dependence()->iterator() as $aRequireItem){
+			foreach($aExtMgr->metainfoIterator() as $aExtMetainfo){
+				$sExtName = $aExtMetainfo->name();
+				foreach($aExtMetainfo->dependence()->iterator() as $aRequireItem){
 					if( $aRequireItem->type() === RequireItem::TYPE_EXTENSION ){
 						$sItemName = $aRequireItem->itemName();
 						if( !isset($this->arrDependenceBy[$sItemName] ) ){
@@ -175,8 +185,10 @@ class ExtensionManager extends ControlPanel
 		$arrDepBy = $this->getDependenceBy() ;
 		if(isset($arrDepBy[$sExtName])){
 			foreach($arrDepBy[$sExtName] as $sDepByExtName){
-				$this->view->createMessage(Message::notice, '发现被扩展 `%s` 依赖',array($sDepByExtName));
-				$this->recursivelyDisable($sDepByExtName);
+				if($this->isExtensionEnabled($sDepByExtName)){
+					$this->view->createMessage(Message::notice, '发现被扩展 `%s` 依赖',array($sDepByExtName));
+					$this->recursivelyDisable($sDepByExtName);
+				}
 			}
 		}
 		$aExtensionSetup->disable($sExtName);
@@ -199,7 +211,6 @@ class ExtensionManager extends ControlPanel
 	
 	private function isExtensionEnabled($sExtName){
 		$aExtMgr = ExtensionManagerOperator::singleton() ;
-		
 		foreach($aExtMgr->enableExtensionNameIterator() as $enableExtensionName){
 			if($enableExtensionName == $sExtName){
 				return true;
