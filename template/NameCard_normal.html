@@ -1,3 +1,10 @@
-<if '$theWidget->model()'>
-normal
+<div class='namecard_normal'>
+{? $aModel = $theWidget->model()}
+<if '$aModel'>
+	<div class='namecard_normal_card_face'>
+		<img src='{=$theWidget->faceUrl()}'/>
+	</div>
+	<div class='namecard_normal_card_name'>
+	</div>
 </if>
+</div>

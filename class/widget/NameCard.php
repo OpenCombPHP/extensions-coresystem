@@ -1,6 +1,10 @@
 <?php
 namespace org\opencomb\coresystem\widget;
 
+use org\opencomb\platform\ext\Extension;
+
+use org\jecat\framework\auth\IdManager;
+
 use org\jecat\framework\io\IOutputStream;
 use org\jecat\framework\util\IHashTable;
 use org\jecat\framework\ui\UI;
@@ -87,6 +91,13 @@ class NameCard extends Widget {
 		if($sTemplateName = $this->attribute('template')){
 			$this->setTemplateName($sTemplateName);
 		}
+		if($nId = (int)$this->attribute('id')){
+			$this->setId($nId);
+		}
+		if($bMine = (bool)$this->attribute('mine')){
+			$this->setMine($bMine);
+			$this->setModel(IdManager::singleton()->currentId()->model());
+		}
 		parent::display($aUI, $aVariables,$aDevice);
 	}
 	
@@ -99,9 +110,6 @@ class NameCard extends Widget {
 			case 'coresystem:NameCard_normal.html':
 				$sTemplateName = 'normal';
 				break;
-			case 'coresystem:NameCard_full.html':
-				$sTemplateName = 'full';
-				break;
 		}
 		return $sTemplateName;
 	}
@@ -113,12 +121,17 @@ class NameCard extends Widget {
 			case 'normal':
 				$this->setTemplateName('coresystem:NameCard_normal.html');
 				break;
-			case 'full':
-				$this->setTemplateName('coresystem:NameCard_full.html');
-				break;
 			default:
 				$this->setTemplateName('coresystem:NameCard_normal.html');
 		}
+	}
+	
+	public function setId($nId){
+		$this->nId = $nId;
+	}
+	
+	public function id(){
+		return $this->nId;
 	}
 	
 	//使用正在登录中的ID来显示名片
@@ -134,15 +147,15 @@ class NameCard extends Widget {
 	 * 取得头像地址
 	 * @throws Exception 如果模型中没有需要的列
 	 */
-	public function face()
+	public function faceUrl()
 	{
-		//检查需要的列是否存在,目前支持头像地址(face), 以后支持更多
-		if(!$this->aModel->hasData('info.face'))
+		//检查需要的列是否存在,目前支持头像地址(avatar), 以后支持更多
+		if(!$this->aModel['info.avatar'])
 		{
 			$sFaceUrl = '/platform/ui/images/viewimg/xshd01.jpg';
 		}else
 		{
-			$sFaceUrl = CoreUser::getFaceFolder()->path() . '/' . $this->aModel->data('info.face');
+			$sFaceUrl = Extension::flyweight('coresystem')->publicFolder()->path() . '/avatar/' . $this->aModel['info.avatar'] ;
 		}
 		return $sFaceUrl;
 	}
@@ -153,6 +166,7 @@ class NameCard extends Widget {
 	 */
 	private $aModel;
 	private $bMine = false;
+	private $nId;
 }
 
 ?>
