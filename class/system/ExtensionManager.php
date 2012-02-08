@@ -74,10 +74,10 @@ class ExtensionManager extends ControlPanel
 		
 		try{
 			$this->recursivelyDisable($sExtName);
-			PlatformSerializer::singleton()->clearRestoreCache();
 		}catch(Exception $e){
 			$this->view->createMessage(Message::error,$e->getMessage(),$e->messageArgvs()) ;
 		}
+		PlatformSerializer::singleton()->clearRestoreCache();
 		$this->location('/?c=org.opencomb.coresystem.system.ExtensionManager',3);
 	}
 	
@@ -112,10 +112,10 @@ class ExtensionManager extends ControlPanel
 		$sExtName = $this->params['name'];
 		try{
 			$this->recursivelyEnable($sExtName);
-			PlatformSerializer::singleton()->clearRestoreCache();
 		}catch(Exception $e){
 			$this->view->createMessage(Message::error,$e->getMessage(),$e->messageArgvs()) ;
 		}
+		PlatformSerializer::singleton()->clearRestoreCache();
 		$this->location('/?c=org.opencomb.coresystem.system.ExtensionManager',3);
 	}
 	
