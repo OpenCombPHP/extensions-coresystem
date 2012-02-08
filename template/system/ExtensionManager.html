@@ -1,8 +1,5 @@
 <lib name="jquery.ui" />
 <style>
-.dep{
-	padding-left:20px;
-}
 .warning{
 	color:red;
 }
@@ -18,16 +15,44 @@
 .selectDisableTypeItem{
 	padding-left:20px;
 }
-#dialog{
+.dialog{
 	display:none;
+}
+.ulDepByList{
+	padding-left:20px;
 }
 </style>
 <script type='text/javascript'>
+var arrDependenceBy={=json_encode($arrDependenceBy)};
 function changePriority(name,priority){
 	window.location='/?c=org.opencomb.coresystem.system.ExtensionManager&act=changePriority&name='+name+'&priority='+priority;
 }
-function selectUnistallType(o,sExtName){
-	jQuery('#dialog').dialog({
+</script>
+<div id="dialogUninstall" class="dialog">
+	<div class="warning dep">
+		将会卸载以下扩展：
+		<div class='depByList'>
+		</div>
+	</div>
+	<input type='checkbox' name='code' />清除源代码
+	<br />
+	<input type='checkbox' name='data' />清除数据
+</div>
+<script type='text/javascript'>
+function unistallExtension(sExtName){
+	var objDialog = jQuery('#dialogUninstall');
+	var divDep = objDialog.find('.dep');
+	var objDepByList = objDialog.find('.depByList');
+	
+	objDepByList.empty();
+	if( typeof(arrDependenceBy[sExtName]) == 'undefined'){
+		divDep.css('display','none');
+	}else{
+		divDep.css('display','block');
+		objDepByList.append(getDependenceByRecursively(sExtName));
+	}
+	
+	objDialog.dialog({
 		buttons:{
 			'确定':function(){
 				jQuery(this).dialog('close');
@@ -54,7 +79,59 @@ function selectUnistallType(o,sExtName){
 			}
 		},
 		bgiframe:true,
-		title:'是否保留数据'
+		title:'选择卸载方式'
+	});
+}
+function getDependenceByRecursively(sExtName){
+	var str = '';
+	str += '<ul class="ulDepByList">';
+	for(var i=0;i<arrDependenceBy[sExtName].length;++i){
+		var sDepByExtName = arrDependenceBy[sExtName][i];
+		str += '<li>'+sDepByExtName;
+		if(typeof(arrDependenceBy[sDepByExtName]) != 'undefined'){
+			str += getDependenceByRecursively(sDepByExtName);
+		}
+		str += '</li>';
+	}
+	str += '</ul>';
+	return str;
+}
+</script>
+<div id="dialogDisable" class="dialog">
+	<div class="warning depwarning">
+		将会禁用以下扩展：
+		<div class="depbyBlock">
+			<ul class="ulDepByList">
+			</ul>
+		</div>
+	</div>
+</div>
+<script type='text/javascript'>
+function disableExtension(sExtName){
+	var objDialog = jQuery('#dialogDisable');
+	var divDep = objDialog.find('.depwarning');
+	var objDepByList = objDialog.find('.depbyBlock');
+	
+	objDepByList.empty();
+	if( typeof(arrDependenceBy[sExtName]) == 'undefined'){
+		divDep.css('display','none');
+	}else{
+		divDep.css('display','block');
+		objDepByList.append(getDependenceByRecursively(sExtName));
+	}
+	
+	objDialog.dialog({
+		buttons:{
+			'确定':function(){
+				window.location='/?c=org.opencomb.coresystem.system.ExtensionManager&act=disable&name='+sExtName;
+				jQuery(this).dialog('close');
+			},
+			'取消':function(){
+				jQuery(this).dialog('close');
+			}
+		},
+		bgiframe:true,
+		title:'确认禁用'
 	});
 }
 </script>
@@ -81,20 +158,10 @@ function selectUnistallType(o,sExtName){
 				</if>
 			</td>
 			<td>
-				<a href='/?c=org.opencomb.coresystem.system.ExtensionManager&act=disable&name={=$sExtName}'>禁用</a>
-				<if 'isset($arrDependenceBy[$sExtName])'>
-					<div class="recursionDisableList warning">
-						将会禁用以下扩展：
-						<ul>
-							<foreach for='$arrDependenceBy[$sExtName]' item='sDepName'>
-								<li>{=$sDepName}</li>
-							</foreach>
-						</ul>
-					</div>
-				</if>
+				<a href='#' onclick="disableExtension('{=$sExtName}')">禁用</a>
 			</td>
 			<td>
-				<a href='#' onclick="selectUnistallType(this,'{=$sExtName}')">卸载</a>
+				<a href='#' onclick="unistallExtension('{=$sExtName}')">卸载</a>
 			</td>
 			<td>
 				更改优先级<select onchange="changePriority('{=$sExtName}',this.value)">
@@ -111,11 +178,6 @@ function selectUnistallType(o,sExtName){
 	</foreach>
 	</table>
 </foreach>
-<div id="dialog">
-	<input type='checkbox' name='code' />清除源代码
-	<br />
-	<input type='checkbox' name='data' />清除数据
-</div>
 <h2>禁用的扩展</h2>
 <table>
 	<tr><th>name</th><th>title</th><th>version</th><th>启用</th></tr>

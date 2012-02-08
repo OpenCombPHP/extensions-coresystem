@@ -56,7 +56,7 @@ class ExtensionManager extends ControlPanel
 		$this->view->variables()->set('arrPriority',$arrPriority);
 		$this->view->variables()->set('arrEnabledExtensions',$arrEnabledExtensions) ;
 		$this->view->variables()->set('arrDisabledExtensionMetainfos',$arrDisabledExtensionMetainfos) ;
-		$this->view->variables()->set('arrDependenceBy',$arrDependenceByRecursively);
+		$this->view->variables()->set('arrDependenceBy',$arrDependenceBy);
 	}
 	
 	public function actionDisable(){
