@@ -7,6 +7,7 @@ use org\jecat\framework\message\Message ;
 use org\opencomb\platform\ext\ExtensionSetup ;
 use org\jecat\framework\lang\Exception;
 use org\opencomb\platform\system\PlatformSerializer;
+use org\opencomb\platform\Platform;
 use org\opencomb\platform\ext\dependence\RequireItem ;
 
 class ExtensionManager extends ControlPanel
@@ -32,7 +33,10 @@ class ExtensionManager extends ControlPanel
 		foreach($aExtMgr->iterator() as $aExtension)
 		{
 			$arrEnabledExtensions[$aExtension->metainfo()->name()] = $aExtension ;
-			$arrPriority[$aExtension->metainfo()->priority()][] = $aExtension->metainfo()->name();
+			$arrPriority[$aExtension->runtimePriority()][] = $aExtension->metainfo()->name();
+			
+			$sExtName = $aExtension->metainfo()->name() ;
+			$arrEnableState[$sExtName] = true;
 		}
 		
 		// 禁用的扩展
@@ -41,11 +45,16 @@ class ExtensionManager extends ControlPanel
 		{
 			if(!isset($arrEnabledExtensions[$aExtensionMetainfo->name()]))
 			{
+				$sExtName = $aExtensionMetainfo->name() ;
 				$arrDisabledExtensionMetainfos[] = $aExtensionMetainfo ;
+				
+				$arrEnableState[$sExtName] = false;
 			}
 		}
 		
 		// dependence
+		$arrDependence = $this->getDependence();
+		
 		$arrDependenceBy = $this->getDependenceBy() ;
 		$arrDependenceByRecursively = array() ;
 		foreach($arrDependenceBy as $sExtName => $v){
@@ -55,7 +64,9 @@ class ExtensionManager extends ControlPanel
 		$this->view->variables()->set('arrPriority',$arrPriority);
 		$this->view->variables()->set('arrEnabledExtensions',$arrEnabledExtensions) ;
 		$this->view->variables()->set('arrDisabledExtensionMetainfos',$arrDisabledExtensionMetainfos) ;
-		$this->view->variables()->set('arrDependenceBy',$arrDependenceByRecursively);
+		$this->view->variables()->set('arrDependence',$arrDependence);
+		$this->view->variables()->set('arrDependenceBy',$arrDependenceBy);
+		$this->view->variables()->set('arrEnableState',$arrEnableState);
 	}
 	
 	public function actionDisable(){
@@ -63,26 +74,25 @@ class ExtensionManager extends ControlPanel
 		
 		try{
 			$this->recursivelyDisable($sExtName);
-			PlatformSerializer::singleton()->clearRestoreCache();
-			$this->arrDependenceBy = null ;
-			$this->location('/?c=org.opencomb.coresystem.system.ExtensionManager',3);
 		}catch(Exception $e){
 			$this->view->createMessage(Message::error,$e->getMessage(),$e->messageArgvs()) ;
 		}
+		PlatformSerializer::singleton()->clearRestoreCache();
+		$this->location('/?c=org.opencomb.coresystem.system.ExtensionManager',3);
 	}
 	
 	public function actionUninstall(){
 		$sExtName = $this->params['name'];
-		$sType = $this->params['type'];
+		$sCode = $this->params['code'];
+		$sData = $this->params['data'];
 		
-		$this->view->createMessage(Message::notice, '卸载扩展 ： %s ，方式 ： %s',array($sExtName,$sType));
-		$aExtensionSetup = ExtensionSetup::singleton();
 		try{
-			$aExtensionSetup->uninstall($sExtName,$sType);
-			$this->view->createMessage(Message::success,'卸载成功') ;
+			$this->recursivelyUninstall($sExtName , $sCode ,$sData);
 		}catch(Exception $e){
 			$this->view->createMessage(Message::error,$e->getMessage(),$e->messageArgvs()) ;
 		}
+		PlatformSerializer::singleton()->clearRestoreCache();
+		$this->location('/?c=org.opencomb.coresystem.system.ExtensionManager',3);
 	}
 	
 	public function actionChangePriority(){
@@ -93,30 +103,32 @@ class ExtensionManager extends ControlPanel
 		$aExtensionSetup = ExtensionSetup::singleton();
 		try{
 			$aExtensionSetup->changePriority($sExtName,$nNewPriority);
+			PlatformSerializer::singleton()->clearRestoreCache();
+			$this->view->createMessage(Message::success,'成功修改扩展 `%s` 的优先级为 `%d`',array($sExtName,$nNewPriority));
 		}catch(Exception $e){
 			$this->view->createMessage(Message::error,$e->getMessage(),$e->messageArgvs()) ;
 		}
+		$this->location('/?c=org.opencomb.coresystem.system.ExtensionManager',3);
 	}
 	
 	public function actionEnable(){
 		$sExtName = $this->params['name'];
 		try{
 			$this->recursivelyEnable($sExtName);
-			PlatformSerializer::singleton()->clearRestoreCache();
-			$this->arrDependenceBy = null ;
-			$this->location('/?c=org.opencomb.coresystem.system.ExtensionManager',3);
 		}catch(Exception $e){
 			$this->view->createMessage(Message::error,$e->getMessage(),$e->messageArgvs()) ;
 		}
+		PlatformSerializer::singleton()->clearRestoreCache();
+		$this->location('/?c=org.opencomb.coresystem.system.ExtensionManager',3);
 	}
 	
 	private function getDependenceBy(){
 		if( null === $this->arrDependenceBy ){
 			$aExtMgr = ExtensionManagerOperator::singleton() ;
 			$this->arrDependenceBy = array();
-			foreach($aExtMgr->iterator() as $aExtension){
-				$sExtName = $aExtension->metainfo()->name();
-				foreach($aExtension->metainfo()->dependence()->iterator() as $aRequireItem){
+			foreach($aExtMgr->metainfoIterator() as $aExtMetainfo){
+				$sExtName = $aExtMetainfo->name();
+				foreach($aExtMetainfo->dependence()->iterator() as $aRequireItem){
 					if( $aRequireItem->type() === RequireItem::TYPE_EXTENSION ){
 						$sItemName = $aRequireItem->itemName();
 						if( !isset($this->arrDependenceBy[$sItemName] ) ){
@@ -176,8 +188,10 @@ class ExtensionManager extends ControlPanel
 		$arrDepBy = $this->getDependenceBy() ;
 		if(isset($arrDepBy[$sExtName])){
 			foreach($arrDepBy[$sExtName] as $sDepByExtName){
-				$this->view->createMessage(Message::notice, '发现被扩展 `%s` 依赖',array($sDepByExtName));
-				$this->recursivelyDisable($sDepByExtName);
+				if($this->isExtensionEnabled($sDepByExtName)){
+					$this->view->createMessage(Message::notice, '发现被扩展 `%s` 依赖',array($sDepByExtName));
+					$this->recursivelyDisable($sDepByExtName);
+				}
 			}
 		}
 		$aExtensionSetup->disable($sExtName);
@@ -200,13 +214,28 @@ class ExtensionManager extends ControlPanel
 	
 	private function isExtensionEnabled($sExtName){
 		$aExtMgr = ExtensionManagerOperator::singleton() ;
-		
 		foreach($aExtMgr->enableExtensionNameIterator() as $enableExtensionName){
 			if($enableExtensionName == $sExtName){
 				return true;
 			}
 		}
 		return false;
+	}
+	
+	private function recursivelyUninstall($sExtName,$sCode ,$sData){
+		$this->view->createMessage(Message::notice, '卸载扩展 ： %s , 代码 ： %s , 数据 ： %s',array($sExtName,$sCode,$sData));
+		$aExtensionSetup = ExtensionSetup::singleton();
+		
+		$arrDepBy = $this->getDependenceBy() ;
+		if(isset($arrDepBy[$sExtName])){
+			foreach($arrDepBy[$sExtName] as $sDepByExtName){
+				$this->view->createMessage(Message::notice, '发现被扩展 `%s` 依赖',array($sDepByExtName));
+				$this->recursivelyUninstall($sDepByExtName , $sCode ,$sData);
+			}
+		}
+		
+		$aExtensionSetup->uninstall($sExtName , $sCode ,$sData);
+		$this->view->createMessage(Message::success,'卸载 `%s` 成功',array($sExtName)) ;
 	}
 	
 	private $arrDependenceBy = null ;

@@ -1,9 +1,10 @@
+<lib name="jquery.ui" />
 <style>
-.dep{
-	padding-left:20px;
-}
 .warning{
 	color:red;
+}
+.notice{
+	color:blue;
 }
 .selectUnistallType{
 	display:none;
@@ -17,10 +18,189 @@
 .selectDisableTypeItem{
 	padding-left:20px;
 }
+.dialog{
+	display:none;
+}
+.ulDepByList{
+	padding-left:20px;
+}
+.ulDepList{
+	padding-left:20px;
+}
 </style>
 <script type='text/javascript'>
+var arrDependenceBy={=json_encode($arrDependenceBy)};
+var arrEnableState={=json_encode($arrEnableState)};
 function changePriority(name,priority){
 	window.location='/?c=org.opencomb.coresystem.system.ExtensionManager&act=changePriority&name='+name+'&priority='+priority;
+}
+</script>
+<div id="dialogUninstall" class="dialog">
+	<div class="warning dep">
+		将会卸载以下扩展：
+		<div class='depByList'>
+		</div>
+	</div>
+	<input type='checkbox' name='code' />清除源代码
+	<br />
+	<input type='checkbox' name='data' />清除数据
+</div>
+<script type='text/javascript'>
+function unistallExtension(sExtName){
+	var objDialog = jQuery('#dialogUninstall');
+	var divDep = objDialog.find('.dep');
+	var objDepByList = objDialog.find('.depByList');
+	
+	objDepByList.empty();
+	if( typeof(arrDependenceBy[sExtName]) == 'undefined'){
+		divDep.css('display','none');
+	}else{
+		divDep.css('display','block');
+		objDepByList.append(getDependenceByRecursively(sExtName));
+	}
+	
+	objDialog.dialog({
+		buttons:{
+			'确定':function(){
+				jQuery(this).dialog('close');
+				var code = jQuery(this).find('input[name="code"]').attr('checked');
+				console.log(code);
+				var sCode = '';
+				if(code=='checked'){
+					sCode = 'remove';
+				}else{
+					sCode = 'keep';
+				}
+				var data = jQuery(this).find('input[name="data"]').attr('checked');
+				console.log(data);
+				var sData = '';
+				if(data=='checked'){
+					sData = 'remove';
+				}else{
+					sData = 'keep';
+				}
+				window.location='/?c=org.opencomb.coresystem.system.ExtensionManager&act=uninstall&name='+sExtName+'&code='+sCode+'&data='+sData;
+			},
+			'取消':function(){
+				jQuery(this).dialog('close');
+			}
+		},
+		bgiframe:true,
+		title:'选择卸载方式'
+	});
+}
+function getDependenceByRecursively(sExtName){
+	var str = '';
+	str += '<ul class="ulDepByList">';
+	for(var i=0;i<arrDependenceBy[sExtName].length;++i){
+		var sDepByExtName = arrDependenceBy[sExtName][i];
+		
+		// 不包含未启用的扩展
+		if(arrEnableState[sDepByExtName]){
+			str += '<li>'+sDepByExtName;
+			if(typeof(arrDependenceBy[sDepByExtName]) != 'undefined'){
+				str += getDependenceByRecursively(sDepByExtName);
+			}
+			str += '</li>';
+		}
+	}
+	str += '</ul>';
+	return str;
+}
+</script>
+<div id="dialogDisable" class="dialog">
+	<div class="warning depwarning">
+		将会禁用以下扩展：
+		<div class="depbyBlock">
+			<ul class="ulDepByList">
+			</ul>
+		</div>
+	</div>
+</div>
+<script type='text/javascript'>
+function disableExtension(sExtName){
+	var objDialog = jQuery('#dialogDisable');
+	var divDep = objDialog.find('.depwarning');
+	var objDepByList = objDialog.find('.depbyBlock');
+	
+	objDepByList.empty();
+	if( typeof(arrDependenceBy[sExtName]) == 'undefined'){
+		divDep.css('display','none');
+	}else{
+		divDep.css('display','block');
+		objDepByList.append(getDependenceByRecursively(sExtName));
+	}
+	
+	objDialog.dialog({
+		buttons:{
+			'确定':function(){
+				window.location='/?c=org.opencomb.coresystem.system.ExtensionManager&act=disable&name='+sExtName;
+				jQuery(this).dialog('close');
+			},
+			'取消':function(){
+				jQuery(this).dialog('close');
+			}
+		},
+		bgiframe:true,
+		title:'确认禁用'
+	});
+}
+</script>
+<div id="dialogEnable" class="dialog">
+	<div class="notice depnotice">
+		将会激活以下扩展：
+		<div class="depBlock">
+			<ul class="ulDepList">
+			</ul>
+		</div>
+	</div>
+</div>
+<script type='text/javascript'>
+var arrDependence = {=json_encode($arrDependence)};
+function enableExtension(sExtName){
+	var objDialog = jQuery('#dialogEnable');
+	var divDep = objDialog.find('.depnotice');
+	var objDepList = objDialog.find('.depBlock');
+	
+	objDepList.empty();
+	if( typeof(arrDependence[sExtName]) == 'undefined'){
+		divDep.css('display','none');
+	}else{
+		divDep.css('display','block');
+		objDepList.append(getDependenceRecursively(sExtName));
+	}
+	
+	objDialog.dialog({
+		buttons:{
+			'确定':function(){
+				window.location='/?c=org.opencomb.coresystem.system.ExtensionManager&act=enable&name='+sExtName;
+				jQuery(this).dialog('close');
+			},
+			'取消':function(){
+				jQuery(this).dialog('close');
+			}
+		},
+		bgiframe:true,
+		title:'确认激活'
+	});
+}
+function getDependenceRecursively(sExtName){
+	var str = '';
+	str += '<ul class="ulDepList">';
+	for(var i=0;i<arrDependence[sExtName].length;++i){
+		var sDepByExtName = arrDependence[sExtName][i];
+		
+		// 不包含已启用的扩展
+		if(!arrEnableState[sDepByExtName]){
+			str += '<li>'+sDepByExtName;
+			if(typeof(arrDependence[sDepByExtName]) != 'undefined'){
+				str += getDependenceRecursively(sDepByExtName);
+			}
+			str += '</li>';
+		}
+	}
+	str += '</ul>';
+	return str;
 }
 </script>
 <msgqueue />
@@ -28,7 +208,7 @@ function changePriority(name,priority){
 <foreach for="$arrPriority" item="arrExtName" key="nPriority">
 	<h3>优先级：{=$nPriority}</h3>
 	<table>
-		<tr><th>name</th><th>title</th><th>version</th><th>dependence</th><th>禁用</th><th>operator</th></tr>
+		<tr><th>name</th><th>title</th><th>version</th><th>dependence</th><th>禁用</th><th>卸载</th><th>更改优先级</th></tr>
 	<foreach for="$arrExtName" item="sExtName">
 		<tr>
 			<td>{=$sExtName}</td>
@@ -46,20 +226,13 @@ function changePriority(name,priority){
 				</if>
 			</td>
 			<td>
-				<a href='/?c=org.opencomb.coresystem.system.ExtensionManager&act=disable&name={=$sExtName}'>禁用</a>
-				<if 'isset($arrDependenceBy[$sExtName])'>
-					<div class="recursionDisableList warning">
-						将会禁用以下扩展：
-						<ul>
-							<foreach for='$arrDependenceBy[$sExtName]' item='sDepName'>
-								<li>{=$sDepName}</li>
-							</foreach>
-						</ul>
-					</div>
-				</if>
+				<a href='#' onclick="disableExtension('{=$sExtName}')">禁用</a>
 			</td>
 			<td>
-				更改优先级<select onchange="changePriority('{=$sExtName}',this.value)">
+				<a href='#' onclick="unistallExtension('{=$sExtName}')">卸载</a>
+			</td>
+			<td>
+				<select onchange="changePriority('{=$sExtName}',this.value)">
 					<loop end='9' var='n'>
 						<if '$n == $nPriority'>
 							<option value='{=$n}' selected='selected'>{=$n}</option>
@@ -68,18 +241,6 @@ function changePriority(name,priority){
 						</if>
 					</loop>
 				</select>
-				<a href='#' onclick="selectUnistallType(this)">卸载</a>
-				<div class="selectUnistallType">
-					请选择卸载方式：
-					<div class="selectUnistallTypeItem">
-						<a href='/?c=org.opencomb.coresystem.system.ExtensionManager&act=uninstall&name={=$sExtName}&type=self_only'>非递归卸载</a>
-						</div>
-					<div class="selectUnistallTypeItem">
-						<a href='/?c=org.opencomb.coresystem.system.ExtensionManager&act=uninstall&name={=$sExtName}&type=recursion'>递归卸载
-							<div class="warning">（将会卸载掉所有依赖此扩展的扩展）</div>
-							</a>
-						</div>
-				</div>
 			</td>
 		</tr>
 	</foreach>
@@ -94,7 +255,7 @@ function changePriority(name,priority){
 			<td>{=$aExtensionMetainfo->title()}</td>
 			<td>{=$aExtensionMetainfo->version()}</td>
 			<td>
-				<a href='/?c=org.opencomb.coresystem.system.ExtensionManager&act=enable&name={=$aExtensionMetainfo->name()}'>启用</a>
+				<a href='#' onclick='enableExtension("{=$aExtensionMetainfo->name()}")'>启用</a>
 			</td>
 		</tr>
 	</foreach>
