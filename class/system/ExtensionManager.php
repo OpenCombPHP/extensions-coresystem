@@ -33,7 +33,7 @@ class ExtensionManager extends ControlPanel
 		foreach($aExtMgr->iterator() as $aExtension)
 		{
 			$arrEnabledExtensions[$aExtension->metainfo()->name()] = $aExtension ;
-			$arrPriority[$aExtension->metainfo()->priority()][] = $aExtension->metainfo()->name();
+			$arrPriority[$aExtension->runtimePriority()][] = $aExtension->metainfo()->name();
 			
 			$sExtName = $aExtension->metainfo()->name() ;
 			$arrEnableState[$sExtName] = true;
@@ -103,9 +103,12 @@ class ExtensionManager extends ControlPanel
 		$aExtensionSetup = ExtensionSetup::singleton();
 		try{
 			$aExtensionSetup->changePriority($sExtName,$nNewPriority);
+			PlatformSerializer::singleton()->clearRestoreCache();
+			$this->view->createMessage(Message::success,'成功修改扩展 `%s` 的优先级为 `%d`',array($sExtName,$nNewPriority));
 		}catch(Exception $e){
 			$this->view->createMessage(Message::error,$e->getMessage(),$e->messageArgvs()) ;
 		}
+		$this->location('/?c=org.opencomb.coresystem.system.ExtensionManager',3);
 	}
 	
 	public function actionEnable(){

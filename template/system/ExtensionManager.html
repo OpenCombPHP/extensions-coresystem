@@ -208,7 +208,7 @@ function getDependenceRecursively(sExtName){
 <foreach for="$arrPriority" item="arrExtName" key="nPriority">
 	<h3>优先级：{=$nPriority}</h3>
 	<table>
-		<tr><th>name</th><th>title</th><th>version</th><th>dependence</th><th>禁用</th><th>卸载</th><th>operator</th></tr>
+		<tr><th>name</th><th>title</th><th>version</th><th>dependence</th><th>禁用</th><th>卸载</th><th>更改优先级</th></tr>
 	<foreach for="$arrExtName" item="sExtName">
 		<tr>
 			<td>{=$sExtName}</td>
@@ -232,7 +232,7 @@ function getDependenceRecursively(sExtName){
 				<a href='#' onclick="unistallExtension('{=$sExtName}')">卸载</a>
 			</td>
 			<td>
-				更改优先级<select onchange="changePriority('{=$sExtName}',this.value)">
+				<select onchange="changePriority('{=$sExtName}',this.value)">
 					<loop end='9' var='n'>
 						<if '$n == $nPriority'>
 							<option value='{=$n}' selected='selected'>{=$n}</option>
