@@ -1,6 +1,8 @@
 <?php
 namespace org\opencomb\coresystem\widget;
 
+use org\jecat\framework\bean\BeanFactory;
+
 use org\opencomb\platform\ext\Extension;
 
 use org\jecat\framework\auth\IdManager;
@@ -15,6 +17,7 @@ use org\jecat\framework\mvc\view\widget\Widget;
  * @wiki /CoreSystem/控件/名片
  * 
  * 名片控件,用来显示用户的信息,例如昵称,头像,积分等等.
+ * 可以使用model或者用户id作为信息来源.
  * 
  * == 使用方法 ==
  * 需要传入一个用户的model作为信息来源,用type参数来控制显示样式,具体参数如下:
@@ -43,11 +46,17 @@ use org\jecat\framework\mvc\view\widget\Widget;
  * |可选
  * |指定模板文件,指定这个属性后会忽略type属性
  * |-- --
- * |mine
- * |bool
- * |false
+ * |uid
+ * |string
+ * |无
  * |可选
- * |是否使用正在登录的用户的信息来显示名片,该属性优先级高于model属性
+ * |传入用户ID以显示对应的用户信息
+ * |-- --
+ * |mine
+ * |string
+ * |'0'
+ * |可选
+ * |传入'0'使用正在登录的用户的信息来显示名片并忽略model属性,传入其他值则忽略此功能
  * |}
  * 
  * [^]如果使用model属性来指定信息来源,并且这个属性的值是一段表达式,那么你需要另外指定属性的类型来让表达式执行,指定属性类型的代码: attr.model.type='expression'[/^]
@@ -91,8 +100,8 @@ class NameCard extends Widget {
 		if($sTemplateName = $this->attribute('template')){
 			$this->setTemplateName($sTemplateName);
 		}
-		if($nId = (int)$this->attribute('id')){
-			$this->setId($nId);
+		if($nId = $this->attribute('uid')){
+			$this->setUid((int)$nId);
 		}
 		if($bMine = (bool)$this->attribute('mine')){
 			$this->setMine($bMine);
@@ -126,11 +135,25 @@ class NameCard extends Widget {
 		}
 	}
 	
-	public function setId($nId){
+	public function setUid($nId){
 		$this->nId = $nId;
+		
+		$arrUserBean = array(
+			'class' => 'model' ,
+			'orm' => array(
+				'table' => 'user' ,
+				'hasOne:info' => array(
+					'table' => 'userinfo' ,
+				) ,
+			) ,
+		);
+		
+		$aModel = BeanFactory::singleton()->createBean($arrUserBean,'coresystem');
+		$aModel->load(array($nId),array('uid'));
+		$this->setModel($aModel);
 	}
 	
-	public function id(){
+	public function uid(){
 		return $this->nId;
 	}
 	
@@ -168,5 +191,4 @@ class NameCard extends Widget {
 	private $bMine = false;
 	private $nId;
 }
-
 ?>
