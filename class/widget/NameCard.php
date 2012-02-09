@@ -178,7 +178,11 @@ class NameCard extends Widget {
 			$sFaceUrl = '/platform/ui/images/viewimg/xshd01.jpg';
 		}else
 		{
-			$sFaceUrl = Extension::flyweight('coresystem')->publicFolder()->path() . '/avatar/' . $this->aModel['info.avatar'] ;
+			if(strpos($this->aModel['info.avatar'], 'http://' , 0)==0 || strpos($this->aModel['info.avatar'], '/' , 0)==0){
+				$sFaceUrl =  $this->aModel['info.avatar'] ;
+			}else{
+				$sFaceUrl = Extension::flyweight('coresystem')->publicFolder()->path() . '/avatar/' . $this->aModel['info.avatar'] ;
+			}
 		}
 		return $sFaceUrl;
 	}
