@@ -17,6 +17,7 @@ class PurviewView extends ControlPanel
 	public function createBeanConfig()
 	{
 		return array(
+			'title'=>'授权查看',
 			'view:purview' => array(
 				'template' => 'PurviewView.html' ,
 				'vars' => array(
@@ -31,6 +32,9 @@ class PurviewView extends ControlPanel
 	
 	public function process()
 	{
+		//权限
+		$this->requirePurview(Id::PLATFORM_ADMIN,'coresystem',PurviewQuery::ignore,'您没有这个功能的权限,无法继续浏览');
+		
 		if(!$this->params->string('type'))
 		{
 			$this->params->set('type',PurviewQuery::user) ;

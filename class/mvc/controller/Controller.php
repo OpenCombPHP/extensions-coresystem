@@ -119,7 +119,7 @@ class Controller extends JcController
     	return $aId ;
     }
     
-    protected function checkPermissions($sDenyMessage,array $arrDenyArgvs=array())
+    protected function checkPermissions($sDenyMessage=null,array $arrDenyArgvs=array())
     {
     	if( !$this->authorizer()->check(IdManager::singleton()) )
     	{
@@ -127,7 +127,7 @@ class Controller extends JcController
     	}
     }
     
-	protected function permissionDenied($sDenyMessage,array $arrDenyArgvs=array())
+	protected function permissionDenied($sDenyMessage=null,array $arrDenyArgvs=array())
 	{
 		throw new AuthenticationException($this,$sDenyMessage,$arrDenyArgvs) ;
 	}

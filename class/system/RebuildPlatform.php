@@ -23,7 +23,7 @@ class RebuildPlatform extends Controller
 	public function createBeanConfig()
 	{
 		return array(
-			
+			'title'=>'系统重建',
 			// 配置许可
 			'perms' => array(
 				// 权限类型的许可

@@ -1,6 +1,8 @@
 <?php
 namespace org\opencomb\coresystem\user ;
 
+use org\opencomb\coresystem\auth\Id;
+
 use org\opencomb\platform\mvc\model\db\orm\Prototype;
 use org\jecat\framework\db\DB;
 use org\jecat\framework\mvc\model\db\Category;
@@ -30,7 +32,7 @@ class UserGroupsSetting extends ControlPanel
 		
 					
 		return array(
-				
+			'title'=>'用户组设置',
 			// models
 			'model:groups' => $arrGroupConf ,
 			'model:user' => array('config'=>'model/user') ,
@@ -41,12 +43,19 @@ class UserGroupsSetting extends ControlPanel
 				'template' => 'UserGroupsSetting.html' ,
 				'class' => 'form' ,
 				'model' => 'groups' ,
-			) 
+			),
+			'perms' => array(
+					// 权限类型的许可
+					'perm.purview'=>array(
+							'name' => Id::PLATFORM_ADMIN,
+					) ,
+			) ,
 		) ;
 	}
 	
 	public function process()
 	{
+		$this->checkPermissions('您没有使用这个功能的权限,无法继续浏览',array()) ;
 		// 检查参数
 		if( !$nUId = $this->params->int('uid') )
 		{

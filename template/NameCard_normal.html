@@ -1,3 +1,75 @@
-<if '$theWidget->model()'>
-normal
+{? $aModel = $theWidget->model()}
+<if '$aModel'>
+<lib name='jquery'/>
+<div class='namecard_normal' id="namecard_normal_{=$aModel['uid']}">
+<div class='namecard_normal_card_simple'>
+	<div class='namecard_normal_card_face'>
+		<img src='{=$theWidget->faceUrl()}' width=60 height=60/>
+	</div>
+	<div class='namecard_normal_card_name'>
+		{=$aModel['username']}
+	</div>
+</div>
+<div class='namecard_normal_card_full'>
+	<div class='namecard_normal_card_face_part'>
+		<div class='namecard_normal_card_face'>
+			<img src='{=$theWidget->faceUrl()}' width=60 height=60/>
+		</div>
+		<div class='namecard_normal_card_name'>
+			{=$aModel['username']}
+		</div>
+		<div class='namecard_normal_card_sex'>
+			{=$aModel['info.sex']}
+		</div>
+	</div>
+	<div class='namecard_normal_card_social_part'>
+		<a class='namecard_normal_card_message' href='#'>留言</a> | 
+		<a class='namecard_normal_card_be_friend' href='#'>加为好友</a>
+		<if '$theWidget->isMine()'>
+			 | <a class='namecard_normal_card_logout' href='?c=logout'>退出</a>
+		</if>
+	</div>
+</div>
+<script>
+jquery(function(){
+	jquery('.namecard_normal_card_simple .namecard_normal_card_face').on('mouseenter',mouseOnFace);
+	//jquery('.namecard_normal_card_face').on('mouseleave',mouseOutFace);
+});
+function mouseOnFace(event){
+	var target = jquery(event.target);
+	var simplePart = target.parents('.namecard_normal_card_simple:first');
+	var fullPart = simplePart.next('.namecard_normal_card_full');
+	fullPart.css({
+		'top':simplePart.position().top -1,  // '1' 是边框宽度
+		'left':simplePart.position().left -1
+	}).show();
+	fullPart.on('mouseleave',mouseOutFace);
+}
+function mouseOutFace(event){
+	jquery(this).hide();
+}
+</script>
+<style>
+.namecard_normal_card_full{
+	display:none;
+	padding:5px;
+	border:1px #333 solid;
+	width:228px;
+	height:58px;
+	position:absolute;
+	background:#fff;
+}
+.namecard_normal_card_simple{
+	padding:5px;
+	width:230px;
+	height:60px;
+}
+.namecard_normal_card_face {
+	width:60px;
+	height:60px;
+	margin-right:8px;
+	float:left;
+}
+</style>
+</div>
 </if>

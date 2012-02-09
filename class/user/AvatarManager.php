@@ -1,6 +1,7 @@
 <?php
 namespace org\opencomb\coresystem\user ;
 
+use org\jecat\framework\db\DB;
 use org\jecat\framework\mvc\view\DataExchanger;
 use org\jecat\framework\message\Message;
 use org\opencomb\coresystem\mvc\controller\ControlPanel;
@@ -10,7 +11,7 @@ class AvatarManager extends ControlPanel
 	public function createBeanConfig()
 	{
 		return array(
-
+			'title'=>'头像管理',
 			// 模型
 			'model:user' => array(
 				'conf' => 'model/user' ,
@@ -30,7 +31,7 @@ class AvatarManager extends ControlPanel
 	}
 	
 	public function process()
-	{		
+	{
 		$aId = $this->requireLogined() ;
 		
 		// 加载数据
@@ -53,9 +54,7 @@ class AvatarManager extends ControlPanel
 			{
 				return ;
 			}
-			
 			$this->viewAvatarManager->exchangeData(DataExchanger::WIDGET_TO_MODEL) ;
-			
 			if( !$this->modelUser->save() )
 			{
 				$this->viewAvatarManager->createMessage(Message::error,"保存用户信息时遇到错误。") ;

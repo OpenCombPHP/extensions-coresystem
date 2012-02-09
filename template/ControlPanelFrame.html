@@ -5,15 +5,14 @@
 	<div class="coresystem-htop">
 		<h1><a href="?c=index" class="coresystem-logo">OpenComb</a></h1>
 		
-		<p class="coresystem-othernav">
+		<div class="coresystem-othernav">
 			<a href="?c=index">首页</a>
-			<widget class='namecard' attr.model='\org\jecat\framework\auth\IdManager::singleton()->currentId()->model()' 
-				attr.model.type='expression' attr.type='normal' attr.template='coresystem:NameCard_full.html'/>
-			<!-- <if "$aId=\org\jecat\framework\auth\IdManager::singleton()->currentId()">
-				| {=$aId->username()}
-				<a href="?c=logout">退出</a>
-			</if> -->
-		</p>
+			
+			<if "$aId=\org\jecat\framework\auth\IdManager::singleton()->currentId()">
+				<widget class='namecard' attr.type='simple' attr.mine='1'/>
+			</if>
+			
+		</div>
 	</div>
 	<p class="coresystem-slogan">Hi, here is the Control Panel of OpenComb.</p>
 	<div class="coresystem-mainnav">
@@ -28,10 +27,7 @@
 	</div>
 	<div class="coresystem-content">
 
-		
-
 		<div class="coresystem-c-inner">
-
 			<views />
 		</div>
 	</div>

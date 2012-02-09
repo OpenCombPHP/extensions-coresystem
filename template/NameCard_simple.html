@@ -1,3 +1,7 @@
-<if '$theWidget->model()'>
-simple
+<span class='namecard_simple'>
+{? $aModel = $theWidget->model()}
+<if '$aModel'>
+	<span class='namecard_simple_card_name'>{=$aModel['username']}</span>
+	<a class='namecard_simple_card_logout' href='?c=logout'>退出</a>
 </if>
+</span>

@@ -14,7 +14,7 @@ class PurviewSetting extends ControlPanel
 	public function createBeanConfig()
 	{
 		return array(
-				
+			'title'=>'授权设置',
 			'controller:purviewView' => array(
 				'class' => 'org\\opencomb\\coresystem\\auth\\PurviewView' ,
 			) ,
