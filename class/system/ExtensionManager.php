@@ -111,6 +111,25 @@ class ExtensionManager extends ControlPanel
 		$this->location('/?c=org.opencomb.coresystem.system.ExtensionManager',3);
 	}
 	
+	/**
+	 * @param dire 方向，'up'或'down'
+	 */
+	public function actionChangeOrder(){
+		$sExtName = $this->params['name'];
+		$sDire = $this->params['dire'];
+		
+		$this->view->createMessage(Message::notice, '更改扩展顺序 ： %s , %s',array($sExtName,$sDire));
+		$aExtSetup = ExtensionSetup::singleton();
+		try{
+			$aExtSetup->changeOrder($sExtName,$sDire);
+			PlatformSerializer::singleton()->clearRestoreCache();
+			$this->view->createMessage(Message::success, '成功更改扩展顺序 ： %s , %s',array($sExtName,$sDire));
+		}catch(Exception $e){
+			$this->view->createMessage(Message::error,$e->getMessage(),$e->messageArgvs()) ;
+		}
+		$this->location('/?c=org.opencomb.coresystem.system.ExtensionManager',3);
+	}
+	
 	public function actionEnable(){
 		$sExtName = $this->params['name'];
 		try{

@@ -34,6 +34,9 @@ var arrEnableState={=json_encode($arrEnableState)};
 function changePriority(name,priority){
 	window.location='/?c=org.opencomb.coresystem.system.ExtensionManager&act=changePriority&name='+name+'&priority='+priority;
 }
+function changeOrder(sExtName,direction){
+	window.location='/?c=org.opencomb.coresystem.system.ExtensionManager&act=changeOrder&name='+sExtName+'&dire='+direction;
+}
 </script>
 <div id="dialogUninstall" class="dialog">
 	<div class="warning dep">
@@ -208,7 +211,16 @@ function getDependenceRecursively(sExtName){
 <foreach for="$arrPriority" item="arrExtName" key="nPriority">
 	<h3>优先级：{=$nPriority}</h3>
 	<table>
-		<tr><th>name</th><th>title</th><th>version</th><th>dependence</th><th>禁用</th><th>卸载</th><th>更改优先级</th></tr>
+		<tr>
+			<th>名称</th>
+			<th>标题</th>
+			<th>版本</th>
+			<th>依赖</th>
+			<th>禁用</th>
+			<th>卸载</th>
+			<th>更改优先级</th>
+			<th>更改顺序</th>
+		</tr>
 	<foreach for="$arrExtName" item="sExtName">
 		<tr>
 			<td>{=$sExtName}</td>
@@ -242,13 +254,17 @@ function getDependenceRecursively(sExtName){
 					</loop>
 				</select>
 			</td>
+			<td>
+				<a href='#' onclick="changeOrder('{=$sExtName}','up')">向上</a>
+				<a href='#' onclick="changeOrder('{=$sExtName}','down')">向下</a>
+			</td>
 		</tr>
 	</foreach>
 	</table>
 </foreach>
 <h2>禁用的扩展</h2>
 <table>
-	<tr><th>name</th><th>title</th><th>version</th><th>启用</th></tr>
+	<tr><th>名称</th><th>标题</th><th>版本</th><th>启用</th></tr>
 	<foreach for="$arrDisabledExtensionMetainfos" item="aExtensionMetainfo">
 		<tr>
 			<td>{=$aExtensionMetainfo->name()}</td>
