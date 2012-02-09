@@ -14,6 +14,7 @@ class PurviewQuery extends Object
 	const group = 'group' ;
 	
 	const ignore = '*ignore*' ;
+	const all = null ;
 	
 	const auth_user = 1 ;
 	const auth_group = 2 ;

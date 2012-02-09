@@ -12,7 +12,7 @@ class Register extends Controller
 	public function createBeanConfig()
 	{
 		return array(
-		
+			'title'=>'注册',
 			// 模型
 			'model:user' => array( 'conf' => 'model/user' ) ,
 			

@@ -1,6 +1,8 @@
 <?php
 namespace org\opencomb\coresystem\system ;
 
+use org\opencomb\coresystem\auth\Id;
+
 use org\jecat\framework\message\Message;
 use org\jecat\framework\setting\Setting;
 use org\opencomb\platform\Platform;
@@ -11,15 +13,24 @@ class DebugStatSetting extends ControlPanel
 	public function createBeanConfig()
 	{
 		return array(
+			'title'=>'Debug状态设置',
 			'view:view' => array(
 				'template' => 'system/DebugStatSetting.html' ,
 				'class' => 'form' ,
-			)
-		) ;
+			),
+			'perms' => array(
+					// 权限类型的许可
+					'perm.purview'=>array(
+							'namespace'=>'coresystem',
+							'name' => Id::PLATFORM_ADMIN,
+					) ,
+				)
+		);
 	}
 	
-	public function process()
-	{
+	public function process() {
+		$this->checkPermissions('您没有使用这个功能的权限,无法继续浏览',array()) ;
+		
 		$aSetting = Setting::singleton() ;
 		$arrStats = $this->stats() ;
 		

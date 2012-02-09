@@ -12,6 +12,7 @@ class Logout extends Controller
 	public function createBeanConfig()
 	{
 		return array(
+			'title'=>'注销',
 			'view:logout' => array( 'template'=>'Logout.html' )
 		) ;
 	}

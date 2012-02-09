@@ -12,7 +12,7 @@ class Login extends Controller
 	public function createBeanConfig()
 	{
 		return array(
-		
+			'title'=>'登录',
 			// 模型
 			'model:user' => Id::createModelBeanConfig() ,
 			

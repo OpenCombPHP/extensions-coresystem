@@ -13,7 +13,7 @@ class CreateGroup extends ControlPanel
 	public function createBeanConfig()
 	{		
 		return array(
-				
+				'title'=>'建立用户组',
 				'model:groupTree' => array(
 					'config' => 'model/group' ,
 					'list' => true ,

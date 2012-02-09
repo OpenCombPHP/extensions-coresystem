@@ -10,7 +10,6 @@ class AdminUsers extends ControlPanel
 	public function createBeanConfig()
 	{
 		return array(
-				
 			'title' => '用户管理' ,
 			'keywords' => '用户' ,
 			'description' => '用户' ,
@@ -30,14 +29,20 @@ class AdminUsers extends ControlPanel
 					'class' => 'paginator' ,
 				) 
 			) ,
+			'perms' => array(
+					// 权限类型的许可
+					'perm.purview'=>array(
+							'name' => Id::PLATFORM_ADMIN,
+					) ,
+			) ,
 		) ;
 	}
 	
 	public function process()
 	{		
 		// 权限检查
-		$this->requirePurview(Id::PLATFORM_ADMIN,'coresystem') ;
-		
+		$this->checkPermissions('您没有使用这个功能的权限,无法继续浏览',array()) ;
+				
 		$this->users->load() ;
 	}
 }

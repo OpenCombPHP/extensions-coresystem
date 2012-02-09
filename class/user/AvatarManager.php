@@ -11,7 +11,7 @@ class AvatarManager extends ControlPanel
 	public function createBeanConfig()
 	{
 		return array(
-
+			'title'=>'头像管理',
 			// 模型
 			'model:user' => array(
 				'conf' => 'model/user' ,
