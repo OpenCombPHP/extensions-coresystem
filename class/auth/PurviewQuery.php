@@ -182,7 +182,11 @@ class PurviewQuery extends Object
 	{
 		$sSQL = "{$sTableAlias}extension='" . addslashes($sNamespace) . "' 
 					and {$sTableAlias}name='" . addslashes($sPurviewName) . "'" ;
-		$sSQL.= $target===null? " and {$sTableAlias}target IS NULL": (" and {$sTableAlias}target='".addslashes($target)."'") ;
+		
+		if( $target!=self::ignore )
+		{
+			$sSQL.= $target===null? " and {$sTableAlias}target IS NULL": (" and {$sTableAlias}target='".addslashes($target)."'") ;
+		}
 		
 		return $sSQL ;
 	}

@@ -28,7 +28,7 @@ class PurviewAction extends Object
 			}
 			
 			$sSQL = "update {$this->sTablePurview} as pur set {$sInheritance}{$sBubble} where pur.id='{$id}' and pur.type='{$sType}' and "
-						. Authorizer::sqlPurviewWhere($sNamespace,$sPurviewName,$target);
+						. PurviewQuery::sqlPurviewWhere($sNamespace,$sPurviewName,$target);
 			
 			return DB::singleton()->execute($sSQL) ;
 		}
@@ -56,13 +56,13 @@ class PurviewAction extends Object
 	public function removePurview($id,$sType,$sNamespace,$sPurviewName,$target=null)
 	{
 		$sSQL = "delete from {$this->sTablePurview} where id='{$id}' and type='{$sType}' and "
-						. Authorizer::sqlPurviewWhere($sNamespace,$sPurviewName,$target,'');
+						. PurviewQuery::sqlPurviewWhere($sNamespace,$sPurviewName,$target,'');
 		return DB::singleton()->execute($sSQL) ;
 	}
 	
 	protected function purviewRow($type,$id,$sNamespace,$sPurviewName,$target=null)
 	{
-		$sSQL = "select * from {$this->sTablePurview} as pur where pur.id='{$id}' and pur.type='{$type}' and " . Authorizer::sqlPurviewWhere($sNamespace,$sPurviewName,$target) ;
+		$sSQL = "select * from {$this->sTablePurview} as pur where pur.id='{$id}' and pur.type='{$type}' and " . PurviewQuery::sqlPurviewWhere($sNamespace,$sPurviewName,$target) ;
 		$aRecords = DB::singleton()->query($sSQL) ;
 		return $aRecords->rowCount()? $aRecords: null ;
 	}

@@ -246,6 +246,17 @@ class PurviewSetting extends ControlPanel
 							) ,
 					) ,
 			) ,
+			
+			'opencms' => array(									// 扩展 =========
+				'测试' => array(									// 分类 ---------
+					array(
+						'name' => 'purview:admin_category',
+						'title' => 'purview:admin_category' ,
+						'target' => null ,
+					) ,
+				) ,
+			) ,
+			
 	) ;
 }
 
