@@ -15,9 +15,9 @@ class PurviewAction extends Object
 	
 	public function setPurview($id,$sType,$sNamespace,$sPurviewName,$target=null,$bInheritance=false,$bBubble=true)
 	{
-		if( $sType==Authorizer::group and $this->purviewRow($sType,$id,$sNamespace,$sPurviewName,$target) )
+		if( $sType==PurviewQuery::group and $this->purviewRow($sType,$id,$sNamespace,$sPurviewName,$target) )
 		{
-			if($sType==Authorizer::group)
+			if($sType==PurviewQuery::group)
 			{
 				$sInheritance = "inheritance=" . ($bInheritance?"'1'":"'0'") ;
 				$sBubble = ",bubble=" . ($bBubble?"'1'":"'0'") ;
@@ -44,7 +44,7 @@ class PurviewAction extends Object
 			{
 				$aSql->setData('target',$target) ;
 			}
-			if($sType==Authorizer::group)
+			if($sType==PurviewQuery::group)
 			{
 				$aSql->setData('inheritance',$bInheritance?'1':'0') ;
 				$aSql->setData('bubble',$bBubble?'1':'0') ;
