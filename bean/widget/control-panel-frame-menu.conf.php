@@ -29,6 +29,15 @@ return array(
 											'title'=>'平台升级' ,
 											'link' => '?c=org.opencomb.coresystem.system.PlatformUpgrade' ,
 											'query' => 'c=org.opencomb.coresystem.system.PlatformUpgrade' ,
+											'menu' => array(
+												'items' => array(
+													'createPatch' => array(
+														'title' => '创建补丁',
+														'link' => '?c=org.opencomb.coresystem.system.patch.CreatePatch',
+														'query' => 'c=org.opencomb.coresystem.system.patch.CreatePatch',
+													),
+												),
+											),
 									) ,
 									'debug-stat' => array(
 											'title'=>'调式状态' ,
