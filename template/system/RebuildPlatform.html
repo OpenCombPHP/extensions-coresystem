@@ -26,17 +26,30 @@
 
 <script type="text/javascript">
 <!--
-var arrUncompiledClasses = {=$arrClasses} ;
-var nTotalClasses = arrUncompiledClasses.length ;
+var arrAllClasses = {=$arrClasses} ;
+var arrUncompiledClasses = [] ;
+
 
 jquery(function(){
-	jquery('#eleProgressbar').progressbar({value: 0}) ;
-	jquery('#spnNeedCompileClassNum').html(nTotalClasses) ;
+	jquery('#eleProgressbar').progressbar({'value':0}) ;
+	jquery('#spnNeedCompileClassNum').html(arrAllClasses.length) ;
 }) ;
+
+function updateProgress()
+{
+	var percent = Math.ceil(((arrAllClasses.length-arrUncompiledClasses.length)/arrAllClasses.length)*100) ;
+	jquery('#eleProgressbar').progressbar('option','value',percent) ;
+	jquery('#elePercent').html( percent + '%' ) ;
+	jquery('#spnCompiledClassNum').html(arrAllClasses.length-arrUncompiledClasses.length) ;
+}
 
 function start()
 {
-	jquery('#btnStart').attr('disabled',false) ;
+	arrUncompiledClasses = arrAllClasses.slice(0) ;
+	
+	updateProgress() ;
+	
+	jquery('#btnStart').attr('disabled',true) ;
 	jquery('#divMessage').html("<div>正在重建系统，该过程可能会持续几分钟，请耐心等待……</div>") ;
 	
 	// 第一步关闭系统
@@ -52,7 +65,7 @@ function start()
 				}
 			}catch (e){
 				jquery('#divMessage').html("<div>重建系统前，关闭系统失败。</div>"+rspn.responseText) ;
-				jquery('#btnStart').attr('disabled','') ;
+				jquery('#btnStart').attr('disabled',false) ;
 				throw e ;
 			}
 		}
@@ -61,7 +74,7 @@ function start()
 
 function clearPlatformCache()
 {
-	jquery('#btnStart').attr('disabled',false) ;
+	jquery('#btnStart').attr('disabled',true) ;
 
 	// 第二步清理系统缓存
 	jquery.ajax({
@@ -72,7 +85,7 @@ function clearPlatformCache()
 				if( response.success == '1' )
 				{
 					jquery('#divLog').append("<div>清理系统完毕。</div>") ;
-					jquery('#btnStart').attr('disabled','') ;
+					jquery('#btnStart').attr('disabled',false) ;
 				}
 
 				jquery('#divLog').append("<div>开始编译类……</div>") ;
@@ -80,7 +93,7 @@ function clearPlatformCache()
 				
 			}catch (e){
 				jquery('#divMessage').html("<div>清理系统缓存失败。</div>") ;
-				jquery('#btnStart').attr('disabled','') ;
+				jquery('#btnStart').attr('disabled',false) ;
 				throw e ;
 			}
 		}
@@ -90,8 +103,9 @@ function clearPlatformCache()
 
 function compileClasses()
 {
-	jquery('#spnNeedCompileClassNum').html(nTotalClasses) ;
-	jquery('#spnCompiledClassNum').html(nTotalClasses-arrUncompiledClasses.length) ;
+	jquery('#btnStart').attr('disabled',true) ;
+	
+	updateProgress() ;
 	
 	if(arrUncompiledClasses.length<=1)
 	{
@@ -127,9 +141,7 @@ function compileClasses()
 								}
 							}
 							
-							var percent = Math.ceil(((nTotalClasses-arrUncompiledClasses.length)/nTotalClasses)*100) ;
-							jquery('#eleProgressbar').progressbar('option','value',percent) ;
-							jquery('#elePercent').html( percent + '%' ) ;
+							updateProgress() ;
 							
 							jquery('#divLog').append("<div>"+response.arrCompileds[i]+"</div>") ;
 						}
@@ -142,7 +154,7 @@ function compileClasses()
 				}catch (e){ }
 
 				jquery('#divMessage').html("<div>编译类遇到错误:"+rspn.responseText+"</div>") ;
-				jquery('#btnStart').attr('disabled','') ;
+				jquery('#btnStart').attr('disabled',false) ;
 			}
 		}) ;
 	}
@@ -150,6 +162,8 @@ function compileClasses()
 
 function restartSystem()
 {
+	jquery('#btnStart').attr('disabled',false) ;
+	
 	jquery('#divLog').append("<div>正在重启系统……</div>") ;
 	
 	// 第四步 重启系统
@@ -160,14 +174,14 @@ function restartSystem()
 				var response = jQuery.parseJSON(rspn.responseText) ;
 				if( response.success == '1' )
 				{
-					jquery('#btnStart').attr('disabled','') ;		
+					jquery('#btnStart').attr('disabled',false) ;		
 					jquery('#divMessage').html("<div>系统重建完成。</div>") ;
 				}
 			}catch (e){
 				jquery('#divMessage').html("<div>重启系统是遇到错误:"+rspn.responseText+"</div>") ;
 			}
 
-			jquery('#btnStart').attr('disabled','') ;
+			jquery('#btnStart').attr('disabled',false) ;
 		}
 	}) ;
 }
