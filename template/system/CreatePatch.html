@@ -1,0 +1,23 @@
+<msgqueue />
+<ul>
+	<foreach for='$arrItemList' key='sName' item='item'>
+		<li>
+			<form action='/?c=org.opencomb.coresystem.system.patch.CreatePatch' method='post'>
+				<input type='hidden' name='act' value='create' />
+				<input type='hidden' name='name' value='{=$sName}' />
+				{=$sName}
+				从<select name='from'>
+					<foreach for='$item->tagList()' item='tag'>
+						<option value='{=$tag}'>{=$tag}</option>
+					</foreach>
+				</select>
+				到<select name='to'>
+					<foreach for='$item->tagList()' item='tag'>
+						<option value='{=$tag}'>{=$tag}</option>
+					</foreach>
+				</select>
+				<input type='submit' />
+			</form>
+		</li>
+	</foreach>
+</ul>
