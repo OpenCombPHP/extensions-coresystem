@@ -48,28 +48,64 @@ class Patch{
 	 * @retval false if fail
 	 */
 	public function create($sFrom,$sTo){
+		$sPath = FileSystem::singleton()->findFolder($this->path())->url(false);
+		$aTmpFolder = Extension::flyweight('coresystem')->publicFolder()->findFolder('tmp',FileSystem::FIND_AUTO_CREATE);
+		$aErrFile = $aTmpFolder->findFile('patch.err',FileSystem::FIND_AUTO_CREATE_OBJECT);
+		$sErrFileName = $aErrFile->url(false);
+		
+		$sSummary = `cd $sPath && git diff --numstat --summary $sFrom..$sTo 2>$sErrFileName `;
+		
+		$sErrFileContent = file_get_contents($sErrFileName);
+		unlink($sErrFileName );
+		
+		if(!empty($sErrFileContent)){
+			throw new Exception('执行git出错 : %s ',$sErrFileContent);
+			return false;
+		}
+		
+		$arrSummary = explode("\n",$sSummary);
+		$arrFileList = array();
+		
+		$arrPreg = array(
+			'delete' => '`^ delete mode \d{6} (.*)$`',
+			'create' => '`^ create mode \d{6} (.*)$`',
+			'update' => '`^\d	\d	(.*)$`',
+		);
+		
+		foreach($arrSummary as $sLine){
+			foreach($arrPreg as $sName => $sPreg){
+				if(preg_match($sPreg,$sLine,$arrMatch)){
+					$sFile = $arrMatch[1];
+					$arrFileList[$sFile] = $sName;
+					break;
+				}
+			}
+		}
+		
 		$aXML = new \SimpleXMLElement('<patch></patch>');
 		$aXML->itemName = $this->sItem ;
 		$aXML->from = $sFrom ;
 		$aXML->to = $sTo ;
 		
-		$sXML = $aXML->asXML();
-		
-		$sPath = $this->path();
-		$sDiff = `cd $sPath && git diff $sFrom $sTo `;
-		
-		
-		$aFolder = Extension::flyweight('coresystem')->publicFolder()->findFolder('patch',FileSystem::FIND_AUTO_CREATE);
-		$sFileName = 'patch_'.$this->sItem.'_'.$sFrom.'_'.$sTo.'.zip';
-		$aFile = $aFolder->findFile($sFileName,FileSystem::FIND_AUTO_CREATE_OBJECT);
-		if($aFile->exists()){
-			$aFile->delete();
+		foreach($arrFileList as $sFilePath => $sType){
+			$aChildXML = $aXML->addChild('file');
+			$aChildXML->addAttribute('path',$sFilePath);
+			$aChildXML->addAttribute('type',$sType);
 		}
 		
-		$sFilePath = $aFile->url(false);
+		$sXML = $aXML->asXML();
+		
+		$aZipFolder = Extension::flyweight('coresystem')->publicFolder()->findFolder('patch',FileSystem::FIND_AUTO_CREATE);
+		$sZipFileName = 'patch_'.$this->sItem.'_'.$sFrom.'_'.$sTo.'.zip';
+		$aZipFile = $aZipFolder->findFile($sZipFileName,FileSystem::FIND_AUTO_CREATE_OBJECT);
+		if($aZipFile->exists()){
+			$aZipFile->delete();
+		}
+		
+		$sZipFilePath = $aZipFile->url(false);
 		
 		$aZip = new \ZipArchive();
-		if( TRUE !== $aZip->open($sFilePath,\ZIPARCHIVE::CREATE) ){
+		if( TRUE !== $aZip->open($sZipFilePath,\ZIPARCHIVE::CREATE) ){
 			throw new Exception(
 				"无法打开zip文件 %s ",
 				array(
@@ -90,15 +126,42 @@ class Patch{
 			return false;
 		}
 		
-		if( TRUE !== $aZip->addFromString( 'patch.diff' , $sDiff ) ){
+		if( TRUE !== $aZip->addFromString( 'summary.txt' , $sSummary ) ){
 			throw new Exception(
 				"无法将内容写入zip文件 %s %s ",
 				array(
-					$sFilePath,
-					'patch.diff',
+					$sPath,
+					'summary.txt',
 				)
 			);
 			return false;
+		}
+		
+		foreach($arrFileList as $sFilePath => $sType){
+			if( 'delete' !== $sType ){
+				$sErrFileName = $aErrFile->url(false);
+				
+				$sHistoryContent = `cd $sPath && git show $sTo:$sFilePath 2>$sErrFileName `;
+				
+				$sErrFileContent = file_get_contents($sErrFileName);
+				unlink($sErrFileName );
+				
+				if(!empty($sErrFileContent)){
+					throw new Exception('执行git出错 : %s ',$sErrFileContent);
+					return false;
+				}
+				
+				if( TRUE !== $aZip->addFromString( $sFilePath , $sHistoryContent ) ){
+					throw new Exception(
+						"无法将内容写入zip文件 %s %s ",
+						array(
+							$sPath,
+							$sFilePath,
+						)
+					);
+					return false;
+				}
+			}
 		}
 		
 		if( TRUE !== $aZip->close() ){
@@ -110,7 +173,7 @@ class Patch{
 			);
 		}
 		
-		return $sFilePath ;
+		return $aZipFile->path() ;
 	}
 	
 	static private function getTagList($sPath){

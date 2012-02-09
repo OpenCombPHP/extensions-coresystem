@@ -3,6 +3,7 @@ namespace org\opencomb\coresystem\system\patch ;
 
 use org\opencomb\coresystem\mvc\controller\ControlPanel;
 use org\jecat\framework\message\Message ;
+use org\jecat\framework\lang\Exception;
 
 class CreatePatch extends ControlPanel
 {
@@ -38,8 +39,12 @@ class CreatePatch extends ControlPanel
 		$sTo = $this->params['to'];
 		
 		$aPatch = new Patch($sName);
-		$sFilePath = $aPatch->create($sFrom,$sTo);
 		
-		$this->view->createMessage(Message::success,'创建补丁成功：%s',$sFilePath);
+		try{
+			$sFilePath = $aPatch->create($sFrom,$sTo);
+			$this->view->createMessage(Message::success,'创建补丁成功：%s',$sFilePath);
+		}catch(Exception $e){
+			$this->view->createMessage(Message::error,$e->getMessage(),$e->messageArgvs()) ;
+		}
 	}
 }
