@@ -1,0 +1,14 @@
+<msgqueue />
+<ul>
+	<foreach for='$arrItemName' item='item'>
+		<li>
+			<form action='/?c=org.opencomb.coresystem.system.patch.InstallPatch' method='post' enctype="multipart/form-data">
+				<input type='hidden' name='act' value='install' />
+				<input type='hidden' name='name' value='{=$item}' />
+				{=$item}
+				请选择文件：<input type='file' name='file' />
+				<input type='submit' />
+			</form>
+		</li>
+	</foreach>
+</ul>

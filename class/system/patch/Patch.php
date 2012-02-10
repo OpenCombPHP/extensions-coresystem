@@ -69,7 +69,7 @@ class Patch{
 		$arrPreg = array(
 			'delete' => '`^ delete mode \d{6} (.*)$`',
 			'create' => '`^ create mode \d{6} (.*)$`',
-			'update' => '`^\d	\d	(.*)$`',
+			'update' => '`^\d+	\d+	(.*)$`',
 		);
 		
 		foreach($arrSummary as $sLine){
@@ -151,7 +151,7 @@ class Patch{
 					return false;
 				}
 				
-				if( TRUE !== $aZip->addFromString( $sFilePath , $sHistoryContent ) ){
+				if( TRUE !== $aZip->addFromString( 'src/'.$sFilePath , $sHistoryContent ) ){
 					throw new Exception(
 						"无法将内容写入zip文件 %s %s ",
 						array(

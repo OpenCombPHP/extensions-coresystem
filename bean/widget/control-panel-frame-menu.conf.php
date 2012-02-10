@@ -36,6 +36,11 @@ return array(
 														'link' => '?c=org.opencomb.coresystem.system.patch.CreatePatch',
 														'query' => 'c=org.opencomb.coresystem.system.patch.CreatePatch',
 													),
+													'installPatch' => array(
+														'title' => '安装补丁',
+														'link' => '?c=org.opencomb.coresystem.system.patch.InstallPatch',
+														'query' => 'c=org.opencomb.coresystem.system.patch.InstallPatch',
+													),
 												),
 											),
 									) ,
