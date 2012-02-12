@@ -2,11 +2,8 @@
 namespace org\opencomb\coresystem\widget;
 
 use org\jecat\framework\bean\BeanFactory;
-
 use org\opencomb\platform\ext\Extension;
-
 use org\jecat\framework\auth\IdManager;
-
 use org\jecat\framework\io\IOutputStream;
 use org\jecat\framework\util\IHashTable;
 use org\jecat\framework\ui\UI;
@@ -187,6 +184,27 @@ class NameCard extends Widget {
 		return $sFaceUrl;
 	}
 	
+	/**
+	 * 当前显示的用户是否是正在登录的用户
+	 * 
+	 * @return boolean
+	 */
+	public function isCurrent(){
+		return IdManager::singleton()->currentId()->userId() == $this->model()->data('uid');
+	}
+	
+	/**
+	 * 取得登录过的id的model的数组
+	 * 
+	 * @return array
+	 */
+	public function idIterator(){
+		$arrModels = array();
+		foreach(IdManager::singleton()->iterator() as $aId){
+			$arrModels[] = $aId->model();
+		}
+		return $arrModels;
+	}
 	/**
 	 * 数据来源
 	 * @var IModel 
