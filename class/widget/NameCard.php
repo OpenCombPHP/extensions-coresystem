@@ -16,7 +16,7 @@ use org\jecat\framework\mvc\view\widget\Widget;
  * 名片控件,用来显示用户的信息,例如昵称,头像,积分等等.
  * 可以使用model或者用户id作为信息来源.
  * 
- * == 使用方法 ==
+ * ==使用方法==
  * 需要传入一个用户的model作为信息来源,用type参数来控制显示样式,具体参数如下:
  * {|
  * !参数名
@@ -151,7 +151,11 @@ class NameCard extends Widget {
 	}
 	
 	public function uid(){
-		return $this->nId;
+		if($this->nId){
+			return $this->nId;
+		}else{
+			return $this->model()->data('uid');
+		}
 	}
 	
 	//使用正在登录中的ID来显示名片

@@ -27,7 +27,7 @@ class CoreSystem extends Extension
 	}
 	
 	public function active(Platform $aPlatform)
-	{		
+	{
 		// 从 cookie 中恢复 id
 		if( !IdManager::singleton()->currentId() )
 		{

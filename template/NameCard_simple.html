@@ -1,3 +1,4 @@
+<lib name='jquery'/>
 <span class='namecard_simple'>
 {? $aModel = $theWidget->model()}
 <if '$aModel'>
@@ -5,10 +6,18 @@
 	<if '$theWidget->isCurrent()'>
 		<select class='namecard_simple_card_id_select'>
 			<foreach for='$theWidget->idIterator()' item='aIdModel'>
-				<option value="{=$aIdModel['username']}">{=$aIdModel['username']}</option>
+			{=$theWidget->uid()}
+				<option value="{=$aIdModel['uid']}" {=$aIdModel['uid'] == $theWidget->uid() ? 'selected':''}>{=$aIdModel['username']}</option>
 			</foreach>
 		</select>
 	</if>
 	<a class='namecard_simple_card_logout' href='?c=logout'>退出</a>
 </if>
 </span>
+<script>
+jquery(function(){
+	jquery('.namecard_simple_card_id_select').change(function(){
+		window.location.href='/?c=org.opencomb.coresystem.user.SwichId&uid=' + jquery(this).val();
+	});
+});
+</script>
