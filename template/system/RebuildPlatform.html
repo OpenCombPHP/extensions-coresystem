@@ -28,6 +28,7 @@
 <!--
 var arrAllClasses = {=$arrClasses} ;
 var arrUncompiledClasses = [] ;
+var sShutDownBackdoorSecret ;
 
 
 jquery(function(){
@@ -55,6 +56,9 @@ function start()
 	// 第一步关闭系统
 	jquery.ajax({
 		url: '?c=org.opencomb.coresystem.system.RebuildPlatform&act=shutdownPlatform&rspn=var.json'
+		, beforeSend: function(req){
+			jquery('#divLog').append("<div>"+this.url+"</div>") ;
+		}
 		, complete: function(rspn) {
 			try{
 				var response = jQuery.parseJSON(rspn.responseText) ;
@@ -63,6 +67,7 @@ function start()
 					jquery('#divLog').append("<div>系统已经临时关闭。</div>") ;
 					clearPlatformCache() ;
 				}
+				sShutDownBackdoorSecret = response.shutdown_backdoor_secret_key ;
 			}catch (e){
 				jquery('#divMessage').html("<div>重建系统前，关闭系统失败。</div>"+rspn.responseText) ;
 				jquery('#btnStart').attr('disabled',false) ;
@@ -78,7 +83,10 @@ function clearPlatformCache()
 
 	// 第二步清理系统缓存
 	jquery.ajax({
-		url: '?c=org.opencomb.coresystem.system.RebuildPlatform&act=clear&rspn=var.json'
+		url: '?c=org.opencomb.coresystem.system.RebuildPlatform&act=clear&rspn=var.json&shutdown_backdoor_secret_key='+sShutDownBackdoorSecret
+		, beforeSend: function(req){
+			jquery('#divLog').append("<div>"+this.url+"</div>") ;
+		}
 		, complete: function(rspn) {
 			try{
 				var response = jQuery.parseJSON(rspn.responseText) ;
@@ -119,7 +127,7 @@ function compileClasses()
 	
 		// 第三步陆续提交编译类
 		jquery.ajax({
-			url: '?c=org.opencomb.coresystem.system.RebuildPlatform&act=compileClasses&rspn=var.json'
+			url: '?c=org.opencomb.coresystem.system.RebuildPlatform&act=compileClasses&rspn=var.json&shutdown_backdoor_secret_key='+sShutDownBackdoorSecret
 			, data: {classes:arrCompilingClasses}
 			, beforeSend: function(req){
 				jquery('#divLog').append("<div>"+this.url+"</div>") ;
@@ -168,7 +176,7 @@ function restartSystem()
 	
 	// 第四步 重启系统
 	jquery.ajax({
-		url: '?c=org.opencomb.coresystem.system.RebuildPlatform&act=restartPlatform&rspn=var.json'
+		url: '?c=org.opencomb.coresystem.system.RebuildPlatform&act=restartPlatform&rspn=var.json&shutdown_backdoor_secret_key='+sShutDownBackdoorSecret
 		, complete: function(rspn) {
 			try{
 				var response = jQuery.parseJSON(rspn.responseText) ;
