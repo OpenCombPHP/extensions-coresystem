@@ -151,7 +151,11 @@ class NameCard extends Widget {
 	}
 	
 	public function uid(){
-		return $this->nId;
+		if($this->nId){
+			return $this->nId;
+		}else{
+			return $this->model()->data('uid');
+		}
 	}
 	
 	//使用正在登录中的ID来显示名片
