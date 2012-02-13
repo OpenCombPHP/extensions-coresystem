@@ -1,7 +1,7 @@
 <?php
 namespace org\opencomb\coresystem\user ;
 
-use org\opencomb\coresystem\auth\Id;
+use org\opencomb\coresystem\auth\Authenticate;
 use org\jecat\framework\message\Message;
 use org\jecat\framework\mvc\view\DataExchanger;
 use org\jecat\framework\db\ExecuteException;
@@ -52,7 +52,7 @@ class Register extends Controller
             	$this->modelUser->setData('registerIp',$_SERVER['REMOTE_ADDR']) ;
             	$this->modelUser->setData('info.nickname',$this->modelUser->username) ;
             	
-            	$sPassword = Id::encryptPassword($this->modelUser,$this->modelUser->username,$this->viewRegister->widget('password')->value()) ;
+            	$sPassword = Authenticate::encryptPassword($this->modelUser,$this->modelUser->username,$this->viewRegister->widget('password')->value()) ;
             	$this->modelUser->setData('password',$sPassword) ;
 
             	try {

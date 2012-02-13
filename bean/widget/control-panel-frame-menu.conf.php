@@ -44,6 +44,13 @@ return array(
 												),
 											),
 									) ,
+									'platform-rebuiild' => array(
+											'title'=>'系统重建' ,
+											'link' => '?c=org.opencomb.coresystem.system.RebuildPlatform' ,
+											'query' => 'c=org.opencomb.coresystem.system.RebuildPlatform' ,
+									) ,
+									
+									
 									'debug-stat' => array(
 											'title'=>'调式状态' ,
 											'link' => '?c=org.opencomb.coresystem.system.DebugStatSetting' ,

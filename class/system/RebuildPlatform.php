@@ -1,21 +1,16 @@
 <?php
 namespace org\opencomb\coresystem\system ;
 
+use org\opencomb\coresystem\mvc\controller\ControlPanel;
 use org\opencomb\platform\system\PlatformShutdowner;
-
 use org\jecat\framework\lang\oop\ClassLoader;
-
 use org\jecat\framework\fs\FileSystem;
-
 use org\opencomb\platform\Platform;
-
 use org\opencomb\platform\system\PlatformSerializer;
-
 use org\jecat\framework\auth\IdManager;
-use org\jecat\framework\mvc\controller\Controller;
 use org\opencomb\coresystem\auth\Id;
 
-class RebuildPlatform extends Controller
+class RebuildPlatform extends ControlPanel
 {
 	/**
 	 * @example /权限/Bean配置许可
@@ -40,7 +35,7 @@ class RebuildPlatform extends Controller
 
 	public function process()
 	{
-		$this->authorizer()->check(IdManager::singleton()) ;
+		$this->checkPermissions() ;
 		
 		if( $this->params->has('act') )
 		{

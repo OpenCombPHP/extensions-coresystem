@@ -2,6 +2,7 @@
 namespace org\opencomb\coresystem\user ;
 
 use org\opencomb\coresystem\auth\Id;
+use org\opencomb\coresystem\auth\Authenticate;
 use org\jecat\framework\auth\IdManager;
 use org\jecat\framework\db\DB;
 use org\jecat\framework\message\Message;
@@ -53,7 +54,7 @@ class Login extends Controller
 				break ;
 			}
 				
-			if( $this->modelUser->password != Id::encryptPassword($this->modelUser,$this->params['username'],$this->params['password']) )
+			if( $this->modelUser->password != Authenticate::encryptPassword($this->modelUser,$this->params['username'],$this->params['password']) )
 			{
 				$this->login->createMessage(Message::failed,"密码错误，请检查键盘大小写状态") ;
 				break ;
