@@ -148,6 +148,25 @@ class PurviewSetting extends ControlPanel
 				}
 			}
 		}
+		
+		// 增加未注册权限
+		if( !empty($this->params['addUnregisterPurview']) )
+		{
+			$this->params['addUnregisterPurview']['name'] ;
+			if( PurviewAction::singleton()->setPurview( $sId
+				, $this->params->string('type')
+				, $this->params['addUnregisterPurview']['namespace']
+				, $this->params['addUnregisterPurview']['name']
+				, $this->params['addUnregisterPurview']['target']?:null
+			) )
+			{
+				$this->viewSetting->createMessage(Message::success,"增加了权限 %s:%s[%s]", array(
+						$this->params['addUnregisterPurview']['namespace']
+						, $this->params['addUnregisterPurview']['name']
+						, $this->params['addUnregisterPurview']['target']?:'NULL'
+				) ) ;
+			}
+		}
 	}
 
 	private function loadPurviews($sId)
@@ -155,6 +174,7 @@ class PurviewSetting extends ControlPanel
 		// 自己直接拥有的权限
 		$arrExistsPurviews = PurviewQuery::singleton()->queryPurviews($sId,$this->params->string('type')) ;
 		
+		// 注册的权限
 		$aViewVars = $this->viewSetting->variables() ;
 		$arrRegisteredPurviews = $aViewVars->get('arrRegisteredPurviews') ;
 		
@@ -179,11 +199,20 @@ class PurviewSetting extends ControlPanel
 					{
 						$arrPurview['target'] = 'NULL' ;
 					}
+					
+					// 移除
+					unset($arrExistsPurviews[$sExtName][$arrPurview['name']]) ;
+					if(empty($arrExistsPurviews[$sExtName]))
+					{
+						unset($arrExistsPurviews[$sExtName]) ;
+					}
 				}
 			}
 		}
 		
 		$aViewVars->set('arrRegisteredPurviews',$arrRegisteredPurviews) ;
+		$aViewVars->set('arrUnregisteredPurviews',$arrExistsPurviews) ;
+		print_r($arrExistsPurviews) ;
 	}
 	
 	/////////////////////////////////////////////////////

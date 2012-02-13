@@ -6,7 +6,7 @@ div.purview{
 }
 </style>
 
-<h2>{=$sPageTitle}</h2>
+<h1>{=$sPageTitle}</h1>
 
 <msgqueue />
 
@@ -58,5 +58,23 @@ div.purview{
 	</div>
 	</foreach>
 
-	<input type="submit" value="保存" />
+	<br />
+	<h2>未注册的权限</h2>
+	<foreach for="$arrUnregisteredPurviews" item="arrExtension" key="sExtName">
+	<h3>扩展：{=\org\opencomb\platform\ext\Extension::flyweight($sExtName)->metainfo()->title()} ({=$sExtName})</h3>
+	
+	</foreach>
+	<div>
+		<h3>添加未注册的权限</h3>
+		<div>
+			所属扩展：<input type="text" name="addUnregisterPurview[namespace]" />
+			权限名称：<input type="text" name="addUnregisterPurview[name]" />
+			目标ID：<input type="text" name="addUnregisterPurview[target]" style="width:60px" />
+		</div>		
+	</div>
+	<br /><br />
+
+	<input class="coresystem-form-button" type="submit" value="保存" /> <a href="?c=org.opencomb.coresystem.auth.PurviewTester">权限测试</a>
 </form>
+
+<br /><br />

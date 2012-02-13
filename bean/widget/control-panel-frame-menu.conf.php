@@ -67,6 +67,7 @@ return array(
 						'query' => array(
 								'c=org.opencomb.coresystem.user.AdminUsers' ,
 								'c=org.opencomb.coresystem.auth.PurviewSetting&type=user' ,
+								'c=org.opencomb.coresystem.auth.PurviewTester' ,
 								'c=org.opencomb.coresystem.user.UserGroupsSetting' ,
 						) ,
 					) ,

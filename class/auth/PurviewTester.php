@@ -6,7 +6,7 @@ use org\jecat\framework\message\Message;
 use org\jecat\framework\auth\IdManager;
 use org\opencomb\coresystem\mvc\controller\ControlPanel;
 
-class TestPurview extends ControlPanel
+class PurviewTester extends ControlPanel
 {
 	public function createBeanConfig()
 	{
@@ -26,7 +26,7 @@ class TestPurview extends ControlPanel
 		
 		return array(
 			'view:test' => array(
-					'template' => 'TestPurview.html' ,
+					'template' => 'PurviewTester.html' ,
 					'class' => 'form' ,
 					
 					'widgets' => array(
@@ -38,9 +38,20 @@ class TestPurview extends ControlPanel
 							'class' => 'select' ,
 							'options' => $arrPurview ,
 						) ,
+						'purviewName' => array(
+							'class' => 'text' ,
+						) ,
+						'purviewNamespace' => array(
+							'class' => 'text' ,
+						) ,
 						'target' => array(
 							'class' => 'text' ,
-							'value' => 'NULL' ,
+							'value' => PurviewQuery::all ,
+						) ,
+						'ignoreTarget' => array(
+							'class' => 'checkbox' ,
+							'value' => '1' ,
+							'title' => '忽略' ,
 						) ,
 					)
 			) ,		
@@ -53,12 +64,26 @@ class TestPurview extends ControlPanel
 		
 		if( $this->test->isSubmit($this->params) )
 		{
-			list($sNamespace,$sPurview) = explode(':',$this->test->widget('purview')->value()) ;
-			$target = $this->test->widget('target')->value() ;
-			if( empty($target) or strtolower($target)=='null' )
+			$sNamespace = $this->test->widget('purviewNamespace')->value() ; 
+			$sPurview = $this->test->widget('purviewName')->value() ; 
+			
+			if($this->test->widget('ignoreTarget')->value())
 			{
-				$target = null ;
+				$target = PurviewQuery::ignore ;
 			}
+			else
+			{
+				$target = $this->test->widget('target')->value()?: PurviewQuery::all ;
+			}
+			
+			$sUid = $this->test->widget('userid')->value() ;
+			if(!$sUid)
+			{
+				$sUid = IdManager::singleton()->currentId()->userId() ;
+			}
+			
+			$this->createMessage(Message::notice,"用户ID: %d",$sUid) ;
+			$this->createMessage(Message::notice,"权限: %s; 所属扩展: %s",array($sPurview,$sNamespace)) ;
 			
 			// -- 指定uid用户 -----------------------------------
 			$arrTestLevels = array(
@@ -68,12 +93,10 @@ class TestPurview extends ControlPanel
 					PurviewQuery::auth_group_inheritance=>'上级用户组“可继承”权限' ,
 					//PurviewQuery::auth_platform_admin=>'平台管理员权限' ,
 			) ;
-			
 			foreach($arrTestLevels as $nLevel=>$sName)
 			{
 				if( PurviewQuery::singleton()->hasPurview(
-					$this->test->widget('userid')->value()
-					, $sNamespace, $sPurview, $target, $nLevel
+					$sUid, $sNamespace, $sPurview, $target, $nLevel
 				) )
 				{
 					$this->test->createMessage(Message::success,"[权限验证等级] %s：通过",$sName) ;
