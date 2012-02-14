@@ -10,8 +10,11 @@ div.purview{
 
 <msgqueue />
 
-<form method="post">
 
+<form method="post">
+	
+	<br />
+	<h2>权限</h2>	
 	<foreach for="$arrRegisteredPurviews" item="arrExtension" key="sExtName">
 	<div>
 		<h3>扩展：{=\org\opencomb\platform\ext\Extension::flyweight($sExtName)->metainfo()->title()} ({=$sExtName})</h3>
@@ -47,7 +50,7 @@ div.purview{
 				</div>
 				
 			</foreach>
-
+	
 			<div style="clear:both"></div>
 			
 		</div>
@@ -59,11 +62,38 @@ div.purview{
 	</foreach>
 
 	<br />
-	<h2>未注册的权限</h2>
-	<foreach for="$arrUnregisteredPurviews" item="arrExtension" key="sExtName">
-	<h3>扩展：{=\org\opencomb\platform\ext\Extension::flyweight($sExtName)->metainfo()->title()} ({=$sExtName})</h3>
+	<h2>未注册权限</h2>
+	<foreach for="$arrUnregisteredPurviews" item="arrPurviewList" key="sExtName">
+	<div>
+		<h3>扩展：{=\org\opencomb\platform\ext\Extension::flyweight($sExtName)->metainfo()->title()} ({=$sExtName})</h3>
 	
+		<div style="margin-left:30px;margin-top:10px;">
+		
+			<foreach for="$arrPurviewList" item="arrPurviewListForTarget">
+				<foreach for="$arrPurviewListForTarget" item="arrPurview" key="target">
+					<div class="purview">
+						
+						<div>名称：{=$arrPurview['name']}</div>
+						<div>内容ID：{=$target?:'不限'}</div>
+						<div>
+							<a href="{=$theRequest->uri( null ,array('purview'=>$arrPurview['name'],'target'=>$target,'purviewNamespace'=>$sExtName,'act'=>'deleteUnregisterPurview') ) }">删除</a>
+						</div>
+					
+					</div>
+				</foreach>
+			</foreach>
+	
+			<div style="clear:both"></div>
+			
+		</div>
+	
+		<div style="clear:both"></div>
+		
+	</div>
 	</foreach>
+	
+	
+	<br />
 	<div>
 		<h3>添加未注册的权限</h3>
 		<div>
@@ -72,7 +102,7 @@ div.purview{
 			目标ID：<input type="text" name="addUnregisterPurview[target]" style="width:60px" />
 		</div>		
 	</div>
-	<br /><br />
+	<br />
 
 	<input class="coresystem-form-button" type="submit" value="保存" /> <a href="?c=org.opencomb.coresystem.auth.PurviewTester">权限测试</a>
 </form>

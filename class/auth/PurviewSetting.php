@@ -50,6 +50,8 @@ class PurviewSetting extends ControlPanel
 			return ;
 		}
 		
+		$this->doActions() ;
+		
 		if( $this->params->string('type')==PurviewQuery::user )
 		{
 			$aModel = BeanFactory::singleton()->createBeanByConfig('model/user','coresystem') ;
@@ -92,6 +94,25 @@ class PurviewSetting extends ControlPanel
 		{	
 			$this->viewSetting->variables()->set('sPageTitle',"设置用户组“{$aModel->name}”的权限") ;
 		}
+	}
+	
+	protected function actionDeleteUnregisterPurview()
+	{
+			$this->params['addUnregisterPurview']['name'] ;
+			if( PurviewAction::singleton()->removePurview( $this->params->string('id')
+				, $this->params->string('type')
+				, $this->params['purviewNamespace']
+				, $this->params['purview']
+				, $this->params['target']?:PurviewQuery::ignore
+			) )
+			{
+				$this->viewSetting->createMessage(Message::success,"删除了权限 %s:%s[%s]", array(
+						$this->params['purviewNamespace']
+						, $this->params['purview']
+						, $this->params['target']?:'NULL'
+				) ) ;
+			}
+		
 	}
 	
 	private function modifyPurviews($sId)
@@ -212,7 +233,7 @@ class PurviewSetting extends ControlPanel
 		
 		$aViewVars->set('arrRegisteredPurviews',$arrRegisteredPurviews) ;
 		$aViewVars->set('arrUnregisteredPurviews',$arrExistsPurviews) ;
-		print_r($arrExistsPurviews) ;
+		// print_r($arrExistsPurviews) ;
 	}
 	
 	/////////////////////////////////////////////////////
@@ -224,8 +245,16 @@ class PurviewSetting extends ControlPanel
 	
 	static public function queryPurviewTitle($sExtension,$sPurviewName,$target)
 	{
+		if(!is_array(@self::$arrRegisteredPurviews[$sExtension]))
+		{
+			return ;
+		}
 		foreach(self::$arrRegisteredPurviews[$sExtension] as &$arrPurviewList)
 		{
+			if(!is_array(@$arrPurviewList))
+			{
+				continue ;
+			}
 			foreach($arrPurviewList as &$arrPurview)
 			{
 				if( $arrPurview['name']==$sPurviewName and $arrPurview['target']==$target )
