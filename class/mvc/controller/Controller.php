@@ -157,6 +157,10 @@ class Controller extends JcController
      */
     protected function setupWebpageHtmlHead(Webpage $aWebpage)
     {
+    	if(!Extension::flyweight('coresystem'))
+    	{
+    		throw new \Exception() ;
+    	}
     	// 通过 Extension::flyweight() 方法取得 扩展coresystem 的享元对象。
     	// 每个激活的扩展，在系统运行时都有一个Extension类的享元对象，该对象负责维护对应扩展的相关信息和状态。
     	// 然后通过 扩展享元对象的setting() 方法取得该扩展的Setting 对象。
