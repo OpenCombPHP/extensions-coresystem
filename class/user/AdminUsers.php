@@ -1,6 +1,10 @@
 <?php
 namespace org\opencomb\coresystem\user ;
 
+use org\jecat\framework\db\sql\StatementState;
+
+use org\jecat\framework\mvc\model\db\Model;
+
 use org\opencomb\coresystem\auth\Id;
 
 use org\opencomb\coresystem\mvc\controller\ControlPanel;
@@ -27,6 +31,7 @@ class AdminUsers extends ControlPanel
 				'model' => 'users' ,
 				'widget:paginator' => array(    //分页器bean配置方法
 					'class' => 'paginator' ,
+					'count' => 30 ,
 				) 
 			) ,
 			'perms' => array(
@@ -43,7 +48,16 @@ class AdminUsers extends ControlPanel
 		// 权限检查
 		$this->checkPermissions('您没有使用这个功能的权限,无法继续浏览',array()) ;
 				
-		$this->users->load() ;
+		if( $this->params->has('username') )
+		{
+			$aCriteria = Model::buildCriteria($this->users->prototype()) ;
+			$aCriteria->where()->like('username', "{$this->params['username']}%") ;			
+			$this->users->load($aCriteria) ;
+		}
+		else
+		{
+			$this->users->load() ;
+		}
 	}
 }
 

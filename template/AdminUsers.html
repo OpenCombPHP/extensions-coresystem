@@ -1,15 +1,30 @@
 ﻿<h2>用户管理</h2>
-<table>
-<tbody>
-<model:foreach>
-	<tr>
-		<td><data>username</data></td>
-		<td width="50px"><a href="?c=org.opencomb.coresystem.auth.PurviewSetting&id={=$theModel->uid}&type=user">权限</a></td>
-		<td width="50px"><a href="?c=org.opencomb.coresystem.user.UserGroupsSetting&uid={=$theModel->uid}">用户组</a></td>
-	</tr>
-</model:foreach>
 
-</tbody>
+<form >
+	<input type="hidden" name="c" value="org.opencomb.coresystem.user.AdminUsers" />
+	用户名：
+	<input type="text" name="username" value="{=@$theRequest['username']}" />
+	<input type="submit" value="搜索" />
+</form>
+
+<table>
+	<tbody>
+	
+	<model:foreach>
+		<tr>
+			<td><data>username</data></td>
+			<td width="50px"><a href="?c=org.opencomb.coresystem.auth.PurviewSetting&id={=$theModel->uid}&type=user">权限</a></td>
+			<td width="50px"><a href="?c=org.opencomb.coresystem.user.UserGroupsSetting&uid={=$theModel->uid}">用户组</a></td>
+		</tr>
+	<model:foreach:else />
+		<tr>
+			<td>
+				没有符合条件的记录 ...
+			</td>
+		</tr>
+	</model:foreach>
+	
+	</tbody>
 </table>
 
 <widget id='paginator' />
