@@ -33,7 +33,7 @@ class PurviewPermission extends PermissionBase
 		{
 			return false ;
 		}
-
+		
 		return PurviewQuery::singleton()->hasPurview(
 				$aId->userId()
 				, $this->sPurviewNamespace

@@ -13,8 +13,8 @@ class Authorizer extends JcAuthorizer
 		if( $aPermission instanceof PurviewPermission )
 		{
 			$aGrpPerm = new GroupPermission() ;
-			$aGrpPerm->add($aPermission,$bRestrict) ;
-			$aGrpPerm->add(new PurviewPermission(Id::PLATFORM_ADMIN, null, 'coresystem'),$bRestrict) ;
+			$aGrpPerm->add($aPermission,true) ;
+			$aGrpPerm->add( PurviewPermission::flyweight(array(Id::PLATFORM_ADMIN, null, 'coresystem'),true), $bRestrict ) ;
 			
 			$aPermission = $aGrpPerm ;
 		}
