@@ -107,6 +107,7 @@ class RebuildPlatform extends ControlPanel
 	
 	public function actionCompileClasses()
 	{
+		ob_clean() ;
 		foreach($this->params['classes'] as $sClass)
 		{
 			try{
@@ -121,6 +122,8 @@ class RebuildPlatform extends ControlPanel
 			, @$this->params['classes']?: array()
 		) ;
 		$this->response()->putReturnVariable($arrCompileds,'arrCompileds') ;
+		
+		ob_end_flush() ;
 	}
 	
 	

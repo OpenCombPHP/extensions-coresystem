@@ -110,12 +110,17 @@ function clearPlatformCache()
 }
 
 var isContinue = true ;
-jQuery('#btnStart').on('click',start);
-function stop(){
-	isContinue = false ;
+function initStart(){
+	jQuery('#btnStart').html('开始');
 	jQuery('#btnStart').off('click');
 	jQuery('#btnStart').on('click',start);
 }
+
+function stop(){
+	isContinue = false ;
+	initStart() ;
+}
+jQuery(initStart);
 
 function compileClasses()
 {
@@ -210,6 +215,7 @@ function restartSystem()
 			jquery('#btnStart').attr('disabled',false) ;
 		}
 	}) ;
+	initStart() ;
 }
 //-->
 </script>
