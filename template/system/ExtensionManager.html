@@ -27,6 +27,10 @@
 .ulDepList{
 	padding-left:20px;
 }
+.descontent{
+	width: 100%;
+	word-wrap: break-word;
+}
 </style>
 <script type='text/javascript'>
 var arrDependenceBy={=json_encode($arrDependenceBy)};
@@ -92,17 +96,17 @@ function unistallExtension(sExtName){
 		title:'选择卸载方式'
 	});
 }
-function getDependenceByRecursively(sExtName){
+function getDependenceByRecursively(sExtName , bIgnoreEnable ){
 	var str = '';
 	str += '<ul class="ulDepByList">';
 	for(var i=0;i<arrDependenceBy[sExtName].length;++i){
 		var sDepByExtName = arrDependenceBy[sExtName][i];
 		
 		// 不包含未启用的扩展
-		if(arrEnableState[sDepByExtName]){
+		if(!bIgnoreEnable || arrEnableState[sDepByExtName]){
 			str += '<li>'+sDepByExtName;
 			if(typeof(arrDependenceBy[sDepByExtName]) != 'undefined'){
-				str += getDependenceByRecursively(sDepByExtName);
+				str += getDependenceByRecursively(sDepByExtName , bIgnoreEnable);
 			}
 			str += '</li>';
 		}
@@ -131,7 +135,7 @@ function disableExtension(sExtName){
 		divDep.css('display','none');
 	}else{
 		divDep.css('display','block');
-		objDepByList.append(getDependenceByRecursively(sExtName));
+		objDepByList.append(getDependenceByRecursively(sExtName,true));
 	}
 	
 	objDialog.dialog({
@@ -170,7 +174,7 @@ function enableExtension(sExtName){
 		divDep.css('display','none');
 	}else{
 		divDep.css('display','block');
-		objDepList.append(getDependenceRecursively(sExtName));
+		objDepList.append(getDependenceRecursively(sExtName , true));
 	}
 	
 	objDialog.dialog({
@@ -187,17 +191,17 @@ function enableExtension(sExtName){
 		title:'确认激活'
 	});
 }
-function getDependenceRecursively(sExtName){
+function getDependenceRecursively(sExtName , bIgnoreEnable ){
 	var str = '';
 	str += '<ul class="ulDepList">';
 	for(var i=0;i<arrDependence[sExtName].length;++i){
 		var sDepByExtName = arrDependence[sExtName][i];
 		
 		// 不包含已启用的扩展
-		if(!arrEnableState[sDepByExtName]){
+		if(!bIgnoreEnable || !arrEnableState[sDepByExtName]){
 			str += '<li>'+sDepByExtName;
 			if(typeof(arrDependence[sDepByExtName]) != 'undefined'){
-				str += getDependenceRecursively(sDepByExtName);
+				str += getDependenceRecursively(sDepByExtName , bIgnoreEnable );
 			}
 			str += '</li>';
 		}
@@ -207,43 +211,93 @@ function getDependenceRecursively(sExtName){
 }
 </script>
 <msgqueue />
+<script type='text/javascript'>
+var containLength = 80 ;
+jQuery(function(){
+	jQuery('.descontent').each(function (){
+		var fullText = this.innerHTML;
+		this.fullText = fullText ;
+		this.button = jQuery('<button></button>');
+		this.expand = function(){
+			this.innerHTML = this.fullText ;
+			this.button[0].innerHTML = '收起';
+			jQuery(this).append(this.button);
+			var descont = this ;
+			this.button.click(function(){
+				descont.contract();
+			});
+		}
+		this.contract = function(){
+			this.innerHTML = this.fullText.substr(0,containLength);
+			this.button[0].innerHTML = '展开';
+			jQuery(this).append(this.button);
+			var descont = this ;
+			this.button.click(function(){
+				descont.expand();
+			});
+		}
+		if( fullText.length > containLength ){
+			this.contract();
+		}
+	});
+});
+
+function showDep(sName,o){
+	var inner = getDependenceRecursively(sName , false );
+	jQuery(o).closest('.showRelationBlock').find('.showDepBlock').append( inner );
+	o.innerHTML = '收起' ;
+	o.onclick = function(){
+		hideDep(sName,o);
+	}
+}
+function hideDep(sName,o){
+	jQuery(o).closest('.showRelationBlock').find('.showDepBlock').empty();
+	o.innerHTML = '展开' ;
+	o.onclick = function(){
+		showDep(sName,o);
+	}
+}
+
+function showDepBy(sName,o){
+	var inner = getDependenceByRecursively(sName , false );
+	jQuery(o).closest('.showRelationBlock').find('.showDepByBlock').append( inner );
+	o.innerHTML = '收起' ;
+	o.onclick = function(){
+		hideDepBy(sName,o);
+	}
+}
+function hideDepBy(sName,o){
+	jQuery(o).closest('.showRelationBlock').find('.showDepByBlock').empty();
+	o.innerHTML = '展开' ;
+	o.onclick = function(){
+		showDepBy(sName,o);
+	}
+}
+</script>
 <h2>已经启用的扩展</h2>
 <foreach for="$arrPriority" item="arrExtName" key="nPriority">
 	<h3>优先级：{=$nPriority}</h3>
-	<table>
-		<tr>
-			<th>名称</th>
-			<th>标题</th>
-			<th>版本</th>
-			<th>依赖</th>
-			<th>禁用</th>
-			<th>卸载</th>
-			<th>更改优先级</th>
-			<th>更改顺序</th>
-		</tr>
+	<div class="priority">
 	<foreach for="$arrExtName" item="sExtName">
-		<tr>
-			<td>{=$sExtName}</td>
-			<td>{=$arrEnabledExtensions[$sExtName]->metainfo()->title()}</td>
-			<td>{=$arrEnabledExtensions[$sExtName]->metainfo()->version()}</td>
-			<td>
-				<if "$aDependence=$arrEnabledExtensions[$sExtName]->metainfo()->dependence()">
-					<ul class='dep'>
-						<foreach for="$aDependence->iterator()" item="dep">
-							<li>{=$dep->itemName()}</li>
-						</foreach>
-					</ul>
-				<else />
-					无
-				</if>
-			</td>
-			<td>
-				<a href='#' onclick="disableExtension('{=$sExtName}')">禁用</a>
-			</td>
-			<td>
-				<a href='#' onclick="unistallExtension('{=$sExtName}')">卸载</a>
-			</td>
-			<td>
+		<div class='extension'>
+			<div class='logo'>
+				<img src='/extensions/coresystem/0.1/public/images/extlogodefault.jpg' />
+			</div>
+			<div class='titleBlock'>
+				<div class='extTitle'>{=$arrEnabledExtensions[$sExtName]->metainfo()->title()}</div>
+				(
+					<div class='extName'>{=$sExtName}</div>
+					ver : <div class='extVer'>{=$arrEnabledExtensions[$sExtName]->metainfo()->version()}</div>
+				)
+			</div>
+			<div class='disable'>
+				<a href='#' onclick="disableExtension('{=$sExtName}');return false;">禁用</a>
+			</div>
+			<div class='uninstall'>
+				<a href='#' onclick="unistallExtension('{=$sExtName}');return false;">卸载</a>
+			</div>
+			<div class='priority'>
+				优先级：
 				<select onchange="changePriority('{=$sExtName}',this.value)">
 					<loop end='9' var='n'>
 						<if '$n == $nPriority'>
@@ -253,26 +307,39 @@ function getDependenceRecursively(sExtName){
 						</if>
 					</loop>
 				</select>
-			</td>
-			<td>
+			</div>
+			<div>
+				加载顺序：
 				<a href='#' onclick="changeOrder('{=$sExtName}','up')">向上</a>
 				<a href='#' onclick="changeOrder('{=$sExtName}','down')">向下</a>
-			</td>
-		</tr>
+			</div>
+			<div class='description'>
+				描述：
+				<pre class='descontent'>{=$arrEnabledExtensions[$sExtName]->metainfo()->description()}</pre>
+			</div>
+			<div class='showRelationBlock'>
+				依赖：<span class='showDepBlock'></span><button class='btnShowDep' onclick='showDep("{=$sExtName}",this)'>展开</button>
+				被依赖：<span class='showDepByBlock'></span><button class='btnShowDepBy' onclick='showDepBy("{=$sExtName}",this)'>展开</button>
+			</div>
+		</div>
 	</foreach>
-	</table>
+	</div>
 </foreach>
 <h2>禁用的扩展</h2>
-<table>
-	<tr><th>名称</th><th>标题</th><th>版本</th><th>启用</th></tr>
-	<foreach for="$arrDisabledExtensionMetainfos" item="aExtensionMetainfo">
-		<tr>
-			<td>{=$aExtensionMetainfo->name()}</td>
-			<td>{=$aExtensionMetainfo->title()}</td>
-			<td>{=$aExtensionMetainfo->version()}</td>
-			<td>
-				<a href='#' onclick='enableExtension("{=$aExtensionMetainfo->name()}")'>启用</a>
-			</td>
-		</tr>
-	</foreach>
-</table>
+<foreach for="$arrDisabledExtensionMetainfos" item="aExtensionMetainfo">
+	<div class='extension'>
+		<div class='logo'>
+			<img src='/extensions/coresystem/0.1/public/images/extlogodefault.jpg' />
+		</div>
+		<div class='titleBlock'>
+			<div class='extTitle'>{=$aExtensionMetainfo->title()}</div>
+			(
+				<div class='extName'>{=$aExtensionMetainfo->name()}</div>
+				ver : <div class='extVer'>{=$aExtensionMetainfo->version()}</div>
+			)
+		</div>
+		<div class='enable'>
+			<a href='#' onclick='enableExtension("{=$aExtensionMetainfo->name()}");return false;'>启用</a>
+		</div>
+	</div>
+</foreach>
