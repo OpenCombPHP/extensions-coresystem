@@ -1,22 +1,21 @@
-<lib name="jquery.ui" />
+<lib name="jquery.progressbar" />
 
 <h1>系统重建</h1>
 
 <div>
 	<div id="eleProgressbar" style="text-align:center;width:200px;float:left"></div>
+	<div>
+		<span style="padding-left:10px" id="spnCompiledClassNum">0</span>/<span id="spnNeedCompileClassNum">0</span>
+	</div>
 	
 	<div style="float:left;padding-left:20px;width:200px">
-		<div>
-			<span id="elePercent">0%</span>
-			<span style="padding-left:10px" id="spnCompiledClassNum">0</span>/<span id="spnNeedCompileClassNum">0</span>
-		</div>
 		<div id="divMessage"></div>
 	</div>
 </div>
 
 <div style="clear:both"></div>
 
-<button id="btnStart" onclick="start()">开始</button>
+<button id="btnStart">开始</button>
 
 
 
@@ -32,15 +31,17 @@ var sShutDownBackdoorSecret ;
 
 
 jquery(function(){
-	jquery('#eleProgressbar').progressbar({'value':0}) ;
+	jQuery('#eleProgressbar').progressBar({
+		barImage:'/extensions/doccenter/0.1/public/progressbg_red.gif',
+		boxImage:'/extensions/doccenter/0.1/public/progressbar.gif',
+	}) ;
 	jquery('#spnNeedCompileClassNum').html(arrAllClasses.length) ;
 }) ;
 
 function updateProgress()
 {
 	var percent = Math.ceil(((arrAllClasses.length-arrUncompiledClasses.length)/arrAllClasses.length)*100) ;
-	jquery('#eleProgressbar').progressbar('option','value',percent) ;
-	jquery('#elePercent').html( percent + '%' ) ;
+	jQuery('#eleProgressbar').progressBar(percent) ;
 	jquery('#spnCompiledClassNum').html(arrAllClasses.length-arrUncompiledClasses.length) ;
 }
 
@@ -62,12 +63,12 @@ function start()
 		, complete: function(rspn) {
 			try{
 				var response = jQuery.parseJSON(rspn.responseText) ;
+				sShutDownBackdoorSecret = response.shutdown_backdoor_secret_key ;
 				if( response.success == 1 )
 				{
 					jquery('#divLog').append("<div>系统已经临时关闭。</div>") ;
 					clearPlatformCache() ;
 				}
-				sShutDownBackdoorSecret = response.shutdown_backdoor_secret_key ;
 			}catch (e){
 				jquery('#divMessage').html("<div>重建系统前，关闭系统失败。</div>"+rspn.responseText) ;
 				jquery('#btnStart').attr('disabled',false) ;
@@ -93,7 +94,6 @@ function clearPlatformCache()
 				if( response.success == '1' )
 				{
 					jquery('#divLog').append("<div>清理系统完毕。</div>") ;
-					jquery('#btnStart').attr('disabled',false) ;
 				}
 
 				jquery('#divLog').append("<div>开始编译类……</div>") ;
@@ -109,9 +109,21 @@ function clearPlatformCache()
 	
 }
 
+var isContinue = true ;
+jQuery('#btnStart').on('click',start);
+function stop(){
+	isContinue = false ;
+	jQuery('#btnStart').off('click');
+	jQuery('#btnStart').on('click',start);
+}
+
 function compileClasses()
 {
-	jquery('#btnStart').attr('disabled',true) ;
+	if( ! isContinue ){
+		restartSystem() ;
+		isContinue = true ;
+		return ;
+	}
 	
 	updateProgress() ;
 	
@@ -133,6 +145,12 @@ function compileClasses()
 				jquery('#divLog').append("<div>"+this.url+"</div>") ;
 			}
 			, complete: function(rspn) {
+				if(jQuery('#btnStart').attr('disabled') == 'disabled' ){
+					jQuery('#btnStart').attr('disabled',false) ;
+					jQuery('#btnStart').html('结束');
+					jQuery('#btnStart').off('click');
+					jQuery('#btnStart').on('click',stop);
+				}
 				try{
 					var response = jQuery.parseJSON(rspn.responseText) ;
 					if( response.success == '1' )
