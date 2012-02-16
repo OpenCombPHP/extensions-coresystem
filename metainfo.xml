@@ -21,14 +21,6 @@
 	
 	<beanFolder folder="/bean" />
 	
-	<data>
-		<version>0.3</version>
-		<setup>org.opencomb.coresystem.setup.Setup</setup>
-		<upgrader from='0.1' to='0.2'>org.opencomb.coresystem.setup.UpgraderTo</upgrader>
-		<upgrader from='0.2' to='0.3'>org.opencomb.coresystem.setup.UpgraderTo</upgrader>
-		<upgrader from='0.1' to='0.3'>org.opencomb.coresystem.setup.UpgraderTo</upgrader>
-	</data>
-	
 	<language locale="zh_CN" path="/path/in/extension/folder/aadd" />
 	<language locale="zh_TW" path="/path/in/extension/folder/aadd" />
 	
@@ -40,18 +32,11 @@
 	</require>
 	
 	<!-- 依赖脚本语言模块-->
-	<require type="language_module" item="gd2">
-	<![CDATA[
-		>=2.1
-	]]>
-	</require>
 
 	<!-- 依赖蜂巢系统-->
 	<require type="platform"><![CDATA[ >=0.1 ]]></require>
 	
 	<!-- 依赖其他扩展-->
-	<require type="extension" item="com.companyB.extensionA"><![CDATA[ >=0.1 ]]></require>
-	<require item="com.companyB.extensionB"><![CDATA[ >=0.2 ]]></require>
 	
 	<!-- 支持其他扩展-->
 	<support type="extension" item="com.companyC.extensionA">
