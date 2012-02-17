@@ -1,4 +1,19 @@
 <lib name="jquery.ui" />
+
+<msgqueue />
+<if '$rebuild === "1" '>
+	<view name='rebuild' />
+<style>
+.back{
+	color:blue ;
+	font-size : 32px;
+}
+</style>
+	<div>
+		<a class='back' href='/?c=org.opencomb.coresystem.system.ExtensionManager'>返回</a>
+	</div>
+<else />
+
 <style>
 .warning{
 	color:red;
@@ -210,7 +225,6 @@ function getDependenceRecursively(sExtName , bIgnoreEnable ){
 	return str;
 }
 </script>
-<msgqueue />
 <script type='text/javascript'>
 var containLength = 80 ;
 jQuery(function(){
@@ -343,3 +357,5 @@ function hideDepBy(sName,o){
 		</div>
 	</div>
 </foreach>
+
+</if>

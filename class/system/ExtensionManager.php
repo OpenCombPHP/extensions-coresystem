@@ -28,8 +28,14 @@ class ExtensionManager extends ControlPanel
 					'name' => Id::PLATFORM_ADMIN,
 				) ,
 			) ,
+			
+			'controller:rebuild' => array(
+				'class' => 'org\\opencomb\\coresystem\\system\\RebuildPlatform',
+				'param.exclude' => 'act',
+			),
 		) ;
 	}
+	
 	public function process()
 	{
 		$this->checkPermissions('您没有使用这个功能的权限,无法继续浏览',array()) ;
@@ -78,6 +84,10 @@ class ExtensionManager extends ControlPanel
 		$this->view->variables()->set('arrDependence',$arrDependence);
 		$this->view->variables()->set('arrDependenceBy',$arrDependenceBy);
 		$this->view->variables()->set('arrEnableState',$arrEnableState);
+		
+		if( '1' !== $this->view->variables()->get('rebuild') ){
+			$this->rebuild->disable() ;
+		}
 	}
 	
 	public function actionDisable(){
@@ -89,7 +99,7 @@ class ExtensionManager extends ControlPanel
 			$this->view->createMessage(Message::error,$e->getMessage(),$e->messageArgvs()) ;
 		}
 		PlatformSerializer::singleton()->clearRestoreCache();
-		$this->location('/?c=org.opencomb.coresystem.system.ExtensionManager',3);
+		$this->view->variables()->set('rebuild','1');
 	}
 	
 	public function actionUninstall(){
@@ -103,7 +113,7 @@ class ExtensionManager extends ControlPanel
 			$this->view->createMessage(Message::error,$e->getMessage(),$e->messageArgvs()) ;
 		}
 		PlatformSerializer::singleton()->clearRestoreCache();
-		$this->location('/?c=org.opencomb.coresystem.system.ExtensionManager',3);
+		$this->view->variables()->set('rebuild','1');
 	}
 	
 	public function actionChangePriority(){
@@ -119,7 +129,7 @@ class ExtensionManager extends ControlPanel
 		}catch(Exception $e){
 			$this->view->createMessage(Message::error,$e->getMessage(),$e->messageArgvs()) ;
 		}
-		$this->location('/?c=org.opencomb.coresystem.system.ExtensionManager',3);
+		$this->view->variables()->set('rebuild','1');
 	}
 	
 	/**
@@ -138,7 +148,7 @@ class ExtensionManager extends ControlPanel
 		}catch(Exception $e){
 			$this->view->createMessage(Message::error,$e->getMessage(),$e->messageArgvs()) ;
 		}
-		$this->location('/?c=org.opencomb.coresystem.system.ExtensionManager',3);
+		$this->view->variables()->set('rebuild','1');
 	}
 	
 	public function actionEnable(){
@@ -149,7 +159,7 @@ class ExtensionManager extends ControlPanel
 			$this->view->createMessage(Message::error,$e->getMessage(),$e->messageArgvs()) ;
 		}
 		PlatformSerializer::singleton()->clearRestoreCache();
-		$this->location('/?c=org.opencomb.coresystem.system.ExtensionManager',3);
+		$this->view->variables()->set('rebuild','1');
 	}
 	
 	private function getDependenceBy(){
