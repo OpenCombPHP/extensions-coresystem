@@ -172,7 +172,7 @@ class NameCard extends Widget {
 	 * @throws Exception 如果模型中没有需要的列
 	 */
 	public function faceUrl()
-	{$this->aModel->printStruct();
+	{
 		//检查需要的列是否存在,目前支持头像地址(avatar), 以后支持更多
 		if(!$this->aModel['info.avatar'])
 		{
