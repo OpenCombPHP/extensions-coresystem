@@ -1,0 +1,62 @@
+@charset "utf-8";
+/* CSS Document */
+
+.warning{
+	color:red;
+}
+.notice{
+	color:blue;
+}
+.selectUnistallType{
+	display:none;
+}
+.selectUnistallTypeItem{
+	padding-left:20px;
+}
+.selectDisableType{
+	display:none;
+}
+.selectDisableTypeItem{
+	padding-left:20px;
+}
+.dialog{
+	display:none;
+}
+.ulDepByList{
+	padding-left:20px;
+}
+.ulDepList{
+	padding-left:20px;
+}
+.descontent{
+	width: 100%;
+	word-wrap: break-word;
+}
+.back{
+	color:blue ;
+	font-size : 32px;
+}
+
+
+.extension{padding:15px;}
+.extension:hover{ background:#FFC;}
+.priority dt{width:50px; float:left;}
+.priority dd{margin-left:60px;margin-bottom:6px;}
+.titleBlock{ position:relative}
+
+.priority dd h4{ font-size:18px; font-weight:normal;}
+.priority dd h4 span{ font-size:14px; color:#666}
+
+.extOther{ position:absolute; top:0; right:0;}
+.extOther span{margin-left:10px;}
+.disable{color:#c00; text-decoration:underline}
+.uninstall{color:#f90; text-decoration:underline}
+
+.ex_up,.ex_down{margin-left:10px;}
+
+
+
+
+
+
+

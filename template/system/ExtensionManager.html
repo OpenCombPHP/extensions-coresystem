@@ -1,52 +1,14 @@
 <lib name="jquery.ui" />
-
+<css src="coresystem:css/extension.css" />
 <msgqueue />
 <if '$rebuild === "1" '>
 	<view name='rebuild' />
-<style>
-.back{
-	color:blue ;
-	font-size : 32px;
-}
-</style>
+
 	<div>
 		<a class='back' href='/?c=org.opencomb.coresystem.system.ExtensionManager'>返回</a>
 	</div>
 <else />
 
-<style>
-.warning{
-	color:red;
-}
-.notice{
-	color:blue;
-}
-.selectUnistallType{
-	display:none;
-}
-.selectUnistallTypeItem{
-	padding-left:20px;
-}
-.selectDisableType{
-	display:none;
-}
-.selectDisableTypeItem{
-	padding-left:20px;
-}
-.dialog{
-	display:none;
-}
-.ulDepByList{
-	padding-left:20px;
-}
-.ulDepList{
-	padding-left:20px;
-}
-.descontent{
-	width: 100%;
-	word-wrap: break-word;
-}
-</style>
 <script type='text/javascript'>
 var arrDependenceBy={=json_encode($arrDependenceBy)};
 var arrEnableState={=json_encode($arrEnableState)};
@@ -259,14 +221,14 @@ jQuery(function(){
 function showDep(sName,o){
 	var inner = getDependenceRecursively(sName , false );
 	jQuery(o).closest('.showRelationBlock').find('.showDepBlock').append( inner );
-	o.innerHTML = '收起' ;
+	o.innerHTML = "<img src='/extensions/coresystem/0.1/public/images/ex_jian.png' title='收起' />";
 	o.onclick = function(){
 		hideDep(sName,o);
 	}
 }
 function hideDep(sName,o){
 	jQuery(o).closest('.showRelationBlock').find('.showDepBlock').empty();
-	o.innerHTML = '展开' ;
+	o.innerHTML = "<img src='/extensions/coresystem/0.1/public/images/ex_jia.png' title='展开' />";
 	o.onclick = function(){
 		showDep(sName,o);
 	}
@@ -275,14 +237,14 @@ function hideDep(sName,o){
 function showDepBy(sName,o){
 	var inner = getDependenceByRecursively(sName , false );
 	jQuery(o).closest('.showRelationBlock').find('.showDepByBlock').append( inner );
-	o.innerHTML = '收起' ;
+	o.innerHTML ="<img src='/extensions/coresystem/0.1/public/images/ex_jian.png' title='收起' />";
 	o.onclick = function(){
 		hideDepBy(sName,o);
 	}
 }
 function hideDepBy(sName,o){
 	jQuery(o).closest('.showRelationBlock').find('.showDepByBlock').empty();
-	o.innerHTML = '展开' ;
+	o.innerHTML = "<img src='/extensions/coresystem/0.1/public/images/ex_jia.png' title='展开' />";
 	o.onclick = function(){
 		showDepBy(sName,o);
 	}
@@ -293,25 +255,17 @@ function hideDepBy(sName,o){
 	<h3>优先级：{=$nPriority}</h3>
 	<div class="priority">
 	<foreach for="$arrExtName" item="sExtName">
-		<div class='extension'>
-			<div class='logo'>
-				<img src='/extensions/coresystem/0.1/public/images/extlogodefault.jpg' />
-			</div>
+		<dl class='extension'>
+			<dt class='logo'>
+				<img src='/extensions/coresystem/0.1/public/images/ex_icon.png' />
+			</dt>
+			<dd>
 			<div class='titleBlock'>
-				<div class='extTitle'>{=$arrEnabledExtensions[$sExtName]->metainfo()->title()}</div>
-				(
-					<div class='extName'>{=$sExtName}</div>
-					ver : <div class='extVer'>{=$arrEnabledExtensions[$sExtName]->metainfo()->version()}</div>
-				)
-			</div>
-			<div class='disable'>
-				<a href='#' onclick="disableExtension('{=$sExtName}');return false;">禁用</a>
-			</div>
-			<div class='uninstall'>
-				<a href='#' onclick="unistallExtension('{=$sExtName}');return false;">卸载</a>
-			</div>
-			<div class='priority'>
-				优先级：
+				<h4 class='extTitle'>{=$arrEnabledExtensions[$sExtName]->metainfo()->title()} <span class='extName'>（{=$sExtName} ver : {=$arrEnabledExtensions[$sExtName]->metainfo()->version()}）</span></h4>
+				<div class="extOther">
+					<span><a href='#' class='disable' onclick="disableExtension('{=$sExtName}');return false;">禁用</a>
+					<a href='#' class='uninstall' onclick="unistallExtension('{=$sExtName}');return false;">卸载</a></span>
+					<span>优先级：
 				<select onchange="changePriority('{=$sExtName}',this.value)">
 					<loop end='9' var='n'>
 						<if '$n == $nPriority'>
@@ -321,21 +275,33 @@ function hideDepBy(sName,o){
 						</if>
 					</loop>
 				</select>
+				</span>
+					<span>
+					加载顺序：
+					<a href='#' onclick="changeOrder('{=$sExtName}','up')" class="ex_up"><img src='/extensions/coresystem/0.1/public/images/ex_up.png' title="向上" /></a>
+					<a href='#' onclick="changeOrder('{=$sExtName}','down')" class="ex_down"><img src='/extensions/coresystem/0.1/public/images/ex_down.png' title="向下" /></a>
+					</span>
+				</div>			
 			</div>
-			<div>
-				加载顺序：
-				<a href='#' onclick="changeOrder('{=$sExtName}','up')">向上</a>
-				<a href='#' onclick="changeOrder('{=$sExtName}','down')">向下</a>
-			</div>
+
+
+				
+
+			
+			</dd>
+			<dd>
 			<div class='description'>
 				描述：
 				<pre class='descontent'>{=$arrEnabledExtensions[$sExtName]->metainfo()->description()}</pre>
 			</div>
+			</dd>
+			<dd>
 			<div class='showRelationBlock'>
-				依赖：<span class='showDepBlock'></span><button class='btnShowDep' onclick='showDep("{=$sExtName}",this)'>展开</button>
-				被依赖：<span class='showDepByBlock'></span><button class='btnShowDepBy' onclick='showDepBy("{=$sExtName}",this)'>展开</button>
+				依赖：<span class='showDepBlock'></span><a class='btnShowDep' onclick='showDep("{=$sExtName}",this)'><img src='/extensions/coresystem/0.1/public/images/ex_jia.png' title="展开" /></a>
+				被依赖：<span class='showDepByBlock'></span><a class='btnShowDepBy' onclick='showDepBy("{=$sExtName}",this)'><img src='/extensions/coresystem/0.1/public/images/ex_jia.png' title="展开" /></a>
 			</div>
-		</div>
+			</dd>
+		</dl>
 	</foreach>
 	</div>
 </foreach>
@@ -343,7 +309,7 @@ function hideDepBy(sName,o){
 <foreach for="$arrDisabledExtensionMetainfos" item="aExtensionMetainfo">
 	<div class='extension'>
 		<div class='logo'>
-			<img src='/extensions/coresystem/0.1/public/images/extlogodefault.jpg' />
+			<img src='/extensions/coresystem/0.1/public/images/ex_icon.png' />
 		</div>
 		<div class='titleBlock'>
 			<div class='extTitle'>{=$aExtensionMetainfo->title()}</div>
