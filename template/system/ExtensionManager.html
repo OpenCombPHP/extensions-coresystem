@@ -193,7 +193,7 @@ jQuery(function(){
 	jQuery('.descontent').each(function (){
 		var fullText = this.innerHTML;
 		this.fullText = fullText ;
-		this.button = jQuery('<button></button>');
+		this.button = jQuery('<a></a>');
 		this.expand = function(){
 			this.innerHTML = this.fullText ;
 			this.button[0].innerHTML = '收起';
@@ -291,14 +291,13 @@ function hideDepBy(sName,o){
 			</dd>
 			<dd>
 			<div class='description'>
-				描述：
-				<pre class='descontent'>{=$arrEnabledExtensions[$sExtName]->metainfo()->description()}</pre>
+				描述：<pre class='descontent'>{=$arrEnabledExtensions[$sExtName]->metainfo()->description()}</pre>
 			</div>
 			</dd>
 			<dd>
-			<div class='showRelationBlock'>
-				依赖：<span class='showDepBlock'></span><a class='btnShowDep' onclick='showDep("{=$sExtName}",this)'><img src='/extensions/coresystem/0.1/public/images/ex_jia.png' title="展开" /></a>
-				被依赖：<span class='showDepByBlock'></span><a class='btnShowDepBy' onclick='showDepBy("{=$sExtName}",this)'><img src='/extensions/coresystem/0.1/public/images/ex_jia.png' title="展开" /></a>
+			<div class='showRelationBlock clearfix'>
+				<div class="yl"><div class="yl_tit">依赖：<a class='btnShowDep' onclick='showDep("{=$sExtName}",this)'><img src='/extensions/coresystem/0.1/public/images/ex_jia.png' title="展开" /></a></div><div class='showDepBlock'></div></div>
+				<div class="byl"><div class="byl_tit">被依赖：<a class='btnShowDepBy' onclick='showDepBy("{=$sExtName}",this)'><img src='/extensions/coresystem/0.1/public/images/ex_jia.png' title="展开" /></a></div><div class='showDepByBlock'></div></div>
 			</div>
 			</dd>
 		</dl>

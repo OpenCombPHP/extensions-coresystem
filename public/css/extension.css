@@ -22,12 +22,7 @@
 .dialog{
 	display:none;
 }
-.ulDepByList{
-	padding-left:20px;
-}
-.ulDepList{
-	padding-left:20px;
-}
+
 .descontent{
 	width: 100%;
 	word-wrap: break-word;
@@ -38,8 +33,8 @@
 }
 
 
-.extension{padding:15px;}
-.extension:hover{ background:#FFC;}
+.extension{padding:10px; border-radius:5px;margin:5px 0;background:#fff;}
+.extension:hover{ background:#f6f6f6;}
 .priority dt{width:50px; float:left;}
 .priority dd{margin-left:60px;margin-bottom:6px;}
 .titleBlock{ position:relative}
@@ -49,12 +44,27 @@
 
 .extOther{ position:absolute; top:0; right:0;}
 .extOther span{margin-left:10px;}
-.disable{color:#c00; text-decoration:underline}
-.uninstall{color:#f90; text-decoration:underline}
+.disable{color:#f90; text-decoration:underline}
+a:hover.disable{color:#f90; text-decoration:none}
+.uninstall{color:#6C0; text-decoration:underline}
+a:hover.uninstall{color:#6C0; text-decoration:none}
 
 .ex_up,.ex_down{margin-left:10px;}
 
+.descontent{ white-space:pre-wrap;padding:0; margin:0; line-height:150%;}
+.descontent a{ color:#09C; text-decoration:underline; cursor:pointer}
+.descontent a:hover{ text-decoration:none}
 
+.showRelationBlock{ background:#eaeaea url(../images/ex_bg.jpg) repeat-x 0 0;border:1px solid #e6e6e6;padding:5px; border-radius:5px;}
+.showDepByBlock{}
+.yl,.byl{ width:49%; float:left;}
+.yl{margin-right:1%;}
+.yl_tit{ border-right:1px solid #ddd}
+
+
+.ulDepList,.ulDepByList{font-size:18px; color:#000; line-height:150%;}
+.ulDepList .ulDepList,.ulDepByList .ulDepByList{ font-size:15px; color:#333;padding-left:20px;}
+.ulDepList .ulDepList .ulDepList,.ulDepByList .ulDepByList .ulDepByList{ font-size:12px; color:#666;}
 
 
 
