@@ -171,6 +171,7 @@ class ExtensionManager extends ControlPanel
 				$this->arrDependenceBy[$sExtName] = array();
 			}
 			foreach($aExtMgr->metainfoIterator() as $aExtMetainfo){
+				$sExtName = $aExtMetainfo->name();
 				foreach($aExtMetainfo->dependence()->iterator() as $aRequireItem){
 					if( $aRequireItem->type() === RequireItem::TYPE_EXTENSION ){
 						$sItemName = $aRequireItem->itemName();
