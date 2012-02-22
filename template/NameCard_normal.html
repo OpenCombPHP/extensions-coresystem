@@ -23,10 +23,11 @@
 		</div>
 	</div>
 	<div class='namecard_normal_card_social_part'>
-		<a class='namecard_normal_card_message' href='#'>留言</a> | 
-		<a class='namecard_normal_card_be_friend' href='#'>加为好友</a>
-		<if '$theWidget->isMine()'>
-			 | <a class='namecard_normal_card_logout' href='?c=logout'>退出</a>
+		<if '!$theWidget->isMine()'>
+			<a class='namecard_normal_card_message' href='#'>留言</a> | 
+			<a class='namecard_normal_card_be_friend' href='#'>加为好友</a>
+		<else/>
+			<a class='namecard_normal_card_logout' href='?c=logout'>退出</a>
 		</if>
 	</div>
 </div>
