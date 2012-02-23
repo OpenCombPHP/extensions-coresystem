@@ -2,29 +2,18 @@
 namespace org\opencomb\coresystem\mvc\controller ;
 
 use org\jecat\framework\bean\BeanFactory;
-
-use org\jecat\framework\mvc\controller\WebpageFrame;
 use org\jecat\framework\mvc\view\View;
 
-class UserSpaceFrame extends WebpageFrame
+class UserSpaceFrame extends FrontFrame
 {
 	public function createBeanConfig()
 	{
-		return array(
-			'frameview:frameView' => array(
+		$arrBean = parent::createBeanConfig();
+		$arrBean['frameview:userSpaceFrame'] =  array(
 				'template' => 'coresystem:UserSpaceFrame.html' ,
 				'widget:mainMenu' => array( 'config'=>'coresystem:widget/user-space-menu' ) ,
-			) ,
 		) ;
-	}
-	
-	public function buildBean(array & $arrConfig,$sNamespace='*',\org\jecat\framework\bean\BeanFactory $aBeanFactory=null)
-	{
-		if($sNamespace=='*')
-		{
-			$sNamespace = $this->application()->extensions()->extensionNameByClass( get_class($this) )?: '*' ;
-		}
-		return parent::buildBean($arrConfig,$sNamespace) ;
+		return $arrBean;
 	}
 }
 ?>
