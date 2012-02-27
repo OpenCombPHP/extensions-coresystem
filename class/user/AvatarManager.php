@@ -59,6 +59,11 @@ class AvatarManager extends ControlPanel
 			{
 				$this->viewAvatarManager->createMessage(Message::error,"保存用户信息时遇到错误。") ;
 			}
+			else
+			{
+				// 更新session中的对像
+				$aId->setModel($this->modelUser) ;
+			}
 		}
 	}
 }
