@@ -1,6 +1,8 @@
 <?php
 namespace org\opencomb\coresystem\widget;
 
+use org\jecat\framework\mvc\model\db\Model;
+
 use org\jecat\framework\bean\BeanFactory;
 use org\opencomb\platform\ext\Extension;
 use org\jecat\framework\auth\IdManager;
@@ -36,12 +38,6 @@ use org\jecat\framework\mvc\view\widget\Widget;
  * |normal
  * |可选
  * |如何展示名片控件.分'simple','normal','full',3个级别,大体上决定名片控件显示信息的多少.控件内部会通过更换模板来实现这个参数的功能,如果指定了template属性,那么以template优先
- * |-- --
- * |template
- * |string
- * |'NameCard_normal.html'
- * |可选
- * |指定模板文件,指定这个属性后会忽略type属性
  * |-- --
  * |uid
  * |string
@@ -89,13 +85,8 @@ class NameCard extends Widget {
 			
 			$this->setModel($aModel);
 		}
-		
 		if($sDisplayType = $this->attribute('type')){
 			$this->setDisplayType($sDisplayType);
-		}
-		
-		if($sTemplateName = $this->attribute('template')){
-			$this->setTemplateName($sTemplateName);
 		}
 		if($nId = $this->attribute('uid')){
 			$this->setUid((int)$nId);
@@ -132,21 +123,29 @@ class NameCard extends Widget {
 		}
 	}
 	
+	/**
+	 * 使用用户id为namecard设置信息来源
+	 * @param int $nId
+	 */
 	public function setUid($nId){
 		$this->nId = $nId;
 		
-		$arrUserBean = array(
-			'class' => 'model' ,
-			'orm' => array(
-				'table' => 'user' ,
-				'hasOne:info' => array(
-					'table' => 'userinfo' ,
-				) ,
-			) ,
-		);
+		if( !$aModel=Model::flyweight(array('userInfo',$this->nId),false) ){
+			$arrUserBean = array(
+					'class' => 'model' ,
+					'orm' => array(
+							'table' => 'coresystem:user' ,
+							'hasOne:info' => array(
+									'table' => 'coresystem:userinfo' ,
+							) ,
+					) ,
+			);
+			
+			$aModel = BeanFactory::singleton()->createBean($arrUserBean,'coresystem');
+			$aModel->load(array($nId),array('uid'));
+			Model::setFlyweight($aModel,array('userInfo',$this->nId));
+		}
 		
-		$aModel = BeanFactory::singleton()->createBean($arrUserBean,'coresystem');
-		$aModel->load(array($nId),array('uid'));
 		$this->setModel($aModel);
 	}
 	
@@ -158,8 +157,11 @@ class NameCard extends Widget {
 		}
 	}
 	
-	//使用正在登录中的ID来显示名片
-	public function setMine($bMine){
+	/**
+	 * 使用正在登录中的ID来显示名片
+	 * @param bool $bMine 为true则使用当前登录用户的数据来显示名片
+	 */
+	public function setMine($bMine=true){
 		$this->bMine = (bool)$bMine;
 	}
 	
