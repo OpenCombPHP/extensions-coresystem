@@ -166,19 +166,30 @@ class Controller extends JcController
     	// 然后通过 扩展享元对象的setting() 方法取得该扩展的Setting 对象。
     	// Extentsion::setting() 返回的 Setting对象只包含对应扩展的配置信息；
     	// Setting::singleton() 返回的 Setting对象包含全系统的配置信息，各个扩展的配置信息只是全系统配置树结构上的一个分支。
-    	$aSetting = Extension::flyweight('coresystem')->setting() ;
+    	$aExtSetting = Extension::flyweight('coresystem')->setting() ;
+    	$aPlatformSetting = Setting::singleton() ;
     		
     	// 系统缺省的网页title
-    	$sTitleTemplate = $aSetting->item('/webpage','title-template','%s') ;
+    	$sTitleTemplate = $aExtSetting->item('/webpage','title-template','%s') ;
+    	$this->replaceSettingValue($sTitleTemplate,$aPlatformSetting) ;
     	$aWebpage->setTitle(sprintf($sTitleTemplate,$this->title())) ;
     
     	// 系统缺省的网页description
-    	$sTemplate = $aSetting->item('/webpage','description-template','%s') ;
+    	$sTemplate = $aExtSetting->item('/webpage','description-template','%s') ;
+    	$this->replaceSettingValue($sTemplate,$aPlatformSetting) ;
     	$aWebpage->setDescription(sprintf($sTemplate,$this->description())) ;
     
     	// 系统缺省的网页keywords
-    	$sTemplate = $aSetting->item('/webpage','keywords-template','%s') ;
+    	$sTemplate = $aExtSetting->item('/webpage','keywords-template','%s') ;
+    	$this->replaceSettingValue($sTemplate,$aPlatformSetting) ;
     	$aWebpage->setKeywords(sprintf($sTemplate,$this->keywords())) ;
+    }
+    
+    private function replaceSettingValue(& $sText,Setting $aSetting)
+    {
+    	$sText = preg_replace_callback('|%%(.+?):(.+?)%%|', function($arrMatches) use ($aSetting){
+    		return $aSetting->item($arrMatches[1],$arrMatches[2]) ;
+    	}, $sText) ;
     }
 }
 
