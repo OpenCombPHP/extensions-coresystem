@@ -19,6 +19,7 @@ class PurviewView extends ControlPanel
 		return array(
 			'title'=>'授权查看',
 			'view:purview' => array(
+				'class'=>'form' ,
 				'template' => 'PurviewView.html' ,
 				'vars' => array(
 						'purviews' => array() ,
