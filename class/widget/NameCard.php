@@ -95,6 +95,12 @@ class NameCard extends Widget {
 			$this->setMine($bMine);
 			$this->setModel(IdManager::singleton()->currentId()->model());
 		}
+		
+		if(!$this->model())
+		{
+			$aDevice->write("Namecard widget 没有设置 user model") ;
+			return ;
+		}		
 		parent::display($aUI, $aVariables,$aDevice);
 	}
 	
@@ -122,28 +128,32 @@ class NameCard extends Widget {
 				$this->setTemplateName('coresystem:NameCard_normal.html');
 		}
 	}
-	
 	/**
 	 * 使用用户id为namecard设置信息来源
 	 * @param int $nId
 	 */
-	public function setUid($nId){
-		$this->nId = $nId;
-		
-		if( !$aModel=Model::flyweight(array('userInfo',$this->nId),false) ){
+	public function setUid($nId)
+	{
+		// 使用享元
+		if( !$aModel = Model::flyweight(array(__CLASS__,'user',$nId),false) )
+		{
+			$this->nId = $nId;
+			
 			$arrUserBean = array(
-					'class' => 'model' ,
-					'orm' => array(
-							'table' => 'coresystem:user' ,
-							'hasOne:info' => array(
-									'table' => 'coresystem:userinfo' ,
-							) ,
+				'class' => 'model' ,
+				'orm' => array(
+					'table' => 'coresystem:user' ,
+					'hasOne:info' => array(
+						'table' => 'coresystem:userinfo' ,
 					) ,
+				) ,
 			);
 			
 			$aModel = BeanFactory::singleton()->createBean($arrUserBean,'coresystem');
 			$aModel->load(array($nId),array('uid'));
-			Model::setFlyweight($aModel,array('userInfo',$this->nId));
+			
+			// 保存享元
+			Model::setFlyweight($aModel,array(__CLASS__,'user',$nId)) ;
 		}
 		
 		$this->setModel($aModel);
@@ -211,6 +221,7 @@ class NameCard extends Widget {
 		}
 		return $arrModels;
 	}
+	
 	/**
 	 * 数据来源
 	 * @var IModel 
