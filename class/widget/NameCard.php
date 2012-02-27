@@ -1,6 +1,8 @@
 <?php
 namespace org\opencomb\coresystem\widget;
 
+use org\jecat\framework\mvc\model\db\Model;
+
 use org\jecat\framework\bean\BeanFactory;
 use org\opencomb\platform\ext\Extension;
 use org\jecat\framework\auth\IdManager;
@@ -104,6 +106,12 @@ class NameCard extends Widget {
 			$this->setMine($bMine);
 			$this->setModel(IdManager::singleton()->currentId()->model());
 		}
+		
+		if(!$this->model())
+		{
+			$aDevice->write("Namecard widget 没有设置 user model") ;
+			return ;
+		}		
 		parent::display($aUI, $aVariables,$aDevice);
 	}
 	
@@ -132,21 +140,30 @@ class NameCard extends Widget {
 		}
 	}
 	
-	public function setUid($nId){
-		$this->nId = $nId;
-		
-		$arrUserBean = array(
-			'class' => 'model' ,
-			'orm' => array(
-				'table' => 'user' ,
-				'hasOne:info' => array(
-					'table' => 'userinfo' ,
+	public function setUid($nId)
+	{
+		// 使用享元
+		if( !$aModel = Model::flyweight(array(__CLASS__,'user',$nId),false) )
+		{
+			$this->nId = $nId;
+			
+			$arrUserBean = array(
+				'class' => 'model' ,
+				'orm' => array(
+					'table' => 'user' ,
+					'hasOne:info' => array(
+						'table' => 'userinfo' ,
+					) ,
 				) ,
-			) ,
-		);
+			);
+			
+			$aModel = BeanFactory::singleton()->createBean($arrUserBean,'coresystem');
+			$aModel->load(array($nId),array('uid'));
+			
+			// 保存享元
+			Model::flyweight($aModel,array(__CLASS__,'user',$nId)) ;
+		}
 		
-		$aModel = BeanFactory::singleton()->createBean($arrUserBean,'coresystem');
-		$aModel->load(array($nId),array('uid'));
 		$this->setModel($aModel);
 	}
 	
@@ -209,6 +226,7 @@ class NameCard extends Widget {
 		}
 		return $arrModels;
 	}
+	
 	/**
 	 * 数据来源
 	 * @var IModel 
