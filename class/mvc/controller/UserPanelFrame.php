@@ -11,7 +11,7 @@ class UserPanelFrame extends UserSpaceFrame
 		$arrBean = parent::createBeanConfig();
 		$arrBean['frameview:userPanelFrame'] =  array(
 					'template' => 'UserPanelFrame.html' ,
-					'widget:mainMenu' => array( 'config'=>'widget/user-panel-frame-menu' ) ,
+// 					'widget:mainMenu' => array( 'config'=>'widget/user-panel-frame-menu' ) ,
 			) ;
 		return $arrBean;
 	}
