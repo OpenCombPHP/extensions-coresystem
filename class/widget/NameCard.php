@@ -81,11 +81,12 @@ class NameCard extends Widget {
 	
 	public function display(UI $aUI,IHashTable $aVariables=null,IOutputStream $aDevice=null)
 	{
-		//如果没登录就什么也不显示了
-		if(!$aCurrentId = IdManager::singleton()->currentId()){
-			return;
+		if($bMine = (bool)$this->attribute('mine')){
+			//如果没登录就什么也不显示了
+			if(!$aCurrentId = IdManager::singleton()->currentId()){
+				return;
+			}
 		}
-		
 		if($aModel = $this->attribute('model')){
 			
 			$this->setModel($aModel);
@@ -96,7 +97,7 @@ class NameCard extends Widget {
 		if($nId = $this->attribute('uid')){
 			$this->setUid((int)$nId);
 		}
-		if($bMine = (bool)$this->attribute('mine')){
+		if($bMine){
 			$this->setMine($bMine);
 			$this->setModel($aCurrentId->model());
 		}
