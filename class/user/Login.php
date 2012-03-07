@@ -34,7 +34,7 @@ class Login extends Controller
 	
 	public function process()
 	{
-	    if( $this->login->isSubmit( $this->params ) )		 
+        if( $this->login->isSubmit( $this->params ) )		 
 		{do{
             $this->params['username'] = trim($this->params['username']) ;
             
@@ -84,6 +84,9 @@ class Login extends Controller
 			
 			
 		} while(0) ; }
+		
+		
+		
 	}
 	
 }
