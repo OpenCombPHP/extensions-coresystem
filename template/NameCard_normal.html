@@ -1,7 +1,7 @@
 {? $aModel = $theWidget->model()}
 <if '$aModel'>
 <lib name='jquery'/>
-<div class='namecard_normal' id="namecard_normal_{=$aModel['uid']}">
+<div class='namecard_normal' id="namecard_normal_{=$aModel['uid']}" username="{=$aModel['username']}">
 <div class='namecard_normal_card_simple'>
 	<div class='namecard_normal_card_face'>
 		<img src='{=$theWidget->faceUrl()}' width=60 height=60/>
