@@ -1,5 +1,5 @@
 <?php
-namespace org\opencomb\coresystem\mvc\controller ;
+namespace org\opencomb\coresystem\user ;
 
 use org\opencomb\coresystem\mvc\controller\Controller;
 use org\opencomb\platform\ext\ExtensionManager;
@@ -27,6 +27,15 @@ class ControlPanel extends Controller
     	// keywords
     	$sTemplate = $aSetting->item('/webpage','userpanel-keywords-template','%s') ;
     	$aWebpage->setKeywords(sprintf($sTemplate,$this->keywords())) ;
+    }
+    
+    public function createBeanConfig()
+    {
+    	return array(
+    			'view:userpanel' => array(
+    					'template' => 'UserPanel.html'
+    			) ,
+    	) ;
     }
 }
 
