@@ -6,7 +6,7 @@ use org\opencomb\coresystem\auth\Id;
 use org\opencomb\platform\system\PlatformSerializer;
 use org\jecat\framework\lang\Exception;
 use org\jecat\framework\message\Message;
-use org\jecat\framework\fs\FileSystem;
+use org\jecat\framework\fs\Folder;
 use org\opencomb\coresystem\mvc\controller\ControlPanel;
 use org\opencomb\platform\ext\ExtensionSetup as ExtensionSetupOperator ;
 use org\opencomb\platform\Platform ;
@@ -55,7 +55,7 @@ class ExtensionSetup extends ControlPanel
 			}
 			
 			$sPath = trim($this->view->path->value()) ;
-			if( !$aExtFolder = FileSystem::singleton()->findFolder($sPath) )
+			if( !$aExtFolder = Folder::singleton()->findFolder($sPath) )
 			{
 				$this->view->createMessage(Message::error,'输入的路径不存在:%s',$sPath) ;
 				break ;

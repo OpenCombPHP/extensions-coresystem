@@ -4,7 +4,7 @@ namespace org\opencomb\coresystem\system ;
 use org\opencomb\coresystem\mvc\controller\ControlPanel;
 use org\opencomb\platform\system\PlatformShutdowner;
 use org\jecat\framework\lang\oop\ClassLoader;
-use org\jecat\framework\fs\FileSystem;
+use org\jecat\framework\fs\Folder;
 use org\opencomb\platform\Platform;
 use org\opencomb\platform\system\PlatformSerializer;
 use org\jecat\framework\auth\IdManager;
@@ -95,7 +95,7 @@ class RebuildPlatform extends ControlPanel
 				'/data/compiled/template'	// 清理模板编译
 		) as $sFolder)
 		{
-			if($aFolder = FileSystem::singleton()->findFolder($sFolder))
+			if($aFolder = Folder::singleton()->findFolder($sFolder))
 			{
 				$aFolder->delete(true) ;
 			}
