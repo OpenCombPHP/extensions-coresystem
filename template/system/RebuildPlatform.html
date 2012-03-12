@@ -95,6 +95,7 @@ function clearPlatformCache()
 				{
 					jquery('#divLog').append("<div>清理系统完毕。</div>") ;
 				}
+				arrAllClasses = response.arrClassList;
 
 				jquery('#divLog').append("<div>开始编译类……</div>") ;
 				compileClasses() ;

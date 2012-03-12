@@ -4,11 +4,15 @@ namespace org\opencomb\coresystem\system ;
 use org\opencomb\coresystem\mvc\controller\ControlPanel;
 use org\opencomb\platform\system\PlatformShutdowner;
 use org\jecat\framework\lang\oop\ClassLoader;
+use org\jecat\framework\lang\oop\Package;
 use org\jecat\framework\fs\Folder;
 use org\opencomb\platform\Platform;
 use org\opencomb\platform\system\PlatformSerializer;
 use org\jecat\framework\auth\IdManager;
 use org\opencomb\coresystem\auth\Id;
+use org\opencomb\platform\lang\compile\OcCompilerFactory ;
+use org\jecat\framework\db\DB ;
+use org\jecat\framework\mvc\model\db\orm\Prototype ;
 
 class RebuildPlatform extends ControlPanel
 {
@@ -44,11 +48,7 @@ class RebuildPlatform extends ControlPanel
 		}
 		
 		// 输出所有的类
-		$arrClasses = array() ;
-		foreach(ClassLoader::singleton()->classIterator() as $sClassName)
-		{
-			$arrClasses[] = $sClassName ;
-		}
+		$arrClasses = $this->getArrClassList() ;
 		$this->view->variables()->set('arrClasses',json_encode($arrClasses)) ;
 	}
 	
@@ -101,31 +101,62 @@ class RebuildPlatform extends ControlPanel
 			}
 		}
 		
-		echo '{"success":"1"}' ;
-		exit() ;				// 立即退出，避免后续执行造成类重新编译
+		$this->response()->putReturnVariable(1,'success') ;
+		
+		// 重建 shadow class
+		//  获得数据库所有表的名字
+		$aDB = DB::singleton() ;
+		$sDBName = $aDB->driver()->currentDBName() ;
+		$aDBReflecter = $aDB->reflecterFactory()->createDBReflecter($sDBName);
+		foreach($aDBReflecter->tableNameIterator() as $sTableName){
+			$aModelShadowClassName = Prototype::modelShadowClassName($sTableName) ;
+			$aPrototypeShadowClassName = Prototype::prototypeShadowClassName($sTableName) ;
+
+			// 加载时自动产生 shadow class
+			ClassLoader::singleton()->searchClass($aModelShadowClassName,Package::nocompiled);
+			ClassLoader::singleton()->searchClass($aPrototypeShadowClassName,Package::nocompiled);
+		}
+		
+		
+		// 输出所有的类
+		
+		$this->response()->putReturnVariable($this->getArrClassList(),'arrClassList') ;
+		
+		// exit() ;				// 立即退出，避免后续执行造成类重新编译
 	}
 	
 	public function actionCompileClasses()
 	{
 		ob_clean() ;
-		foreach($this->params['classes'] as $sClass)
+		
+		$arrClassList = $this->params['classes'] ;
+		
+		$aCompiler = OcCompilerFactory::create() ;
+		foreach($arrClassList as $sClass)
 		{
-			try{
-				ClassLoader::singleton()->searchClass($sClass) ;
-			} catch (\Exception $e) {}
+			$aCompiler->compileClass($sClass);
 		}
 		
 		$this->response()->putReturnVariable(1,'success') ;
 		
-		$arrCompileds = array_merge(
-			ClassLoader::singleton()->compiledClasses()?: array()
-			, @$this->params['classes']?: array()
-		) ;
-		$this->response()->putReturnVariable($arrCompileds,'arrCompileds') ;
+		if(!is_array($arrClassList)){
+			$arrClassList = array() ;
+		}
+		$this->response()->putReturnVariable($arrClassList,'arrCompileds') ;
 		
 		ob_end_flush() ;
 	}
 	
+	private function getArrClassList(){
+		if( null === $this->arrClassList ){
+			$this->arrClassList = array() ;
+			foreach(ClassLoader::singleton()->classIterator(Package::nocompiled) as $sClassName){
+				$this->arrClassList[] = $sClassName ;
+			}
+		}
+		return $this->arrClassList ;
+	}
 	
+	private $arrClassList = null ;
 }
 
