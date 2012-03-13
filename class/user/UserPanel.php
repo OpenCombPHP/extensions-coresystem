@@ -5,7 +5,7 @@ use org\opencomb\coresystem\mvc\controller\Controller;
 use org\opencomb\platform\ext\ExtensionManager;
 use org\jecat\framework\mvc\view\Webpage;
 
-class ControlPanel extends Controller
+class UserPanel extends Controller
 {
     protected function defaultFrameConfig()
     {
