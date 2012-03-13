@@ -150,7 +150,7 @@ class RebuildPlatform extends ControlPanel
 	private function getArrClassList(){
 		if( null === $this->arrClassList ){
 			$this->arrClassList = array() ;
-			foreach(ClassLoader::singleton()->classIterator(Package::nocompiled) as $sClassName){
+			foreach(ClassLoader::singleton()->classIterator(null,Package::nocompiled) as $sClassName){
 				$this->arrClassList[] = $sClassName ;
 			}
 		}
