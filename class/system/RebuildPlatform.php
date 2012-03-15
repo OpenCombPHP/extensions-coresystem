@@ -106,7 +106,7 @@ class RebuildPlatform extends ControlPanel
 		// 重建 shadow class
 		//  获得数据库所有表的名字
 		$aDB = DB::singleton() ;
-		$sDBName = $aDB->driver()->currentDBName() ;
+		$sDBName = $aDB->currentDBName() ;
 		$aDBReflecter = $aDB->reflecterFactory()->createDBReflecter($sDBName);
 		foreach($aDBReflecter->tableNameIterator() as $sTableName){
 			$aModelShadowClassName = Prototype::modelShadowClassName($sTableName) ;

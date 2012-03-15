@@ -95,8 +95,9 @@ class PurviewQuery extends Object
 		}
 	
 		$arrPurviews = array() ;
-		$aRecords = DB::singleton()->query($sSQL) ;
-	
+		$aRecords = DB::singleton()->query($sSQL)->fetch(\PDO::FETCH_ASSOC) ;
+		print_r($aRecords) ;
+		
 		foreach($aRecords as $arrPurviewRow)
 		{
 			if($type==self::group)
