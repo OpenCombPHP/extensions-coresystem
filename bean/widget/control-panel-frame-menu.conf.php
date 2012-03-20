@@ -20,13 +20,13 @@ return array(
 			'menu' => 1,
 			'item:extension-setup' => array(
 				'title'=>'安装扩展' ,
-				'link' => '?c=org.opencomb.coresystem.system.ExtensionSetup' ,
-				'query' => 'c=org.opencomb.coresystem.system.ExtensionSetup' ,
+				'link' => '?c=org.opencomb.coresystem.system.ExtensionSetupController' ,
+				'query' => 'c=org.opencomb.coresystem.system.ExtensionSetupController' ,
 			) ,
 			'item:extension-manage' => array(
 				'title'=>'扩展管理' ,
-				'link' => '?c=org.opencomb.coresystem.system.ExtensionManager' ,
-				'query' => 'c=org.opencomb.coresystem.system.ExtensionManager' ,
+				'link' => '?c=org.opencomb.coresystem.system.ExtensionManagerController' ,
+				'query' => 'c=org.opencomb.coresystem.system.ExtensionManagerController' ,
 			) ,
 			'item:platform-upgrade' => array(
 				'title'=>'平台升级' ,

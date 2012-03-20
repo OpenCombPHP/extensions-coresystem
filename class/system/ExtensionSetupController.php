@@ -12,7 +12,7 @@ use org\opencomb\platform\ext\ExtensionSetup as ExtensionSetupOperator ;
 use org\opencomb\platform\Platform ;
 use org\opencomb\platform\system\PlatformFactory ;
 
-class ExtensionSetup extends ControlPanel 
+class ExtensionSetupController extends ControlPanel 
 {
 	public function createBeanConfig()
 	{
