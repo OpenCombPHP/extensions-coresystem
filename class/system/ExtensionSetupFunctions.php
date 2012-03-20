@@ -5,9 +5,9 @@ use org\jecat\framework\message\MessageQueue ;
 use org\jecat\framework\message\Message ;
 use org\opencomb\platform\ext\Extension ;
 use org\opencomb\platform\ext\ExtensionMetainfo ;
-use org\jecat\framework\fs\FileSystem ;
-use org\jecat\framework\fs\IFile ;
-use org\jecat\framework\fs\IFolder ;
+use org\jecat\framework\fs\Folder ;
+use org\jecat\framework\fs\File ;
+use org\jecat\framework\fs\Folder ;
 use org\opencomb\platform\ext\ExtensionSetup as ExtensionSetupOperator ;;
 use org\jecat\framework\lang\Exception ;
 use org\opencomb\platform\system\PlatformSerializer ;
@@ -25,12 +25,12 @@ class ExtensionSetupFunctions
 	}
 	
 	/**
-	 * @return IFile
+	 * @return File
 	 */
 	public function moveUploadFile( $sLocalFilePath , $sFileName ){
 		// upload temp file
-		$aTmpFile = Extension::flyweight('coresystem')->publicFolder()->findFile($sFileName , FileSystem::FIND_AUTO_CREATE_OBJECT) ;
-		$sTmpFilePath = $aTmpFile->url(false) ;
+		$aTmpFile = Extension::flyweight('coresystem')->publicFolder()->findFile($sFileName , Folder::FIND_AUTO_CREATE_OBJECT) ;
+		$sTmpFilePath = $aTmpFile->path() ;
 		$resmove = move_uploaded_file($sLocalFilePath,$sTmpFilePath);
 		if( TRUE !== $resmove){
 			$this->aMessageQueue->create(
@@ -42,17 +42,17 @@ class ExtensionSetupFunctions
 		return $aTmpFile ;
 	}
 	
-	public function removeUploadFile( IFile $aFile ){
+	public function removeUploadFile( File $aFile ){
 		$aFile->delete();
 	}
 	
-	public function getXML( IFile $aFile ){
+	public function getXML( File $aFile ){
 		/*
 		 * http://php.net/manual/en/function.ziparchive-open.php
 		 * it is not a good idea to store file for unzipping in folder defined by sys_get_temp_dir().
 		 */
 		$aZip = new \ZipArchive();
-		$res = $aZip->open($aFile->url(false)) ;
+		$res = $aZip->open($aFile->path()) ;
 		if( TRUE === $res){
 			$sComment = $aZip->getFromName('metainfo.xml');
 			$aXML = simplexml_load_string($sComment);
@@ -66,12 +66,12 @@ class ExtensionSetupFunctions
 		}
 	}
 	
-	public function unpackage(IFile $aZipFile , \SimpleXMLElement $aXML ){
+	public function unpackage(File $aZipFile , \SimpleXMLElement $aXML ){
 		$sShortVersion = $aXML->version;
 		$sExtName = $aXML->name;
-		$aToFolder = FileSystem::singleton()->findFolder('/extensions/'.$sExtName.'/'.$sShortVersion , FileSystem::FIND_AUTO_CREATE);
+		$aToFolder = Folder::singleton()->findFolder('/extensions/'.$sExtName.'/'.$sShortVersion , Folder::FIND_AUTO_CREATE);
 		$aZip = new \ZipArchive;
-		$resOpen = $aZip->open($aZipFile->url(false)) ;
+		$resOpen = $aZip->open($aZipFile->path()) ;
 		if( TRUE !==  $resOpen ){
 			$this->aMessageQueue->create(
 					Message::error
@@ -79,7 +79,7 @@ class ExtensionSetupFunctions
 			) ;
 			return null;
 		}
-		$aZip->extractTo($aToFolder->url(false));
+		$aZip->extractTo($aToFolder->path());
 		$aZip->close();
 		return $aToFolder ;
 	}
@@ -88,7 +88,7 @@ class ExtensionSetupFunctions
 		PlatformSerializer::singleton()->clearRestoreCache(Platform::singleton());
 	}
 	
-	public function installPackage(IFolder $aExtFolder){
+	public function installPackage(Folder $aExtFolder){
 		// 安装
 		try{
 			$aExtMeta = ExtensionSetupOperator::singleton()->install($aExtFolder , $this->aMessageQueue ) ;

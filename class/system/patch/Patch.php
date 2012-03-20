@@ -2,7 +2,7 @@
 namespace org\opencomb\coresystem\system\patch ;
 
 use org\opencomb\platform\ext\Extension ;
-use org\jecat\framework\fs\FileSystem ;
+use org\jecat\framework\fs\Folder ;
 use org\jecat\framework\lang\Exception;
 
 class Patch{
@@ -48,10 +48,10 @@ class Patch{
 	 * @retval false if fail
 	 */
 	public function create($sFrom,$sTo){
-		$sPath = FileSystem::singleton()->findFolder($this->path())->url(false);
-		$aTmpFolder = Extension::flyweight('coresystem')->publicFolder()->findFolder('tmp',FileSystem::FIND_AUTO_CREATE);
-		$aErrFile = $aTmpFolder->findFile('patch.err',FileSystem::FIND_AUTO_CREATE_OBJECT);
-		$sErrFileName = $aErrFile->url(false);
+		$sPath = Folder::singleton()->findFolder($this->path())->path();
+		$aTmpFolder = Extension::flyweight('coresystem')->publicFolder()->findFolder('tmp',Folder::FIND_AUTO_CREATE);
+		$aErrFile = $aTmpFolder->findFile('patch.err',Folder::FIND_AUTO_CREATE_OBJECT);
+		$sErrFileName = $aErrFile->path();
 		
 		$sSummary = `cd $sPath && git diff --numstat --summary $sFrom..$sTo 2>$sErrFileName `;
 		
@@ -95,14 +95,14 @@ class Patch{
 		
 		$sXML = $aXML->asXML();
 		
-		$aZipFolder = Extension::flyweight('coresystem')->publicFolder()->findFolder('patch',FileSystem::FIND_AUTO_CREATE);
+		$aZipFolder = Extension::flyweight('coresystem')->publicFolder()->findFolder('patch',Folder::FIND_AUTO_CREATE);
 		$sZipFileName = 'patch_'.$this->sItem.'_'.$sFrom.'_'.$sTo.'.zip';
-		$aZipFile = $aZipFolder->findFile($sZipFileName,FileSystem::FIND_AUTO_CREATE_OBJECT);
+		$aZipFile = $aZipFolder->findFile($sZipFileName,Folder::FIND_AUTO_CREATE_OBJECT);
 		if($aZipFile->exists()){
 			$aZipFile->delete();
 		}
 		
-		$sZipFilePath = $aZipFile->url(false);
+		$sZipFilePath = $aZipFile->path();
 		
 		$aZip = new \ZipArchive();
 		if( TRUE !== $aZip->open($sZipFilePath,\ZIPARCHIVE::CREATE) ){
@@ -139,7 +139,7 @@ class Patch{
 		
 		foreach($arrFileList as $sFilePath => $sType){
 			if( 'delete' !== $sType ){
-				$sErrFileName = $aErrFile->url(false);
+				$sErrFileName = $aErrFile->path();
 				
 				$sHistoryContent = `cd $sPath && git show $sTo:$sFilePath 2>$sErrFileName `;
 				

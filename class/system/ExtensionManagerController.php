@@ -12,7 +12,7 @@ use org\opencomb\platform\system\PlatformSerializer;
 use org\opencomb\platform\Platform;
 use org\opencomb\platform\ext\dependence\RequireItem ;
 
-class ExtensionManager extends ControlPanel
+class ExtensionManagerController extends ControlPanel
 {
 	public function createBeanConfig()
 	{
