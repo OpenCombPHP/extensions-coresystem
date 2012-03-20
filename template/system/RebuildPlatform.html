@@ -127,6 +127,8 @@ function compileClasses()
 {
 	if( ! isContinue ){
 		restartSystem() ;
+		jQuery('#eleProgressbar').progressBar(0) ;
+		jquery('#spnCompiledClassNum').html(0) ;
 		isContinue = true ;
 		return ;
 	}
@@ -153,7 +155,7 @@ function compileClasses()
 			, complete: function(rspn) {
 				if(jQuery('#btnStart').attr('disabled') == 'disabled' ){
 					jQuery('#btnStart').attr('disabled',false) ;
-					jQuery('#btnStart').html('结束');
+					jQuery('#btnStart').html('取消');
 					jQuery('#btnStart').off('click');
 					jQuery('#btnStart').on('click',stop);
 				}
