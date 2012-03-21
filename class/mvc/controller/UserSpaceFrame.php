@@ -11,7 +11,7 @@ class UserSpaceFrame extends FrontFrame
 		$arrBean = parent::createBeanConfig();
 		$arrBean['frameview:userSpaceFrame'] =  array(
 				'template' => 'coresystem:UserSpaceFrame.html' ,
-				'widget:mainMenu' => array( 'config'=>'coresystem:widget/user-space-menu' ) ,
+// 				'widget:mainMenu' => array( 'config'=>'coresystem:widget/user-space-menu' ) ,
 		) ;
 		return $arrBean;
 	}
