@@ -7,8 +7,7 @@ use org\opencomb\platform\ext\Extension ;
 use org\opencomb\platform\ext\ExtensionMetainfo ;
 use org\jecat\framework\fs\Folder ;
 use org\jecat\framework\fs\File ;
-use org\jecat\framework\fs\Folder ;
-use org\opencomb\platform\ext\ExtensionSetup as ExtensionSetupOperator ;;
+use org\opencomb\platform\ext\ExtensionSetup;
 use org\jecat\framework\lang\Exception ;
 use org\opencomb\platform\system\PlatformSerializer ;
 use org\opencomb\platform\Platform ;
@@ -37,7 +36,7 @@ class ExtensionSetupFunctions
 					Message::error
 					, "转移上传文件失败"
 			) ;
-			return null;
+			return FALSE;
 		}
 		return $aTmpFile ;
 	}
@@ -62,7 +61,7 @@ class ExtensionSetupFunctions
 					Message::error
 					, "读取metainfo.xml失败"
 			) ;
-			return null;
+			return FALSE;
 		}
 	}
 	
@@ -77,9 +76,16 @@ class ExtensionSetupFunctions
 					Message::error
 					, "打开压缩文件失败"
 			) ;
-			return null;
+			return FALSE;
 		}
-		$aZip->extractTo($aToFolder->path());
+		$resExtract = $aZip->extractTo($aToFolder->path());
+		if( TRUE !== $resExtract ){
+			$this->aMessageQueue->create(
+					Message::error
+					, "解压缩文件失败"
+			) ;
+			return FALSE;
+		}
 		$aZip->close();
 		return $aToFolder ;
 	}
@@ -91,7 +97,7 @@ class ExtensionSetupFunctions
 	public function installPackage(Folder $aExtFolder){
 		// 安装
 		try{
-			$aExtMeta = ExtensionSetupOperator::singleton()->install($aExtFolder , $this->aMessageQueue ) ;
+			$aExtMeta = ExtensionSetup::singleton()->install($aExtFolder , $this->aMessageQueue ) ;
 		
 			$this->aMessageQueue->create(
 					Message::success
@@ -107,14 +113,14 @@ class ExtensionSetupFunctions
 					, $e->message()
 			) ;
 		}
-		return null ;
+		return FALSE ;
 	}
 	
 	public function enablePackage(ExtensionMetainfo $aExtMeta){
 		$sName = $aExtMeta->name() ;
 		// 激活
 		try{
-			ExtensionSetupOperator::singleton()->enable($sName) ;
+			ExtensionSetup::singleton()->enable($sName) ;
 			
 			$this->aMessageQueue->create(
 					Message::success
