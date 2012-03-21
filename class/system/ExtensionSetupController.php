@@ -2,15 +2,15 @@
 namespace org\opencomb\coresystem\system ;
 
 use org\opencomb\coresystem\auth\Id;
-
 use org\opencomb\platform\system\PlatformSerializer;
 use org\jecat\framework\lang\Exception;
 use org\jecat\framework\message\Message;
 use org\jecat\framework\fs\Folder;
 use org\opencomb\coresystem\mvc\controller\ControlPanel;
-use org\opencomb\platform\ext\ExtensionSetup as ExtensionSetupOperator ;
+use org\opencomb\platform\ext\ExtensionSetup;
 use org\opencomb\platform\Platform ;
 use org\opencomb\platform\system\PlatformFactory ;
+use org\opencomb\platform\system\OcSession ;
 
 class ExtensionSetupController extends ControlPanel 
 {
@@ -24,7 +24,7 @@ class ExtensionSetupController extends ControlPanel
 				'widget:path' => array(
 						'class' => 'text' ,
 						'title'=>'扩展目录路径' ,
-						'value' => '/extensions/...' ,
+						'value' => 'extensions/...' ,
 						'verifier:notempty' => array() ,
 				) 
 			) ,
@@ -66,7 +66,7 @@ class ExtensionSetupController extends ControlPanel
 				PlatformSerializer::singleton()->clearRestoreCache(Platform::singleton());
 				
 				// 安装
-				$aExtMeta = ExtensionSetupOperator::singleton()->install($aExtFolder , $this->view->messageQueue() ) ;
+				$aExtMeta = ExtensionSetup::singleton()->install($aExtFolder , $this->view->messageQueue() ) ;
 				
 				$this->view->createMessage(
 						Message::success
@@ -75,7 +75,7 @@ class ExtensionSetupController extends ControlPanel
 				) ;
 
 				// 激活
-				ExtensionSetupOperator::singleton()->enable($aExtMeta->name()) ;
+				ExtensionSetup::singleton()->enable($aExtMeta->name()) ;
 				
 				$this->view->createMessage(
 						Message::success
@@ -85,9 +85,7 @@ class ExtensionSetupController extends ControlPanel
 			}catch(Exception $e){
 				$this->view->createMessage(Message::error,$e->getMessage(),$e->messageArgvs()) ;
 			}
-
+			OcSession::singleton()->updateSignature() ;
 		} while(0); }
 	}
 }
-
-?>

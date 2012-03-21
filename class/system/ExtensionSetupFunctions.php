@@ -68,7 +68,7 @@ class ExtensionSetupFunctions
 	public function unpackage(File $aZipFile , \SimpleXMLElement $aXML ){
 		$sShortVersion = $aXML->version;
 		$sExtName = $aXML->name;
-		$aToFolder = Folder::singleton()->findFolder('/extensions/'.$sExtName.'/'.$sShortVersion , Folder::FIND_AUTO_CREATE);
+		$aToFolder = Folder::singleton()->findFolder('extensions/'.$sExtName.'/'.$sShortVersion , Folder::FIND_AUTO_CREATE);
 		$aZip = new \ZipArchive;
 		$resOpen = $aZip->open($aZipFile->path()) ;
 		if( TRUE !==  $resOpen ){
