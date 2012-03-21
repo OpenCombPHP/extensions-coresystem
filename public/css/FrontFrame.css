@@ -43,3 +43,29 @@ h4{ font-size:12px; font-weight:bold; color:#333}
 /*尾部*/
 .frontframe-footer{ width:100%; height:30px;padding:0 0 8px 0; background:url(../images/black.gif) repeat-x 0 bottom;}
 	.frontframe-footer p{padding:0 8px; text-align:right; color:#999; line-height:30px; background:url(../images/line.gif) repeat-x 0 0;}
+	
+	
+	
+/* Log in */
+.loginmess {padding:4px 0; margin:4px 0;}
+.loginmess span{text-align:right; font-size:14px; color:#666;}
+.loginmess input{width:196px; padding:5px 2px; border:1px solid #ccc; border-radius:5px; background:#fff;}
+.loginPadLeft{padding-left:75px;margin-bottom:5px;}
+.loginPadLeft label {color:#999}
+.loginPadLeft label input{ vertical-align:-2px;margin-right:4px;}
+.loginbtn{margin-left:43px;background:#3E8CC2;background:-moz-linear-gradient(0% 0% 270deg, #5B9FCE,#3E8CC2); background:-webkit-gradient(linear,0% 0%, 0% 100%, from(#5B9FCE), to(#3E8CC2)); border:1px solid #3E8CC2; border-radius:5px; width:88px; height:26px; color:#fff; font-size:14px; font-family:"微软雅黑",sans serif;padding-bottom:2px;cursor:pointer; }
+.loginMarginLeft{margin-left:75px;margin-bottom:5px;}
+.otherweb a{margin-right:4px;}
+
+
+
+
+
+
+
+
+
+
+
+
+

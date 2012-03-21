@@ -9,20 +9,17 @@
 
 <form method="post">
 
-	<div>
-		用户名　：<widget id="username" />
+	<div class="loginmess">
+		<span>用户名　：</span><widget id="username" />
 	</div>
-	<div>
-		密　码　：<widget id="password" />
+	<div class="loginmess">
+		<span>密　码　：</span><widget id="password" />
 	</div>
-	<div>
+	<div class="loginPadLeft">
 		<widget id="rememberme" />
+		<input type='hidden' name='forward' value='{=$theParams->get('forward')}'  />
+		<input class="loginbtn" type="submit" value="登录" /> 
 	</div>
-	
-	
-	<input type='hidden' name='forward' value='{=$theParams->get('forward')}'  />
-	<input type="submit" value="登录" /> 
-	
-	<a href="?c=register">注册新用户</a>
+	<a class="loginMarginLeft clearfix" href="?c=register">注册新用户</a>
 	
 </form>
