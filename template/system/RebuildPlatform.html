@@ -32,8 +32,8 @@ var sShutDownBackdoorSecret ;
 
 jquery(function(){
 	jQuery('#eleProgressbar').progressBar({
-		barImage:'/extensions/doccenter/0.1/public/progressbg_red.gif',
-		boxImage:'/extensions/doccenter/0.1/public/progressbar.gif',
+		barImage:'{/coresystem:images/progressbg_red.gif}',
+		boxImage:'{/coresystem:images/progressbar.gif}',
 	}) ;
 	jquery('#spnNeedCompileClassNum').html(arrAllClasses.length) ;
 }) ;
@@ -95,6 +95,7 @@ function clearPlatformCache()
 				{
 					jquery('#divLog').append("<div>清理系统完毕。</div>") ;
 				}
+				arrAllClasses = response.arrClassList;
 
 				jquery('#divLog').append("<div>开始编译类……</div>") ;
 				compileClasses() ;
@@ -126,6 +127,8 @@ function compileClasses()
 {
 	if( ! isContinue ){
 		restartSystem() ;
+		jQuery('#eleProgressbar').progressBar(0) ;
+		jquery('#spnCompiledClassNum').html(0) ;
 		isContinue = true ;
 		return ;
 	}
@@ -152,40 +155,34 @@ function compileClasses()
 			, complete: function(rspn) {
 				if(jQuery('#btnStart').attr('disabled') == 'disabled' ){
 					jQuery('#btnStart').attr('disabled',false) ;
-					jQuery('#btnStart').html('结束');
+					jQuery('#btnStart').html('取消');
 					jQuery('#btnStart').off('click');
 					jQuery('#btnStart').on('click',stop);
 				}
 				try{
 					var response = jQuery.parseJSON(rspn.responseText) ;
-					if( response.success == '1' )
-					{
-						for(var i=0;i<response.arrCompileds.length;i++)
-						{
-							// 从 arrUncompiledClasses 中删除已经编译完成的类
-							for(var n=0;n<arrUncompiledClasses.length;n++)
-							{
-								if(arrUncompiledClasses[n]==response.arrCompileds[i])
-								{
-									arrUncompiledClasses.splice(n,1) ;
-									break
-								}
-							}
-							
-							updateProgress() ;
-							
-							jquery('#divLog').append("<div>"+response.arrCompileds[i]+"</div>") ;
-						}
-
-						compileClasses() ;
-						
-						return ;
+					if( response.success != '1' ){
+						jquery('#divMessage').html("<div>编译类遇到错误:"+rspn.responseText+"</div>") ;
 					}
-					
+					for(var i=0;i<response.arrCompileds.length;i++)
+					{
+						// 从 arrUncompiledClasses 中删除已经编译完成的类
+						for(var n=0;n<arrUncompiledClasses.length;n++)
+						{
+							if(arrUncompiledClasses[n]==response.arrCompileds[i])
+							{
+								arrUncompiledClasses.splice(n,1) ;
+								break;
+							}
+						}
+						
+						updateProgress() ;
+						
+						jquery('#divLog').append("<div>"+response.arrCompileds[i]+"</div>") ;
+					}
+					compileClasses() ;
+					return ;
 				}catch (e){ }
-
-				jquery('#divMessage').html("<div>编译类遇到错误:"+rspn.responseText+"</div>") ;
-				jquery('#btnStart').attr('disabled',false) ;
 			}
 		}) ;
 	}

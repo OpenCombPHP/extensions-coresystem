@@ -5,7 +5,7 @@ use org\opencomb\coresystem\mvc\controller\ControlPanel;
 use org\jecat\framework\message\Message ;
 use org\jecat\framework\lang\Exception;
 use org\opencomb\platform\ext\Extension ;
-use org\jecat\framework\fs\FileSystem ;
+use org\jecat\framework\fs\Folder ;
 use org\jecat\framework\util\Version;
 use org\opencomb\platform\Platform;
 
@@ -41,11 +41,11 @@ class InstallPatch extends ControlPanel{
 		switch($sName){
 		case 'framework':
 			$aCurrentVersion = Version::FromString ( \org\jecat\framework\VERSION );
-			$aExtractFolder = FileSystem::singleton()->findFolder('framework');
+			$aExtractFolder = Folder::singleton()->findFolder('framework');
 			break;
 		case 'platform':
 			$aCurrentVersion = Platform::singleton ()->version ();
-			$aExtractFolder = FileSystem::singleton()->findFolder('');
+			$aExtractFolder = Folder::singleton()->findFolder('');
 			break;
 		default:
 			$this->view->createMessage(Message::error,'param name error ：%s',$sName);
@@ -64,9 +64,9 @@ class InstallPatch extends ControlPanel{
 		$sFilePath = $aFile->localPath();
 		
 		// move file
-		$aUploadFolder = Extension::flyweight('coresystem')->publicFolder()->findFolder('upload' , FileSystem::FIND_AUTO_CREATE) ;
-		$aUploadFile = $aUploadFolder->findFile($sFileName , FileSystem::FIND_AUTO_CREATE_OBJECT) ;
-		$sUploadFilePath = $aUploadFile->url(false) ;
+		$aUploadFolder = Extension::flyweight('coresystem')->publicFolder()->findFolder('upload' , Folder::FIND_AUTO_CREATE) ;
+		$aUploadFile = $aUploadFolder->findFile($sFileName , Folder::FIND_AUTO_CREATE_OBJECT) ;
+		$sUploadFilePath = $aUploadFile->path() ;
 		$resmove = move_uploaded_file($sFilePath,$sUploadFilePath);
 		if( TRUE !== $resmove){
 			$this->view->createMessage(
@@ -123,7 +123,7 @@ class InstallPatch extends ControlPanel{
 			$sPath = $aAttributes['path'] ;
 			$sType = $aAttributes['type'] ;
 			
-			$aExtractFile = $aExtractFolder->findFile($sPath,FileSystem::FIND_AUTO_CREATE_OBJECT);
+			$aExtractFile = $aExtractFolder->findFile($sPath,Folder::FIND_AUTO_CREATE_OBJECT);
 			switch($sType){
 			case 'create':
 				$sFileContent = $aZip->getFromName('src/'.$sPath);
