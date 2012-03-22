@@ -257,7 +257,7 @@ function hideDepBy(sName,o){
 	<foreach for="$arrExtName" item="sExtName">
 		<dl class='extension'>
 			<dt class='logo'>
-				<img src='/extensions/coresystem/0.1/public/images/ex_icon.png' />
+				<img src='{/coresystem:images/ex_icon.png}' />
 			</dt>
 			<dd>
 			<div class='titleBlock'>
@@ -281,13 +281,8 @@ function hideDepBy(sName,o){
 					<a href='#' onclick="changeOrder('{=$sExtName}','up')" class="ex_up"><img src='/extensions/coresystem/0.1/public/images/ex_up.png' title="向上" /></a>
 					<a href='#' onclick="changeOrder('{=$sExtName}','down')" class="ex_down"><img src='/extensions/coresystem/0.1/public/images/ex_down.png' title="向下" /></a>
 					</span>
-				</div>			
+				</div>
 			</div>
-
-
-				
-
-			
 			</dd>
 			<dd>
 			<div class='description'>
@@ -305,22 +300,32 @@ function hideDepBy(sName,o){
 	</div>
 </foreach>
 <h2>禁用的扩展</h2>
-<foreach for="$arrDisabledExtensionMetainfos" item="aExtensionMetainfo">
-	<div class='extension'>
-		<div class='logo'>
-			<img src='/extensions/coresystem/0.1/public/images/ex_icon.png' />
-		</div>
-		<div class='titleBlock'>
-			<div class='extTitle'>{=$aExtensionMetainfo->title()}</div>
-			(
-				<div class='extName'>{=$aExtensionMetainfo->name()}</div>
-				ver : <div class='extVer'>{=$aExtensionMetainfo->version()}</div>
-			)
-		</div>
-		<div class='enable'>
-			<a href='#' onclick='enableExtension("{=$aExtensionMetainfo->name()}");return false;'>启用</a>
-		</div>
-	</div>
+<div class="priority">
+<foreach for="$arrDisabledExtensionMetainfos" item="aExtMeta">
+	<dl class='extension'>
+		<dt class='logo'>
+			<img src='{/coresystem:images/ex_icon.png}' />
+		</dt>
+		<dd>
+			<div class='titleBlock'>
+				<h4 class='extTitle'>{=$aExtMeta->title()}<span class='extName'>（{=$aExtMeta->name()} ver : {=$aExtMeta->version()}）</span></h4>
+				<div class='extOther'>
+					<span><a class='disable' href='#' onclick='enableExtension("{=$aExtMeta->name()}");return false;'>启用</a></span>
+				</div>
+			</div>
+		</dd>
+		<dd>
+			<div class='description'>
+				描述：<pre class='descontent'>{=$aExtMeta->description()}</pre>
+			</div>
+		</dd>
+		<dd>
+			<div class='showRelationBlock clearfix'>
+				<div class="yl"><div class="yl_tit">依赖：<a class='btnShowDep' onclick='showDep("{=$aExtMeta->name()}",this)'><img src='/extensions/coresystem/0.1/public/images/ex_jia.png' title="展开" /></a></div><div class='showDepBlock'></div></div>
+				<div class="byl"><div class="byl_tit">被依赖：<a class='btnShowDepBy' onclick='showDepBy("{=$aExtMeta->name()}",this)'><img src='/extensions/coresystem/0.1/public/images/ex_jia.png' title="展开" /></a></div><div class='showDepByBlock'></div></div>
+			</div>
+		</dd>
+	</dl>
 </foreach>
-
+</div>
 </if>
