@@ -5,7 +5,7 @@
 	<view name='rebuild' />
 
 	<div>
-		<a class='ex_back' href='/?c=org.opencomb.coresystem.system.ExtensionManager'>返回</a>
+		<a class='ex_back' href='/?c=org.opencomb.coresystem.system.ExtensionManagerController'>返回</a>
 	</div>
 <else />
 
@@ -13,10 +13,10 @@
 var arrDependenceBy={=json_encode($arrDependenceBy)};
 var arrEnableState={=json_encode($arrEnableState)};
 function changePriority(name,priority){
-	window.location='/?c=org.opencomb.coresystem.system.ExtensionManager&act=changePriority&name='+name+'&priority='+priority;
+	window.location='/?c=org.opencomb.coresystem.system.ExtensionManagerController&act=changePriority&name='+name+'&priority='+priority;
 }
 function changeOrder(sExtName,direction){
-	window.location='/?c=org.opencomb.coresystem.system.ExtensionManager&act=changeOrder&name='+sExtName+'&dire='+direction;
+	window.location='/?c=org.opencomb.coresystem.system.ExtensionManagerController&act=changeOrder&name='+sExtName+'&dire='+direction;
 }
 </script>
 <div id="dialogUninstall" class="dialog">
@@ -63,7 +63,7 @@ function unistallExtension(sExtName){
 				}else{
 					sData = 'keep';
 				}
-				window.location='/?c=org.opencomb.coresystem.system.ExtensionManager&act=uninstall&name='+sExtName+'&code='+sCode+'&data='+sData;
+				window.location='/?c=org.opencomb.coresystem.system.ExtensionManagerController&act=uninstall&name='+sExtName+'&code='+sCode+'&data='+sData;
 			},
 			'取消':function(){
 				jQuery(this).dialog('close');
@@ -118,7 +118,7 @@ function disableExtension(sExtName){
 	objDialog.dialog({
 		buttons:{
 			'确定':function(){
-				window.location='/?c=org.opencomb.coresystem.system.ExtensionManager&act=disable&name='+sExtName;
+				window.location='/?c=org.opencomb.coresystem.system.ExtensionManagerController&act=disable&name='+sExtName;
 				jQuery(this).dialog('close');
 			},
 			'取消':function(){
@@ -157,7 +157,7 @@ function enableExtension(sExtName){
 	objDialog.dialog({
 		buttons:{
 			'确定':function(){
-				window.location='/?c=org.opencomb.coresystem.system.ExtensionManager&act=enable&name='+sExtName;
+				window.location='/?c=org.opencomb.coresystem.system.ExtensionManagerController&act=enable&name='+sExtName;
 				jQuery(this).dialog('close');
 			},
 			'取消':function(){

@@ -99,6 +99,7 @@ class ExtensionManagerController extends ControlPanel
 			$this->view->createMessage(Message::error,$e->getMessage(),$e->messageArgvs()) ;
 		}
 		PlatformSerializer::singleton()->clearRestoreCache();
+		\org\opencomb\platform\system\OcSession::singleton()->updateSignature() ;
 		$this->view->variables()->set('rebuild','1');
 	}
 	
@@ -113,6 +114,7 @@ class ExtensionManagerController extends ControlPanel
 			$this->view->createMessage(Message::error,$e->getMessage(),$e->messageArgvs()) ;
 		}
 		PlatformSerializer::singleton()->clearRestoreCache();
+		\org\opencomb\platform\system\OcSession::singleton()->updateSignature() ;
 		$this->view->variables()->set('rebuild','1');
 	}
 	
@@ -159,6 +161,7 @@ class ExtensionManagerController extends ControlPanel
 			$this->view->createMessage(Message::error,$e->getMessage(),$e->messageArgvs()) ;
 		}
 		PlatformSerializer::singleton()->clearRestoreCache();
+		\org\opencomb\platform\system\OcSession::singleton()->updateSignature() ;
 		$this->view->variables()->set('rebuild','1');
 	}
 	
@@ -274,7 +277,7 @@ class ExtensionManagerController extends ControlPanel
 				$this->recursivelyUninstall($sDepByExtName , $sCode ,$sData);
 			}
 		}
-		
+		$aExtensionSetup->disable($sExtName);
 		$aExtensionSetup->uninstall($sExtName , $sCode ,$sData);
 		$this->view->createMessage(Message::success,'卸载 `%s` 成功',array($sExtName)) ;
 	}
