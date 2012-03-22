@@ -36,6 +36,11 @@ class UserPanelFrame extends UserSpaceFrame
 									'link'=>'?c=org.opencomb.coresystem.user.PasswordManager' . $sId,
 									'query'=>'c=org.opencomb.coresystem.user.PasswordManager' . $sId,
 							) ,
+							'item:oauth' => array(
+									'title' => '绑定网站' ,
+									'link'=>'?c=org.opencomb.oauth.controlPanel.OAuthState' . $sId,
+									'query'=>'c=org.opencomb.oauth.controlPanel.OAuthState' . $sId,
+							) ,
 					)
 			) ;
 		return $arrBean;
