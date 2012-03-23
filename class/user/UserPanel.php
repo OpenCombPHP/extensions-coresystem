@@ -1,11 +1,13 @@
 <?php
 namespace org\opencomb\coresystem\user ;
 
+use org\opencomb\coresystem\mvc\controller\UserSpace;
+
 use org\opencomb\coresystem\mvc\controller\Controller;
 use org\opencomb\platform\ext\ExtensionManager;
 use org\jecat\framework\mvc\view\Webpage;
 
-class UserPanel extends Controller
+class UserPanel extends UserSpace
 {
     protected function defaultFrameConfig()
     {
