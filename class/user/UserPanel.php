@@ -28,15 +28,13 @@ class UserPanel extends Controller
     	$sTemplate = $aSetting->item('/webpage','userpanel-keywords-template','%s') ;
     	$aWebpage->setKeywords(sprintf($sTemplate,$this->keywords())) ;
     }
-    
-    public function createBeanConfig()
-    {
-    	return array(
-    			'view:userpanel' => array(
-    					'template' => 'UserPanel.html'
-    			) ,
-    	) ;
-    }
+//     public function createBeanConfig()
+//     {
+//     	return array(
+//     			'view:userpanel' => array(
+//     					'template' => 'UserPanel.html'
+//     			) ,
+//     	) ;
+//     }
 }
 
-?>
