@@ -1,25 +1,26 @@
-<msgqueue />
-
-<if "$forwarding">
-	<a href="{=$forwarding}">正在前往您准备浏览的网页……</a>
-	<script type="text/javascript">
-	setInterval(function(){location='{=$forwarding}'},3000) ;
-	</script>
-</if>
-
-<form method="post" class="forgap">
-
-	<div class="loginmess">
-		<span>用户名　：</span><widget id="username" />
-	</div>
-	<div class="loginmess">
-		<span>密　码　：</span><widget id="password" />
-	</div>
-	<div class="loginPadLeft">
-		<widget id="rememberme" />
-		<input type='hidden' name='forward' value='{=$theParams->get('forward')}'  />
-		<input class="loginbtn" type="submit" value="登录" /> 
-	</div>
-	<a class="loginMarginLeft" href="?c=register">注册新用户</a>
+<div class='loginForm'>
+	<msgqueue />
+	<if "$forwarding">
+		<a href="{=$forwarding}">正在前往您准备浏览的网页……</a>
+		<script type="text/javascript">
+		setInterval(function(){location='{=$forwarding}'},3000) ;
+		</script>
+	</if>
 	
-</form>
+	<form method="post" class="forgap">
+	
+		<div class="loginmess">
+			<span>用户名　：</span><widget id="username" />
+		</div>
+		<div class="loginmess">
+			<span>密　码　：</span><widget id="password" />
+		</div>
+		<div class="loginPadLeft">
+			<widget id="rememberme" />
+			<input type='hidden' name='forward' value='{=$theParams->get('forward')}'  />
+			<input class="loginbtn" type="submit" value="登录" /> 
+		</div>
+		<a class="loginMarginLeft" href="?c=register">注册新用户</a>
+		
+	</form>
+</div>
