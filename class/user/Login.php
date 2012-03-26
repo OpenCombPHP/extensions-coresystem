@@ -68,7 +68,8 @@ class Login extends Controller
 			Id::makeLoginInfo($aId) ;
 			$this->modelUser->save() ;
            	
-			$this->login->createMessage(Message::success,"登录成功") ;
+// 			$this->login->createMessage(Message::success,"登录成功") ;
+			$this->login->variables()->set('success',true) ;
 			$this->login->hideForm() ;
 			
 			if( $this->params['forward'] )

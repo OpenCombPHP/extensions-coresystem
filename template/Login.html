@@ -3,7 +3,12 @@
 	<if "$forwarding">
 		<a href="{=$forwarding}">正在前往您准备浏览的网页……</a>
 		<script type="text/javascript">
-		setInterval(function(){location='{=$forwarding}'},3000) ;
+			setInterval(function(){location='{=$forwarding}'},3000) ;
+		</script>
+	<else '$success'/>
+		<a href="/">登录成功, 正在前往首页, 点击直接跳转</a>
+		<script type="text/javascript">
+			setInterval(function(){location='/'},3000) ;
 		</script>
 	</if>
 	
