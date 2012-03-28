@@ -23,7 +23,7 @@ class ControlPanelFrame extends WebpageFrame
 	{
 		if($sNamespace=='*')
 		{
-			$sNamespace = $this->application()->extensions()->extensionNameByClass( get_class($this) )?: '*' ;
+			$sNamespace = $this->application()->extensions()->extensionNameByClass( get_class($this) ) ?: '*' ;
 		}
 		return parent::buildBean($arrConfig,$sNamespace) ;
 	}
