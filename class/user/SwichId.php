@@ -2,11 +2,9 @@
 namespace org\opencomb\coresystem\user ;
 
 use org\jecat\framework\message\Message;
-
 use org\jecat\framework\auth\IdManager;
-use org\opencomb\coresystem\mvc\controller\ControlPanel;
 
-class SwichId extends ControlPanel
+class SwichId extends UserPanel
 {
 	public function createBeanConfig()
 	{
