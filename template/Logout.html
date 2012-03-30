@@ -1,3 +1,10 @@
 <div class='loginForm'>
 <msgqueue />
 </div>
+<script>
+	var forward = '{=$theParams->get("forward")}';
+	if(forward == ''){
+		forward = '/';
+	}
+	setTimeout("window.location.href='"+forward+"'" ,3000);
+</script>

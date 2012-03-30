@@ -42,7 +42,4 @@ class Logout extends Controller
 			$this->viewLogout->createMessage(Message::notice,"正在以游客的身份访问。") ;
 		}
 	}
-
 }
-
-?>
