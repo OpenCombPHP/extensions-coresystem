@@ -8,11 +8,19 @@
 </form>
 
 <table>
+	<thead>
+		<tr>
+	      <th>用户名</th>
+	      <th>切换用户</th>
+	      <th>权限</th>
+	      <th>用户组</th>
+	    </tr>
+	</thead>
 	<tbody>
-	
 	<model:foreach>
 		<tr>
 			<td><data>username</data></td>
+			<td width="50px"><a href="?c=org.opencomb.coresystem.user.AdminUsers&uid={=$theModel->uid}&act=swichuser">切换</a></td>
 			<td width="50px"><a href="?c=org.opencomb.coresystem.auth.PurviewSetting&id={=$theModel->uid}&type=user">权限</a></td>
 			<td width="50px"><a href="?c=org.opencomb.coresystem.user.UserGroupsSetting&uid={=$theModel->uid}">用户组</a></td>
 		</tr>

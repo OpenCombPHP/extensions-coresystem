@@ -1,12 +1,10 @@
 <?php
 namespace org\opencomb\coresystem\user ;
 
+use org\jecat\framework\auth\IdManager;
 use org\jecat\framework\db\sql\StatementState;
-
 use org\jecat\framework\mvc\model\db\Model;
-
 use org\opencomb\coresystem\auth\Id;
-
 use org\opencomb\coresystem\mvc\controller\ControlPanel;
 
 class AdminUsers extends ControlPanel
@@ -58,7 +56,22 @@ class AdminUsers extends ControlPanel
 		{
 			$this->users->load() ;
 		}
+		
+		$this->doActions();
+	}
+	
+	protected function actionSwichUser()
+	{
+		if(!$this->params->has('uid')){
+			return ;
+		}
+		$this->users->load($this->params->get('uid'));
+		
+		if(!$this->users){
+			return;
+		}
+		$aId = new Id($this->users);
+		IdManager::singleton()->setCurrentId($aId);
+		$this->location('/');
 	}
 }
-
-?>
