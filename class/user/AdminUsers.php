@@ -21,6 +21,16 @@ class AdminUsers extends ControlPanel
 				'conf' => 'model/user' ,
 				'list' => true ,
 			) ,
+			//用于切换用户
+			'model:user' => array(
+				'class' => 'model' ,
+				'orm' => array(
+					'table' => 'user' ,
+					'hasOne:info' => array(
+						'table' => 'userinfo' ,
+					) ,
+				) ,
+			) ,
 			
 			// 视图
 			'view:adminUsers' => array(
@@ -65,12 +75,12 @@ class AdminUsers extends ControlPanel
 		if(!$this->params->has('uid')){
 			return ;
 		}
-		$this->users->load($this->params->get('uid'));
+		$this->user->load($this->params->get('uid'));
 		
-		if(!$this->users){
+		if(!$this->user){
 			return;
 		}
-		$aId = new Id($this->users);
+		$aId = new Id($this->user);
 		IdManager::singleton()->setCurrentId($aId);
 		$this->location('/');
 	}
