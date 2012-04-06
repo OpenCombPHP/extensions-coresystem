@@ -15,7 +15,7 @@ class UserGroupsSetting extends ControlPanel
 	public function createBeanConfig()
 	{
 		// 加载 Model group 的 Bean Config
-		$arrGroupConf = BeanFactory::singleton()->findConfig('model/group','coresystem') ;
+		/*$arrGroupConf = BeanFactory::singleton()->findConfig('model/group','coresystem') ;
 		$arrGroupConf['list'] = true ;
 		
 		// 在 group Config 中添加一个 hasAndBelongsToMany 关联
@@ -23,18 +23,31 @@ class UserGroupsSetting extends ControlPanel
 						'fromkeys'=>'gid' ,
 						'tokeys'=>'gid' ,
 						'keys' => array('uid','gid') ,
-						'on' => array(
-							array('eq', 'to.uid', $this->params->string('uid') )
-						) ,
+						'on' => array("user.uid=@1",$this->params->string('uid')) ,  
 						'table' => 'group_user_link' ,
 						'colums' => 'uid' ,
-					) ;
+					) ;*/
 		
 					
 		return array(
 			'title'=>'用户组设置',
 			// models
-			'model:groups' => $arrGroupConf ,
+			'model:groups' => array(
+				'class' => 'model' ,
+				'list' => true ,
+				'orm' => array(
+					'table' => 'group' ,
+					'limit' => -1 ,
+					'belongsTo:user' => array(
+						'fromkeys'=>'gid' ,
+						'tokeys'=>'gid' ,
+						'keys' => array('uid','gid') ,
+						'table' => 'group_user_link' ,
+						'colums' => 'uid' ,
+						'where' => array("user.uid=@1",$this->params->string('uid')) ,
+					)
+				) ,
+			) ,
 			'model:user' => array('config'=>'model/user') ,
 			'model:newUsrGrpLink' => array( 'orm'=>array('table'=>'group_user_link','keys'=>array('uid','gid')) ) ,
 		
