@@ -27,10 +27,10 @@ class PurviewQuery extends Object
 	
 	public function __construct()
 	{
-		$this->sTablePurview = Prototype::transTableName('purview','coresystem') ;
-		$this->sTableUser = Prototype::transTableName('user','coresystem') ;
-		$this->sTableGroup = Prototype::transTableName('group','coresystem') ;
-		$this->sTableGroupUserLink = Prototype::transTableName('group_user_link','coresystem') ;
+		$this->sTablePurview = DB::singleton()->transTableName('coresystem:purview') ;
+		$this->sTableUser = DB::singleton()->transTableName('coresystem:user') ;
+		$this->sTableGroup = DB::singleton()->transTableName('coresystem:group') ;
+		$this->sTableGroupUserLink = DB::singleton()->transTableName('coresystem:group_user_link') ;
 	}
 	
 	/**

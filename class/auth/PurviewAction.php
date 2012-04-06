@@ -10,7 +10,7 @@ class PurviewAction extends Object
 {
 	public function __construct()
 	{
-		$this->sTablePurview = Prototype::transTableName('purview','coresystem') ; ;
+		$this->sTablePurview = DB::singleton()->transTableName('coresystem:purview') ; ;
 	}
 	
 	public function setPurview($id,$sType,$sNamespace,$sPurviewName,$target=null,$bInheritance=false,$bBubble=true)

@@ -215,17 +215,17 @@ class PurviewSetting extends ControlPanel
 						$arrPurview['checked:inheritance'] = $arrExistsPurviews[$sExtName][$arrPurview['name']][$arrPurview['target']]['inheritance'] ;
 						$arrPurview['checked:bubble'] = $arrExistsPurviews[$sExtName][$arrPurview['name']][$arrPurview['target']]['bubble'] ;
 					}
-					
-					if($arrPurview['target']===null)
-					{
-						$arrPurview['target'] = 'NULL' ;
-					}
-					
+										
 					// 移除
-					unset($arrExistsPurviews[$sExtName][$arrPurview['name']]) ;
+					unset($arrExistsPurviews[$sExtName][$arrPurview['name']][$arrPurview['target']]) ;
 					if(empty($arrExistsPurviews[$sExtName]))
 					{
 						unset($arrExistsPurviews[$sExtName]) ;
+					}
+
+					if($arrPurview['target']===null)
+					{
+						$arrPurview['target'] = 'NULL' ;
 					}
 				}
 			}
