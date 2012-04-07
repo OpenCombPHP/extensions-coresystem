@@ -5,14 +5,14 @@ use org\jecat\framework\bean\BeanFactory;
 
 use org\opencomb\coresystem\auth\Id;
 use org\jecat\framework\auth\IdManager;
-use org\opencomb\platform\Platform;
+use org\opencomb\platform\service\Service;
 use org\jecat\framework\system\AccessRouter;
 use org\opencomb\platform\ext\Extension;
 use org\opencomb\coresystem\lib\LibManager ;
 use org\jecat\framework\ui\xhtml\parsers\ParserStateTag;
 use org\jecat\framework\ui\xhtml\UIFactory ;
 use org\jecat\framework\mvc\view\UIFactory as MvcUIFactory ;
-use org\opencomb\platform\system\PlatformSerializer;
+use org\opencomb\platform\service\ServiceSerializer;
 
 class CoreSystem extends Extension
 {
@@ -58,10 +58,10 @@ class CoreSystem extends Extension
 		
 		// --------------------------
 		// 提供给系统序列化
-		PlatformSerializer::singleton()->addSystemObject(LibManager::singleton()) ;
+		ServiceSerializer::singleton()->addSystemObject(LibManager::singleton()) ;
 	}
 	
-	public function active(Platform $aPlatform)
+	public function active(Service $aPlatform)
 	{
 		$this->registerLibNode() ;
 		return ;

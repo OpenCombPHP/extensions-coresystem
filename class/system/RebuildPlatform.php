@@ -1,13 +1,15 @@
 <?php
 namespace org\opencomb\coresystem\system ;
 
+use org\jecat\framework\cache\Cache;
+
+use org\opencomb\platform\service\ServiceShutdowner;
 use org\opencomb\coresystem\mvc\controller\ControlPanel;
-use org\opencomb\platform\system\PlatformShutdowner;
 use org\jecat\framework\lang\oop\ClassLoader;
 use org\jecat\framework\lang\oop\Package;
 use org\jecat\framework\fs\Folder;
-use org\opencomb\platform\Platform;
-use org\opencomb\platform\system\PlatformSerializer;
+use org\opencomb\platform\service\Service;
+use org\opencomb\platform\service\ServiceSerializer;
 use org\jecat\framework\auth\IdManager;
 use org\opencomb\coresystem\auth\Id;
 use org\opencomb\platform\lang\compile\OcCompilerFactory ;
@@ -61,7 +63,7 @@ class RebuildPlatform extends ControlPanel
 	public function actionShutdownPlatform()
 	{
 		// 关闭系统，并取得“后门”密钥
-		$sSecretKey = PlatformShutdowner::singleton()->shutdown() ;
+		$sSecretKey = ServiceShutdowner::singleton()->shutdown() ;
 		
 		// 将后门密钥埋在cookie中，便于当前用户可以进入系统，完成后续操作。
 		setcookie('shutdown_backdoor_secret_key',$sSecretKey,time()+24*60*60,'/') ;
@@ -76,7 +78,7 @@ class RebuildPlatform extends ControlPanel
 	 */
 	public function actionRestartPlatform()
 	{
-		PlatformShutdowner::singleton()->restore() ;
+		ServiceShutdowner::singleton()->restore() ;
 		
 		$this->response()->putReturnVariable(1,'success') ;
 	}
@@ -84,10 +86,10 @@ class RebuildPlatform extends ControlPanel
 	public function actionClear()
 	{
 		// 清理系统核心类的缓存
-		PlatformSerializer::singleton()->clearRestoreCache() ;
+		ServiceSerializer::singleton()->clearRestoreCache() ;
 		
 		// 清理数据库反射缓存
-		Platform::singleton()->cache()->delete('/db') ;
+		Cache::singleton()->delete('/db') ;
 		
 		foreach(array(
 				'/data/class',				// 清理系统中的影子类
