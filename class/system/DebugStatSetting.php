@@ -67,19 +67,19 @@ class DebugStatSetting extends ControlPanel
 	public function stats()
 	{
 		return array(
-			"/platform/class" => array(
+			/*"/service/class" => array(
 					'enableClassPathCache' => array(
 						'value' => false ,
 						'title' => '禁止缓存类路径' ,
 					) , 
 			)  ,
-			"/platform" => array(
+			"/service" => array(
 					'serialize' => array(
 						'value' => false ,
 						'title' => '禁止系统序列化' ,
 					) ,
-			)  ,
-			"/platform/debug" => array(
+			)  ,*/
+			"/service/debug" => array(
 					'stat' => array(
 						'value' => true ,
 						'title' => '激活调试状态' ,
