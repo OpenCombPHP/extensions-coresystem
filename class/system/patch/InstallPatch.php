@@ -7,7 +7,7 @@ use org\jecat\framework\lang\Exception;
 use org\opencomb\platform\ext\Extension ;
 use org\jecat\framework\fs\Folder ;
 use org\jecat\framework\util\Version;
-use org\opencomb\platform\Platform;
+use org\opencomb\platform\service\Service;
 
 class InstallPatch extends ControlPanel{
 	public function createBeanConfig(){
@@ -41,11 +41,11 @@ class InstallPatch extends ControlPanel{
 		switch($sName){
 		case 'framework':
 			$aCurrentVersion = Version::FromString ( \org\jecat\framework\VERSION );
-			$aExtractFolder = Folder::singleton()->findFolder('framework');
+			$aExtractFolder = \org\jecat\framework\PATH;
 			break;
 		case 'platform':
-			$aCurrentVersion = Platform::singleton ()->version ();
-			$aExtractFolder = Folder::singleton()->findFolder('');
+			$aCurrentVersion = Service::singleton ()->version ();
+			$aExtractFolder = \org\opencomb\platform\ROOT;
 			break;
 		default:
 			$this->view->createMessage(Message::error,'param name error ：%s',$sName);

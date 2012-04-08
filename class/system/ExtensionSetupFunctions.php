@@ -1,6 +1,8 @@
 <?php
 namespace org\opencomb\coresystem\system ;
 
+use org\opencomb\platform\service\Service;
+
 use org\jecat\framework\message\MessageQueue ;
 use org\jecat\framework\message\Message ;
 use org\opencomb\platform\ext\Extension ;
@@ -9,8 +11,8 @@ use org\jecat\framework\fs\Folder ;
 use org\jecat\framework\fs\File ;
 use org\opencomb\platform\ext\ExtensionSetup;
 use org\jecat\framework\lang\Exception ;
-use org\opencomb\platform\system\PlatformSerializer ;
-use org\opencomb\platform\Platform ;
+use org\opencomb\platform\service\ServiceSerializer ;
+use org\opencomb\platform\service\Service ;
 
 /**
  * 期待的改进：
@@ -91,7 +93,7 @@ class ExtensionSetupFunctions
 	}
 	
 	public function clearRestoreCache(){
-		PlatformSerializer::singleton()->clearRestoreCache(Platform::singleton());
+		ServiceSerializer::singleton()->clearRestoreCache(Service::singleton());
 	}
 	
 	public function installPackage(Folder $aExtFolder){

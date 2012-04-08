@@ -5,7 +5,6 @@ use org\opencomb\coresystem\auth\Id;
 
 use org\jecat\framework\message\Message;
 use org\jecat\framework\setting\Setting;
-use org\opencomb\platform\Platform;
 use org\opencomb\coresystem\mvc\controller\ControlPanel;
 
 class DebugStatSetting extends ControlPanel

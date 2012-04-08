@@ -58,9 +58,7 @@ class AdminUsers extends ControlPanel
 				
 		if( $this->params->has('username') )
 		{
-			$aCriteria = Model::buildCriteria($this->users->prototype()) ;
-			$aCriteria->where()->like('username', "{$this->params['username']}%") ;			
-			$this->users->load($aCriteria) ;
+			$this->users->loadSql('username like @1',$this->params['username'].'%') ;
 		}
 		else
 		{

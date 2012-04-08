@@ -8,8 +8,7 @@ use org\opencomb\platform\ext\ExtensionManager as ExtensionManagerOperator ;
 use org\jecat\framework\message\Message ;
 use org\opencomb\platform\ext\ExtensionSetup ;
 use org\jecat\framework\lang\Exception;
-use org\opencomb\platform\system\PlatformSerializer;
-use org\opencomb\platform\Platform;
+use org\opencomb\platform\service\ServiceSerializer;
 use org\opencomb\platform\ext\dependence\RequireItem ;
 
 class ExtensionManagerController extends ControlPanel
@@ -98,7 +97,7 @@ class ExtensionManagerController extends ControlPanel
 		}catch(Exception $e){
 			$this->view->createMessage(Message::error,$e->getMessage(),$e->messageArgvs()) ;
 		}
-		PlatformSerializer::singleton()->clearRestoreCache();
+		ServiceSerializer::singleton()->clearRestoreCache();
 		\org\opencomb\platform\system\OcSession::singleton()->updateSignature() ;
 		$this->view->variables()->set('rebuild','1');
 	}
@@ -113,7 +112,7 @@ class ExtensionManagerController extends ControlPanel
 		}catch(Exception $e){
 			$this->view->createMessage(Message::error,$e->getMessage(),$e->messageArgvs()) ;
 		}
-		PlatformSerializer::singleton()->clearRestoreCache();
+		ServiceSerializer::singleton()->clearRestoreCache();
 		\org\opencomb\platform\system\OcSession::singleton()->updateSignature() ;
 		$this->view->variables()->set('rebuild','1');
 	}
@@ -126,7 +125,7 @@ class ExtensionManagerController extends ControlPanel
 		$aExtensionSetup = ExtensionSetup::singleton();
 		try{
 			$aExtensionSetup->changePriority($sExtName,$nNewPriority);
-			PlatformSerializer::singleton()->clearRestoreCache();
+			ServiceSerializer::singleton()->clearRestoreCache();
 			$this->view->createMessage(Message::success,'成功修改扩展 `%s` 的优先级为 `%d`',array($sExtName,$nNewPriority));
 		}catch(Exception $e){
 			$this->view->createMessage(Message::error,$e->getMessage(),$e->messageArgvs()) ;
@@ -145,7 +144,7 @@ class ExtensionManagerController extends ControlPanel
 		$aExtSetup = ExtensionSetup::singleton();
 		try{
 			$aExtSetup->changeOrder($sExtName,$sDire);
-			PlatformSerializer::singleton()->clearRestoreCache();
+			ServiceSerializer::singleton()->clearRestoreCache();
 			$this->view->createMessage(Message::success, '成功更改扩展顺序 ： %s , %s',array($sExtName,$sDire));
 		}catch(Exception $e){
 			$this->view->createMessage(Message::error,$e->getMessage(),$e->messageArgvs()) ;
@@ -160,7 +159,7 @@ class ExtensionManagerController extends ControlPanel
 		}catch(Exception $e){
 			$this->view->createMessage(Message::error,$e->getMessage(),$e->messageArgvs()) ;
 		}
-		PlatformSerializer::singleton()->clearRestoreCache();
+		ServiceSerializer::singleton()->clearRestoreCache();
 		\org\opencomb\platform\system\OcSession::singleton()->updateSignature() ;
 		$this->view->variables()->set('rebuild','1');
 	}
