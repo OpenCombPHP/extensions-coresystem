@@ -2,6 +2,15 @@
 
 <h1>系统重建</h1>
 
+<div title="调试模式下，系统消耗较多性能用于检查缓存文件是否有效">
+	<a href="?c=org.opencomb.coresystem.system.DebugStatSetting">调试模式</a>:
+<if "\org\opencomb\platform\service\Service::singleton()->isDebugging()" >
+	<span style="color:#FF8C00">开启</span>
+<else />
+	<span style="color:#006400">关闭</span>
+</if>
+</div>
+
 <div>
 	<div id="eleProgressbar" style="text-align:center;width:200px;float:left"></div>
 	<div>
