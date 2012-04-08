@@ -171,7 +171,7 @@ class PurviewSetting extends ControlPanel
 		}
 		
 		// 增加未注册权限
-		if( !empty($this->params['addUnregisterPurview']) )
+		if( !empty($this->params['addUnregisterPurview']['name']) and !empty($this->params['addUnregisterPurview']['namespace']) )
 		{
 			$this->params['addUnregisterPurview']['name'] ;
 			if( PurviewAction::singleton()->setPurview( $sId
@@ -200,7 +200,7 @@ class PurviewSetting extends ControlPanel
 		$arrRegisteredPurviews = $aViewVars->get('arrRegisteredPurviews') ;
 		
 		foreach($arrRegisteredPurviews as $sExtName=>&$arrExtension)
-		{			
+		{
 			foreach($arrExtension as $sPurviewCategory=>&$arrPurviewList)
 			{
 				foreach($arrPurviewList as &$arrPurview)
@@ -215,17 +215,17 @@ class PurviewSetting extends ControlPanel
 						$arrPurview['checked:inheritance'] = $arrExistsPurviews[$sExtName][$arrPurview['name']][$arrPurview['target']]['inheritance'] ;
 						$arrPurview['checked:bubble'] = $arrExistsPurviews[$sExtName][$arrPurview['name']][$arrPurview['target']]['bubble'] ;
 					}
-					
-					if($arrPurview['target']===null)
-					{
-						$arrPurview['target'] = 'NULL' ;
-					}
-					
+										
 					// 移除
-					unset($arrExistsPurviews[$sExtName][$arrPurview['name']]) ;
+					unset($arrExistsPurviews[$sExtName][$arrPurview['name']][$arrPurview['target']]) ;
 					if(empty($arrExistsPurviews[$sExtName]))
 					{
 						unset($arrExistsPurviews[$sExtName]) ;
+					}
+
+					if($arrPurview['target']===null)
+					{
+						$arrPurview['target'] = 'NULL' ;
 					}
 				}
 			}

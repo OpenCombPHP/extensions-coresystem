@@ -72,9 +72,9 @@ class PurviewView extends ControlPanel
 			return ;
 		}
 		
-		$sTableGroup = Prototype::transTableName('group','coresystem') ;
-		$sTableLink = Prototype::transTableName('group_user_link','coresystem') ;
-		$sTablePurview = Prototype::transTableName('purview','coresystem') ;
+		$sTableGroup = DB::singleton()->transTableName('coresystem:group') ;
+		$sTableLink = DB::singleton()->transTableName('coresystem:group_user_link') ;
+		$sTablePurview = DB::singleton()->transTableName('coresystem:purview') ;
 		
 		// 查看"用户"的权限
 		if( $this->params->string('type')=='user' )
@@ -119,8 +119,8 @@ class PurviewView extends ControlPanel
 	
 	private function loadGroupsFamilyPurviews($nGrpLft,$nGrpRgt)
 	{
-		$sTableGroup = Prototype::transTableName('group','coresystem') ;
-		$sTablePurview = Prototype::transTableName('purview','coresystem') ;
+		$sTableGroup = DB::singleton()->transTableName('coresystem:group') ;
+		$sTablePurview = DB::singleton()->transTableName('coresystem:purview') ;
 		
 		// 所有从上级分类继承到的权限
 		$sSql = "select pur.*, grp.name as gname, grp.gid from {$sTableGroup} as grp left join {$sTablePurview} as pur on (grp.gid=pur.id and pur.type='group') where grp.lft<{$nGrpLft} and grp.rgt>{$nGrpRgt} and pur.inheritance='1'

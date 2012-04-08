@@ -27,10 +27,10 @@ class PurviewQuery extends Object
 	
 	public function __construct()
 	{
-		$this->sTablePurview = Prototype::transTableName('purview','coresystem') ;
-		$this->sTableUser = Prototype::transTableName('user','coresystem') ;
-		$this->sTableGroup = Prototype::transTableName('group','coresystem') ;
-		$this->sTableGroupUserLink = Prototype::transTableName('group_user_link','coresystem') ;
+		$this->sTablePurview = DB::singleton()->transTableName('coresystem:purview') ;
+		$this->sTableUser = DB::singleton()->transTableName('coresystem:user') ;
+		$this->sTableGroup = DB::singleton()->transTableName('coresystem:group') ;
+		$this->sTableGroupUserLink = DB::singleton()->transTableName('coresystem:group_user_link') ;
 	}
 	
 	/**
@@ -80,7 +80,7 @@ class PurviewQuery extends Object
 	
 	public function queryPurviews($id,$type=self::user,$sNamespace=self::ignore,$sPurviewName=self::ignore,$target=self::ignore)
 	{
-		$sSQL = "select * from `{$this->sTablePurview}` where type='{$type}' and id='{$id}' " ;
+		$sSQL = "select * from `{$this->sTablePurview}` where type=@1 and id=@2 " ;
 		if( $sNamespace!==self::ignore )
 		{
 			$sSQL.= " and extension='".addslashes($sNamespace)."'" ;
@@ -93,10 +93,10 @@ class PurviewQuery extends Object
 		{
 			$sSQL.= $target===null? " and target=NULL": (" and target='".addslashes($target)."'") ;
 		}
-	
+
 		$arrPurviews = array() ;
-		$aRecords = DB::singleton()->query($sSQL)->fetch(\PDO::FETCH_ASSOC) ;
-		print_r($aRecords) ;
+		$aRecords = DB::singleton()->query($sSQL,array($type,$id)) ;
+		
 		
 		foreach($aRecords as $arrPurviewRow)
 		{
@@ -153,7 +153,7 @@ class PurviewQuery extends Object
 				from `{$this->sTableGroupUserLink}` as usrs join `{$this->sTablePurview}` as pur on (usrs.gid=pur.id and pur.type='group')
 				where usrs.uid='{$uid}' and {$sPurviewWhere}
 				Limit 1 ;" ;
-		
+
 		return DB::singleton()->query($sSql)->rowCount()>0 ;
 	}
 	protected function queryUserGroupFamilyPurview($uid,$isParentGroups,$sNamespace,$sPurviewName,$target=null)
