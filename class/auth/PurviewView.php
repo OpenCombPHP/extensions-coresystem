@@ -71,27 +71,23 @@ class PurviewView extends ControlPanel
 			$this->purview->createMessage(Message::error,"参数 id 无效：%s",$sId) ;
 			return ;
 		}
-		
-		$sTableGroup = DB::singleton()->transTableName('coresystem:group') ;
-		$sTableLink = DB::singleton()->transTableName('coresystem:group_user_link') ;
-		$sTablePurview = DB::singleton()->transTableName('coresystem:purview') ;
-		
+				
 		// 查看"用户"的权限
 		if( $this->params->string('type')=='user' )
 		{
 			// 用户所拥有的权限
-			$sSql = "select * from {$sTablePurview} where id='{$sId}' and type='user' ;" ;
+			$sSql = "select * from coresystem:purview where id='{$sId}' and type='user' ;" ;
 			foreach(DB::singleton()->query($sSql) as $arrPurview)
 			{
 				$this->putinFoundPurview('selfPurviews','*',$arrPurview) ;
 			}
 			
 			// 所属用户组拥有的权限
-			$sSql = "select grp.gid,grp.name,grp.lft,grp.rgt from {$sTableLink} as lnk left join {$sTableGroup} as grp on (lnk.gid=grp.gid) where lnk.uid='{$sId}' ;" ;
+			$sSql = "select grp.gid,grp.name,grp.lft,grp.rgt from coresystem:group_user_link as lnk left join coresystem:group as grp on (lnk.gid=grp.gid) where lnk.uid='{$sId}' ;" ;
 			foreach(DB::singleton()->query($sSql) as $arrGroup)
 			{
 				// 该分组直接拥有的权限
-				$sSql = "select * from {$sTablePurview} where id='{$arrGroup['gid']}' and type='group' ;" ;
+				$sSql = "select * from coresystem:purview where id='{$arrGroup['gid']}' and type='group' ;" ;
 				foreach(DB::singleton()->query($sSql) as $arrPurview)
 				{
 					$this->putinFoundPurview('parentGroupPurviews',$arrGroup['name'],$arrPurview) ;
@@ -105,7 +101,7 @@ class PurviewView extends ControlPanel
 		else
 		{
 			// 该用户组直接拥有的权限
-			$sSql = "select * from {$sTablePurview} where id='{$sId}' and type='group' ;" ;
+			$sSql = "select * from coresystem:purview where id='{$sId}' and type='group' ;" ;
 			foreach(DB::singleton()->query($sSql) as $arrPurview)
 			{
 				$this->putinFoundPurview('selfPurviews','*',$arrPurview) ;
@@ -118,12 +114,9 @@ class PurviewView extends ControlPanel
 	
 	
 	private function loadGroupsFamilyPurviews($nGrpLft,$nGrpRgt)
-	{
-		$sTableGroup = DB::singleton()->transTableName('coresystem:group') ;
-		$sTablePurview = DB::singleton()->transTableName('coresystem:purview') ;
-		
+	{		
 		// 所有从上级分类继承到的权限
-		$sSql = "select pur.*, grp.name as gname, grp.gid from {$sTableGroup} as grp left join {$sTablePurview} as pur on (grp.gid=pur.id and pur.type='group') where grp.lft<{$nGrpLft} and grp.rgt>{$nGrpRgt} and pur.inheritance='1'
+		$sSql = "select pur.*, grp.name as gname, grp.gid from coresystem:group as grp left join coresystem:purview as pur on (grp.gid=pur.id and pur.type='group') where grp.lft<{$nGrpLft} and grp.rgt>{$nGrpRgt} and pur.inheritance='1'
 						group by pur.name, pur.target
 						order by grp.lft desc;" ;
 		foreach(DB::singleton()->query($sSql) as $arrPurview)
@@ -132,7 +125,7 @@ class PurviewView extends ControlPanel
 		}
 		
 		// 所有从下级分类冒泡得到的权限
-		$sSql = "select pur.*, grp.name as gname, grp.gid from {$sTableGroup} as grp left join {$sTablePurview} as pur on (grp.gid=pur.id and pur.type='group') where grp.lft>{$nGrpLft} and grp.rgt<{$nGrpRgt} and pur.bubble='1'
+		$sSql = "select pur.*, grp.name as gname, grp.gid from coresystem:group as grp left join coresystem:purview as pur on (grp.gid=pur.id and pur.type='group') where grp.lft>{$nGrpLft} and grp.rgt<{$nGrpRgt} and pur.bubble='1'
 						group by pur.name, pur.target
 						order by grp.lft asc;" ; 
 		foreach(DB::singleton()->query($sSql) as $arrPurview)

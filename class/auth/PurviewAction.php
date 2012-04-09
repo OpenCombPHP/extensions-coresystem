@@ -7,12 +7,7 @@ use org\jecat\framework\db\DB;
 use org\jecat\framework\lang\Object;
 
 class PurviewAction extends Object
-{
-	public function __construct()
-	{
-		$this->sTablePurview = DB::singleton()->transTableName('coresystem:purview') ; ;
-	}
-	
+{	
 	public function setPurview($id,$sType,$sNamespace,$sPurviewName,$target=null,$bInheritance=false,$bBubble=true)
 	{
 		if( $sType==PurviewQuery::group and $this->purviewRow($sType,$id,$sNamespace,$sPurviewName,$target) )
@@ -27,7 +22,7 @@ class PurviewAction extends Object
 				$sInheritance = $sBubble = '' ;
 			}
 			
-			$sSQL = "update {$this->sTablePurview} as pur set {$sInheritance}{$sBubble} where pur.id='{$id}' and pur.type='{$sType}' and "
+			$sSQL = "update coresystem:purview as pur set {$sInheritance}{$sBubble} where pur.id='{$id}' and pur.type='{$sType}' and "
 						. PurviewQuery::sqlPurviewWhere($sNamespace,$sPurviewName,$target);
 			
 			return DB::singleton()->execute($sSQL) ;
@@ -35,7 +30,7 @@ class PurviewAction extends Object
 		
 		else 
 		{
-			$aSql = new Insert($this->sTablePurview) ;
+			$aSql = new Insert('coresystem:purview') ;
 			$aSql->setData('type',$sType) ;
 			$aSql->setData('id',$id) ;
 			$aSql->setData('extension',$sNamespace) ;
@@ -55,14 +50,14 @@ class PurviewAction extends Object
 	}
 	public function removePurview($id,$sType,$sNamespace,$sPurviewName,$target=null)
 	{
-		$sSQL = "delete from {$this->sTablePurview} where id='{$id}' and type='{$sType}' and "
+		$sSQL = "delete from coresystem:purview where id='{$id}' and type='{$sType}' and "
 						. PurviewQuery::sqlPurviewWhere($sNamespace,$sPurviewName,$target,'');
 		return DB::singleton()->execute($sSQL) ;
 	}
 	
 	protected function purviewRow($type,$id,$sNamespace,$sPurviewName,$target=null)
 	{
-		$sSQL = "select * from {$this->sTablePurview} as pur where pur.id='{$id}' and pur.type='{$type}' and " . PurviewQuery::sqlPurviewWhere($sNamespace,$sPurviewName,$target) ;
+		$sSQL = "select * from coresystem:purview as pur where pur.id='{$id}' and pur.type='{$type}' and " . PurviewQuery::sqlPurviewWhere($sNamespace,$sPurviewName,$target) ;
 		$aRecords = DB::singleton()->query($sSQL) ;
 		return $aRecords->rowCount()? $aRecords: null ;
 	}

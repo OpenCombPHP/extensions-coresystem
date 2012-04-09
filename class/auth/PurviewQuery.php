@@ -27,10 +27,10 @@ class PurviewQuery extends Object
 	
 	public function __construct()
 	{
-		$this->sTablePurview = DB::singleton()->transTableName('coresystem:purview') ;
-		$this->sTableUser = DB::singleton()->transTableName('coresystem:user') ;
-		$this->sTableGroup = DB::singleton()->transTableName('coresystem:group') ;
-		$this->sTableGroupUserLink = DB::singleton()->transTableName('coresystem:group_user_link') ;
+		//$this->sTablePurview = DB::singleton()->transTableName('coresystem:purview') ;
+		//coresystem:user = DB::singleton()->transTableName('coresystem:user') ;
+		//coresystem:group = DB::singleton()->transTableName('coresystem:group') ;
+		//coresystem:group_user_link = DB::singleton()->transTableName('coresystem:group_user_link') ;
 	}
 	
 	/**
@@ -80,7 +80,7 @@ class PurviewQuery extends Object
 	
 	public function queryPurviews($id,$type=self::user,$sNamespace=self::ignore,$sPurviewName=self::ignore,$target=self::ignore)
 	{
-		$sSQL = "select * from `{$this->sTablePurview}` where type=@1 and id=@2 " ;
+		$sSQL = "select * from `coresystem:purview` where type=@1 and id=@2 " ;
 		if( $sNamespace!==self::ignore )
 		{
 			$sSQL.= " and extension='".addslashes($sNamespace)."'" ;
@@ -131,7 +131,7 @@ class PurviewQuery extends Object
 		$sPurviewWhere = self::sqlPurviewWhere($sNamespace,$sPurviewName,$target) ;
 		
 		$sSql = "select pur.id
-				from `{$this->sTablePurview}` as pur
+				from `coresystem:purview` as pur
 				where pur.id='{$uid}' and pur.type='user' and {$sPurviewWhere}
 				Limit 1 ;" ;
 		
@@ -150,7 +150,7 @@ class PurviewQuery extends Object
 		$sPurviewWhere = self::sqlPurviewWhere($sNamespace,$sPurviewName,$target) ;
 		
 		$sSql = "select usrs.gid
-				from `{$this->sTableGroupUserLink}` as usrs join `{$this->sTablePurview}` as pur on (usrs.gid=pur.id and pur.type='group')
+				from `coresystem:group_user_link` as usrs join `coresystem:purview` as pur on (usrs.gid=pur.id and pur.type='group')
 				where usrs.uid='{$uid}' and {$sPurviewWhere}
 				Limit 1 ;" ;
 
@@ -168,10 +168,10 @@ class PurviewQuery extends Object
 		$sPurviewWhere.= ($isParentGroups? " and pur.inheritance='1'": " and pur.bubble='1'") ;
 		
 		$sSql = "select usrs.uid
-				from `{$this->sTableGroupUserLink}` as usrs left join ( 
-						`$this->sTableGroup` as grps left join (
-							`$this->sTableGroup` as fmyGrps left join
-								`{$this->sTablePurview}` as pur on (pur.id=fmyGrps.gid and pur.type='group')
+				from `coresystem:group_user_link` as usrs left join ( 
+						`coresystem:group` as grps left join (
+							`coresystem:group` as fmyGrps left join
+								`coresystem:purview` as pur on (pur.id=fmyGrps.gid and pur.type='group')
 						) on {$sFamilyGrpsJoinOn}
 					) on (usrs.gid=grps.gid)
 				where usrs.uid='{$uid}' and {$sPurviewWhere}
@@ -200,8 +200,6 @@ class PurviewQuery extends Object
 	{
 		return parent::singleton($bCreateNew,$createArgvs,$sClass?:__CLASS__) ;
 	}
-	
-	private $sPurviewTable ;
 	
 }
 
