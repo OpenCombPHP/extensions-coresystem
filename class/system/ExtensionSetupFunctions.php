@@ -2,7 +2,6 @@
 namespace org\opencomb\coresystem\system ;
 
 use org\opencomb\platform\service\Service;
-
 use org\jecat\framework\message\MessageQueue ;
 use org\jecat\framework\message\Message ;
 use org\opencomb\platform\ext\Extension ;
@@ -12,7 +11,6 @@ use org\jecat\framework\fs\File ;
 use org\opencomb\platform\ext\ExtensionSetup;
 use org\jecat\framework\lang\Exception ;
 use org\opencomb\platform\service\ServiceSerializer ;
-use org\opencomb\platform\service\Service ;
 
 /**
  * 期待的改进：
@@ -30,7 +28,7 @@ class ExtensionSetupFunctions
 	 */
 	public function moveUploadFile( $sLocalFilePath , $sFileName ){
 		// upload temp file
-		$aTmpFile = Extension::flyweight('coresystem')->publicFolder()->findFile($sFileName , Folder::FIND_AUTO_CREATE_OBJECT) ;
+		$aTmpFile = Extension::flyweight('coresystem')->filesFolder()->findFile($sFileName , Folder::FIND_AUTO_CREATE_OBJECT) ;
 		$sTmpFilePath = $aTmpFile->path() ;
 		$resmove = move_uploaded_file($sLocalFilePath,$sTmpFilePath);
 		if( TRUE !== $resmove){

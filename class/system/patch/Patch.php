@@ -49,7 +49,7 @@ class Patch{
 	 */
 	public function create($sFrom,$sTo){
 		$sPath = Folder::singleton()->findFolder($this->path())->path();
-		$aTmpFolder = Extension::flyweight('coresystem')->publicFolder()->findFolder('tmp',Folder::FIND_AUTO_CREATE);
+		$aTmpFolder = Extension::flyweight('coresystem')->filesFolder()->findFolder('tmp',Folder::FIND_AUTO_CREATE);
 		$aErrFile = $aTmpFolder->findFile('patch.err',Folder::FIND_AUTO_CREATE_OBJECT);
 		$sErrFileName = $aErrFile->path();
 		
@@ -95,7 +95,7 @@ class Patch{
 		
 		$sXML = $aXML->asXML();
 		
-		$aZipFolder = Extension::flyweight('coresystem')->publicFolder()->findFolder('patch',Folder::FIND_AUTO_CREATE);
+		$aZipFolder = Extension::flyweight('coresystem')->filesFolder()->findFolder('patch',Folder::FIND_AUTO_CREATE);
 		$sZipFileName = 'patch_'.$this->sItem.'_'.$sFrom.'_'.$sTo.'.zip';
 		$aZipFile = $aZipFolder->findFile($sZipFileName,Folder::FIND_AUTO_CREATE_OBJECT);
 		if($aZipFile->exists()){

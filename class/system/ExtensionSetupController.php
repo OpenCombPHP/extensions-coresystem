@@ -1,8 +1,9 @@
 <?php
 namespace org\opencomb\coresystem\system ;
 
-use org\opencomb\platform\service\Service;
+use org\opencomb\platform\Platform;
 
+use org\opencomb\platform\service\Service;
 use org\opencomb\coresystem\auth\Id;
 use org\opencomb\platform\service\ServiceSerializer;
 use org\jecat\framework\lang\Exception;
@@ -10,7 +11,6 @@ use org\jecat\framework\message\Message;
 use org\jecat\framework\fs\Folder;
 use org\opencomb\coresystem\mvc\controller\ControlPanel;
 use org\opencomb\platform\ext\ExtensionSetup;
-use org\opencomb\platform\service\Service ;
 use org\opencomb\platform\system\PlatformFactory ;
 use org\opencomb\platform\system\OcSession ;
 
@@ -57,7 +57,7 @@ class ExtensionSetupController extends ControlPanel
 			}
 			
 			$sPath = trim($this->view->path->value()) ;
-			if( !$aExtFolder = Folder::singleton()->findFolder($sPath) )
+			if( !$aExtFolder = Platform::singleton()->installFolder()->findFolder($sPath) )
 			{
 				$this->view->createMessage(Message::error,'输入的路径不存在:%s',$sPath) ;
 				break ;

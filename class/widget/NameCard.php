@@ -200,7 +200,7 @@ class NameCard extends Widget {
 			if(strpos($this->aModel['info.avatar'], 'http://' , 0)==0 || strpos($this->aModel['info.avatar'], '/' , 0)==0){
 				$sFaceUrl =  $this->aModel['info.avatar'] ;
 			}else{
-				$sFaceUrl = Extension::flyweight('coresystem')->publicFolder()->path() . '/avatar/' . $this->aModel['info.avatar'] ;
+				$sFaceUrl = Extension::flyweight('coresystem')->filesFolder()->path() . '/avatar/' . $this->aModel['info.avatar'] ;
 			}
 		}
 		return $sFaceUrl;

@@ -64,7 +64,7 @@ class InstallPatch extends ControlPanel{
 		$sFilePath = $aFile->localPath();
 		
 		// move file
-		$aUploadFolder = Extension::flyweight('coresystem')->publicFolder()->findFolder('upload' , Folder::FIND_AUTO_CREATE) ;
+		$aUploadFolder = Extension::flyweight('coresystem')->filesFolder()->findFolder('upload' , Folder::FIND_AUTO_CREATE) ;
 		$aUploadFile = $aUploadFolder->findFile($sFileName , Folder::FIND_AUTO_CREATE_OBJECT) ;
 		$sUploadFilePath = $aUploadFile->path() ;
 		$resmove = move_uploaded_file($sFilePath,$sUploadFilePath);
