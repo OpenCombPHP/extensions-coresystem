@@ -139,6 +139,41 @@ function disableExtension(sExtName){
 		</div>
 	</div>
 </div>
+
+
+
+
+<script>
+function switchExtensionList(lnk)
+{
+	jquery('.extensionListTab').removeClass('tabActive') ; 
+	jquery('.extensionListTab').addClass('tabUnactive') ; 
+	
+	jquery(lnk).removeClass('tabUnactive') ; 
+	jquery(lnk).addClass('tabActive') ;
+
+	if( lnk.id=='ext-lst-tab-all' )
+	{
+		jquery('#ext-lst-enable').show() ;
+		jquery('#ext-lst-disable').show() ;
+	}
+	else if( lnk.id=='ext-lst-tab-enable' )
+	{
+		jquery('#ext-lst-enable').show() ;
+		jquery('#ext-lst-disable').hide() ;
+	}
+	else if( lnk.id=='ext-lst-tab-disable' )
+	{
+		jquery('#ext-lst-enable').hide() ;
+		jquery('#ext-lst-disable').show() ;
+	}
+	
+}
+</script>
+<a href="javascript:void(0)" onclick="switchExtensionList(this)" class="extensionListTab tabUnactive" id="ext-lst-tab-all">所有扩展</a>
+<a href="javascript:void(0)" onclick="switchExtensionList(this)" class="extensionListTab tabActive" id="ext-lst-tab-enable">正在启用的扩展</a>
+<a href="javascript:void(0)" onclick="switchExtensionList(this)" class="extensionListTab tabUnactive" id="ext-lst-tab-disable">被禁用的扩展</a>
+
 <script type='text/javascript'>
 var arrDependence = {=json_encode($arrDependence)};
 function enableExtension(sExtName){
@@ -250,101 +285,108 @@ function hideDepBy(sName,o){
 	}
 }
 </script>
-<h2>已经启用的扩展</h2>
-<foreach for="$arrPriority" item="arrExtName" key="nPriority">
-	<h3>优先级：{=$nPriority}</h3>
+
+<div id="ext-lst-enable">
+	<h2>已经启用的扩展</h2>
+	<foreach for="$arrPriority" item="arrExtName" key="nPriority">
+		<h3>优先级：{=$nPriority}</h3>
+		<div class="priority">
+		<foreach for="$arrExtName" item="sExtName">
+			<dl class='extension'>
+				<dt class='logo'>
+					<img src='{/coresystem:images/ex_icon.png}' />
+				</dt>
+				<dd>
+				<div class='titleBlock'>
+					<h4 class='extTitle'>
+						{=$arrEnabledExtensions[$sExtName]->metainfo()->title()}
+						<span class='extName'>
+							（{=$sExtName} ver : {=$arrEnabledExtensions[$sExtName]->metainfo()->version()}）
+							<a href="javascript:jquery('#depRelation-{=$sExtName}').toggle()">依赖关系</a>
+						</span>
+					</h4>
+					<div class="extOther">
+						<span><a href='#' class='disable' onclick="disableExtension('{=$sExtName}');return false;">禁用</a>
+						<a href='#' class='uninstall' onclick="unistallExtension('{=$sExtName}');return false;">卸载</a></span>
+						<span>优先级：
+					<select onchange="changePriority('{=$sExtName}',this.value)">
+						<loop end='9' var='n'>
+							<if '$n == $nPriority'>
+								<option value='{=$n}' selected='selected'>{=$n}</option>
+							<else />
+								<option value='{=$n}'>{=$n}</option>
+							</if>
+						</loop>
+					</select>
+					</span>
+						<span>
+						加载顺序：
+						<a href='#' onclick="changeOrder('{=$sExtName}','up')" class="ex_up"><img src='/extensions/coresystem/0.1/public/images/ex_up.png' title="向上" /></a>
+						<a href='#' onclick="changeOrder('{=$sExtName}','down')" class="ex_down"><img src='/extensions/coresystem/0.1/public/images/ex_down.png' title="向下" /></a>
+						</span>
+					</div>
+				</div>
+				</dd>
+				<dd>
+				<div class='description'>
+					描述：<pre class='descontent'>{=$arrEnabledExtensions[$sExtName]->metainfo()->description()}</pre>
+				</div>
+				</dd>
+				<dd id="depRelation-{=$sExtName}" style="display:none">
+				<div class='showRelationBlock clearfix'>
+					<div class="yl">
+						<div class="yl_tit">依赖：</div>
+						<div class='showDepBlock'></div>
+					</div>
+					<div class="byl">
+						<div class="byl_tit">被依赖：</div>
+						<div class='showDepByBlock'></div>
+					</div>
+				</div>
+				</dd>
+			</dl>
+		</foreach>
+		</div>
+	</foreach>
+</div>
+
+
+<div id="ext-lst-disable" style="display:none">
+	<h2>禁用的扩展</h2>
 	<div class="priority">
-	<foreach for="$arrExtName" item="sExtName">
+	<foreach for="$arrDisabledExtensionMetainfos" item="aExtMeta">
 		<dl class='extension'>
 			<dt class='logo'>
 				<img src='{/coresystem:images/ex_icon.png}' />
 			</dt>
 			<dd>
-			<div class='titleBlock'>
-				<h4 class='extTitle'>
-					{=$arrEnabledExtensions[$sExtName]->metainfo()->title()}
-					<span class='extName'>
-						（{=$sExtName} ver : {=$arrEnabledExtensions[$sExtName]->metainfo()->version()}）
-						<a href="javascript:jquery('#depRelation-{=$sExtName}').toggle()">依赖关系</a>
-					</span>
-				</h4>
-				<div class="extOther">
-					<span><a href='#' class='disable' onclick="disableExtension('{=$sExtName}');return false;">禁用</a>
-					<a href='#' class='uninstall' onclick="unistallExtension('{=$sExtName}');return false;">卸载</a></span>
-					<span>优先级：
-				<select onchange="changePriority('{=$sExtName}',this.value)">
-					<loop end='9' var='n'>
-						<if '$n == $nPriority'>
-							<option value='{=$n}' selected='selected'>{=$n}</option>
-						<else />
-							<option value='{=$n}'>{=$n}</option>
-						</if>
-					</loop>
-				</select>
-				</span>
-					<span>
-					加载顺序：
-					<a href='#' onclick="changeOrder('{=$sExtName}','up')" class="ex_up"><img src='/extensions/coresystem/0.1/public/images/ex_up.png' title="向上" /></a>
-					<a href='#' onclick="changeOrder('{=$sExtName}','down')" class="ex_down"><img src='/extensions/coresystem/0.1/public/images/ex_down.png' title="向下" /></a>
-					</span>
+				<div class='titleBlock'>
+					<h4 class='extTitle'>
+						{=$aExtMeta->title()}					
+						<span class='extName'>
+							（{=$sExtName=$aExtMeta->name()} ver : {=$aExtMeta->version()}）
+							<a href="javascript:jquery('#depRelation-{=$sExtName}').toggle()">依赖关系</a>
+						</span>
+						
+					</h4>
+					<div class='extOther'>
+						<span><a class='disable' href='#' onclick='enableExtension("{=$aExtMeta->name()}");return false;'>启用</a></span>
+					</div>
 				</div>
-			</div>
 			</dd>
 			<dd>
-			<div class='description'>
-				描述：<pre class='descontent'>{=$arrEnabledExtensions[$sExtName]->metainfo()->description()}</pre>
-			</div>
+				<div class='description'>
+					描述：<pre class='descontent'>{=$aExtMeta->description()}</pre>
+				</div>
 			</dd>
 			<dd id="depRelation-{=$sExtName}" style="display:none">
-			<div class='showRelationBlock clearfix'>
-				<div class="yl">
-					<div class="yl_tit">依赖：</div>
-					<div class='showDepBlock'></div>
+				<div class='showRelationBlock clearfix'>
+					<div class="yl"><div class="yl_tit">依赖：<a class='btnShowDep' onclick='showDep("{=$aExtMeta->name()}",this)'><img src='/extensions/coresystem/0.1/public/images/ex_jia.png' title="展开" /></a></div><div class='showDepBlock'></div></div>
+					<div class="byl"><div class="byl_tit">被依赖：<a class='btnShowDepBy' onclick='showDepBy("{=$aExtMeta->name()}",this)'><img src='/extensions/coresystem/0.1/public/images/ex_jia.png' title="展开" /></a></div><div class='showDepByBlock'></div></div>
 				</div>
-				<div class="byl">
-					<div class="byl_tit">被依赖：</div>
-					<div class='showDepByBlock'></div>
-				</div>
-			</div>
 			</dd>
 		</dl>
 	</foreach>
 	</div>
-</foreach>
-<h2>禁用的扩展</h2>
-<div class="priority">
-<foreach for="$arrDisabledExtensionMetainfos" item="aExtMeta">
-	<dl class='extension'>
-		<dt class='logo'>
-			<img src='{/coresystem:images/ex_icon.png}' />
-		</dt>
-		<dd>
-			<div class='titleBlock'>
-				<h4 class='extTitle'>
-					{=$aExtMeta->title()}					
-					<span class='extName'>
-						（{=$sExtName=$aExtMeta->name()} ver : {=$aExtMeta->version()}）
-						<a href="javascript:jquery('#depRelation-{=$sExtName}').toggle()">依赖关系</a>
-					</span>
-					
-				</h4>
-				<div class='extOther'>
-					<span><a class='disable' href='#' onclick='enableExtension("{=$aExtMeta->name()}");return false;'>启用</a></span>
-				</div>
-			</div>
-		</dd>
-		<dd>
-			<div class='description'>
-				描述：<pre class='descontent'>{=$aExtMeta->description()}</pre>
-			</div>
-		</dd>
-		<dd id="depRelation-{=$sExtName}" style="display:none">
-			<div class='showRelationBlock clearfix'>
-				<div class="yl"><div class="yl_tit">依赖：<a class='btnShowDep' onclick='showDep("{=$aExtMeta->name()}",this)'><img src='/extensions/coresystem/0.1/public/images/ex_jia.png' title="展开" /></a></div><div class='showDepBlock'></div></div>
-				<div class="byl"><div class="byl_tit">被依赖：<a class='btnShowDepBy' onclick='showDepBy("{=$aExtMeta->name()}",this)'><img src='/extensions/coresystem/0.1/public/images/ex_jia.png' title="展开" /></a></div><div class='showDepByBlock'></div></div>
-			</div>
-		</dd>
-	</dl>
-</foreach>
 </div>
 </if>

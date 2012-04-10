@@ -70,3 +70,6 @@ a:hover.uninstall{color:#6C0; text-decoration:none}
 .ex_back{width:85px; height:28px; line-height:28px; margin-top:15px;  display:block; background:url(../images/form-btn.jpg) no-repeat 0 0; overflow:hidden; font-size:14px; color:#666; text-align:center}
 .ex_back:hover{ background-position:-85px 0; color:#fff; text-decoration:none;}
 
+
+.tabActive{font-weight: bold;}
+.tabUnactive{color: #666;}
