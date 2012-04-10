@@ -261,7 +261,13 @@ function hideDepBy(sName,o){
 			</dt>
 			<dd>
 			<div class='titleBlock'>
-				<h4 class='extTitle'>{=$arrEnabledExtensions[$sExtName]->metainfo()->title()} <span class='extName'>（{=$sExtName} ver : {=$arrEnabledExtensions[$sExtName]->metainfo()->version()}）</span></h4>
+				<h4 class='extTitle'>
+					{=$arrEnabledExtensions[$sExtName]->metainfo()->title()}
+					<span class='extName'>
+						（{=$sExtName} ver : {=$arrEnabledExtensions[$sExtName]->metainfo()->version()}）
+						<a href="javascript:jquery('#depRelation-{=$sExtName}').toggle()">依赖关系</a>
+					</span>
+				</h4>
 				<div class="extOther">
 					<span><a href='#' class='disable' onclick="disableExtension('{=$sExtName}');return false;">禁用</a>
 					<a href='#' class='uninstall' onclick="unistallExtension('{=$sExtName}');return false;">卸载</a></span>
@@ -289,10 +295,16 @@ function hideDepBy(sName,o){
 				描述：<pre class='descontent'>{=$arrEnabledExtensions[$sExtName]->metainfo()->description()}</pre>
 			</div>
 			</dd>
-			<dd>
+			<dd id="depRelation-{=$sExtName}" style="display:none">
 			<div class='showRelationBlock clearfix'>
-				<div class="yl"><div class="yl_tit">依赖：<a class='btnShowDep' onclick='showDep("{=$sExtName}",this)'><img src='/extensions/coresystem/0.1/public/images/ex_jia.png' title="展开" /></a></div><div class='showDepBlock'></div></div>
-				<div class="byl"><div class="byl_tit">被依赖：<a class='btnShowDepBy' onclick='showDepBy("{=$sExtName}",this)'><img src='/extensions/coresystem/0.1/public/images/ex_jia.png' title="展开" /></a></div><div class='showDepByBlock'></div></div>
+				<div class="yl">
+					<div class="yl_tit">依赖：</div>
+					<div class='showDepBlock'></div>
+				</div>
+				<div class="byl">
+					<div class="byl_tit">被依赖：</div>
+					<div class='showDepByBlock'></div>
+				</div>
 			</div>
 			</dd>
 		</dl>
@@ -308,7 +320,14 @@ function hideDepBy(sName,o){
 		</dt>
 		<dd>
 			<div class='titleBlock'>
-				<h4 class='extTitle'>{=$aExtMeta->title()}<span class='extName'>（{=$aExtMeta->name()} ver : {=$aExtMeta->version()}）</span></h4>
+				<h4 class='extTitle'>
+					{=$aExtMeta->title()}					
+					<span class='extName'>
+						（{=$sExtName=$aExtMeta->name()} ver : {=$aExtMeta->version()}）
+						<a href="javascript:jquery('#depRelation-{=$sExtName}').toggle()">依赖关系</a>
+					</span>
+					
+				</h4>
 				<div class='extOther'>
 					<span><a class='disable' href='#' onclick='enableExtension("{=$aExtMeta->name()}");return false;'>启用</a></span>
 				</div>
@@ -319,7 +338,7 @@ function hideDepBy(sName,o){
 				描述：<pre class='descontent'>{=$aExtMeta->description()}</pre>
 			</div>
 		</dd>
-		<dd>
+		<dd id="depRelation-{=$sExtName}" style="display:none">
 			<div class='showRelationBlock clearfix'>
 				<div class="yl"><div class="yl_tit">依赖：<a class='btnShowDep' onclick='showDep("{=$aExtMeta->name()}",this)'><img src='/extensions/coresystem/0.1/public/images/ex_jia.png' title="展开" /></a></div><div class='showDepBlock'></div></div>
 				<div class="byl"><div class="byl_tit">被依赖：<a class='btnShowDepBy' onclick='showDepBy("{=$aExtMeta->name()}",this)'><img src='/extensions/coresystem/0.1/public/images/ex_jia.png' title="展开" /></a></div><div class='showDepByBlock'></div></div>
