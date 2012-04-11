@@ -63,8 +63,9 @@ class CoreSystem extends Extension
 	
 	public function active(Service $aPlatform)
 	{
+		// 注册 ui
 		$this->registerLibNode() ;
-		return ;
+		
 		// 从 cookie 中恢复 id
 		if( !IdManager::singleton()->currentId() )
 		{
@@ -73,6 +74,7 @@ class CoreSystem extends Extension
 				IdManager::singleton()->addId($aId) ;
 			}
 		}
+		
 	}
 	
 	private function registerLibNode()
