@@ -44,12 +44,12 @@ body{ background:url(../images/main.jpg) repeat-y 0 0; font-size:13px; line-heig
 .coresystem-content{margin:0 0 0 173px; background:#fff url(../images/content.gif) repeat-x 0 0; padding:10px 15px 10px 10px; min-width:950px; }
 .coresystem-c-inner{ width:100%; min-height:300px;}
 
-a{color:#666; text-decoration:none;}
-a:hover{ color:#09c; text-decoration:underline}
+a{color:#09c; text-decoration:none;}
+a:hover{  text-decoration:underline}
 
 .coresystem-content h1{padding:6px 2px;  border-bottom:1px solid #e4e4e4; color:#09c; font-size:14px; font-weight:bold;margin:0 0 10px 0}
-.coresystem-content h2{ font-size:13px; font-weight:bold; color:#0CF}
-.coresystem-content h3{ font-size:12px; font-weight:bold; color:#333}
+.coresystem-content h2{ font-size:13px; font-weight:bold; color:#0CF;margin-bottom:5px;}
+.coresystem-content h3{ font-size:12px; font-weight:bold; color:#333;margin-bottom:5px;}
 .coresystem-submenu{ text-align:right;padding:0 2px 6px;}
 
 table{ width:100%;color:#666; font-size:12px;border:1px solid #e4e4e4;  margin:10px 0;}/*background:url(../images/tablebg.gif) repeat 0 0;*/
