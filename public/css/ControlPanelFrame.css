@@ -1,4 +1,4 @@
-body{ background:url(../images/main.jpg) repeat-y 0 0; font:13px "微软雅黑","宋体"; line-height: 19px;color:#666;}
+body{ background:url(../images/main.jpg) repeat-y 0 0; font-size:13px; line-height: 19px;color:#666;}
 .coresystem-header a,.coresystem-header a:hover,.coresystem-leftnav a,.coresystem-leftnav a:hover{ color:#8D7754; text-decoration:none;}
 
 /* coresystem-header part */
@@ -8,7 +8,7 @@ body{ background:url(../images/main.jpg) repeat-y 0 0; font:13px "微软雅黑",
 		.coresystem-othernav{ display:inline; float:right; font-size:14px; color:#8D7754;margin:10px 10px 0 0}
 		.coresystem-othernav a{margin:0 4px;}
 		.coresystem-othernav a:hover{ text-decoration:underline;}
-	.coresystem-slogan{ height:32px; width:100%; overflow:hidden; text-indent:-9999em; background:url(../images/slogan.jpg) no-repeat 73px 0;}
+	.coresystem-slogan{ height:32px;padding-left:100px; overflow:hidden; /*text-indent:-9999em; background:url(../images/slogan.jpg) no-repeat 73px 0;*/}
 	.coresystem-mainnav{ height:40px; width:100%; background:url(../images/content.gif) repeat-x 0 0;padding-top:3px; overflow:hidden;}
 	.coresystem-mainnav ul a,.coresystem-mainnav ul a:hover,.coresystem-mainnav span{color:#fff; font-size:16px;}
 	.coresystem-mainnav ul{background:#54D0ED url(../images/mainnav.jpg) repeat-y 0 0;height:40px;padding-left:170px; overflow:hidden}
@@ -41,15 +41,15 @@ body{ background:url(../images/main.jpg) repeat-y 0 0; font:13px "微软雅黑",
 
 
 /* content */
-.coresystem-content{margin:0 0 0 173px; background:#fff url(../images/content.gif) repeat-x 0 0; padding:10px 15px 10px 10px; }
+.coresystem-content{margin:0 0 0 173px; background:#fff url(../images/content.gif) repeat-x 0 0; padding:10px 15px 10px 10px; min-width:950px; }
 .coresystem-c-inner{ width:100%; min-height:300px;}
 
 a{color:#666; text-decoration:none;}
 a:hover{ color:#09c; text-decoration:underline}
 
-h2{padding:6px 2px;  border-bottom:1px solid #e4e4e4; color:#09c; font-size:14px; font-weight:bold;margin:0 0 10px 0}
-h3{ font-size:13px; font-weight:bold; color:#0CF}
-h4{ font-size:12px; font-weight:bold; color:#333}
+.coresystem-content h1{padding:6px 2px;  border-bottom:1px solid #e4e4e4; color:#09c; font-size:14px; font-weight:bold;margin:0 0 10px 0}
+.coresystem-content h2{ font-size:13px; font-weight:bold; color:#0CF}
+.coresystem-content h3{ font-size:12px; font-weight:bold; color:#333}
 .coresystem-submenu{ text-align:right;padding:0 2px 6px;}
 
 table{ width:100%;color:#666; font-size:12px;border:1px solid #e4e4e4;  margin:10px 0;}/*background:url(../images/tablebg.gif) repeat 0 0;*/
