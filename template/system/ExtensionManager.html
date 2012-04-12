@@ -25,9 +25,11 @@ function changeOrder(sExtName,direction){
 		<div class='depByList'>
 		</div>
 	</div>
-	<input type='checkbox' name='code' />清除源代码
-	<br />
-	<input type='checkbox' name='data' />清除数据
+	
+	<label>
+		<input type='checkbox' name='retainData' checked=true />
+		保留数据
+	</label>
 </div>
 <script type='text/javascript'>
 function unistallExtension(sExtName){
@@ -47,23 +49,12 @@ function unistallExtension(sExtName){
 		buttons:{
 			'确定':function(){
 				jQuery(this).dialog('close');
-				var code = jQuery(this).find('input[name="code"]').attr('checked');
-				console.log(code);
-				var sCode = '';
-				if(code=='checked'){
-					sCode = 'remove';
-				}else{
-					sCode = 'keep';
+				sUrl = '?c=org.opencomb.coresystem.system.ExtensionManagerController&act=uninstall&name='+sExtName ;
+				if( jQuery(this).find('input[name="retainData"]').attr('checked') )
+				{
+					sUrl+= '&retainData=1' ;
 				}
-				var data = jQuery(this).find('input[name="data"]').attr('checked');
-				console.log(data);
-				var sData = '';
-				if(data=='checked'){
-					sData = 'remove';
-				}else{
-					sData = 'keep';
-				}
-				window.location='/?c=org.opencomb.coresystem.system.ExtensionManagerController&act=uninstall&name='+sExtName+'&code='+sCode+'&data='+sData;
+				window.location = sUrl ;
 			},
 			'取消':function(){
 				jQuery(this).dialog('close');
