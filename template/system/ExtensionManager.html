@@ -278,9 +278,9 @@ function hideDepBy(sName,o){
 </script>
 
 <div id="ext-lst-enable">
-	<h2>已经启用的扩展</h2>
+	<h1>已经启用的扩展</h1>
 	<foreach for="$arrPriority" item="arrExtName" key="nPriority">
-		<h3>优先级：{=$nPriority}</h3>
+		<h2>优先级：{=$nPriority}</h2>
 		<div class="priority">
 		<foreach for="$arrExtName" item="sExtName">
 			<dl class='extension'>
@@ -289,13 +289,13 @@ function hideDepBy(sName,o){
 				</dt>
 				<dd>
 				<div class='titleBlock'>
-					<h4 class='extTitle'>
+					<h3 class='extTitle'>
 						{=$arrEnabledExtensions[$sExtName]->metainfo()->title()}
 						<span class='extName'>
 							（{=$sExtName} ver : {=$arrEnabledExtensions[$sExtName]->metainfo()->version()}）
 							<a href="javascript:jquery('#depRelation-{=$sExtName}').toggle()">依赖关系</a>
 						</span>
-					</h4>
+					</h3>
 					<div class="extOther">
 						<span><a href='#' class='disable' onclick="disableExtension('{=$sExtName}');return false;">禁用</a>
 						<a href='#' class='uninstall' onclick="unistallExtension('{=$sExtName}');return false;">卸载</a></span>
@@ -343,7 +343,7 @@ function hideDepBy(sName,o){
 
 
 <div id="ext-lst-disable" style="display:none">
-	<h2>禁用的扩展</h2>
+	<h1>禁用的扩展</h1>
 	<div class="priority">
 	<foreach for="$arrDisabledExtensionMetainfos" item="aExtMeta">
 		<dl class='extension'>
@@ -352,14 +352,14 @@ function hideDepBy(sName,o){
 			</dt>
 			<dd>
 				<div class='titleBlock'>
-					<h4 class='extTitle'>
+					<h3 class='extTitle'>
 						{=$aExtMeta->title()}					
 						<span class='extName'>
 							（{=$sExtName=$aExtMeta->name()} ver : {=$aExtMeta->version()}）
 							<a href="javascript:jquery('#depRelation-{=$sExtName}').toggle()">依赖关系</a>
 						</span>
 						
-					</h4>
+					</h3>
 					<div class='extOther'>
 						<span><a class='disable' href='#' onclick='enableExtension("{=$aExtMeta->name()}");return false;'>启用</a></span>
 					</div>

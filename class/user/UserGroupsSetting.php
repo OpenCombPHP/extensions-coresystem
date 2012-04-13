@@ -44,8 +44,8 @@ class UserGroupsSetting extends ControlPanel
 						'keys' => array('uid','gid') ,
 						'table' => 'group_user_link' ,
 						'colums' => 'uid' ,
-						'where' => array("user.uid=@1",$this->params->string('uid')) ,
-					)
+					),
+					'where' => array("user.uid=@1",$this->params->string('uid')) ,
 				) ,
 			) ,
 			'model:user' => array('config'=>'model/user') ,
