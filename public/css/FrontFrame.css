@@ -12,7 +12,7 @@ h4{ font-size:12px; font-weight:bold; color:#333}
 
 /*头部*/
 .frontframe-header{ width:100%; height:80px; background:url(../images/black.gif) repeat-x 0 -5px; }
-	.frontframe-logo{width:222px; height:46x; background:url(../images/logo.png) no-repeat 0 0; display:block;clear:both; float:left; overflow:hidden; text-indent:-9999em;margin-left:10px;}
+	.frontframe-logo{width:222px; height:46px; background:url(../images/logo.png) no-repeat 0 0; display:block;clear:both; float:left; overflow:hidden; text-indent:-9999em;margin-left:10px;}
 	.frontframe-othernav{ float:right;margin:10px 10px 8px 0}
 
 
