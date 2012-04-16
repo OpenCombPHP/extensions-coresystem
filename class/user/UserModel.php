@@ -28,8 +28,7 @@ class UserModel extends Model
 	static protected function loadModel($sColumn,$value,Cache $aCache=null)
 	{
 		// 从享元中查 user model
-		$sFlyweightKey = 'by-'.$sColumn.'/'.$value ;
-		if( $aModel = self::flyweight($sFlyweightKey,false) )
+		if( $aModel = self::flyweight('by-'.$sColumn.'/'.$value,false) )
 		{
 			return $aModel ;
 		}
@@ -43,7 +42,8 @@ class UserModel extends Model
 		$sCacheKey = '/mvc/model/user/by-'.$sColumn.'/'.$value ;
 		if( $aModel = $aCache->item($sCacheKey) ) 
 		{
-			self::setFlyweight($aModel, $sFlyweightKey) ;
+			self::setFlyweight($aModel, 'by-uid/'.$aModel->uid) ;
+			self::setFlyweight($aModel, 'by-username/'.$aModel->username) ;
 			return $aModel ;
 		}
 		
@@ -60,7 +60,8 @@ class UserModel extends Model
 			return null ;
 		}
 
-		self::setFlyweight($aModel, $sFlyweightKey) ;
+		self::setFlyweight($aModel, 'by-uid/'.$aModel->uid) ;
+		self::setFlyweight($aModel, 'by-username/'.$aModel->username) ;
 		$aCache->setItem($sCacheKey,$aModel) ;
 				
 		return $aModel ;
