@@ -53,7 +53,8 @@ class Login extends Controller
 				$this->login->createMessage(Message::failed,"用户名无效") ;
 				break ;
 			}
-				
+		    
+			
 			if( $this->modelUser->password != Authenticate::encryptPassword($this->modelUser,$this->params['username'],$this->params['password']) )
 			{
 				$this->login->createMessage(Message::failed,"密码错误，请检查键盘大小写状态") ;
