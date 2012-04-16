@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <Extension>
 
 	<name>coresystem</name>
@@ -7,8 +6,7 @@
 	<priority>3</priority>
 	
 	<title>核心系统</title>
-	<description></description>
-	
+	<description>用户系统,后台frame,等等</description>
 	
 	<class>org.opencomb.coresystem.CoreSystem</class>
 	<classSetup>org.opencomb.coresystem.CoreSystemSetup</classSetup>
