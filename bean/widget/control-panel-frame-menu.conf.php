@@ -14,7 +14,7 @@ return array(
 		'menu' => 1,
 		'item:platform-manage' => array(
 			'title'=>'平台维护' ,
-			'link' => '?c=org.opencomb.coresystem.system.ExtensionSetup' ,
+			'link' => '?c=org.opencomb.coresystem.system.ExtensionSetupController' ,
 			
 			// items 
 			'menu' => 1,

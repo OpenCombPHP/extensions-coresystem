@@ -1,6 +1,10 @@
 <?php
 namespace org\opencomb\coresystem\system ;
 
+use org\opencomb\platform\service\Service;
+
+use org\opencomb\platform\ext\ExtensionDataClearer;
+
 use org\opencomb\coresystem\auth\Id;
 
 use org\opencomb\coresystem\mvc\controller\ControlPanel;
@@ -104,11 +108,9 @@ class ExtensionManagerController extends ControlPanel
 	
 	public function actionUninstall(){
 		$sExtName = $this->params['name'];
-		$sCode = $this->params['code'];
-		$sData = $this->params['data'];
 		
-		try{
-			$this->recursivelyUninstall($sExtName , $sCode ,$sData);
+		try{			
+			$this->recursivelyUninstall($sExtName,$this->params->bool('retainData'));
 		}catch(Exception $e){
 			$this->view->createMessage(Message::error,$e->getMessage(),$e->messageArgvs()) ;
 		}
@@ -265,20 +267,19 @@ class ExtensionManagerController extends ControlPanel
 		return false;
 	}
 	
-	private function recursivelyUninstall($sExtName,$sCode ,$sData){
-		$this->view->createMessage(Message::notice, '卸载扩展 ： %s , 代码 ： %s , 数据 ： %s',array($sExtName,$sCode,$sData));
+	private function recursivelyUninstall($sExtName,$bRetainData){
 		$aExtensionSetup = ExtensionSetup::singleton();
 		
 		$arrDepBy = $this->getDependenceBy() ;
 		if(isset($arrDepBy[$sExtName])){
 			foreach($arrDepBy[$sExtName] as $sDepByExtName){
 				$this->view->createMessage(Message::notice, '发现被扩展 `%s` 依赖',array($sDepByExtName));
-				$this->recursivelyUninstall($sDepByExtName , $sCode ,$sData);
+				$this->recursivelyUninstall($sDepByExtName,$bRetainData);
 			}
 		}
-		$aExtensionSetup->disable($sExtName);
-		$aExtensionSetup->uninstall($sExtName , $sCode ,$sData);
-		$this->view->createMessage(Message::success,'卸载 `%s` 成功',array($sExtName)) ;
+		
+		// 卸载扩展
+		$aExtensionSetup->uninstall($sExtName,$this->messageQueue(),$bRetainData);
 	}
 	
 	private $arrDependenceBy = null ;

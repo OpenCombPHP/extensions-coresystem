@@ -49,6 +49,10 @@ class RebuildPlatform extends ControlPanel
 			return ;
 		}
 		
+		// 清理并重新导入 public folder
+		Service::singleton()->publicFolders()->publicFolder()->delete(true,true) ;
+		Service::singleton()->publicFolders()->importFromSourceFolders() ;
+		
 		// 输出所有的类
 		$arrClasses = $this->getArrClassList() ;
 		$this->view->variables()->set('arrClasses',json_encode($arrClasses)) ;
@@ -118,7 +122,7 @@ class RebuildPlatform extends ControlPanel
 			ClassLoader::singleton()->searchClass($aModelShadowClassName,Package::nocompiled);
 			ClassLoader::singleton()->searchClass($aPrototypeShadowClassName,Package::nocompiled);
 		}
-		
+				
 		
 		// 输出所有的类
 		
@@ -149,10 +153,13 @@ class RebuildPlatform extends ControlPanel
 		ob_end_flush() ;
 	}
 	
-	private function getArrClassList(){
-		if( null === $this->arrClassList ){
+	private function getArrClassList()
+	{		
+		if( null === $this->arrClassList )
+		{
 			$this->arrClassList = array() ;
-			foreach(ClassLoader::singleton()->classIterator(null,Package::nocompiled) as $sClassName){
+			foreach(ClassLoader::singleton()->classIterator(null,Package::nocompiled) as $sClassName)
+			{
 				$this->arrClassList[] = $sClassName ;
 			}
 		}
