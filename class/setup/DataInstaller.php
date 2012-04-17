@@ -16,7 +16,7 @@ class DataInstaller implements IExtensionDataInstaller
 		
 		// 1 . create data table
 		
-		DB::singleton()->execute( "CREATE TABLE IF NOT EXISTS `oc3_coresystem_group` (
+		DB::singleton()->execute( "CREATE TABLE IF NOT EXISTS `coresystem_group` (
   `gid` int(10) NOT NULL AUTO_INCREMENT,
   `name` varchar(60) NOT NULL,
   `lft` int(11) NOT NULL,
@@ -25,19 +25,19 @@ class DataInstaller implements IExtensionDataInstaller
   KEY `rgt` (`rgt`),
   KEY `lft-rgt` (`lft`,`rgt`)
 ) ENGINE=MyISAM AUTO_INCREMENT=0 DEFAULT CHARSET=utf8" );
-		$aMessageQueue->create(Message::success,'新建数据表： %s',"oc3_coresystem_group");
+		$aMessageQueue->create(Message::success,'新建数据表： %s',"coresystem_group");
 		
 		
-		DB::singleton()->execute( "CREATE TABLE IF NOT EXISTS `oc3_coresystem_group_user_link` (
+		DB::singleton()->execute( "CREATE TABLE IF NOT EXISTS `coresystem_group_user_link` (
   `uid` int(10) NOT NULL,
   `gid` int(10) NOT NULL,
   UNIQUE KEY `uid-gid` (`uid`,`gid`),
   UNIQUE KEY `gid-uid` (`gid`,`uid`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8" );
-		$aMessageQueue->create(Message::success,'新建数据表： %s',"oc3_coresystem_group_user_link");
+		$aMessageQueue->create(Message::success,'新建数据表： %s',"coresystem_group_user_link");
 		
 		
-		DB::singleton()->execute( "CREATE TABLE IF NOT EXISTS `oc3_coresystem_purview` (
+		DB::singleton()->execute( "CREATE TABLE IF NOT EXISTS `coresystem_purview` (
   `type` enum('user','group') NOT NULL,
   `id` int(10) NOT NULL,
   `extension` varchar(30) NOT NULL,
@@ -48,10 +48,10 @@ class DataInstaller implements IExtensionDataInstaller
   UNIQUE KEY `purview` (`type`,`extension`,`name`,`target`,`id`),
   KEY `id` (`type`,`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8" );
-		$aMessageQueue->create(Message::success,'新建数据表： %s',"oc3_coresystem_purview");
+		$aMessageQueue->create(Message::success,'新建数据表： %s',"coresystem_purview");
 		
 		
-		DB::singleton()->execute( "CREATE TABLE IF NOT EXISTS `oc3_coresystem_user` (
+		DB::singleton()->execute( "CREATE TABLE IF NOT EXISTS `coresystem_user` (
   `uid` int(10) NOT NULL AUTO_INCREMENT,
   `username` varchar(60) NOT NULL,
   `password` varchar(32) CHARACTER SET latin1 NOT NULL,
@@ -64,10 +64,10 @@ class DataInstaller implements IExtensionDataInstaller
   PRIMARY KEY (`uid`),
   UNIQUE KEY `username` (`username`)
 ) ENGINE=MyISAM AUTO_INCREMENT=0 DEFAULT CHARSET=utf8" );
-		$aMessageQueue->create(Message::success,'新建数据表： %s',"oc3_coresystem_user");
+		$aMessageQueue->create(Message::success,'新建数据表： %s',"coresystem_user");
 		
 		
-		DB::singleton()->execute( "CREATE TABLE IF NOT EXISTS `oc3_coresystem_userinfo` (
+		DB::singleton()->execute( "CREATE TABLE IF NOT EXISTS `coresystem_userinfo` (
   `uid` int(10) NOT NULL,
   `nickname` varchar(60) NOT NULL,
   `realname` varchar(60) NOT NULL,
@@ -87,7 +87,7 @@ class DataInstaller implements IExtensionDataInstaller
   KEY `hometown_coutry` (`hometown_coutry`,`hometown_province`,`hometown_city`),
   KEY `locale_coutry` (`locale_coutry`,`locale_province`,`locale_city`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8" );
-		$aMessageQueue->create(Message::success,'新建数据表： %s',"oc3_coresystem_userinfo");
+		$aMessageQueue->create(Message::success,'新建数据表： %s',"coresystem_userinfo");
 		
 		
 		
