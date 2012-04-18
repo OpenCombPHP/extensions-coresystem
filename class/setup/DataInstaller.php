@@ -1,14 +1,14 @@
 <?php
 namespace org\opencomb\coresystem\setup;
 
-use org\jecat\framework\message\MessageQueue;
-use org\jecat\framework\message\Message;
-use org\opencomb\platform\ext\ExtensionMetainfo ;
 use org\jecat\framework\db\DB ;
-use org\opencomb\platform\ext\IExtensionDataSetup ;
+use org\jecat\framework\message\Message;
+use org\jecat\framework\message\MessageQueue;
+use org\opencomb\platform\ext\Extension;
+use org\opencomb\platform\ext\ExtensionMetainfo ;
+use org\opencomb\platform\ext\IExtensionDataInstaller ;
 
-
-class Setup implements IExtensionDataSetup
+class DataInstaller implements IExtensionDataInstaller
 {
 	public function install(MessageQueue $aMessageQueue,ExtensionMetainfo $aMetainfo)
 	{
@@ -16,8 +16,7 @@ class Setup implements IExtensionDataSetup
 		
 		// 1 . create data table
 		
-		DB::singleton()->execute(
-"CREATE TABLE `coresystem_group` (
+		DB::singleton()->execute( "CREATE TABLE IF NOT EXISTS `coresystem_group` (
   `gid` int(10) NOT NULL AUTO_INCREMENT,
   `name` varchar(60) NOT NULL,
   `lft` int(11) NOT NULL,
@@ -25,24 +24,20 @@ class Setup implements IExtensionDataSetup
   PRIMARY KEY (`gid`),
   KEY `rgt` (`rgt`),
   KEY `lft-rgt` (`lft`,`rgt`)
-) ENGINE=MyISAM AUTO_INCREMENT=96 DEFAULT CHARSET=utf8"
-		);
-		$aMessageQueue->create(Message::success,'create table %s succeed',"coresystem_group");
+) ENGINE=MyISAM AUTO_INCREMENT=0 DEFAULT CHARSET=utf8" );
+		$aMessageQueue->create(Message::success,'新建数据表： %s',"coresystem_group");
 		
 		
-		DB::singleton()->execute(
-"CREATE TABLE `coresystem_group_user_link` (
+		DB::singleton()->execute( "CREATE TABLE IF NOT EXISTS `coresystem_group_user_link` (
   `uid` int(10) NOT NULL,
   `gid` int(10) NOT NULL,
   UNIQUE KEY `uid-gid` (`uid`,`gid`),
   UNIQUE KEY `gid-uid` (`gid`,`uid`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8"
-		);
-		$aMessageQueue->create(Message::success,'create table %s succeed',"coresystem_group_user_link");
+) ENGINE=MyISAM DEFAULT CHARSET=utf8" );
+		$aMessageQueue->create(Message::success,'新建数据表： %s',"coresystem_group_user_link");
 		
 		
-		DB::singleton()->execute(
-"CREATE TABLE `coresystem_purview` (
+		DB::singleton()->execute( "CREATE TABLE IF NOT EXISTS `coresystem_purview` (
   `type` enum('user','group') NOT NULL,
   `id` int(10) NOT NULL,
   `extension` varchar(30) NOT NULL,
@@ -52,13 +47,11 @@ class Setup implements IExtensionDataSetup
   `bubble` enum('1','0') NOT NULL DEFAULT '1' COMMENT '将权限”冒泡“给上级用户组',
   UNIQUE KEY `purview` (`type`,`extension`,`name`,`target`,`id`),
   KEY `id` (`type`,`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8"
-		);
-		$aMessageQueue->create(Message::success,'create table %s succeed',"coresystem_purview");
+) ENGINE=MyISAM DEFAULT CHARSET=utf8" );
+		$aMessageQueue->create(Message::success,'新建数据表： %s',"coresystem_purview");
 		
 		
-		DB::singleton()->execute(
-"CREATE TABLE `coresystem_user` (
+		DB::singleton()->execute( "CREATE TABLE IF NOT EXISTS `coresystem_user` (
   `uid` int(10) NOT NULL AUTO_INCREMENT,
   `username` varchar(60) NOT NULL,
   `password` varchar(32) CHARACTER SET latin1 NOT NULL,
@@ -70,13 +63,11 @@ class Setup implements IExtensionDataSetup
   `activeIp` varchar(15) CHARACTER SET latin1 NOT NULL,
   PRIMARY KEY (`uid`),
   UNIQUE KEY `username` (`username`)
-) ENGINE=MyISAM AUTO_INCREMENT=1418 DEFAULT CHARSET=utf8"
-		);
-		$aMessageQueue->create(Message::success,'create table %s succeed',"coresystem_user");
+) ENGINE=MyISAM AUTO_INCREMENT=0 DEFAULT CHARSET=utf8" );
+		$aMessageQueue->create(Message::success,'新建数据表： %s',"coresystem_user");
 		
 		
-		DB::singleton()->execute(
-"CREATE TABLE `coresystem_userinfo` (
+		DB::singleton()->execute( "CREATE TABLE IF NOT EXISTS `coresystem_userinfo` (
   `uid` int(10) NOT NULL,
   `nickname` varchar(60) NOT NULL,
   `realname` varchar(60) NOT NULL,
@@ -95,23 +86,16 @@ class Setup implements IExtensionDataSetup
   PRIMARY KEY (`uid`),
   KEY `hometown_coutry` (`hometown_coutry`,`hometown_province`,`hometown_city`),
   KEY `locale_coutry` (`locale_coutry`,`locale_province`,`locale_city`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8"
-		);
-		$aMessageQueue->create(Message::success,'create table %s succeed',"coresystem_userinfo");
+) ENGINE=MyISAM DEFAULT CHARSET=utf8" );
+		$aMessageQueue->create(Message::success,'新建数据表： %s',"coresystem_userinfo");
 		
 		
 		
 		// 2. insert table data
 		
-			
 		
-			
 		
-			
 		
-			
-		
-			
 		
 		
 		// 3. settings
