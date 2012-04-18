@@ -1,6 +1,8 @@
 <?php
 namespace org\opencomb\coresystem\user ;
 
+use org\jecat\framework\bean\BeanFactory;
+
 use org\jecat\framework\cache\Cache;
 use org\jecat\framework\mvc\model\db\orm\Association;
 use org\jecat\framework\mvc\model\db\orm\Prototype;
@@ -47,11 +49,15 @@ class UserModel extends Model
 			return $aModel ;
 		}
 		
-		$aPrototype = Prototype::create('coresystem:user','uid')
-				->setName('user')
-				->createAssociation(Association::hasOne,'coresystem:userinfo','uid','uid')
-					->setName('info') 
-				->done() ;
+		$aPrototype = BeanFactory::singleton()->create($arrConfig=array(
+				'table' => 'coresystem:user' ,
+				'key' => 'uid' ,
+				'hasOne:info' => array(
+						'table' => 'coresystem:userinfo' ,
+						'fromkeys' => 'uid' ,
+						'tokeys' => 'uid' ,
+				) ,
+		)) ;
 		
 		$aModel = new self($aPrototype) ;
 

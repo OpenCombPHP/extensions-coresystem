@@ -17,6 +17,8 @@
 	
 	<template folder="/template" />
 	
+	<licences folder="/licence" />
+	
 	<beanFolder folder="/bean" />
 	
 	<language locale="zh_CN" path="/path/in/extension/folder/aadd" />
@@ -44,4 +46,6 @@
 	</support>
 
 
+	<data><installer>org\opencomb\coresystem\setup\DataInstaller</installer></data>
+	
 </Extension>
