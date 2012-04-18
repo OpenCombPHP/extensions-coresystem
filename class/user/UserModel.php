@@ -49,7 +49,8 @@ class UserModel extends Model
 			return $aModel ;
 		}
 		
-		$aPrototype = BeanFactory::singleton()->create($arrConfig=array(
+		$aPrototype = BeanFactory::singleton()->createBean($arrConfig=array(
+				'class'=>'prototype',
 				'table' => 'coresystem:user' ,
 				'key' => 'uid' ,
 				'hasOne:info' => array(
