@@ -1,6 +1,10 @@
 <?php
 namespace org\opencomb\coresystem\widget;
 
+use org\jecat\framework\db\DB;
+
+use org\opencomb\coresystem\user\UserModel;
+
 use org\jecat\framework\mvc\model\db\Model;
 
 use org\jecat\framework\bean\BeanFactory;
@@ -140,28 +144,30 @@ class NameCard extends Widget {
 	 */
 	public function setUid($nId)
 	{
-		// 使用享元
-		if( !$aModel = Model::flyweight(array(__CLASS__,'user',$nId),false) )
-		{
-			$this->nId = $nId;
-			
-			$arrUserBean = array(
-				'class' => 'model' ,
-				'orm' => array(
-					'table' => 'coresystem:user' ,
-					'hasOne:info' => array(
-						'table' => 'coresystem:userinfo' ,
-					) ,
-				) ,
-			);
-			
-			$aModel = BeanFactory::singleton()->createBean($arrUserBean,'coresystem');
-			$aModel->load(array($nId),array('uid'));
-			
-			// 保存享元
-			Model::setFlyweight($aModel,array(__CLASS__,'user',$nId)) ;
-		}
-		
+		$aModel = UserModel::byUId($nId);
+	    if(empty($aModel))
+	    {
+    		// 使用享元
+    		if( !$aModel = Model::flyweight(array(__CLASS__,'user',$nId),false) )
+    		{
+    			$this->nId = $nId;
+    			
+    			$arrUserBean = array(
+    				'class' => 'model' ,
+    				'orm' => array(
+    					'table' => 'coresystem:user' ,
+    					'hasOne:info' => array(
+    						'table' => 'coresystem:userinfo' ,
+    					) ,
+    				) ,
+    			);
+    			
+    			$aModel = BeanFactory::singleton()->createBean($arrUserBean,'coresystem');
+    			$aModel->load(array($nId),array('uid'));
+    			// 保存享元
+    			Model::setFlyweight($aModel,array(__CLASS__,'user',$nId)) ;
+    		}
+	    }
 		$this->setModel($aModel);
 	}
 	
