@@ -1,5 +1,5 @@
 <?php
-namespace org\opencomb\coresystem\widget;
+namespace org\opencomb\coresystem\namecard;
 
 use org\jecat\framework\db\DB;
 
@@ -168,6 +168,7 @@ class NameCard extends Widget {
     			Model::setFlyweight($aModel,array(__CLASS__,'user',$nId)) ;
     		}
 	    }
+// 	    $aModel->printStrcut();exit;
 		$this->setModel($aModel);
 	}
 	
@@ -242,4 +243,3 @@ class NameCard extends Widget {
 	private $bMine = false;
 	private $nId;
 }
-?>
