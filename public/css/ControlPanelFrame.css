@@ -22,15 +22,16 @@ body{ background:#EDF1F1 url(../images/main.jpg) repeat-y 0 0; font-size:13px; l
 .coresystem-main{width:100%; clear:both; background:#EDF1F1 url(../images/main.jpg) repeat-y 0 0; position:relative}
 
 /* leftnav */
-.coresystem-leftnav{width:175px; float:left;/*background:url( ../images/leftnav.jpg) no-repeat 0 0;*/position:absolute; top:0; left:0; color:#8D7754}
+.coresystem-leftnav{width:175px; float:left;position:absolute; top:0; left:0; color:#8D7754}
 .coresystem-leftnav li script{ height:0;}
 
 .jc-widget-menu-depth-1 .jc-widget-menu-item-active a{ background:#F0F4F4; box-shadow: 1px 1px 1px rgba(0,0,0,0.2) inset;}
-
-
-.coresystem-leftnav .jc-widget-menu-item-depth-2 a{ background:url(../images/leftmenu_bg.jpg) repeat-x 0 0; display:block; height:28px; line-height:28px; width:153px;padding-left:10px; text-shadow:1px 1px 0 rgba(0,0,0,0.6); font-size:16px;}
-.coresystem-leftnav .jc-widget-menu-item-depth-3 a{ background:#B6C7C7; display:block; color:#3D454E; height:28px; line-height:28px; width:123px;padding-left:40px; font-size:14px;text-shadow:0px 0px 0 rgba(0,0,0,0.6); border-bottom:1px solid #AEB6BB}
-.coresystem-leftnav .jc-widget-menu-item-depth-4 a{ background:#B6C7C7; display:block; color:#3D454E; height:28px; line-height:28px; width:103px;padding-left:60px; font-size:12px;text-shadow:0px 0px 0 rgba(0,0,0,0.6);}
+.coresystem-leftnav .clear{ display:none;}/*消除IE空行的BUG*/
+.coresystem-leftnav a{ -moz-box-sizing: border-box; -webkit-box-sizing: border-box;box-sizing: border-box; width:163px;}
+.coresystem-leftnav a:hover{ color:#3D454E}
+.coresystem-leftnav .jc-widget-menu-item-depth-2 a{ background:url(../images/leftmenu_bg.jpg) repeat-x 0 0; display:block; height:28px; line-height:28px;padding-left:10px; text-shadow:1px 1px 0 rgba(0,0,0,0.6); font-size:16px;}
+.coresystem-leftnav .jc-widget-menu-item-depth-3 a{ background:#B6C7C7; display:block; color:#3D454E; height:28px; line-height:28px;padding-left:40px; font-size:14px;text-shadow:0px 0px 0 rgba(0,0,0,0.6); border-bottom:1px solid #AEB6BB}
+.coresystem-leftnav .jc-widget-menu-item-depth-4 a{ background:#B6C7C7; display:block; color:#3D454E; height:28px; line-height:28px; padding-left:60px; font-size:12px;text-shadow:0px 0px 0 rgba(0,0,0,0.6);}
 .coresystem-leftnav .jc-widget-menu-depth-3 .jc-widget-menu-item-active a{ background:url(../images/secondon.jpg) no-repeat 0 0; width:175px; border-bottom:0px solid #AEB6BB; color:#fff;text-shadow:1px 1px 0 rgba(0,0,0,0.6);}
 
 /* content */
@@ -81,3 +82,11 @@ a:hover.coresystem-pagecurrent{ text-decoration:none;}
 
 /*coresystem-grouplist-ul*/
 .coresystem-grouplist-ul li{ padding-left:20px; line-height:30px; color:#333; background:url(../images/li.gif) no-repeat 6px 13px;}
+
+/* ext-lst-tab */
+.ext-lst{ background:#B6C7C7 url(../images/ext-lst-bg.jpg) repeat-x left bottom; border-radius:2px 2px 0 0;padding:5px 5px 0; font-size:14px; margin-bottom:10px;}
+.ext-lst a{color:#555; margin-right:1px; display:block; float:left; width:132px; height:28px; line-height:28px; text-align:center; background:url(../images/ext-lst-tab.jpg) no-repeat;}
+.ext-lst a:hover{ text-decoration:none;}
+.ext-lst a.tabActive{ color:#000; background-position:0 0; font-weight:normal}
+.ext-lst a.tabUnactive{ background-position:0 -28px;}
+.ext-lst a:hover.tabUnactive{ background-position:0 -56px;}
