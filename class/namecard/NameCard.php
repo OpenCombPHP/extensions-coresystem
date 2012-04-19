@@ -196,18 +196,18 @@ class NameCard extends Widget {
 	 * 取得头像地址
 	 * @throws Exception 如果模型中没有需要的列
 	 */
-	public function faceUrl()
+	static public function faceUrl($aModel)
 	{
 		//检查需要的列是否存在,目前支持头像地址(avatar), 以后支持更多
-		if(!$this->aModel['info.avatar'])
+		if(!$aModel['info.avatar'])
 		{
 			$sFaceUrl = Extension::flyweight('coresystem')->metainfo()->installPath().'/public/images/defaultavatar.jpg';
 		}else
 		{
-			if(strpos($this->aModel['info.avatar'], 'http://' , 0)==0 || strpos($this->aModel['info.avatar'], '/' , 0)==0){
-				$sFaceUrl =  $this->aModel['info.avatar'] ;
+			if(strpos($aModel['info.avatar'], 'http://' , 0)==0 || strpos($aModel['info.avatar'], '/' , 0)==0){
+				$sFaceUrl =  $aModel['info.avatar'] ;
 			}else{
-				$sFaceUrl = Extension::flyweight('coresystem')->filesFolder()->path() . '/avatar/' . $this->aModel['info.avatar'] ;
+				$sFaceUrl = Extension::flyweight('coresystem')->filesFolder()->path() . '/avatar/' . $aModel['info.avatar'] ;
 			}
 		}
 		return $sFaceUrl;

@@ -26,8 +26,8 @@ class NameCardExtension extends Controller
 			$this->messageQueue ()->create ( Message::error, "未指定用户" );
 		}
 		
-		$aModel = UserModel::byUId($nId);
+		$this->aModel = UserModel::byUId($nId);
 		
-		$this->view->variables()->set('aModel',$aModel) ;
+		$this->view->variables()->set('aModel',$this->aModel) ;
 	}
 }
