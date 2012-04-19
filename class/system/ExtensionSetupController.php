@@ -17,6 +17,7 @@ use org\opencomb\coresystem\mvc\controller\ControlPanel;
 use org\opencomb\platform\ext\ExtensionSetup;
 use org\opencomb\platform\system\PlatformFactory ;
 use org\opencomb\platform\system\OcSession ;
+use org\opencomb\platform as oc;
 
 class ExtensionSetupController extends ControlPanel 
 {
@@ -108,7 +109,7 @@ class ExtensionSetupController extends ControlPanel
 	protected function scanPlatformExtensions(Platform $aPlatform)
 	{
 		$arrExtMetas = array() ;
-		$sExtensionPath = $aPlatform->installFolder(true).'/extensions' ;
+		$sExtensionPath = oc\EXTENSIONS_FOLDER.'/extensions' ;
 		$aExtensionManager = ExtensionManager::singleton() ;
 		
 		$hExtensions = opendir($sExtensionPath) ;
@@ -134,7 +135,7 @@ class ExtensionSetupController extends ControlPanel
 					continue ;
 				}
 				
-				$aExtMeta = ExtensionMetainfo::load($sExtFolder) ;
+				$aExtMeta = ExtensionMetainfo::load($sExtFolder,oc\EXTENSIONS_URL.'/'.$sExtName.'/'.$sExtVer) ;
 				
 				if( !$aInstallExt=$aExtensionManager->extensionMetainfo($aExtMeta->name()) or $aInstallExt->version()->compare($aExtMeta->version())!==0 )
 				{

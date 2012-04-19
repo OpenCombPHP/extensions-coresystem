@@ -49,10 +49,6 @@ class RebuildPlatform extends ControlPanel
 			return ;
 		}
 		
-		// 清理并重新导入 public folder
-		Service::singleton()->publicFolders()->publicFolder()->delete(true,true) ;
-		Service::singleton()->publicFolders()->importFromSourceFolders() ;
-		
 		// 输出所有的类
 		$arrClasses = $this->getArrClassList() ;
 		$this->view->variables()->set('arrClasses',json_encode($arrClasses)) ;
