@@ -82,3 +82,11 @@ a:hover.coresystem-pagecurrent{ text-decoration:none;}
 
 /*coresystem-grouplist-ul*/
 .coresystem-grouplist-ul li{ padding-left:20px; line-height:30px; color:#333; background:url(../images/li.gif) no-repeat 6px 13px;}
+
+/* ext-lst-tab */
+.ext-lst{ background:#B6C7C7 url(../images/ext-lst-bg.jpg) repeat-x left bottom; border-radius:2px 2px 0 0;padding:5px 5px 0; font-size:14px; margin-bottom:10px;}
+.ext-lst a{color:#555; margin-right:1px; display:block; float:left; width:132px; height:28px; line-height:28px; text-align:center; background:url(../images/ext-lst-tab.jpg) no-repeat;}
+.ext-lst a:hover{ text-decoration:none;}
+.ext-lst a.tabActive{ color:#000; background-position:0 0; font-weight:normal}
+.ext-lst a.tabUnactive{ background-position:0 -28px;}
+.ext-lst a:hover.tabUnactive{ background-position:0 -56px;}
