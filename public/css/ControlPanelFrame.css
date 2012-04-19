@@ -80,9 +80,13 @@ a:hover.coresystem-pagecurrent{ text-decoration:none;}
 .coresystem-form-select select{ margin-left:3px;}
 .coresystem-form-button{width:85px; height:28px; line-height:28px; border:none; background:url(../images/form-btn.jpg) no-repeat 0 0; overflow:hidden; font-size:14px; cursor:pointer}
 .coresystem-form-button:hover{ background-position:-85px 0; color:#fff;}
-.coresystem-form-checkbox input{ vertical-align:-2px; margin-right:4px;}
+.coresystem-form-checkbox input,.article_list{ vertical-align:-2px; margin-right:4px;}
 #article_title_color{width:60px}
-.coresystem-form-article{margin-top:14px;}
+.coresystem-form-article,.article_files_list{margin-top:14px;}
+
+.article_file{margin-top:5px;}
+#add_file{margin-top:5px; background:#09C; color:#fff; border-width:1px; border-style:solid; border-color:#0CF #06F #06F #0cf}
+
 /*coresystem-grouplist-ul*/
 .coresystem-grouplist-ul li{ padding-left:20px; line-height:30px; color:#333; background:url(../images/li.gif) no-repeat 6px 13px;}
 
