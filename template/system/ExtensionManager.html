@@ -161,10 +161,11 @@ function switchExtensionList(lnk)
 	
 }
 </script>
+<div class="ext-lst clearfix">
 <a href="javascript:void(0)" onclick="switchExtensionList(this)" class="extensionListTab tabUnactive" id="ext-lst-tab-all">所有扩展</a>
 <a href="javascript:void(0)" onclick="switchExtensionList(this)" class="extensionListTab tabActive" id="ext-lst-tab-enable">正在启用的扩展</a>
 <a href="javascript:void(0)" onclick="switchExtensionList(this)" class="extensionListTab tabUnactive" id="ext-lst-tab-disable">被禁用的扩展</a>
-
+</div>
 <script type='text/javascript'>
 var arrDependence = {=json_encode($arrDependence)};
 function enableExtension(sExtName){
