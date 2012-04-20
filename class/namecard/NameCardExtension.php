@@ -20,8 +20,8 @@ class NameCardExtension extends Controller
 	
 	public function process()
 	{
-		$nId = $this->params->get('uid');
-		if(!$nId)
+		$nId = (int)$this->params->get('uid');
+		if(!$nId )
 		{
 			$this->messageQueue ()->create ( Message::error, "未指定用户" );
 		}

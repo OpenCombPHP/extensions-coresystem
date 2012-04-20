@@ -22,7 +22,14 @@ class UserModel extends Model
 	 */
 	static public function byUsername($sUsername)
 	{
-		return self::loadModel('username',$sUsername,$aCache) ;
+		return self::loadModel('username',$sUsername) ;
+	}
+	/**
+	 * @return UserModel
+	 */
+	static public function byNickname($sNickname)
+	{
+		return self::loadModel('info.nickname',$sNickname) ;
 	}
 	/**
 	 * @return UserModel

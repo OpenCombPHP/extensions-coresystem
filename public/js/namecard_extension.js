@@ -4,7 +4,7 @@
  * $aTarget 必须 , 放置位置的参照物
  * $position 必须 , 上方(默认)还是遮盖(传true)
  */
-function getNameCardExtension(nUid,sName, aTarget , position)
+function getNameCardExtension(nUid , sName , sService , aTarget , position)
 {
 	if(nUid == null && sName == null)
 	{
@@ -29,7 +29,7 @@ function getNameCardExtension(nUid,sName, aTarget , position)
 	}
 	
 	jquery.ajax({
-		url: "?c=org.opencomb.coresystem.namecard.NameCardExtension"+params+"&rspn=noframe"
+		url: "?c=org.opencomb.coresystem.namecard.NameCardExtension"+params+"&service="+sService+"&rspn=noframe"
 		, dataType:'html'
 		, beforeSend: function(){
 			aTarget.find('.namecard_normal_loading').show();
