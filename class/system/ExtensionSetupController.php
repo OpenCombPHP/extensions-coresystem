@@ -109,21 +109,20 @@ class ExtensionSetupController extends ControlPanel
 	protected function scanPlatformExtensions(Platform $aPlatform)
 	{
 		$arrExtMetas = array() ;
-		$sExtensionPath = oc\EXTENSIONS_FOLDER.'/extensions' ;
 		$aExtensionManager = ExtensionManager::singleton() ;
 		
-		$hExtensions = opendir($sExtensionPath) ;
+		$hExtensions = opendir(oc\EXTENSIONS_FOLDER) ;
 		while( $sExtName=readdir($hExtensions) )
 		{
-			if( $sExtName==='.' or $sExtName==='..' or !is_dir($sExtensionPath.'/'.$sExtName) )
+			if( $sExtName==='.' or $sExtName==='..' or !is_dir(oc\EXTENSIONS_FOLDER.'/'.$sExtName) )
 			{
 				continue ;
 			}
-			$hOneExt = opendir($sExtensionPath.'/'.$sExtName) ;
+			$hOneExt = opendir(oc\EXTENSIONS_FOLDER.'/'.$sExtName) ;
 
 			while( $sExtVer=readdir($hOneExt) )
 			{
-				$sExtFolder = $sExtensionPath.'/'.$sExtName.'/'.$sExtVer ;
+				$sExtFolder = oc\EXTENSIONS_FOLDER.'/'.$sExtName.'/'.$sExtVer ;
 				if( $sExtVer==='.' or $sExtVer==='..' or !is_dir($sExtFolder) )
 				{
 					continue ;
