@@ -1,6 +1,7 @@
 <?php
 namespace org\opencomb\coresystem\mvc\controller ;
 
+use org\opencomb\platform\service\Service;
 use org\opencomb\coresystem\auth\PurviewPermission;
 use org\jecat\framework\mvc\view\UIFactory;
 use org\opencomb\coresystem\auth\Authorizer;
@@ -11,7 +12,7 @@ use org\opencomb\platform\ext\Extension;
 use org\jecat\framework\auth\AuthenticationException;
 use org\jecat\framework\mvc\controller\Controller as JcController ;
 use org\opencomb\platform\ext\ExtensionManager;
-use org\jecat\framework\setting\Setting;
+use org\jecat\framework\setting\ISetting;
 use org\jecat\framework\mvc\view\Webpage;
 
 class Controller extends JcController
@@ -165,9 +166,9 @@ class Controller extends JcController
     	// 每个激活的扩展，在系统运行时都有一个Extension类的享元对象，该对象负责维护对应扩展的相关信息和状态。
     	// 然后通过 扩展享元对象的setting() 方法取得该扩展的Setting 对象。
     	// Extentsion::setting() 返回的 Setting对象只包含对应扩展的配置信息；
-    	// Setting::singleton() 返回的 Setting对象包含全系统的配置信息，各个扩展的配置信息只是全系统配置树结构上的一个分支。
+    	// Service::singleton()->setting() 返回的 Setting对象包含全系统的配置信息，各个扩展的配置信息只是全系统配置树结构上的一个分支。
     	$aExtSetting = Extension::flyweight('coresystem')->setting() ;
-    	$aServiceSetting = Setting::singleton() ;
+    	$aServiceSetting = Service::singleton()->setting() ;
     		
     	// 系统缺省的网页title
     	$sTitleTemplate = $aExtSetting->item('/webpage','title-template','%s') ;
@@ -185,7 +186,7 @@ class Controller extends JcController
     	$aWebpage->setKeywords(sprintf($sTemplate,$this->keywords())) ;
     }
     
-    private function replaceSettingValue(& $sText,Setting $aSetting)
+    private function replaceSettingValue(& $sText,ISetting $aSetting)
     {
     	$sText = preg_replace_callback('|%%(.+?):(.+?)%%|', function($arrMatches) use ($aSetting){
     		return $aSetting->item($arrMatches[1],$arrMatches[2]) ;
