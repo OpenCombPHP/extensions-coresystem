@@ -11,6 +11,7 @@ use org\jecat\framework\fs\File ;
 use org\opencomb\platform\ext\ExtensionSetup;
 use org\jecat\framework\lang\Exception ;
 use org\opencomb\platform\service\ServiceSerializer ;
+use org\opencomb\platform as oc;
 
 /**
  * 期待的改进：
@@ -65,10 +66,19 @@ class ExtensionSetupFunctions
 		}
 	}
 	
-	public function unpackage(File $aZipFile , \SimpleXMLElement $aXML ){
+	public function unpackage(File $aZipFile , \SimpleXMLElement $aXML=null )
+	{
+		if(!$aXML)
+		{
+			if( !$aXML=$this->getXML($aZipFile) )
+			{
+				return false ;
+			}
+		}
+		
 		$sShortVersion = $aXML->version;
 		$sExtName = $aXML->name;
-		$aToFolder = Folder::singleton()->findFolder('extensions/'.$sExtName.'/'.$sShortVersion , Folder::FIND_AUTO_CREATE);
+		$aToFolder = Folder::createFolder(oc\EXTENSIONS_FOLDER.'/'.$sExtName.'/'.$sShortVersion);
 		$aZip = new \ZipArchive;
 		$resOpen = $aZip->open($aZipFile->path()) ;
 		if( TRUE !==  $resOpen ){
