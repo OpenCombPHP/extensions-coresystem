@@ -27,13 +27,6 @@ class UserModel extends Model
 	/**
 	 * @return UserModel
 	 */
-	static public function byNickname($sNickname)
-	{
-		return self::loadModel('info.nickname',$sNickname) ;
-	}
-	/**
-	 * @return UserModel
-	 */
 	static protected function loadModel($sColumn,$value,Cache $aCache=null)
 	{
 		// 从享元中查 user model
