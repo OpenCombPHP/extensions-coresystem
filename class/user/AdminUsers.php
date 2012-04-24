@@ -2,8 +2,6 @@
 namespace org\opencomb\coresystem\user ;
 
 use org\jecat\framework\auth\IdManager;
-use org\jecat\framework\db\sql\StatementState;
-use org\jecat\framework\mvc\model\db\Model;
 use org\opencomb\coresystem\auth\Id;
 use org\opencomb\coresystem\mvc\controller\ControlPanel;
 

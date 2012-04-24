@@ -5,7 +5,7 @@ use org\opencomb\coresystem\auth\Authenticate;
 use org\jecat\framework\message\Message;
 use org\jecat\framework\mvc\view\DataExchanger;
 use org\jecat\framework\db\ExecuteException;
-use org\opencomb\coresystem\mvc\controller\Controller ;
+use org\opencomb\coresystem\mvc\controller\Controller;
 
 class Register extends Controller
 {
@@ -80,5 +80,3 @@ class Register extends Controller
 		}
 	}
 }
-
-?>

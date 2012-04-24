@@ -2,8 +2,6 @@
 namespace org\opencomb\coresystem\mvc\controller ;
 
 use org\jecat\framework\auth\IdManager;
-use org\jecat\framework\bean\BeanFactory;
-use org\jecat\framework\mvc\view\View;
 
 class UserPanelFrame extends UserSpaceFrame
 {	
@@ -45,4 +43,3 @@ class UserPanelFrame extends UserSpaceFrame
 		return $arrBean;
 	}
 }
-?>

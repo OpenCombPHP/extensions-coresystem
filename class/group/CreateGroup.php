@@ -2,7 +2,6 @@
 namespace org\opencomb\coresystem\group ;
 
 use org\opencomb\coresystem\auth\Id;
-
 use org\jecat\framework\message\Message;
 use org\jecat\framework\mvc\model\db\Category;
 use org\jecat\framework\mvc\view\DataExchanger;
@@ -83,5 +82,3 @@ class CreateGroup extends ControlPanel
 		}
 	}
 }
-
-?>

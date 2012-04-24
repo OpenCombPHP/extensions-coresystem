@@ -1,7 +1,6 @@
 <?php
 namespace org\opencomb\coresystem\system ;
 
-use org\jecat\framework\fs\File;
 use org\jecat\framework\message\Message;
 use org\jecat\framework\fs\Folder;
 use org\opencomb\platform\ext\Extension;
@@ -35,18 +34,20 @@ class ExtensionDownloadSetup extends ControlPanel
 		if( !$aFolder=$aExtensionSetupFunctions->unpackage($aTmpFile) )
 		{
 			$this->response()->putReturnVariable('result',false) ;
+			$aTmpFile->delete() ;
 			return ;
 		}
+
+		$aTmpFile->delete() ;
 		
 		if( !$aExtensionSetupFunctions->installPackage($aFolder) )
 		{
 			$this->response()->putReturnVariable('result',false) ;
 			return ;
 		}
+		
 
 		$this->response()->putReturnVariable('result',true) ;
 	}
 
 }
-
-?>

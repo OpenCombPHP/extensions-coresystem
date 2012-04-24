@@ -2,9 +2,6 @@
 namespace org\opencomb\coresystem\auth ;
 
 use org\jecat\framework\auth\IIdentity;
-use org\opencomb\platform\mvc\model\db\orm\Prototype;
-use org\opencomb\coresystem\CoreSystem;
-use org\jecat\framework\db\sql\Insert;
 use org\jecat\framework\db\DB;
 use org\jecat\framework\lang\Object;
 
@@ -202,5 +199,3 @@ class PurviewQuery extends Object
 	}
 	
 }
-
-?>

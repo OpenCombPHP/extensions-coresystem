@@ -2,15 +2,8 @@
 namespace org\opencomb\coresystem\group ;
 
 use org\opencomb\coresystem\auth\Id;
-
 use org\jecat\framework\mvc\controller\Request;
-
 use org\jecat\framework\message\Message;
-
-use org\jecat\framework\system\Application;
-
-use org\jecat\framework\mvc\controller\Relocater;
-
 use org\jecat\framework\mvc\model\db\Category;
 use org\opencomb\coresystem\mvc\controller\ControlPanel;
 
@@ -69,5 +62,3 @@ class AdminGroups extends ControlPanel
 		Category::buildTree($this->groupTree) ;
 	}
 }
-
-?>

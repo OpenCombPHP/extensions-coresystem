@@ -1,14 +1,8 @@
 <?php
 namespace org\opencomb\coresystem\auth ;
 
-use org\opencomb\platform\mvc\model\db\orm\Prototype;
-
-use org\opencomb\platform\ext\Extension;
-use org\opencomb\coresystem\auth\PurviewAction;
-use org\opencomb\coresystem\auth\Authorizer;
 use org\jecat\framework\bean\BeanFactory;
 use org\jecat\framework\db\DB;
-use org\jecat\framework\auth\IdManager;
 use org\opencomb\coresystem\mvc\controller\ControlPanel;
 use org\jecat\framework\message\Message;
 
@@ -147,5 +141,3 @@ class PurviewView extends ControlPanel
 		$arrPurviews[$sGroupName][] = $arrPurview ;
 	}
 }
-
-?>

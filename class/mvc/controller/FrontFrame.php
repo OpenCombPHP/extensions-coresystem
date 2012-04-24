@@ -2,9 +2,7 @@
 namespace org\opencomb\coresystem\mvc\controller ;
 
 use org\jecat\framework\bean\BeanFactory;
-
 use org\jecat\framework\mvc\controller\WebpageFrame;
-use org\jecat\framework\mvc\view\View;
 
 class FrontFrame extends WebpageFrame
 {
@@ -27,4 +25,3 @@ class FrontFrame extends WebpageFrame
 		return parent::buildBean($arrConfig,$sNamespace) ;
 	}
 }
-?>
