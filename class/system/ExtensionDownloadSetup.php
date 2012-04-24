@@ -35,14 +35,18 @@ class ExtensionDownloadSetup extends ControlPanel
 		if( !$aFolder=$aExtensionSetupFunctions->unpackage($aTmpFile) )
 		{
 			$this->response()->putReturnVariable('result',false) ;
+			$aTmpFile->delete() ;
 			return ;
 		}
+
+		$aTmpFile->delete() ;
 		
 		if( !$aExtensionSetupFunctions->installPackage($aFolder) )
 		{
 			$this->response()->putReturnVariable('result',false) ;
 			return ;
 		}
+		
 
 		$this->response()->putReturnVariable('result',true) ;
 	}

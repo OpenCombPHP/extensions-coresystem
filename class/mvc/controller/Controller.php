@@ -106,31 +106,6 @@ class Controller extends JcController
     	
     	$this->checkPermissions($sDenyMessage,$arrDenyArgvs) ;
     }
-    
-    /**
-     * @return org\jecat\framework\auth\IIdentity
-     */
-    protected function requireLogined($sDenyMessage=null,array $arrDenyArgvs=array()) 
-    {
-    	if( !$aId=IdManager::singleton()->currentId() )
-    	{
-    		$this->permissionDenied($sDenyMessage,$arrDenyArgvs) ;
-    	}
-    	return $aId ;
-    }
-    
-    protected function checkPermissions($sDenyMessage=null,array $arrDenyArgvs=array())
-    {
-    	if( !$this->authorizer()->check(IdManager::singleton()) )
-    	{
-    		$this->permissionDenied($sDenyMessage,$arrDenyArgvs) ;
-    	}
-    }
-    
-	protected function permissionDenied($sDenyMessage=null,array $arrDenyArgvs=array())
-	{
-		throw new AuthenticationException($this,$sDenyMessage,$arrDenyArgvs) ;
-	}
 
     protected function defaultFrameConfig()
     {
