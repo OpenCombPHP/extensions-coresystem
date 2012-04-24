@@ -1,12 +1,12 @@
 <?php
 namespace org\opencomb\coresystem\setup;
 
-use org\jecat\framework\db\DB ;
+use org\jecat\framework\db\DB;
 use org\jecat\framework\message\Message;
 use org\jecat\framework\message\MessageQueue;
 use org\opencomb\platform\ext\Extension;
-use org\opencomb\platform\ext\ExtensionMetainfo ;
-use org\opencomb\platform\ext\IExtensionDataInstaller ;
+use org\opencomb\platform\ext\ExtensionMetainfo;
+use org\opencomb\platform\ext\IExtensionDataInstaller;
 
 class DataInstaller implements IExtensionDataInstaller
 {
@@ -105,3 +105,4 @@ class DataInstaller implements IExtensionDataInstaller
 		
 	}
 }
+

@@ -1,7 +1,6 @@
 <?php
 namespace org\opencomb\coresystem\auth ;
 
-use org\opencomb\platform\mvc\model\db\orm\Prototype;
 use org\jecat\framework\db\sql\Insert;
 use org\jecat\framework\db\DB;
 use org\jecat\framework\lang\Object;
@@ -64,5 +63,3 @@ class PurviewAction extends Object
 	
 	private $sTablePurview ;
 }
-
-?>

@@ -1,9 +1,8 @@
 <?php
 namespace org\opencomb\coresystem\auth ;
 
-use org\jecat\framework\mvc\model\IModel;
 use org\jecat\framework\bean\BeanFactory;
-use org\jecat\framework\auth\Id as JcId ;
+use org\jecat\framework\auth\Id as JcId;
 
 class Id extends JcId
 {
@@ -28,5 +27,3 @@ class Id extends JcId
 		return parent::restoreFromCookie(self::createModel()) ;
 	}
 }
-
-?>

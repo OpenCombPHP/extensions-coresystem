@@ -1,12 +1,8 @@
 <?php
 namespace org\opencomb\coresystem\namecard;
 
-use org\jecat\framework\db\DB;
-
 use org\opencomb\coresystem\user\UserModel;
-
 use org\jecat\framework\mvc\model\db\Model;
-
 use org\jecat\framework\bean\BeanFactory;
 use org\opencomb\platform\ext\Extension;
 use org\jecat\framework\auth\IdManager;
@@ -243,3 +239,4 @@ class NameCard extends Widget {
 	private $bMine = false;
 	private $nId;
 }
+

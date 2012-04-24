@@ -2,10 +2,9 @@
 namespace org\opencomb\coresystem\system\patch ;
 
 use org\opencomb\coresystem\mvc\controller\ControlPanel;
-use org\jecat\framework\message\Message ;
-use org\jecat\framework\lang\Exception;
-use org\opencomb\platform\ext\Extension ;
-use org\jecat\framework\fs\Folder ;
+use org\jecat\framework\message\Message;
+use org\opencomb\platform\ext\Extension;
+use org\jecat\framework\fs\Folder;
 use org\jecat\framework\util\Version;
 use org\opencomb\platform\service\Service;
 
@@ -203,3 +202,4 @@ class InstallPatch extends ControlPanel{
 		return true;
 	}
 }
+

@@ -2,10 +2,7 @@
 namespace org\opencomb\coresystem\user ;
 
 use org\jecat\framework\bean\BeanFactory;
-
 use org\jecat\framework\cache\Cache;
-use org\jecat\framework\mvc\model\db\orm\Association;
-use org\jecat\framework\mvc\model\db\orm\Prototype;
 use org\jecat\framework\mvc\model\db\Model;
 
 class UserModel extends Model
@@ -74,4 +71,5 @@ class UserModel extends Model
 		return $aModel ;
 	}
 }
+
 

@@ -22,3 +22,4 @@ class Authenticate
 	
 	static private $fnPasswordEncryptFunction = array(__CLASS__,'encryptPasswordFunction') ;
 }
+

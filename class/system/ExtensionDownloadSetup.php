@@ -1,7 +1,6 @@
 <?php
 namespace org\opencomb\coresystem\system ;
 
-use org\jecat\framework\fs\File;
 use org\jecat\framework\message\Message;
 use org\jecat\framework\fs\Folder;
 use org\opencomb\platform\ext\Extension;
@@ -52,5 +51,3 @@ class ExtensionDownloadSetup extends ControlPanel
 	}
 
 }
-
-?>

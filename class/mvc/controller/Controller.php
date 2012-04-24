@@ -3,16 +3,13 @@ namespace org\opencomb\coresystem\mvc\controller ;
 
 use org\opencomb\coresystem\auth\PurviewPermission;
 use org\jecat\framework\mvc\view\UIFactory;
-use org\opencomb\coresystem\auth\Authorizer;
 use org\jecat\framework\mvc\view\IView;
-use org\jecat\framework\mvc\model\db\orm\Prototype;
-use org\jecat\framework\auth\IdManager;
 use org\opencomb\platform\ext\Extension;
 use org\jecat\framework\auth\AuthenticationException;
-use org\jecat\framework\mvc\controller\Controller as JcController ;
 use org\opencomb\platform\ext\ExtensionManager;
 use org\jecat\framework\setting\Setting;
 use org\jecat\framework\mvc\view\Webpage;
+use org\jecat\framework\mvc\controller\Controller as JcController;
 
 class Controller extends JcController
 {
@@ -76,7 +73,7 @@ class Controller extends JcController
     
     /**
      * 
-     * @see IController::mainRun()
+     * @see Controller::mainRun()
      */
     public function mainRun ()
     {
@@ -167,5 +164,3 @@ class Controller extends JcController
     	}, $sText) ;
     }
 }
-
-?>

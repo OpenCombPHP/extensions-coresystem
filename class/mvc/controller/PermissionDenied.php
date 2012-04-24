@@ -19,5 +19,3 @@ class PermissionDenied extends Controller
 	{}
 	
 }
-
-?>

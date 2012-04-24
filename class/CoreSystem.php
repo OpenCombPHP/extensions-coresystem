@@ -2,17 +2,16 @@
 namespace org\opencomb\coresystem ;
 
 use org\jecat\framework\bean\BeanFactory;
-
 use org\opencomb\coresystem\auth\Id;
 use org\jecat\framework\auth\IdManager;
 use org\opencomb\platform\service\Service;
 use org\jecat\framework\system\AccessRouter;
 use org\opencomb\platform\ext\Extension;
-use org\opencomb\coresystem\lib\LibManager ;
+use org\opencomb\coresystem\lib\LibManager;
 use org\jecat\framework\ui\xhtml\parsers\ParserStateTag;
-use org\jecat\framework\ui\xhtml\UIFactory ;
-use org\jecat\framework\mvc\view\UIFactory as MvcUIFactory ;
+use org\jecat\framework\ui\xhtml\UIFactory;
 use org\opencomb\platform\service\ServiceSerializer;
+use org\jecat\framework\mvc\view\UIFactory as MvcUIFactory;
 
 class CoreSystem extends Extension
 {
@@ -89,3 +88,4 @@ class CoreSystem extends Extension
 		MvcUIFactory::singleton()->calculateCompileStrategySignture() ;
 	}
 }
+

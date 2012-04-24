@@ -1,7 +1,7 @@
 <?php
 namespace org\opencomb\coresystem\util ;
 
-use org\jecat\framework\lang\Exception ;
+use org\jecat\framework\lang\Exception;
 
 class RandomIdCreator
 {
@@ -91,3 +91,4 @@ class RandomIdCreator
 	private $nMinLength = 3 ;
 	private $nMaxLength = 10 ;
 }
+

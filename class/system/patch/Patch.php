@@ -1,8 +1,8 @@
 <?php
 namespace org\opencomb\coresystem\system\patch ;
 
-use org\opencomb\platform\ext\Extension ;
-use org\jecat\framework\fs\Folder ;
+use org\opencomb\platform\ext\Extension;
+use org\jecat\framework\fs\Folder;
 use org\jecat\framework\lang\Exception;
 
 class Patch{
@@ -193,3 +193,4 @@ class Patch{
 	private $sItem = null ;
 	private $arrTagList = null ;
 }
+

@@ -2,11 +2,9 @@
 namespace org\opencomb\coresystem\system ;
 
 use org\opencomb\coresystem\auth\Id;
-
-use org\opencomb\coresystem\mvc\controller\ControlPanel ;
-use org\jecat\framework\message\Message ;
-use org\jecat\framework\util\Version ;
-use org\opencomb\platform\system\OcSession ;
+use org\opencomb\coresystem\mvc\controller\ControlPanel;
+use org\jecat\framework\message\Message;
+use org\opencomb\platform\system\OcSession;
 
 class ExtensionSetupByUpload extends ControlPanel
 {
@@ -80,3 +78,4 @@ class ExtensionSetupByUpload extends ControlPanel
 		}
 	}
 }
+

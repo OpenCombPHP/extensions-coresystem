@@ -29,5 +29,3 @@ class ControlPanel extends Controller
     	$aWebpage->setKeywords(sprintf($sTemplate,$this->keywords())) ;
     }
 }
-
-?>

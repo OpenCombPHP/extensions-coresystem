@@ -2,15 +2,15 @@
 namespace org\opencomb\coresystem\system ;
 
 use org\opencomb\platform\service\Service;
-use org\jecat\framework\message\MessageQueue ;
-use org\jecat\framework\message\Message ;
-use org\opencomb\platform\ext\Extension ;
-use org\opencomb\platform\ext\ExtensionMetainfo ;
-use org\jecat\framework\fs\Folder ;
-use org\jecat\framework\fs\File ;
+use org\jecat\framework\message\MessageQueue;
+use org\jecat\framework\message\Message;
+use org\opencomb\platform\ext\Extension;
+use org\opencomb\platform\ext\ExtensionMetainfo;
+use org\jecat\framework\fs\Folder;
+use org\jecat\framework\fs\File;
 use org\opencomb\platform\ext\ExtensionSetup;
-use org\jecat\framework\lang\Exception ;
-use org\opencomb\platform\service\ServiceSerializer ;
+use org\jecat\framework\lang\Exception;
+use org\opencomb\platform\service\ServiceSerializer;
 use org\opencomb\platform as oc;
 
 /**
@@ -148,3 +148,4 @@ class ExtensionSetupFunctions
 	
 	private $aMessageQueue = null;
 }
+

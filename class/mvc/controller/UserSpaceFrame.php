@@ -1,8 +1,6 @@
 <?php
 namespace org\opencomb\coresystem\mvc\controller ;
 
-use org\jecat\framework\bean\BeanFactory;
-use org\jecat\framework\mvc\view\View;
 
 class UserSpaceFrame extends FrontFrame
 {
@@ -16,4 +14,3 @@ class UserSpaceFrame extends FrontFrame
 		return $arrBean;
 	}
 }
-?>

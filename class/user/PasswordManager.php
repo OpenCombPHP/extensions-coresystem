@@ -2,8 +2,6 @@
 namespace org\opencomb\coresystem\user ;
 
 use org\opencomb\coresystem\auth\Authenticate;
-
-use org\jecat\framework\mvc\view\DataExchanger;
 use org\jecat\framework\message\Message;
 
 class PasswordManager extends UserPanel
@@ -115,4 +113,3 @@ class PasswordManager extends UserPanel
 		}
 	}
 }
-?>

@@ -90,3 +90,4 @@ class PurviewPermission extends PermissionBase
 	private $nQueryFlag = PurviewQuery::auth_common ;
 }
 
+

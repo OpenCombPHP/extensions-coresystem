@@ -4,9 +4,8 @@ namespace org\opencomb\coresystem\user ;
 use org\opencomb\coresystem\auth\Id;
 use org\opencomb\coresystem\auth\Authenticate;
 use org\jecat\framework\auth\IdManager;
-use org\jecat\framework\db\DB;
 use org\jecat\framework\message\Message;
-use org\opencomb\coresystem\mvc\controller\Controller ;
+use org\opencomb\coresystem\mvc\controller\Controller;
 
 class Login extends Controller
 {
@@ -91,5 +90,3 @@ class Login extends Controller
 	}
 	
 }
-
-?>

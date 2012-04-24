@@ -1,19 +1,14 @@
 <?php
 namespace org\opencomb\coresystem\system ;
 
-use org\opencomb\platform\service\Service;
-
-use org\opencomb\platform\ext\ExtensionDataClearer;
-
 use org\opencomb\coresystem\auth\Id;
-
 use org\opencomb\coresystem\mvc\controller\ControlPanel;
-use org\opencomb\platform\ext\ExtensionManager as ExtensionManagerOperator ;
-use org\jecat\framework\message\Message ;
-use org\opencomb\platform\ext\ExtensionSetup ;
+use org\jecat\framework\message\Message;
+use org\opencomb\platform\ext\ExtensionSetup;
 use org\jecat\framework\lang\Exception;
 use org\opencomb\platform\service\ServiceSerializer;
-use org\opencomb\platform\ext\dependence\RequireItem ;
+use org\opencomb\platform\ext\dependence\RequireItem;
+use org\opencomb\platform\ext\ExtensionManager as ExtensionManagerOperator;
 
 class ExtensionManagerController extends ControlPanel
 {
@@ -285,3 +280,4 @@ class ExtensionManagerController extends ControlPanel
 	private $arrDependenceBy = null ;
 	private $arrDependence = null ;
 }
+
