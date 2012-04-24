@@ -8,7 +8,7 @@ function getNameCardExtension(nUid , sName , sService , aTarget , position , bDi
 {
 	if(nUid == null && sName == null)
 	{
-		if(typeof console != 'undefind'){
+		if(typeof console != 'undefined'){
 			console.log('没有指定用户,无法显示用户namecard');
 		}
 		return;
@@ -48,14 +48,13 @@ function getNameCardExtension(nUid , sName , sService , aTarget , position , bDi
 			
 			positionNameCardExtension(fullCard , aTarget, position);
 			fullCard.show();
-			
-			fullCard.on('mouseout',function(){
-				jquery('.namecard_normal_card_full, .namecard_normal_loading').hide();
+			fullCard.on('mouseleave',function(){
+				jquery('.namecard_normal_card_full , .namecard_normal_loading').hide();
 			});
 			
 			if(bDisappearType){
-				aTarget.on('mouseout',function(){
-					jquery('.namecard_normal_card_full, .namecard_normal_loading').hide();
+				aTarget.on('mouseleave',function(){
+					jquery('.namecard_normal_card_full , .namecard_normal_loading').hide();
 				});
 			}
 		}
