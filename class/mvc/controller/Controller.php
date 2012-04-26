@@ -109,7 +109,7 @@ class Controller extends JcController
     	return array('class'=>'org\\opencomb\\coresystem\\mvc\\controller\\FrontFrame') ;
     }
     
-    public function renderMainView(IView $aMainView)
+    /*public function renderMainView(IView $aMainView)
     {
     	if( $aMainView instanceof Webpage )
     	{
@@ -117,7 +117,7 @@ class Controller extends JcController
     	}
     
     	parent::renderMainView($aMainView) ;
-    }
+    }*/
     
     /**
      * @exmaple /配置/访问扩展的配置
