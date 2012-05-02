@@ -294,7 +294,7 @@ function hideDepBy(sName,o){
 						{=$arrEnabledExtensions[$sExtName]->metainfo()->title()}
 						<span class='extName'>
 							（{=$sExtName} ver : {=$arrEnabledExtensions[$sExtName]->metainfo()->version()}）
-							<a href="javascript:jquery('#depRelation-{=$sExtName}').toggle()">依赖关系</a>
+							<a href='#' onclick="javascript:jquery('#depRelation-{=$sExtName}').toggle()">依赖关系</a>
 						</span>
 					</h3>
 					<div class="extOther">
@@ -357,7 +357,7 @@ function hideDepBy(sName,o){
 						{=$aExtMeta->title()}					
 						<span class='extName'>
 							（{=$sExtName=$aExtMeta->name()} ver : {=$aExtMeta->version()}）
-							<a href="javascript:jquery('#depRelation-{=$sExtName}').toggle()">依赖关系</a>
+							<a href='#' onclick="javascript:jquery('#depRelation-{=$sExtName}').toggle()">依赖关系</a>
 						</span>
 						
 					</h3>
