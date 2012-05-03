@@ -31,13 +31,14 @@ h4{ font-size:12px; font-weight:bold; color:#333}
 		.jc-widget-menu-item-depth-1 a{color:#333; display:block; float:left; height:30px; padding:0 6px;border-bottom:3px solid #F6F8F7;}
 		.jc-widget-menu-item-depth-1 a:hover{border-bottom:3px solid #09c; text-decoration:none;}
 	
-	#view-wrapper-3{padding:10px 0;}
-		.topList{background:url(../images/viewbg.jpg) repeat-x 0 0; margin:0 10px 15px; padding:10px; border:1px solid #dfdfdf; border-radius:2px; box-shadow:0 0 4px rgba(0,0,0,0.1)}
-		.frontframe-more{float:right; font-weight:normal; font-size:12px}
-		.topList h3{background:url(../images/line.gif) repeat-x 0 bottom; padding-bottom:5px; margin-bottom:5px;}
-		.topList li{ line-height:24px;}
-		.topList li a{color:#666;}
-		.topList li span{ float:right; color:#999;}
+#view-wrapper-3{padding:10px 0;}
+.frontframe-more{float:right; font-weight:normal; font-size:12px}
+
+.jc-view{background:url(../images/viewbg.jpg) repeat-x 0 0; margin:0 10px 15px; padding:10px; border:1px solid #dfdfdf; border-radius:2px; box-shadow:0 0 4px rgba(0,0,0,0.1)}
+.jc-view h3{background:url(../images/line.gif) repeat-x 0 bottom; padding-bottom:5px; margin-bottom:5px;}
+.jc-view li{ line-height:24px;}
+.jc-view li a{color:#666;}
+.jc-view li span{ float:right; color:#999;}
 
 
 /*尾部*/
