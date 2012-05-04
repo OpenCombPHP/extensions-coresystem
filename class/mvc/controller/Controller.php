@@ -1,6 +1,8 @@
 <?php
 namespace org\opencomb\coresystem\mvc\controller ;
 
+use org\jecat\framework\message\Message;
+
 use org\opencomb\coresystem\auth\PurviewPermission;
 use org\jecat\framework\mvc\view\UIFactory;
 use org\jecat\framework\mvc\view\IView;
@@ -84,11 +86,8 @@ class Controller extends JcController
     	{
     		$aController = new PermissionDenied($this->params) ;
     		$this->add($aController) ;
-    		
-    		if( $sMessage = $e->message() )
-    		{
-    			$aController->viewMain->variables()->set('message',$sMessage) ;
-    		}
+
+    		$aController->createMessage(Message::forbid,$e->messageSentence(),$e->messageArgvs()) ;
     		
     		$aController->mainRun() ;
     	}
