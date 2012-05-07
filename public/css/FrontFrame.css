@@ -25,6 +25,7 @@ h4{ font-size:12px; font-weight:bold; color:#333}
 /*内容内部*/
 .frontframe-main-inner{ padding:10px;}
 	.frontframe-mainnav{ height:30px; background:url(../images/line.gif) repeat-x 0 bottom; padding:5px 0}
+		.frontframe-body{width:1000px; margin:0 auto;}
 		.frontframe-slogan{width:220px; height:30px; background:url(../images/slogan.gif) no-repeat right 0; float:left}
 		.jc-widget-menu-depth-1{margin-left:300px;}
 		.jc-widget-menu-item-depth-1{ float:left; font-size:14px; margin-right:20px;}
@@ -67,8 +68,6 @@ h4{ font-size:12px; font-weight:bold; color:#333}
 .loginbtn{margin-left:43px;background:#3E8CC2;background:-moz-linear-gradient(0% 0% 270deg, #5B9FCE,#3E8CC2); background:-webkit-gradient(linear,0% 0%, 0% 100%, from(#5B9FCE), to(#3E8CC2)); border:1px solid #3E8CC2; border-radius:5px; width:88px; height:26px; color:#fff; font-size:14px; font-family:"微软雅黑",sans serif;padding-bottom:2px;cursor:pointer;}
 .loginMarginLeft{margin-left:75px;margin-bottom:5px;}
 .otherweb a{margin-right:4px;}
-
-
 
 
 
