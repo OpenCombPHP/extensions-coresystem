@@ -1,5 +1,6 @@
 body{ background:#F6F8F7;font:12px "微软雅黑","宋体"; color:#333; }
 
+
 a{color:#09c; text-decoration:none}
 a:hover{ text-decoration:underline;}
 
@@ -9,19 +10,13 @@ h3{ font-size:13px; font-weight:bold; color:#333}
 h4{ font-size:12px; font-weight:bold; color:#333}
 
 
-
 /*头部*/
-.frontframe-header{ width:1000px; height:80px; margin:0 auto;background:url(../images/black.gif) repeat-x 0 -5px; }
+.frontframe-header{ width:1000px; height:80px;margin:0 auto; }
 	.frontframe-logo{width:222px; height:46px; background:url(../images/logo.png) no-repeat 0 0; display:block;clear:both; float:left; overflow:hidden; text-indent:-9999em;margin-left:10px;}
 	.frontframe-othernav{ float:right;margin:10px 10px 8px 0}
 
-
-
-
-
-
 /*内容外围*/
-.frontframe-main{min-height:1000px; width:1000px;margin:0 auto;}
+.frontframe-main{min-height:800px; width:1000px;margin:0 auto;}
 /*内容内部*/
 .frontframe-main-inner{ padding:10px;}
 	.frontframe-mainnav{ height:30px; background:url(../images/line.gif) repeat-x 0 bottom; padding:5px 0}
@@ -43,7 +38,7 @@ h4{ font-size:12px; font-weight:bold; color:#333}
 .topList li a{color:#666;}
 .topList li span{ float:right; color:#999;}
 
-.place_center{margin:0 auto}
+.place_center{ }
 
 /*内容*/
 .article_title{font-size:20px;font-weight: bold;}
@@ -51,9 +46,8 @@ h4{ font-size:12px; font-weight:bold; color:#333}
 .article_content{margin:5px 0;}
 
 /*尾部*/
-.frontframe-footer{ width:1000px; height:30px;margin:0 auto;padding:0 0 8px 0; background:url(../images/black.gif) repeat-x 0 bottom;}
+.frontframe-footer{ width:1000px; margin:0 auto;height:30px;padding:0 0 8px 0; }
 .frontframe-footer p{padding:0 8px; text-align:right; color:#999; line-height:30px; background:url(../images/line.gif) repeat-x 0 0;}
-	
 	
 /* Log in */
 .forgap{margin-top:10px;}
