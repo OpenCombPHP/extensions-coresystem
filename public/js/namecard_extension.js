@@ -27,6 +27,9 @@ function getNameCardExtension(nUid , sName , sService , aTarget , position , bDi
 	}else{
 		params = '&nickname='+sName;
 	}
+	if(typeof sService == 'undefined'){
+		sService = 'wownei';
+	}
 	
 	jquery.ajax({
 		url: "?c=org.opencomb.coresystem.namecard.NameCardExtension"+params+"&service="+sService+"&rspn=noframe"
