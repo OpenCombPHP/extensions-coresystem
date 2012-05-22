@@ -5,6 +5,7 @@ use org\opencomb\coresystem\auth\Id;
 use org\opencomb\coresystem\mvc\controller\ControlPanel;
 use org\jecat\framework\message\Message;
 use org\opencomb\platform\system\OcSession;
+use org\opencomb\platform\service\Service;
 
 class ExtensionSetupByUpload extends ControlPanel
 {
@@ -28,38 +29,40 @@ class ExtensionSetupByUpload extends ControlPanel
 	public function process()
 	{
 		$this->checkPermissions('您没有使用这个功能的权限,无法继续浏览',array()) ;
-		
-		if( $this->view->isSubmit() )
-		{
-			do{
+		$this->doActions() ;
+	}
+	
+	public function actionUpload(){
 				// error
 				$nError = $this->params['file']['error'] ;
 				if( UPLOAD_ERR_OK !==  $nError ){
 					$sErrorMessage = $this->params['file']['errorMessage'] ;
-					$this->view->createMessage(Message::error,'上传时发生错误:`%d`:`%s`',array($nError,$sErrorMessage));
-					break;
+					$this->createMessage(Message::error,'上传时发生错误:`%d`:`%s`',array($nError,$sErrorMessage));
+					return;
 				}
 				// file 
 				$sFileName = $this->params['file']['name'];
 				$sTmpFilePath = $this->params['file']['tmp_name'];
 				// debug message
-				$this->view->createMessage(Message::error,'调试信息: filename:`%s` path:`%s`',array($sFileName,$sTmpFilePath));
+				if( Service::singleton()->isDebugging() ){
+					$this->createMessage(Message::error,'调试信息: filename:`%s` path:`%s`',array($sFileName,$sTmpFilePath));
+				}
 				// ExtensionSetupFunctions
-				$aExtensionSetupFunctions = new ExtensionSetupFunctions($this->view->messageQueue());
+				$aExtensionSetupFunctions = new ExtensionSetupFunctions($this->messageQueue());
 				// moveUploadFile
 				$aUploadFile = $aExtensionSetupFunctions->moveUploadFile($sTmpFilePath,$sFileName);
 				if( FALSE === $aUploadFile ){
-					break;
+					return;
 				}
 				// xml
 				$aXML = $aExtensionSetupFunctions->getXML( $aUploadFile );
 				if( FALSE === $aXML ){
-					break;
+					return;
 				}
 				// unpackage
 				$aUnpackageFolder = $aExtensionSetupFunctions->unpackage($aUploadFile,$aXML);
 				if( FALSE === $aUnpackageFolder ){
-					break;
+					return;
 				}
 				// remove upload file
 				$aExtensionSetupFunctions->removeUploadFile( $aUploadFile );
@@ -68,14 +71,12 @@ class ExtensionSetupByUpload extends ControlPanel
 				// install
 				$aExtMeta = $aExtensionSetupFunctions->installPackage($aUnpackageFolder) ;
 				if( FALSE === $aExtMeta ){
-					break;
+					return;
 				}
 				// enable
 				$aExtensionSetupFunctions->enablePackage($aExtMeta);
 				// updateSignature
 				OcSession::singleton()->updateSignature() ;
-			}while(false);
-		}
 	}
 }
 
