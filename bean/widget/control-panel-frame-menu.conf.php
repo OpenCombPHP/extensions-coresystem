@@ -28,6 +28,11 @@ return array(
 				'link' => '?c=org.opencomb.coresystem.system.ExtensionManagerController' ,
 				'query' => 'c=org.opencomb.coresystem.system.ExtensionManagerController' ,
 			) ,
+			'item:extensionstoresetup' => array(
+						'title'=>'扩展中心' ,
+						'link' => '?c=org.opencomb.coresystem.system.ExtensionStoreOpen' ,
+						'query' => 'c=org.opencomb.coresystem.system.ExtensionStoreOpen' ,
+			),
 			'item:platform-upgrade' => array(
 				'title'=>'平台升级' ,
 				'link' => '?c=org.opencomb.coresystem.system.PlatformUpgrade' ,
