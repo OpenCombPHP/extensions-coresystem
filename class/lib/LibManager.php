@@ -1,6 +1,8 @@
 <?php
 namespace org\opencomb\coresystem\lib ;
 
+use org\jecat\framework\lang\Exception;
+
 use org\jecat\framework\resrc\HtmlResourcePool;
 use org\jecat\framework\pattern\iterate\ArrayIterator;
 use org\jecat\framework\lang\Object;
@@ -29,15 +31,15 @@ class LibManager extends Object
 	
 	public function libraryFileIterator($sFileType,$sName,$sVersion='*')
 	{
-		if( !isset($this->arrLibraries[$sName]['*']) )
+		if( !isset($this->arrLibraries[$sName][$sVersion]) )
 		{
-			return new \EmptyIterator() ;
+			throw new Exception("指定的前端库不存在：%s(%s)",array($sName,$sVersion)) ;
 		}
 		
 		$aFileIter = new \AppendIterator() ;
 		
 		// for requires
-		foreach($this->arrLibraries[$sName]['*']['require'] as $sRequireLib)
+		foreach($this->arrLibraries[$sName][$sVersion]['require'] as $sRequireLib)
 		{
 			@list($sReqLibName,$sReqLibVersion) = explode(':',$sRequireLib) ;
 			if(!$sReqLibVersion)
@@ -49,7 +51,7 @@ class LibManager extends Object
 		}
 		
 		// for self
-		$aFileIter->append(new \ArrayIterator($this->arrLibraries[$sName]['*'][$sFileType])) ;
+		$aFileIter->append(new \ArrayIterator($this->arrLibraries[$sName][$sVersion][$sFileType])) ;
 		
 		return $aFileIter ;
 	}
