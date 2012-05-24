@@ -1,5 +1,11 @@
 <msgqueue />
-
+<if "$bForward">
+	<a href="?c=login">正在前往登录页面……</a>
+	<script type="text/javascript">
+		setTimeout(function(){
+		location.href='?c=login'},3000) ;
+	</script>
+<else/>
 <form method="post">
 
 	<div>
@@ -15,3 +21,4 @@
 	<input type="submit" value="注册" />
 	
 </form>
+</if>
