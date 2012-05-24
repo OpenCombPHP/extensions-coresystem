@@ -23,7 +23,7 @@
 				</li>
 				<li>状态：{=$aRelease['status']}</li>
 				<li>版本仓库：{=$aRelease['repos']}</li>
-				<li><a href='/?c=org.opencomb.coresystem.system.SystemUpgrade&act=download&url={=urlencode($aRelease["url"])}'>下载安装</a></li>
+				<li><a href='/?c=org.opencomb.coresystem.system.SystemUpgrade&act=download&url={=urlencode($aRelease["url"])}&title={=$aRelease["title"]}'>下载安装</a></li>
 			</ul>
 		</li>
 	</foreach>

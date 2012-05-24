@@ -9,6 +9,7 @@ use org\jecat\framework\util\Version;
 use org\opencomb\platform\Platform;
 use org\jecat\framework\fs\Folder;
 use org\jecat\framework\message\Message;
+use org\opencomb\platform\service\Service;
 
 class SystemUpgrade extends ControlPanel{
 	public function createBeanConfig(){
@@ -31,14 +32,11 @@ class SystemUpgrade extends ControlPanel{
 	public function process(){
 		$this->checkPermissions() ;
 		
-		$this->doActions();
-		
 		$aSetting = Extension::flyweight('coresystem')->setting();
 		$sXmlUrl = $aSetting->item('/systemupgrade','xmlUrl','http://release.opencomb.com/releases.html');
 		
 		$sContent = file_get_contents($sXmlUrl);
 		$aXmlObj = simplexml_load_string( $sContent );
-		$arrRelease = array();
 		foreach($aXmlObj->xpath('/list/package') as $aXmlPkgObj){
 			$aRelease = array(
 				'title' => (string)$aXmlPkgObj->title,
@@ -54,10 +52,12 @@ class SystemUpgrade extends ControlPanel{
 			$aRelease['url'] = str_replace('${title}',$aRelease['title'],$aRelease['url'] );
 			$aRelease['url'] = str_replace('${status}',$aRelease['status'],$aRelease['url'] );
 			
-			$arrRelease [] = $aRelease ;
+			$this->arrRelease [ $aRelease['title'] ] = $aRelease ;
 		}
 		
-		$this->view->variables()->set('arrRelease',$arrRelease) ;
+		$this->doActions();
+		
+		$this->view->variables()->set('arrRelease',$this->arrRelease) ;
 		
 		$aPlatformVersion = Platform::singleton()->version();
 		$this->view->variables()->set('aPlatformVersion',$aPlatformVersion);
@@ -66,6 +66,7 @@ class SystemUpgrade extends ControlPanel{
 	}
 	
 	public function actionDownload(){
+		$sTitle = $this->params['title'];
 		$sUrl = $this->params['url'];
 		
 		$sDownloadFolder = Extension::flyweight('coresystem')->dataFolder();
@@ -74,12 +75,24 @@ class SystemUpgrade extends ControlPanel{
 		$sDownloadFilePath = $sDownloadFolder->path().'/'.$sFileName;
 		
 		try{
+			$this->createMessage(
+				Message::notice,
+				'framework:`%s`,platform:`%s`',
+				array(
+					$this->arrRelease[$sTitle]['version']['framework'],
+					$this->arrRelease[$sTitle]['version']['platform'],
+				)
+			);
 			$this->downloadFile($sUrl,$sDownloadFilePath);
 			$this->installFile($sDownloadFilePath);
+			$this->updateVersion(
+				$this->arrRelease[$sTitle]['version']['framework'],
+				$this->arrRelease[$sTitle]['version']['platform']
+			);
 			$this->createMessage(
 				Message::success,
 				'安装`%s`成功',
-				$sUrl
+				$sTitle
 			) ;
 		}catch(Exception $e){
 			$this->createMessage(Message::error,$e->getMessage(),$e->messageArgvs()) ;
@@ -131,4 +144,27 @@ class SystemUpgrade extends ControlPanel{
 			return FALSE;
 		}
 	}
+	
+	private function updateVersion(Version $aFV,Version $aPV){
+		$sServiceSettingFile = \org\opencomb\platform\SERVICES_FOLDER.'/settings.inc.php' ;
+		
+		$arrServiceSettings = include $sServiceSettingFile ;
+		
+		var_dump($arrServiceSettings);
+		
+		$sServiceName = Service::singleton()->serviceName();
+		var_dump($sServiceName);
+		
+		$arrServiceSettings [ $sServiceName ] ['framework_version'] = $aFV->toString();
+		$arrServiceSettings [ $sServiceName ] ['platform_version'] = $aPV->toString();
+		
+		if( !file_put_contents($sServiceSettingFile,'<?php return $arrServiceSettings = '.var_export($arrServiceSettings,true).';') )
+		{
+			throw new \Exception('can not write file: '.$sServiceSettingFile) ;
+		}
+		
+		return true;
+	}
+	
+	private $arrRelease = array();
 }
