@@ -88,6 +88,14 @@ class ExtensionSetupFunctions
 			) ;
 			return FALSE;
 		}
+		if( $aToFolder->exists() ){
+			$this->aMessageQueue->create(
+				Message::error,
+				'解压缩失败，目标文件夹已存在：%s',
+				$aToFolder->path()
+			);
+			return FALSE;
+		}
 		$resExtract = $aZip->extractTo($aToFolder->path());
 		if( TRUE !== $resExtract ){
 			$this->aMessageQueue->create(

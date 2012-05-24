@@ -28,23 +28,14 @@ return array(
 				'link' => '?c=org.opencomb.coresystem.system.ExtensionManagerController' ,
 				'query' => 'c=org.opencomb.coresystem.system.ExtensionManagerController' ,
 			) ,
+			'item:extensionstoresetup' => array(
+						'title'=>'扩展中心' ,
+						'link' => '?c=org.opencomb.coresystem.system.ExtensionStoreOpen' ,
+						'query' => 'c=org.opencomb.coresystem.system.ExtensionStoreOpen' ,
+			),
 			'item:platform-upgrade' => array(
-				'title'=>'平台升级' ,
-				'link' => '?c=org.opencomb.coresystem.system.PlatformUpgrade' ,
-				'query' => 'c=org.opencomb.coresystem.system.PlatformUpgrade' ,
-				
-				// items 
-				'menu' => 1,
-				'item:createPatch' => array(
-					'title' => '创建补丁',
-					'link' => '?c=org.opencomb.coresystem.system.patch.CreatePatch',
-					'query' => 'c=org.opencomb.coresystem.system.patch.CreatePatch',
-				),
-				'item:installPatch' => array(
-					'title' => '安装补丁',
-					'link' => '?c=org.opencomb.coresystem.system.patch.InstallPatch',
-					'query' => 'c=org.opencomb.coresystem.system.patch.InstallPatch',
-				),
+				'title'=>'系统升级' ,
+				'link' => '?c=org.opencomb.coresystem.system.SystemUpgrade' ,
 			) ,
 			'item:platform-rebuiild' => array(
 				'title'=>'系统重建' ,
