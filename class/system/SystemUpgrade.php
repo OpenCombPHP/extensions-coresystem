@@ -150,10 +150,7 @@ class SystemUpgrade extends ControlPanel{
 		
 		$arrServiceSettings = include $sServiceSettingFile ;
 		
-		var_dump($arrServiceSettings);
-		
 		$sServiceName = Service::singleton()->serviceName();
-		var_dump($sServiceName);
 		
 		$arrServiceSettings [ $sServiceName ] ['framework_version'] = $aFV->toString();
 		$arrServiceSettings [ $sServiceName ] ['platform_version'] = $aPV->toString();
