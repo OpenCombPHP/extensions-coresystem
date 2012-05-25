@@ -51,10 +51,10 @@ function getNameCardExtension(nUid , sName , sService , aTarget , position , bDi
 			
 			positionNameCardExtension(fullCard , aTarget, position);
 			fullCard.show();
+
 			fullCard.on('mouseleave',function(){
 				jquery('.namecard_normal_card_full , .namecard_normal_loading').hide();
 			});
-			
 			if(bDisappearType){
 				aTarget.on('mouseleave',function(){
 					jquery('.namecard_normal_card_full , .namecard_normal_loading').hide();
@@ -68,9 +68,9 @@ function positionNameCardExtension(fullCard , aTarget , position){
 	//位置
 	var top = aTarget.position().top -6;
 	var left = aTarget.position().left -6;
-	if(position == false){
-		top = top - 100;
-	}
+//	if(position == false){
+//		top = top;
+//	}
 	fullCard.css({
 		'top':top,
 		'left':left
