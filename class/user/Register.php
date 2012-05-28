@@ -61,6 +61,7 @@ class Register extends Controller
             			
             		$this->viewRegister->hideForm() ;
             		
+            		$this->viewRegister->variables()->set('bForward',true) ;
             	} catch (ExecuteException $e) {
             			
             		if($e->isDuplicate())

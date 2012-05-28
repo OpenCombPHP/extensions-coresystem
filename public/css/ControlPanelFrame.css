@@ -12,6 +12,7 @@ body{ background:#EDF1F1 url(../images/main.jpg) repeat-y 0 0; font-size:13px; l
 	.coresystem-mainnav{ height:40px; width:100%; background:url(../images/content.gif) repeat-x 0 0;padding-top:2px; overflow:hidden;}
 	.coresystem-mainnav ul a,.coresystem-mainnav span{color:#fff; font-size:16px;}
 	.coresystem-mainnav ul .jc-widget-menu-item-active a,.coresystem-mainnav ul a:hover{color:#006282;}
+	.coresystem-mainnav ul .jc-widget-menu-item-div-bubblingactive a,.coresystem-mainnav ul a:hover{color:#006282;}
 	.coresystem-mainnav ul{background:#3AADCB url(../images/mainnav.jpg) repeat-x 0 bottom;height:40px;padding-left:170px; overflow:hidden}
 	.coresystem-mainnav li{ float:left;  height:26px;_height:40px; line-height:26px;_line-height:40px;margin:6px 15px 0 0;_margin:0 15px 0 0;}
 	.coresystem-mainnav a{  float:left; display:block; padding:0 16px;} 
@@ -26,6 +27,7 @@ body{ background:#EDF1F1 url(../images/main.jpg) repeat-y 0 0; font-size:13px; l
 .coresystem-leftnav li script{ height:0;}
 
 .jc-widget-menu-depth-1 .jc-widget-menu-item-active a{ background:#F0F4F4; box-shadow: 1px 1px 1px rgba(0,0,0,0.2) inset;}
+.jc-widget-menu-depth-1 .jc-widget-menu-item-div-bubblingactive a{ background:#F0F4F4; box-shadow: 1px 1px 1px rgba(0,0,0,0.2) inset;}
 .coresystem-leftnav .clear{ display:none;}/*消除IE空行的BUG*/
 .coresystem-leftnav a{ -moz-box-sizing: border-box; -webkit-box-sizing: border-box;box-sizing: border-box;width:160px;}
 
@@ -33,7 +35,7 @@ body{ background:#EDF1F1 url(../images/main.jpg) repeat-y 0 0; font-size:13px; l
 .coresystem-leftnav .jc-widget-menu-item-depth-3 a{ background:#B6C7C7; display:block; color:#3D454E; height:28px; line-height:28px;padding-left:40px; font-size:14px;text-shadow:0px 0px 0 rgba(0,0,0,0.6); border-bottom:1px solid #AEB6BB}
 .coresystem-leftnav .jc-widget-menu-item-depth-3 a:hover{ color:#3D454E}
 .coresystem-leftnav .jc-widget-menu-item-depth-4 a{ background:#B6C7C7; display:block; color:#3D454E; height:28px; line-height:28px; padding-left:60px; font-size:12px;text-shadow:0px 0px 0 rgba(0,0,0,0.6);}
-.coresystem-leftnav .jc-widget-menu-depth-3 .jc-widget-menu-item-active a{ background:url(../images/secondon.jpg) no-repeat 0 0; width:175px; border-bottom:0px solid #AEB6BB; color:#fff;text-shadow:1px 1px 0 rgba(0,0,0,0.6);}
+.coresystem-leftnav .jc-widget-menu-depth-3 .jc-widget-menu-item-div-active a{ background:url(../images/secondon.jpg) no-repeat 0 0; width:175px; border-bottom:0px solid #AEB6BB; color:#fff;text-shadow:1px 1px 0 rgba(0,0,0,0.6);}
 
 /* content */
 .coresystem-content{margin:0 0 0 175px; background:#EDF1F1; padding:10px 15px 10px 10px; }

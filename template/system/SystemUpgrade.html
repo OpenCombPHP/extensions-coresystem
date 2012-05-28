@@ -1,0 +1,30 @@
+<style>
+.system-release li{
+	padding-top:10px;
+	padding-left:10px;
+}
+</style>
+<msgqueue />
+<h1>可用的发行版本</h1>
+<ul class="system-release">
+	<foreach for="$arrRelease" item="aRelease">
+		<if "$aRelease['version']['platform']->compare( $aPlatformVersion ) === 0 
+			and $aRelease['version']['framework']->compare( $aFrameworkVersion ) === 0 ">
+			<continue/>
+		</if>
+		<li>
+			<h4>{=$aRelease['title']}</h4>
+			<ul>
+				<li>组件版本
+					<ul>
+						<li>蜂巢平台:{=$aRelease['version']['platform']}</li>
+						<li>JeCat框架:{=$aRelease['version']['framework']}</li>
+					</ul>
+				</li>
+				<li>状态：{=$aRelease['status']}</li>
+				<li>版本仓库：{=$aRelease['repos']}</li>
+				<li><a href='/?c=org.opencomb.coresystem.system.SystemUpgrade&act=download&url={=urlencode($aRelease["url"])}&title={=$aRelease["title"]}'>下载安装</a></li>
+			</ul>
+		</li>
+	</foreach>
+</ul>
