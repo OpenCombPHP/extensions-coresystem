@@ -69,7 +69,6 @@ class Controller extends JcController
     	{
     		$sNamespace = $this->application()->extensions()->extensionNameByClass( get_class($this) )?: '*' ;
     	}
-    	
     	return parent::buildBean($arrConfig,$sNamespace) ;
     }
     
