@@ -32,10 +32,19 @@ h4{ font-size:12px; font-weight:bold; color:#333}
 .jc-view-decorater-oc{background:url(../images/viewbg.jpg) repeat-x 0 0; margin:0 10px 15px; padding:10px; border:1px solid #dfdfdf; border-radius:2px; box-shadow:0 0 4px rgba(0,0,0,0.1)}
 
 /*toplist*/
-.topList{position:relative;}
+.topList{
+	position:relative;
+}
 .topList h3{background:url(../images/line.gif) repeat-x 0 bottom; padding-bottom:5px; margin-bottom:5px;}
-.topList li{ line-height:24px;}
-.topList li a{color:#666;}
+.topList li{ line-height:24px;height:24px;}
+.topList li a{
+	color:#666;
+	/*字截断*/
+	display:block;
+	overflow:hidden;
+	text-overflow:ellipsis;
+	white-space:nowrap;
+}
 .topList li span{ float:right; color:#999;}
 .frontframe-more{position:absolute;top:0px;right:5px;display:block;font-weight:normal; font-size:12px}
 /*.topList .block{clear:both;}*/
