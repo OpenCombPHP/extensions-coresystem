@@ -16,44 +16,6 @@ use org\jecat\framework\mvc\view\Webpage;
 
 class Controller extends JcController
 {
-	public function createBeanConfig()
-	{
-		// 用自己的类名做为模板文件名创建一个视图
-		
-		$sTemplateFilename = '' ; 
-		$sClassName = get_class($this) ;
-		$sExtensionName = ExtensionManager::singleton()->extensionNameByClass( $sClassName ) ;
-		
-		// 子目录
-		$arrSlices = explode('\\', $sClassName) ;
-		if( count($arrSlices)>3 )		// 去掉前面的3段（org/com,组织名,扩展名）
-		{
-			$arrSlices = array_slice($arrSlices,3) ;
-			$sFileName = implode('/',$arrSlices).'.html' ;
-			
-			// 检查模板文件是否存在
-			if( UIFactory::singleton()->sourceFileManager()->find($sFileName,$sExtensionName) )
-			{
-				$sTemplateFilename = $sFileName ;
-			}
-		}
-		
-		if(!$sTemplateFilename)
-		{
-			$sFileName = end($arrSlices).'.html' ;
-			
-			// 检查模板文件是否存在
-			if( UIFactory::singleton()->sourceFileManager()->find($sFileName,$sExtensionName) )
-			{
-				$sTemplateFilename = $sFileName ;
-			}
-		}
-		
-		return $sTemplateFilename? array(
-			'view:view' => array( 'template' => $sTemplateFilename , )
-		): array() ;
-	}
-	
     /**
      * properties:
      * 	name				string						名称

@@ -3,7 +3,7 @@
 <Extension>
 
 	<name>coresystem</name>
-	<version>0.1</version>
+	<version>0.2</version>
 	<priority>3</priority>
 	
 	<title>核心系统</title>
@@ -34,7 +34,8 @@
 	<!-- 依赖脚本语言模块-->
 
 	<!-- 依赖蜂巢系统-->
-	<require type="platform"><![CDATA[ >=0.1 ]]></require>
+	<require type="platform"><![CDATA[ >=0.4 ]]></require>
+	<require type="framework"><![CDATA[ >=0.8 ]]></require>
 	
 	<!-- 依赖其他扩展-->
 	

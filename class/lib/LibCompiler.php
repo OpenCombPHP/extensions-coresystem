@@ -29,12 +29,12 @@ class LibCompiler extends NodeCompiler
 		foreach(LibManager::singleton()->libraryFileIterator('js',$sLibName,$sLibVersion) as $sFile)
 		{
 			$sFile = addslashes($sFile) ;
-			$aDev->write("\\org\\jecat\\framework\\resrc\\HtmlResourcePool::singleton()->addRequire(\"{$sFile}\",\\org\\jecat\\framework\\resrc\\HtmlResourcePool::RESRC_JS) ;") ;
+			$aDev->putCode("\\org\\jecat\\framework\\resrc\\HtmlResourcePool::singleton()->addRequire(\"{$sFile}\",\\org\\jecat\\framework\\resrc\\HtmlResourcePool::RESRC_JS) ;") ;
 		}
 		foreach(LibManager::singleton()->libraryFileIterator('css',$sLibName,$sLibVersion) as $sFile)
 		{
 			$sFile = addslashes($sFile) ;
-			$aDev->write("\\org\\jecat\\framework\\resrc\\HtmlResourcePool::singleton()->addRequire(\"{$sFile}\",\\org\\jecat\\framework\\resrc\\HtmlResourcePool::RESRC_CSS) ;") ;
+			$aDev->putCode("\\org\\jecat\\framework\\resrc\\HtmlResourcePool::singleton()->addRequire(\"{$sFile}\",\\org\\jecat\\framework\\resrc\\HtmlResourcePool::RESRC_CSS) ;") ;
 		}
 		
 	}
