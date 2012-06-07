@@ -6,7 +6,9 @@
 	<priority>3</priority>
 	
 	<title>核心系统</title>
-	<description>用户系统,后台frame,等等</description>
+	<description>
+蜂巢提供Web服务的核心扩展，向蜂巢提供了基本的用户系统、认证、授权、前端(HTML UI)库管理、视图显示框架(View Frame)等能力
+	</description>
 	
 	<class>org.opencomb.coresystem.CoreSystem</class>
 	<classSetup>org.opencomb.coresystem.CoreSystemSetup</classSetup>
@@ -20,10 +22,7 @@
 	<licences folder="/licence" />
 	
 	<beanFolder folder="/bean" />
-	
-	<language locale="zh_CN" path="/path/in/extension/folder/aadd" />
-	<language locale="zh_TW" path="/path/in/extension/folder/aadd" />
-	
+		
 	<!-- 依赖脚本语言-->
 	<require type="language" item="php">
 	<![CDATA[
@@ -31,21 +30,10 @@
 	]]>
 	</require>
 	
-	<!-- 依赖脚本语言模块-->
-
 	<!-- 依赖蜂巢系统-->
-	<require type="platform"><![CDATA[ >=0.1 ]]></require>
+	<require type="framework"><![CDATA[ =0.7.2 ]]></require>
+	<require type="platform"><![CDATA[ =0.3 ]]></require>
 	
-	<!-- 依赖其他扩展-->
-
-	<!-- 支持其他扩展-->
-	<support type="extension" item="com.companyC.extensionA">
-		<version value="1.4" />
-		<version value="1.5" />
-		<version scope="2->3" />
-	</support>
-
-
 	<data><installer>org\opencomb\coresystem\setup\DataInstaller</installer></data>
 	
 </Extension>
