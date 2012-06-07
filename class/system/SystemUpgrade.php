@@ -33,26 +33,35 @@ class SystemUpgrade extends ControlPanel{
 		$this->checkPermissions() ;
 		
 		$aSetting = Extension::flyweight('coresystem')->setting();
-		$sXmlUrl = $aSetting->item('/systemupgrade','xmlUrl','http://release.opencomb.com/releases.html');
+		$sXmlUrl = $aSetting->item('/systemupgrade','xmlUrl','http://release.opencomb.com/releases.xml');
 		
-		$sContent = file_get_contents($sXmlUrl);
-		$aXmlObj = simplexml_load_string( $sContent );
-		foreach($aXmlObj->xpath('/list/package') as $aXmlPkgObj){
-			$aRelease = array(
-				'title' => (string)$aXmlPkgObj->title,
-				'version'=>array(
-					'platform' => Version::fromString((string)$aXmlPkgObj->version->platform),
-					'framework' => Version::fromString((string)$aXmlPkgObj->version->framework),
-				),
-				'status' => (string)$aXmlPkgObj->status,
-				'repos' => (string)$aXmlPkgObj->repos,
-				'url' => (string)$aXmlPkgObj->url,
+		$sContent = @file_get_contents($sXmlUrl);
+		
+		if( false === $sContent){
+			$this->createMessage(
+				Message::error,
+				'获取release文件失败：`%s`',
+				$sXmlUrl
 			);
-			
-			$aRelease['url'] = str_replace('${title}',$aRelease['title'],$aRelease['url'] );
-			$aRelease['url'] = str_replace('${status}',$aRelease['status'],$aRelease['url'] );
-			
-			$this->arrRelease [ $aRelease['title'] ] = $aRelease ;
+		}else{
+			$aXmlObj = simplexml_load_string( $sContent );
+			foreach($aXmlObj->xpath('/list/package') as $aXmlPkgObj){
+				$aRelease = array(
+					'title' => (string)$aXmlPkgObj->title,
+					'version'=>array(
+						'platform' => Version::fromString((string)$aXmlPkgObj->version->platform),
+						'framework' => Version::fromString((string)$aXmlPkgObj->version->framework),
+					),
+					'status' => (string)$aXmlPkgObj->status,
+					'repos' => (string)$aXmlPkgObj->repos,
+					'url' => (string)$aXmlPkgObj->url,
+				);
+				
+				$aRelease['url'] = str_replace('${title}',$aRelease['title'],$aRelease['url'] );
+				$aRelease['url'] = str_replace('${status}',$aRelease['status'],$aRelease['url'] );
+				
+				$this->arrRelease [ $aRelease['title'] ] = $aRelease ;
+			}
 		}
 		
 		$this->doActions();
