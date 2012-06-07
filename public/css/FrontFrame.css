@@ -35,18 +35,38 @@ h4{ font-size:12px; font-weight:bold; color:#333}
 .topList{
 	position:relative;
 }
+
 .topList h3{background:url(../images/line.gif) repeat-x 0 bottom; padding-bottom:5px; margin-bottom:5px;}
-.topList li{ line-height:24px;height:24px;}
-.topList li a{
+
+.topList_titles{
+	font:inherit;
+	width:100%;
+}
+.topList_titles tr{
+	line-height:24px;
+	height:24px;
+}
+.topList_titles tr a{
 	color:#666;
 	/*字截断*/
-	display:block;
 	overflow:hidden;
 	text-overflow:ellipsis;
 	white-space:nowrap;
 }
-.topList li span{ float:right; color:#999;}
-.frontframe-more{position:absolute;top:0px;right:5px;display:block;font-weight:normal; font-size:12px}
+.topList_times{
+	width:100px;
+	color:#999;
+	line-height:24px;
+	height:24px;
+}
+.frontframe-more{
+	position:absolute;
+	top:0px;
+	right:5px;
+	display:block;
+	font-weight:normal;
+	font-size:12px
+}
 /*.topList .block{clear:both;}*/
 
 .place_center{ }
