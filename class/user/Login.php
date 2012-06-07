@@ -12,18 +12,6 @@ class Login extends Controller
 {
 	protected $arrConfig = array(
 		'title'=>'登录',
-		
-		// 视图
-		'view' => array(
-			'template' => 'Login.html' ,
-			'model' => 'user' ,
-			
-			'widgets' => array(
-				array( 'conf' => 'widget/username' ) ,
-				array( 'conf' => 'widget/password' ) ,
-				'rememberme' => array( 'class' => 'checkbox' ,'title' => '记住密码' ) ,
-			) ,
-		) ,
 	) ;
 	
 	public function process()

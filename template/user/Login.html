@@ -1,0 +1,44 @@
+<div class='loginForm'>
+	<msgqueue />
+	<if "$forwarding">
+		<a href="{=$forwarding}">正在前往您准备浏览的网页……</a>
+		<script type="text/javascript">
+			setTimeout(function(){location.href='{=$forwarding}'},3000) ;
+		</script>
+	<else '$success'/>
+		<a href="/">登录成功, 正在前往首页, 点击直接跳转</a>
+		<script type="text/javascript">
+			setTimeout(function(){location.href='/'},3000) ;
+		</script>
+	</if>
+	
+	<form method="post" class="forgap">
+	
+		<div class="loginmess">
+			<span>用户名　：</span>
+			
+			<input id="username" type="text" v.len.max=30 v.len.min=30 v.email v.message="zhong"  />
+			
+			<widget id="" type="paginator" />
+			
+		</div>
+		<div class="loginmess">
+			<span>密　码　：</span><input id="password" />
+		</div>
+		<div class="loginPadLeft">
+		
+			<input widget type='radio' name='' />
+			<input type='radio' checked />
+			<input type='radio' />
+			
+			<widget id="rememberme" />
+			
+			<widget type="paginator" />
+			
+			<input type='hidden' name='forward' value='{=$theParams->get('forward')}'  />
+			<input class="loginbtn" type="submit" value="登录" /> 
+		</div>
+		
+		<a class="loginMarginLeft" href="?c=register">注册新用户</a>
+	</form>
+</div>
