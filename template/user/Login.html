@@ -1,5 +1,7 @@
 <div class='loginForm'>
+
 	<msgqueue />
+	
 	<if "$forwarding">
 		<a href="{=$forwarding}">正在前往您准备浏览的网页……</a>
 		<script type="text/javascript">
@@ -16,25 +18,17 @@
 	
 		<div class="loginmess">
 			<span>用户名　：</span>
-			
-			<input id="username" type="text" v.len.max=30 v.len.min=30 v.email v.message="zhong"  />
-			
-			<widget id="" type="paginator" />
-			
+			<input id="username" type="text" v.len.min=4 v.len.max=20 />
 		</div>
 		<div class="loginmess">
-			<span>密　码　：</span><input id="password" />
+			<span>密　码　：</span>
+			<input id="password" type="text" v.len.min=6 v.len.max=20 />
 		</div>
 		<div class="loginPadLeft">
-		
-			<input widget type='radio' name='' />
-			<input type='radio' checked />
-			<input type='radio' />
-			
-			<widget id="rememberme" />
-			
-			<widget type="paginator" />
-			
+			<label>
+				<input id=rememberme type="checkbox" value='1' />
+				记住密码
+			</label>
 			<input type='hidden' name='forward' value='{=$theParams->get('forward')}'  />
 			<input class="loginbtn" type="submit" value="登录" /> 
 		</div>

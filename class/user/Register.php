@@ -1,6 +1,8 @@
 <?php
 namespace org\opencomb\coresystem\user ;
 
+use org\jecat\framework\mvc\model\Model;
+
 use org\opencomb\coresystem\auth\Authenticate;
 use org\jecat\framework\message\Message;
 use org\jecat\framework\mvc\view\DataExchanger;
@@ -9,74 +11,52 @@ use org\opencomb\coresystem\mvc\controller\Controller ;
 
 class Register extends Controller
 {
-	public function createBeanConfig()
-	{
-		return array(
-			'title'=>'注册',
-			// 模型
-			'model:user' => array( 'conf' => 'model/user' ) ,
-			
-			// 视图
-			'view:register' => array(
-				'template' => 'Register.html' ,
-				'class' => 'form' ,
-				'model' => 'user' ,
-				
-				'widgets' => array(
-					array( 'conf' => 'widget/username' ) ,
-					array( 'conf' => 'widget/password' ) ,
-					array( 'conf' => 'widget/password', 'id' => 'passwordRepeat', 'title'=>'密码重复' ) ,
-					
-					array( 'class'=>'group', 'widgets'=>array('password','passwordRepeat'), 'verifier:same'=>array() ) ,
-				) ,
-			) ,
-		) ;
-	}
+	protected $arrConfig = array(
+		'title'=>'注册',
+	) ;
 	
-	public function process()
+	public function registerForm()
 	{
-	    if( $this->viewRegister->isSubmit( $this->params ) )		 
+		$this->params['username'] = trim($this->params['username']) ;
+		
+		if( !$this->view()->loadWidgets($this->params) )
 		{
-            $this->params['username'] = trim($this->params['username']) ;
-            
-            // 加载 视图窗体的数据
-            $this->viewRegister->loadWidgets( $this->params ) ;
-            
-            // 校验 视图窗体的数据
-            if( $this->viewRegister->verifyWidgets() )
-            {
-            	$this->viewRegister->exchangeData(DataExchanger::WIDGET_TO_MODEL) ;
+			return ;
+		}
 
-            	// 注册时间
-            	$this->modelUser->setData('registerTime',time()) ;
-            	$this->modelUser->setData('registerIp',$_SERVER['REMOTE_ADDR']) ;
-            	$this->modelUser->setData('info.nickname',$this->modelUser->username) ;
-            	
-            	$sPassword = Authenticate::encryptPassword($this->modelUser,$this->modelUser->username,$this->viewRegister->widget('password')->value()) ;
-            	$this->modelUser->setData('password',$sPassword) ;
+		
+		$aModel = $this->view()
+					->setModel(
+						Model::create('coresystem:user')
+							->hasOne('coresystem:userinfo')
+					)
+					->exchangeData(DataExchanger::WIDGET_TO_MODEL)
+					->model() ;
+		
 
-            	try {
-            		$this->modelUser->save() ;
-            		$this->viewRegister->createMessage( Message::success, "注册成功！" ) ;
-            			
-            		$this->viewRegister->hideForm() ;
+		try {
+			
+			$aModel->setRow(array(
+						'registerTime' => time() ,
+						'registerIp' => $_SERVER['REMOTE_ADDR'] ,
+						'userinfo.nickname' => $aModel['username'] ,
+						'password' => Authenticate::encryptPassword($aModel,$aModel['username'],$aModel['password']) ,
+				))
+				->insert() ;
+			
+			$this->createMessage( Message::success, "注册成功！" ) ;
+
+			$this->view->hideForm('registerForm') ;
             		
-            	} catch (ExecuteException $e) {
-            			
-            		if($e->isDuplicate())
-            		{
-            			$this->viewRegister->createMessage(
-            					Message::error
-            					, "用户名：%s 已经存在"
-            					, $this->params->get('username')
-            			) ;
-            		}
-            		else
-            		{
-            			throw $e ;
-            		}
-            	}
-           	}
+		 } catch (ExecuteException $e) {
+			if($e->isDuplicate())
+			{
+				$this->view->createMessage(Message::error, "用户名：%s 已经存在", $this->params['username'] ) ;
+			}
+			else
+			{
+				throw $e ;
+			}
 		}
 	}
 }
