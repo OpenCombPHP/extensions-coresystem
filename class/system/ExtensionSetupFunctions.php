@@ -78,7 +78,7 @@ class ExtensionSetupFunctions
 		
 		$sShortVersion = $aXML->version;
 		$sExtName = $aXML->name;
-		$aToFolder = Folder::singleton()->findFolder(oc\EXTENSIONS_FOLDER.'/'.$sExtName.'/'.$sShortVersion,Folder::FIND_AUTO_CREATE_OBJECT);
+		$aToFolder = new Folder(oc\EXTENSIONS_FOLDER.'/'.$sExtName.'/'.$sShortVersion);
 		$aZip = new \ZipArchive;
 		$resOpen = $aZip->open($aZipFile->path()) ;
 		if( TRUE !==  $resOpen ){
