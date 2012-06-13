@@ -3,15 +3,16 @@
 <form method="post" name='registerForm'>
 
 	<div>
-		用户名　：<widget id="username" type="text" />
+		用户名　：<widget name="username" v.min="4" v.max="20" />
 	</div>
 	<div>
-		密　码　：<widget id="password" type="text" />
+		密　码　：<widget name="password" type="password" v.min="6" v.max="20" />
 	</div>
 	<div>
-		密码重复：<widget id="passwordRepeat" type="text" />
+		密码重复：<widget name="passwordRepeat" type="password" v.min=6 v.max=20 />
 	</div>
 
 	<input type="submit" value="注册" />
 	
 </form>
+

@@ -13,23 +13,23 @@
 			setTimeout(function(){location.href='/'},3000) ;
 		</script>
 	</if>
-	
+
 	<form method="post" class="forgap">
 	
 		<div class="loginmess">
 			<span>用户名　：</span>
-			<input id="username" type="text" v.len.min=4 v.len.max=20 />
+			<widget id="username" type='text' v.len.min=10 v.len.max=20 />
 		</div>
 		<div class="loginmess">
 			<span>密　码　：</span>
-			<input id="password" type="text" v.len.min=6 v.len.max=20 />
+			<widget id="password" type='password' v.len.min=6 v.len.max=20 />
 		</div>
 		<div class="loginPadLeft">
 			<label>
 				<input id=rememberme type="checkbox" value='1' />
 				记住密码
 			</label>
-			<input type='hidden' name='forward' value='{=$theParams->get('forward')}'  />
+			<input type='hidden' name='forward' e:value="$theParams->get('forward')?:'?c=index'" />
 			<input class="loginbtn" type="submit" value="登录" /> 
 		</div>
 		

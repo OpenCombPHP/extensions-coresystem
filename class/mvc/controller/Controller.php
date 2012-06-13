@@ -1,6 +1,8 @@
 <?php
 namespace org\opencomb\coresystem\mvc\controller ;
 
+use org\jecat\framework\util\DataSrc;
+
 use org\opencomb\coresystem\auth\PurviewPermission;
 use org\jecat\framework\mvc\view\UIFactory;
 use org\opencomb\coresystem\auth\Authorizer;
@@ -47,14 +49,16 @@ class Controller extends JcController
     	}
     	catch (AuthenticationException $e)
     	{
-    		$aController = new PermissionDenied($this->params) ;
-    		$this->add($aController) ;
-    		
-    		if( $sMessage = $e->message() )
-    		{
-    			$aController->viewMain->variables()->set('message',$sMessage) ;
-    		}
-    		
+    		$aController = new self( new DataSrc($this->params) ) ;
+    		$aController->buildBean($arrBeanConfig=array(
+    			'title' => '权限拒绝' ,
+    			'view' => array(
+    					'template'=>'coresystem:auth/PermissionDenied.html' ,
+    					'vars'=>array(
+    							'message' => $e->message() ?: '访问权限被拒绝' ,
+    					) ,
+    			)
+    		)) ;
     		$aController->mainRun() ;
     	}
     }
