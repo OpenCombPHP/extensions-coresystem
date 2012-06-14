@@ -8,8 +8,8 @@ use org\jecat\framework\mvc\view\View;
 class ControlPanelFrame extends WebpageFrame
 {	
 	public function createBeanConfig()
-	{
-		return array(
+	{	
+		protected $arrConfig = array(
 			'frameview:frameView' => array(
 					
 					'template' => 'ControlPanelFrame.html' ,

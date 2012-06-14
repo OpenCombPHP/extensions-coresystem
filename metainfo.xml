@@ -1,16 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <Extension>
 
 	<name>coresystem</name>
-	<version>0.2</version>
+	<version>0.1</version>
 	<priority>3</priority>
 	
 	<title>核心系统</title>
 	<description>
 蜂巢提供Web服务的核心扩展，向蜂巢提供了基本的用户系统、认证、授权、前端(HTML UI)库管理、视图显示框架(View Frame)等能力
 	</description>
-	
 	
 	<class>org.opencomb.coresystem.CoreSystem</class>
 	<classSetup>org.opencomb.coresystem.CoreSystemSetup</classSetup>
@@ -21,8 +19,10 @@
 	
 	<template folder="/template" />
 	
-	<beanFolder folder="/bean" />
+	<licences folder="/licence" />
 	
+	<beanFolder folder="/bean" />
+		
 	<!-- 依赖脚本语言-->
 	<require type="language" item="php">
 	<![CDATA[
@@ -31,7 +31,9 @@
 	</require>
 	
 	<!-- 依赖蜂巢系统-->
-	<require type="framework"><![CDATA[ >=0.8 ]]></require>
-	<require type="platform"><![CDATA[ >=0.4 ]]></require>
+	<require type="framework"><![CDATA[ =0.7.2 ]]></require>
+	<require type="platform"><![CDATA[ =0.3 ]]></require>
+	
+	<data><installer>org\opencomb\coresystem\setup\DataInstaller</installer></data>
 	
 </Extension>
