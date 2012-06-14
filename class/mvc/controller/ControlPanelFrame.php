@@ -7,17 +7,14 @@ use org\jecat\framework\mvc\view\View;
 
 class ControlPanelFrame extends WebpageFrame
 {	
-	public function createBeanConfig()
-	{	
-		protected $arrConfig = array(
+	protected $arrConfig = array(
 			'frameview:frameView' => array(
-					
+	
 					'template' => 'ControlPanelFrame.html' ,
-					
+	
 					'widget:mainMenu' => array( 'config'=>'widget/control-panel-frame-menu' ) ,
 			) ,
-		) ;
-	}
+	) ;
 	
 	public function buildBean(array & $arrConfig,$sNamespace='*',\org\jecat\framework\bean\BeanFactory $aBeanFactory=null)
 	{
