@@ -14,13 +14,10 @@ use org\jecat\framework\message\Message;
 
 class PurviewView extends ControlPanel
 {
-	public function createBeanConfig()
-	{
-		return array(
+	protected $arrConfig = array(
 			'title'=>'授权查看',
 			'view:purview' => array(
-				'class'=>'form' ,
-				'template' => 'PurviewView.html' ,
+				'template' => 'coresystem:auth/PurviewView.html' ,
 				'vars' => array(
 						'purviews' => array() ,
 						'selfPurviews' => array('*'=>array()) ,
@@ -29,7 +26,6 @@ class PurviewView extends ControlPanel
 				) ,
 			) ,
 		) ;
-	}
 	
 	public function process()
 	{
@@ -44,37 +40,37 @@ class PurviewView extends ControlPanel
 		// 检查参数
 		if( !$sId = $this->params->string('id') )
 		{
-			$this->purview->hideForm() ;
-			$this->purview->createMessage(Message::error,"缺少参数 id") ;
+			$this->view->hideForm() ;
+			$this->view->createMessage(Message::error,"缺少参数 id") ;
 			return ;
 		}
-		
+
 		if( $this->params->string('type')==PurviewQuery::user )
 		{
-			$aModel = BeanFactory::singleton()->createBeanByConfig('model/user','coresystem') ;
+			$aModel = $this->view->setModel('coresystem:user')->model()->hasOne('coresystem:userinfo') ;
 		}
 		else if( $this->params->string('type')==PurviewQuery::group )
 		{
-			$aModel = BeanFactory::singleton()->createBeanByConfig('model/group','coresystem') ;
+			$aModel = $this->view->setModel('coresystem:group')->model() ;
 		}
 		else
 		{
-			$this->purview->hideForm() ;
-			$this->purview->createMessage(Message::error,"参数 type 无效：%s",$this->params->string('type')) ;
+			$this->view->hideForm() ;
+			$this->view->createMessage(Message::error,"参数 type 无效：%s",$this->params->string('type')) ;
 			return ;
 		}
 		
 		$aModel->load($sId) ;
-		if( $aModel->isEmpty() )
+		if( !$aModel->rowNum() )
 		{
-			$this->purview->hideForm() ;
-			$this->purview->createMessage(Message::error,"参数 id 无效：%s",$sId) ;
+			$this->view->hideForm() ;
+			$this->view->createMessage(Message::error,"参数 id 无效：%s",$sId) ;
 			return ;
 		}
 		
-		$sTableGroup = Prototype::transTableName('group','coresystem') ;
-		$sTableLink = Prototype::transTableName('group_user_link','coresystem') ;
-		$sTablePurview = Prototype::transTableName('purview','coresystem') ;
+		$sTableGroup = DB::singleton()->transTableName('coresystem:group') ;
+		$sTableLink = DB::singleton()->transTableName('coresystem:group_user_link') ;
+		$sTablePurview = DB::singleton()->transTableName('coresystem:purview') ;
 		
 		// 查看"用户"的权限
 		if( $this->params->string('type')=='user' )
@@ -119,8 +115,8 @@ class PurviewView extends ControlPanel
 	
 	private function loadGroupsFamilyPurviews($nGrpLft,$nGrpRgt)
 	{
-		$sTableGroup = Prototype::transTableName('group','coresystem') ;
-		$sTablePurview = Prototype::transTableName('purview','coresystem') ;
+		$sTableGroup = DB::singleton()->transTableName('coresystem:group') ;
+		$sTablePurview = DB::singleton()->transTableName('coresystem:purview') ;
 		
 		// 所有从上级分类继承到的权限
 		$sSql = "select pur.*, grp.name as gname, grp.gid from {$sTableGroup} as grp left join {$sTablePurview} as pur on (grp.gid=pur.id and pur.type='group') where grp.lft<{$nGrpLft} and grp.rgt>{$nGrpRgt} and pur.inheritance='1'
@@ -143,14 +139,14 @@ class PurviewView extends ControlPanel
 	
 	private function putinFoundPurview($sSource,$sGroupName,&$arrPurview)
 	{
-		$arrAllPurviews =& $this->purview->variables()->getRef('purviews') ;
+		$arrAllPurviews =& $this->view->variables()->getRef('purviews') ;
 		
 		if( !empty($arrAllPurviews[$arrPurview['extension']][$arrPurview['name']][$arrPurview['target']]) )
 		{
 			return ;
 		}
 		
-		$arrPurviews =& $this->purview->variables()->getRef($sSource) ;
+		$arrPurviews =& $this->view->variables()->getRef($sSource) ;
 		$arrPurviews[$sGroupName][] = $arrPurview ;
 	}
 }

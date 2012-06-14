@@ -97,20 +97,22 @@ class PurviewQuery extends Object
 	
 		$arrPurviews = array() ;
 		$aRecords = DB::singleton()->query($sSQL)->fetch(\PDO::FETCH_ASSOC) ;
-		print_r($aRecords) ;
 		
-		foreach($aRecords as $arrPurviewRow)
+		if($aRecords)
 		{
-			if($type==self::group)
+			foreach($aRecords as $arrPurviewRow)
 			{
-				$arrPurviewRow['inheritance'] = (bool) $arrPurviewRow['inheritance'] ;
-				$arrPurviewRow['bubble'] = (bool) $arrPurviewRow['bubble'] ;
+				if($type==self::group)
+				{
+					$arrPurviewRow['inheritance'] = (bool) $arrPurviewRow['inheritance'] ;
+					$arrPurviewRow['bubble'] = (bool) $arrPurviewRow['bubble'] ;
+				}
+				else
+				{
+					$arrPurviewRow['inheritance'] = $arrPurviewRow['bubble'] = false ;
+				}
+				$arrPurviews[$arrPurviewRow['extension']][$arrPurviewRow['name']][$arrPurviewRow['target']] = $arrPurviewRow ;
 			}
-			else
-			{
-				$arrPurviewRow['inheritance'] = $arrPurviewRow['bubble'] = false ;
-			}
-			$arrPurviews[$arrPurviewRow['extension']][$arrPurviewRow['name']][$arrPurviewRow['target']] = $arrPurviewRow ;
 		}
 	
 		return $arrPurviews ;

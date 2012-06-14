@@ -8,7 +8,7 @@ use org\opencomb\coresystem\mvc\controller\ControlPanel;
 
 class PurviewTester extends ControlPanel
 {
-	public function createBeanConfig()
+	public function createBeanConfig(array & $arrBeanConfig)
 	{
 		$arrPurview = array() ;
 		foreach(PurviewSetting::registeredPurviews() as $sExtName=>$arrPurviewsOfExt)
@@ -24,10 +24,9 @@ class PurviewTester extends ControlPanel
 		
 		$aId = IdManager::singleton()->currentId() ;
 		
-		return array(
-			'view:test' => array(
-					'template' => 'PurviewTester.html' ,
-					'class' => 'form' ,
+		$arrBeanConfig = array(
+			'view' => array(
+					'template' => 'auth/PurviewTester.html' ,
 					
 					'widgets' => array(
 						'userid' => array(
@@ -60,23 +59,23 @@ class PurviewTester extends ControlPanel
 	
 	public function process()
 	{
-		$this->test->loadWidgets( $this->params ) ;
+		$this->view->loadWidgets( $this->params ) ;
 		
-		if( $this->test->isSubmit($this->params) )
+		if( $this->view->isSubmit($this->params) )
 		{
-			$sNamespace = $this->test->widget('purviewNamespace')->value() ; 
-			$sPurview = $this->test->widget('purviewName')->value() ; 
+			$sNamespace = $this->view->widget('purviewNamespace')->value() ; 
+			$sPurview = $this->view->widget('purviewName')->value() ; 
 			
-			if($this->test->widget('ignoreTarget')->value())
+			if($this->view->widget('ignoreTarget')->value())
 			{
 				$target = PurviewQuery::ignore ;
 			}
 			else
 			{
-				$target = $this->test->widget('target')->value()?: PurviewQuery::all ;
+				$target = $this->view->widget('target')->value()?: PurviewQuery::all ;
 			}
 			
-			$sUid = $this->test->widget('userid')->value() ;
+			$sUid = $this->view->widget('userid')->value() ;
 			if(!$sUid)
 			{
 				$sUid = IdManager::singleton()->currentId()->userId() ;
@@ -99,21 +98,21 @@ class PurviewTester extends ControlPanel
 					$sUid, $sNamespace, $sPurview, $target, $nLevel
 				) )
 				{
-					$this->test->createMessage(Message::success,"[权限验证等级] %s：通过",$sName) ;
+					$this->view->createMessage(Message::success,"[权限验证等级] %s：通过",$sName) ;
 				}
 				else
 				{
-					$this->test->createMessage(Message::forbid,"[权限验证等级] %s：拒绝",$sName) ;
+					$this->view->createMessage(Message::forbid,"[权限验证等级] %s：拒绝",$sName) ;
 				}
 			}
 			
 			// -- 当前登录用户 -----------------------------------
 			try{
 				$this->requirePurview($sPurview,$sNamespace,$target) ;
-				$this->test->createMessage(Message::success,"当前登录用户权限检查：通过") ;
+				$this->view->createMessage(Message::success,"当前登录用户权限检查：通过") ;
 			}catch(AuthenticationException $e){
 				
-				$this->test->createMessage(Message::forbid,"当前登录用户权限检查：".$e->messageSentence(),$e->messageArgvs()) ;
+				$this->view->createMessage(Message::forbid,"当前登录用户权限检查：".$e->messageSentence(),$e->messageArgvs()) ;
 			}
 		}
 			

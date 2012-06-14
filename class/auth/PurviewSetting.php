@@ -11,32 +11,32 @@ use org\jecat\framework\message\Message;
 
 class PurviewSetting extends ControlPanel
 {
-	public function createBeanConfig()
-	{
-		return array(
+	protected $arrConfig = array(
+			
 			'title'=>'授权设置',
-			'controller:purviewView' => array(
-				'class' => 'org\\opencomb\\coresystem\\auth\\PurviewView' ,
-			) ,
-				
-			'view:setting' => array(
-				'template' => 'PurviewSetting.html' ,
-				'class' => 'form' ,
-		
-				'vars' => array(
-					'arrRegisteredPurviews' => self::registeredPurviews()
+			
+			'controller:purviewView' => 'org\\opencomb\\coresystem\\auth\\PurviewView' ,
+
+			'perms' => array(
+				// 权限类型的许可
+				'perm.purview'=>array(
+						'name' => Id::PLATFORM_ADMIN,
 				) ,
-				
+			) ,
+		) ;
+	
+	public function createBeanConfig(array & $arrConfig)
+	{
+		$arrConfig['view'] = array(
+			'template' => 'coresystem:auth/PurviewSetting.html' ,
+			'vars' => array(
+				'arrRegisteredPurviews' => self::registeredPurviews()
 			) ,
 		) ;
 	}
 	
-	
 	public function process()
 	{
-		// 权限检查
-		$this->requirePurview(Id::PLATFORM_ADMIN,'coresystem') ;
-		
 		if(!$this->params->string('type'))
 		{
 			$this->params->set('type',PurviewQuery::user) ;
@@ -45,54 +45,55 @@ class PurviewSetting extends ControlPanel
 		// 检查参数
 		if( !$sId = $this->params->string('id') )
 		{
-			$this->viewSetting->hideForm() ;
-			$this->viewSetting->createMessage(Message::error,"缺少参数 id") ;
+			$this->view->hideForm() ;
+			$this->view->createMessage(Message::error,"缺少参数 id") ;
 			return ;
 		}
 		
-		$this->doActions() ;
+		// $this->doActions() ;
 		
 		if( $this->params->string('type')==PurviewQuery::user )
 		{
-			$aModel = BeanFactory::singleton()->createBeanByConfig('model/user','coresystem') ;
+			$aModel = $this->view->setModel('coresystem:user')->model()->hasOne('coresystem:userinfo') ;
 		}
 		else if( $this->params->string('type')==PurviewQuery::group )
 		{
-			$aModel = BeanFactory::singleton()->createBeanByConfig('model/group','coresystem') ;
+			$aModel = $this->view->setModel('coresystem:group')->model() ;
 		}
 		else
 		{
-			$this->viewSetting->hideForm() ;
-			$this->viewSetting->createMessage(Message::error,"参数 type 无效：%s",$this->params->string('type')) ;
+			$this->view->hideForm() ;
+			$this->createMessage(Message::error,"参数 type 无效：%s",$this->params->string('type')) ;
 			return ;
 		}
 		
 		$aModel->load($sId) ;
-		if( $aModel->isEmpty() )
+		
+		if( !$aModel->rowNum() )
 		{
-			$this->viewSetting->hideForm() ;
-			$this->viewSetting->createMessage(Message::error,"参数 id 无效：%s",$sId) ;
+			$this->view->hideForm() ;
+			$this->createMessage(Message::error,"参数 id 无效：%s",$sId) ;
 			return ;
 		}
 		
 		// 修改权限
-		if( $this->viewSetting->isSubmit($this->params) )
+		/*if( $this->view->isSubmit($this->params) )
 		{
 			$this->modifyPurviews($sId) ;
-		}
+		}*/
 		
 		// 查询权限 
 		$this->loadPurviews($sId) ;
 		
 		// view variables
-		$this->viewSetting->variables()->set('type',$this->params->string('type')) ;
+		$this->view->variables()->set('type',$this->params->string('type')) ;
 		if( $this->params->string('type')==PurviewQuery::user )
 		{
-			$this->viewSetting->variables()->set('sPageTitle',"设置用户“{$aModel->username}”的权限") ;
+			$this->view->variables()->set('sPageTitle',"设置用户“{$aModel->username}”的权限") ;
 		}
 		else
 		{	
-			$this->viewSetting->variables()->set('sPageTitle',"设置用户组“{$aModel->name}”的权限") ;
+			$this->view->variables()->set('sPageTitle',"设置用户组“{$aModel->name}”的权限") ;
 		}
 	}
 	
@@ -106,7 +107,7 @@ class PurviewSetting extends ControlPanel
 				, $this->params['target']?:PurviewQuery::ignore
 			) )
 			{
-				$this->viewSetting->createMessage(Message::success,"删除了权限 %s:%s[%s]", array(
+				$this->view->createMessage(Message::success,"删除了权限 %s:%s[%s]", array(
 						$this->params['purviewNamespace']
 						, $this->params['purview']
 						, $this->params['target']?:'NULL'
@@ -124,7 +125,7 @@ class PurviewSetting extends ControlPanel
 			$this->params->purviews = array() ;
 		}
 		
-		$aViewVars = $this->viewSetting->variables() ;
+		$aViewVars = $this->view->variables() ;
 		$arrRegisteredPurviews = $aViewVars->get('arrRegisteredPurviews') ;
 
 		// 删除权限
@@ -144,7 +145,7 @@ class PurviewSetting extends ControlPanel
 						if( !empty($arrExistsPurviews[$sExtName][$sPurviewName][$arrPurview['target']]) )
 						{
 							PurviewAction::singleton()->removePurview($sId,$this->params->string('type'),$sExtName,$sPurviewName,$arrPurview['target']) ;
-							$this->viewSetting->createMessage(Message::success,"取消了权限：%s", $arrPurview['title'] ) ;
+							$this->view->createMessage(Message::success,"取消了权限：%s", $arrPurview['title'] ) ;
 						}
 					}
 					
@@ -163,7 +164,7 @@ class PurviewSetting extends ControlPanel
 							PurviewAction::singleton()->setPurview(
 									$sId,$this->params->string('type'),$sExtName,$sPurviewName,$arrPurview['target'], $bInheritance, $bBubble
 								) ;
-							$this->viewSetting->createMessage(Message::success,"权限变更：%s", $arrPurview['title'] ) ;
+							$this->view->createMessage(Message::success,"权限变更：%s", $arrPurview['title'] ) ;
 						}
 					}
 				}
@@ -181,7 +182,7 @@ class PurviewSetting extends ControlPanel
 				, $this->params['addUnregisterPurview']['target']?:null
 			) )
 			{
-				$this->viewSetting->createMessage(Message::success,"增加了权限 %s:%s[%s]", array(
+				$this->view->createMessage(Message::success,"增加了权限 %s:%s[%s]", array(
 						$this->params['addUnregisterPurview']['namespace']
 						, $this->params['addUnregisterPurview']['name']
 						, $this->params['addUnregisterPurview']['target']?:'NULL'
@@ -196,7 +197,7 @@ class PurviewSetting extends ControlPanel
 		$arrExistsPurviews = PurviewQuery::singleton()->queryPurviews($sId,$this->params->string('type')) ;
 		
 		// 注册的权限
-		$aViewVars = $this->viewSetting->variables() ;
+		$aViewVars = $this->view->variables() ;
 		$arrRegisteredPurviews = $aViewVars->get('arrRegisteredPurviews') ;
 		
 		foreach($arrRegisteredPurviews as $sExtName=>&$arrExtension)
