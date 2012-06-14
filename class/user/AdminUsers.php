@@ -37,6 +37,8 @@ class AdminUsers extends ControlPanel
 		
 		$aModel->load() ;
 	}
+	
+	
 }
 
 ?>

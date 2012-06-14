@@ -57,63 +57,60 @@ class PurviewTester extends ControlPanel
 		) ;
 	}
 	
-	public function process()
+	public function form()
 	{
 		$this->view->loadWidgets( $this->params ) ;
 		
-		if( $this->view->isSubmit($this->params) )
+		$sNamespace = $this->view->widget('purviewNamespace')->value() ; 
+		$sPurview = $this->view->widget('purviewName')->value() ; 
+		
+		if($this->view->widget('ignoreTarget')->value())
 		{
-			$sNamespace = $this->view->widget('purviewNamespace')->value() ; 
-			$sPurview = $this->view->widget('purviewName')->value() ; 
-			
-			if($this->view->widget('ignoreTarget')->value())
+			$target = PurviewQuery::ignore ;
+		}
+		else
+		{
+			$target = $this->view->widget('target')->value()?: PurviewQuery::all ;
+		}
+		
+		$sUid = $this->view->widget('userid')->value() ;
+		if(!$sUid)
+		{
+			$sUid = IdManager::singleton()->currentId()->userId() ;
+		}
+		
+		$this->createMessage(Message::notice,"用户ID: %d",$sUid) ;
+		$this->createMessage(Message::notice,"权限: %s; 所属扩展: %s",array($sPurview,$sNamespace)) ;
+		
+		// -- 指定uid用户 -----------------------------------
+		$arrTestLevels = array(
+				PurviewQuery::auth_user=>'用户权限' ,
+				PurviewQuery::auth_group=>'所属用户组权限' ,
+				PurviewQuery::auth_group_bubble=>'下级用户组“冒泡”权限' ,
+				PurviewQuery::auth_group_inheritance=>'上级用户组“可继承”权限' ,
+				//PurviewQuery::auth_platform_admin=>'平台管理员权限' ,
+		) ;
+		foreach($arrTestLevels as $nLevel=>$sName)
+		{
+			if( PurviewQuery::singleton()->hasPurview(
+				$sUid, $sNamespace, $sPurview, $target, $nLevel
+			) )
 			{
-				$target = PurviewQuery::ignore ;
+				$this->view->createMessage(Message::success,"[权限验证等级] %s：通过",$sName) ;
 			}
 			else
 			{
-				$target = $this->view->widget('target')->value()?: PurviewQuery::all ;
+				$this->view->createMessage(Message::forbid,"[权限验证等级] %s：拒绝",$sName) ;
 			}
+		}
+		
+		// -- 当前登录用户 -----------------------------------
+		try{
+			$this->requirePurview($sPurview,$sNamespace,$target) ;
+			$this->view->createMessage(Message::success,"当前登录用户权限检查：通过") ;
+		}catch(AuthenticationException $e){
 			
-			$sUid = $this->view->widget('userid')->value() ;
-			if(!$sUid)
-			{
-				$sUid = IdManager::singleton()->currentId()->userId() ;
-			}
-			
-			$this->createMessage(Message::notice,"用户ID: %d",$sUid) ;
-			$this->createMessage(Message::notice,"权限: %s; 所属扩展: %s",array($sPurview,$sNamespace)) ;
-			
-			// -- 指定uid用户 -----------------------------------
-			$arrTestLevels = array(
-					PurviewQuery::auth_user=>'用户权限' ,
-					PurviewQuery::auth_group=>'所属用户组权限' ,
-					PurviewQuery::auth_group_bubble=>'下级用户组“冒泡”权限' ,
-					PurviewQuery::auth_group_inheritance=>'上级用户组“可继承”权限' ,
-					//PurviewQuery::auth_platform_admin=>'平台管理员权限' ,
-			) ;
-			foreach($arrTestLevels as $nLevel=>$sName)
-			{
-				if( PurviewQuery::singleton()->hasPurview(
-					$sUid, $sNamespace, $sPurview, $target, $nLevel
-				) )
-				{
-					$this->view->createMessage(Message::success,"[权限验证等级] %s：通过",$sName) ;
-				}
-				else
-				{
-					$this->view->createMessage(Message::forbid,"[权限验证等级] %s：拒绝",$sName) ;
-				}
-			}
-			
-			// -- 当前登录用户 -----------------------------------
-			try{
-				$this->requirePurview($sPurview,$sNamespace,$target) ;
-				$this->view->createMessage(Message::success,"当前登录用户权限检查：通过") ;
-			}catch(AuthenticationException $e){
-				
-				$this->view->createMessage(Message::forbid,"当前登录用户权限检查：".$e->messageSentence(),$e->messageArgvs()) ;
-			}
+			$this->view->createMessage(Message::forbid,"当前登录用户权限检查：".$e->messageSentence(),$e->messageArgvs()) ;
 		}
 			
 	}

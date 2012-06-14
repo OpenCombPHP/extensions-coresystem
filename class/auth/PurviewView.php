@@ -41,7 +41,7 @@ class PurviewView extends ControlPanel
 		if( !$sId = $this->params->string('id') )
 		{
 			$this->view->hideForm() ;
-			$this->view->createMessage(Message::error,"缺少参数 id") ;
+			$this->createMessage(Message::error,"缺少参数 id") ;
 			return ;
 		}
 
