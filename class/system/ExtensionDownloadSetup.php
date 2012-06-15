@@ -40,13 +40,18 @@ class ExtensionDownloadSetup extends ControlPanel
 
 		$aTmpFile->delete() ;
 		
-		if( !$aExtensionSetupFunctions->installPackage($aFolder) )
+		if( ! $aExtMeta = $aExtensionSetupFunctions->installPackage($aFolder) )
 		{
 			$this->response()->putReturnVariable('result',false) ;
 			return ;
 		}
 		
-
+		if( ! $aExtensionSetupFunctions->enablePackage($aExtMeta) ){
+			$this->response()->putReturnVariable('result',false) ;
+			return ;
+		}
+		
+		\org\opencomb\platform\system\OcSession::singleton()->updateSignature() ;
 		$this->response()->putReturnVariable('result',true) ;
 	}
 

@@ -78,7 +78,7 @@ class ExtensionSetupFunctions
 		
 		$sShortVersion = $aXML->version;
 		$sExtName = $aXML->name;
-		$aToFolder = Folder::createFolder(oc\EXTENSIONS_FOLDER.'/'.$sExtName.'/'.$sShortVersion);
+		$aToFolder = new Folder(oc\EXTENSIONS_FOLDER.'/'.$sExtName.'/'.$sShortVersion);
 		$aZip = new \ZipArchive;
 		$resOpen = $aZip->open($aZipFile->path()) ;
 		if( TRUE !==  $resOpen ){
@@ -145,12 +145,14 @@ class ExtensionSetupFunctions
 					, "扩展 %s(%s:%s) 已经激活使用。"
 					, array( $aExtMeta->title(), $aExtMeta->name(), $aExtMeta->version() )
 			) ;
+			return true;
 		}catch(Exception $e){
 			$this->aMessageQueue->create(
 					Message::error
 					, "激活失败 : %s"
 					, $e->message()
 			) ;
+			return false;
 		}
 	}
 	
