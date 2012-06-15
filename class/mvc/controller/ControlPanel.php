@@ -9,7 +9,13 @@ class ControlPanel extends Controller
 {
     protected function defaultFrameConfig()
     {
-    	return array('class'=>'org\\opencomb\\coresystem\\mvc\\controller\\ControlPanelFrame') ;
+    	return array(
+    		'class'=>'webframe' ,
+    		'frameview:frameView' => array(
+				'template' => 'coresystem:ControlPanelFrame.html' ,
+				'widget:mainMenu' => array( 'config'=>'coresystem:widget/control-panel-frame-menu' ) ,
+			) ,
+    	) ;
     }
     
     protected function setupWebpageHtmlHead(Webpage $aWebpage)

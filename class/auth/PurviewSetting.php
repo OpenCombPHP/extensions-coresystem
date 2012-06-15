@@ -1,6 +1,7 @@
 <?php
 namespace org\opencomb\coresystem\auth ;
 
+use org\opencomb\coresystem\mvc\controller\Controller;
 use org\opencomb\platform\mvc\model\db\orm\Prototype;
 use org\opencomb\platform\ext\Extension;
 use org\jecat\framework\bean\BeanFactory;
@@ -36,7 +37,7 @@ class PurviewSetting extends ControlPanel
 	}
 	
 	public function process()
-	{
+	{		
 		if(!$this->params->string('type'))
 		{
 			$this->params->set('type',PurviewQuery::user) ;
