@@ -5,7 +5,7 @@ use org\jecat\framework\bean\BeanFactory;
 use org\jecat\framework\mvc\controller\WebpageFrame;
 
 class ControlPanelFrame extends WebpageFrame
-{	
+{		
 	public function createBeanConfig()
 	{
 		return array(
