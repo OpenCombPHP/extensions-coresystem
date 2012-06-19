@@ -7,7 +7,7 @@
 	<li style="margin-left:{=$theModel->__category_depth * 40}px">
 		<data>name</data>
 		<a href="?c=org.opencomb.coresystem.auth.PurviewSetting&id={=$theModel->gid}&type=group">权限</a>
-		<a href="?c=org.opencomb.coresystem.group.AdminGroups&{=$theController->makeActionQuery('delete')}&gid={=$theModel->gid}">删除</a>
+		<a href="?c=org.opencomb.coresystem.group.AdminGroups&{=$theController->makeActionQuery('delete')}&gid={=$theModel->gid}" onclick="return confirm('是否确定需要删除用户组')">删除</a>
 	</li>
 </model:foreach>
 </ul>

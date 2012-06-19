@@ -21,16 +21,15 @@ class AdminGroups extends ControlPanel
 			) ,
 	) ;
 	
-	public function startup()
+	public function process()
 	{
 		// 为视图创建模型
-		$this->view()->setModel('coresystem:group') ;
-	}
-	
-	public function finally()
-	{
+		$aModel = $this->view()->setModel('coresystem:group')->model() ;
+		
+		$this->doActions() ;
+		
 		// 加载模型
-		Category::buildTree( $this->view()->model()->load() ) ;
+		Category::buildTree( $aModel->load() ) ;
 	}
 	
 	public function delete()
@@ -43,14 +42,14 @@ class AdminGroups extends ControlPanel
 		}
 		else
 		{
-			$aDelCategory = new Category($aModel) ;
-		
 			// 清理权限
 			// todo ...
 		
 			// 解除用户关系
 			// todo ...
-		
+
+			// 删除权限
+			$aDelCategory = new Category($aModel) ;
 			$aDelCategory->delete() ;
 			
 			$this->createMessage(Message::success, "用户组 %s 已经删除", $aModel->name) ;

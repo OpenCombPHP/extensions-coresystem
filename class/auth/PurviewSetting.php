@@ -51,7 +51,7 @@ class PurviewSetting extends ControlPanel
 			return ;
 		}
 		
-		// $this->doActions() ;
+		$this->doActions() ;
 		
 		if( $this->params->string('type')==PurviewQuery::user )
 		{
@@ -98,7 +98,7 @@ class PurviewSetting extends ControlPanel
 		}
 	}
 	
-	protected function actionDeleteUnregisterPurview()
+	protected function deleteUnregisterPurview()
 	{
 		$this->params['addUnregisterPurview']['name'] ;
 		if( PurviewAction::singleton()->removePurview( $this->params->string('id')
@@ -193,6 +193,7 @@ class PurviewSetting extends ControlPanel
 	{
 		// 自己直接拥有的权限
 		$arrExistsPurviews = PurviewQuery::singleton()->queryPurviews($sId,$this->params->string('type')) ;
+		//print_r($arrExistsPurviews) ;
 		
 		// 注册的权限
 		$aViewVars = $this->view->variables() ;
@@ -215,16 +216,20 @@ class PurviewSetting extends ControlPanel
 						$arrPurview['checked:bubble'] = $arrExistsPurviews[$sExtName][$arrPurview['name']][$arrPurview['target']]['bubble'] ;
 					}
 					
-					if($arrPurview['target']===null)
-					{
-						$arrPurview['target'] = 'NULL' ;
-					}
-					
 					// 移除
-					unset($arrExistsPurviews[$sExtName][$arrPurview['name']]) ;
+					unset($arrExistsPurviews[$sExtName][$arrPurview['name']][$arrPurview['target']]) ;
+					if(empty($arrExistsPurviews[$sExtName][$arrPurview['name']]))
+					{
+						unset($arrExistsPurviews[$sExtName][$arrPurview['name']]) ;
+					}
 					if(empty($arrExistsPurviews[$sExtName]))
 					{
 						unset($arrExistsPurviews[$sExtName]) ;
+					}
+					
+					if($arrPurview['target']===null)
+					{
+						$arrPurview['target'] = 'NULL' ;
 					}
 				}
 			}
@@ -269,9 +274,9 @@ class PurviewSetting extends ControlPanel
 	
 	static private $arrRegisteredPurviews = array(
 	
-			'coresystem' => array(									// 扩展 =========
+			'coresystem' => array(										// 扩展 =========
 	
-					'系统' => array(									// 分类 ---------
+					'系统' => array(										// 分类 ---------
 							array(
 									'name' => Id::PLATFORM_ADMIN ,		// 权限名称
 									'title' => '平台管理员' ,				// 权限标题
@@ -279,7 +284,7 @@ class PurviewSetting extends ControlPanel
 							) ,
 					) ,
 	
-					'测试' => array(									// 分类 ---------
+					'测试' => array(										// 分类 ---------
 							array(
 									'name' => 'test-purview1' ,
 									'title' => '测试权限1' ,

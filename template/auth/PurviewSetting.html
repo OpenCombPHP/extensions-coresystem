@@ -77,7 +77,7 @@ div.purview{
 						<div>名称：{=$arrPurview['name']}</div>
 						<div>内容ID：{=$target?:'不限'}</div>
 						<div>
-							<a href="{=$theRequest->uri( null ,array('purview'=>$arrPurview['name'],'target'=>$target,'purviewNamespace'=>$sExtName,'act'=>'deleteUnregisterPurview') ) }">删除</a>
+							<a href="{=$theRequest->uri( null ,array('purview'=>$arrPurview['name'],'target'=>$target,'purviewNamespace'=>$sExtName) ) }&{=$theController->makeActionQuery('deleteUnregisterPurview')}">删除</a>
 						</div>
 					
 					</div>

@@ -25,23 +25,7 @@ class CreateGroup extends ControlPanel
 		$aGourps = $this->view()->setModel('coresystem:group')->model() ;
 		
 		// 增加新菜单
-		if( $this->view()->isSubmit() and $this->view()->loadWidgets() )
-		{
-			$this->view->hideForm()->fetch() ;
-			
-			$aNewCategory = new Category($aGourps) ;
-			
-			if($nGrpRgtFoot=$this->view->parentGroup->value())
-			{
-				$aNewCategory->insertCategoryToPoint($nGrpRgtFoot) ;
-			}
-			else
-			{
-				$aNewCategory->insertBefore(Category::end) ;
-			}
-				
-			$this->createMessage(Message::success,"分组%s已经保存",$aGourps['name']) ;
-		}
+		$this->doActions() ;
 		
 		// 加载已有分组菜单
 		Category::buildTree( $aGourps->load() ) ;
@@ -51,6 +35,30 @@ class CreateGroup extends ControlPanel
 			$sText = str_repeat('--',Category::depth($aGourps)) . $arrGroup['name'] ;
 			$this->view->parentGroup->addOption($sText,$arrGroup['rgt']) ;
 		}
+	}
+	
+	public function form()
+	{
+		if( !$this->view()->loadWidgets() )
+		{
+			return ;
+		}
+
+		$this->view->hideForm()->fetch() ;
+
+		$aGourps = $this->view()->model() ;
+		$aNewCategory = new Category($aGourps) ;
+			
+		if($nGrpRgtFoot=$this->view->parentGroup->value())
+		{
+			$aNewCategory->insertCategoryToPoint($nGrpRgtFoot) ;
+		}
+		else
+		{
+			$aNewCategory->insertBefore(Category::end) ;
+		}
+		
+		$this->createMessage(Message::success,"分组%s已经保存",$aGourps['name']) ;
 	}
 	
 }
