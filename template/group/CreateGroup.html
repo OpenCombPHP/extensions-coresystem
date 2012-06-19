@@ -4,10 +4,13 @@
 <form method="post">
 	
 	<div class="coresystem-form-title">
-		名称：<widget id="groupName" />
+		名称：<widget id="name" v.min="6" title="用户组名称" />
 	</div>
 	<div class="coresystem-form-select">
-		分类：<widget id="parentGroup" />
+		分类：
+		<widget id="parentGroup" type="select">
+			<option value="" style="">顶级分类</option>
+		</widget>
 	</div>
 	
 	<input type='submit' class="coresystem-form-button" value="保存" />

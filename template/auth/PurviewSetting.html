@@ -64,8 +64,9 @@ div.purview{
 	<br />
 	<h2>未注册权限</h2>
 	<foreach for="$arrUnregisteredPurviews" item="arrPurviewList" key="sExtName">
+	<if "$aExtMetainfo=\org\opencomb\platform\ext\Extension::flyweight($sExtName)">
 	<div>
-		<h3>扩展：{=\org\opencomb\platform\ext\Extension::flyweight($sExtName)->metainfo()->title()} ({=$sExtName})</h3>
+		<h3>扩展：{= $aExtMetainfo->metainfo()->title() } ({=$sExtName})</h3>
 	
 		<div style="margin-left:30px;margin-top:10px;">
 		
@@ -90,6 +91,7 @@ div.purview{
 		<div style="clear:both"></div>
 		
 	</div>
+	</if>
 	</foreach>
 	
 	

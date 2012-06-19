@@ -16,7 +16,7 @@ class PurviewView extends ControlPanel
 {
 	protected $arrConfig = array(
 			'title'=>'授权查看',
-			'view:purview' => array(
+			'view' => array(
 				'template' => 'coresystem:auth/PurviewView.html' ,
 				'vars' => array(
 						'purviews' => array() ,

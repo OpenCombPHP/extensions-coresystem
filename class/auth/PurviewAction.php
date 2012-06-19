@@ -1,7 +1,8 @@
 <?php
 namespace org\opencomb\coresystem\auth ;
 
-use org\opencomb\platform\mvc\model\db\orm\Prototype;
+use org\jecat\framework\mvc\model\Model;
+
 use org\jecat\framework\db\sql\Insert;
 use org\jecat\framework\db\DB;
 use org\jecat\framework\lang\Object;
@@ -10,7 +11,7 @@ class PurviewAction extends Object
 {
 	public function __construct()
 	{
-		$this->sTablePurview = Prototype::transTableName('purview','coresystem') ; ;
+		$this->sTablePurview = DB::singleton()->transTableName('coresystem:purview') ; ;
 	}
 	
 	public function setPurview($id,$sType,$sNamespace,$sPurviewName,$target=null,$bInheritance=false,$bBubble=true)
@@ -35,22 +36,23 @@ class PurviewAction extends Object
 		
 		else 
 		{
-			$aSql = new Insert($this->sTablePurview) ;
-			$aSql->setData('type',$sType) ;
-			$aSql->setData('id',$id) ;
-			$aSql->setData('extension',$sNamespace) ;
-			$aSql->setData('name',$sPurviewName) ;
+			$arrData = array(
+					'type' => $sType ,
+					'id' => $id ,
+					'extension' => $sNamespace ,
+					'name' => $sPurviewName ,
+			) ;
 			if($target!==null)
 			{
-				$aSql->setData('target',$target) ;
+				$arrData['target'] = $target ;
 			}
 			if($sType==PurviewQuery::group)
 			{
-				$aSql->setData('inheritance',$bInheritance?'1':'0') ;
-				$aSql->setData('bubble',$bBubble?'1':'0') ;
+				$arrData['inheritance'] = $bInheritance?'1':'0' ;
+				$arrData['bubble'] = $bBubble?'1':'0' ;
 			}
 			
-			return DB::singleton()->execute($aSql) ;
+			return Model::create('coresystem:purview')->insert($arrData)->affected() ;
 		}
 	}
 	public function removePurview($id,$sType,$sNamespace,$sPurviewName,$target=null)

@@ -78,10 +78,10 @@ class PurviewSetting extends ControlPanel
 		}
 		
 		// 修改权限
-		/*if( $this->view->isSubmit($this->params) )
+		if( $this->params['formname']==='form' )
 		{
 			$this->modifyPurviews($sId) ;
-		}*/
+		}
 		
 		// 查询权限 
 		$this->loadPurviews($sId) ;
@@ -100,21 +100,20 @@ class PurviewSetting extends ControlPanel
 	
 	protected function actionDeleteUnregisterPurview()
 	{
-			$this->params['addUnregisterPurview']['name'] ;
-			if( PurviewAction::singleton()->removePurview( $this->params->string('id')
-				, $this->params->string('type')
-				, $this->params['purviewNamespace']
-				, $this->params['purview']
-				, $this->params['target']?:PurviewQuery::ignore
-			) )
-			{
-				$this->view->createMessage(Message::success,"删除了权限 %s:%s[%s]", array(
-						$this->params['purviewNamespace']
-						, $this->params['purview']
-						, $this->params['target']?:'NULL'
-				) ) ;
-			}
-		
+		$this->params['addUnregisterPurview']['name'] ;
+		if( PurviewAction::singleton()->removePurview( $this->params->string('id')
+			, $this->params->string('type')
+			, $this->params['purviewNamespace']
+			, $this->params['purview']
+			, $this->params['target']?:PurviewQuery::ignore
+		) )
+		{
+			$this->view->createMessage(Message::success,"删除了权限 %s:%s[%s]", array(
+					$this->params['purviewNamespace']
+					, $this->params['purview']
+					, $this->params['target']?:'NULL'
+			) ) ;
+		}
 	}
 	
 	private function modifyPurviews($sId)
@@ -129,7 +128,7 @@ class PurviewSetting extends ControlPanel
 		$aViewVars = $this->view->variables() ;
 		$arrRegisteredPurviews = $aViewVars->get('arrRegisteredPurviews') ;
 
-		// 删除权限
+		// 增加/删除 权限
 		foreach($arrRegisteredPurviews as $sExtName=>&$arrExtension)
 		{
 			foreach($arrExtension as $sPurviewCategory=>&$arrPurviewList)
@@ -172,10 +171,8 @@ class PurviewSetting extends ControlPanel
 			}
 		}
 		
-		// 增加未注册权限
-		if( !empty($this->params['addUnregisterPurview']) )
+		if( !empty($this->params['addUnregisterPurview']['name']) )
 		{
-			$this->params['addUnregisterPurview']['name'] ;
 			if( PurviewAction::singleton()->setPurview( $sId
 				, $this->params->string('type')
 				, $this->params['addUnregisterPurview']['namespace']

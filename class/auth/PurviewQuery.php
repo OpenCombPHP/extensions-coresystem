@@ -94,13 +94,13 @@ class PurviewQuery extends Object
 		{
 			$sSQL.= $target===null? " and target=NULL": (" and target='".addslashes($target)."'") ;
 		}
-	
+
 		$arrPurviews = array() ;
-		$aRecords = DB::singleton()->query($sSQL)->fetch(\PDO::FETCH_ASSOC) ;
+		$aRecords = DB::singleton()->query($sSQL) ;
 		
 		if($aRecords)
 		{
-			foreach($aRecords as $arrPurviewRow)
+			while($arrPurviewRow=$aRecords->fetch(\PDO::FETCH_ASSOC))
 			{
 				if($type==self::group)
 				{
@@ -111,6 +111,7 @@ class PurviewQuery extends Object
 				{
 					$arrPurviewRow['inheritance'] = $arrPurviewRow['bubble'] = false ;
 				}
+				
 				$arrPurviews[$arrPurviewRow['extension']][$arrPurviewRow['name']][$arrPurviewRow['target']] = $arrPurviewRow ;
 			}
 		}
