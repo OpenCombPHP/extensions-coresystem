@@ -2,12 +2,11 @@
 namespace org\opencomb\coresystem\system\patch ;
 
 use org\opencomb\coresystem\mvc\controller\ControlPanel;
-use org\jecat\framework\message\Message ;
-use org\jecat\framework\lang\Exception;
-use org\opencomb\platform\ext\Extension ;
-use org\jecat\framework\fs\Folder ;
+use org\jecat\framework\message\Message;
+use org\opencomb\platform\ext\Extension;
+use org\jecat\framework\fs\Folder;
 use org\jecat\framework\util\Version;
-use org\opencomb\platform\Platform;
+use org\opencomb\platform\service\Service;
 
 class InstallPatch extends ControlPanel{
 	public function createBeanConfig(){
@@ -41,11 +40,11 @@ class InstallPatch extends ControlPanel{
 		switch($sName){
 		case 'framework':
 			$aCurrentVersion = Version::FromString ( \org\jecat\framework\VERSION );
-			$aExtractFolder = Folder::singleton()->findFolder('framework');
+			$aExtractFolder = \org\jecat\framework\PATH;
 			break;
 		case 'platform':
-			$aCurrentVersion = Platform::singleton ()->version ();
-			$aExtractFolder = Folder::singleton()->findFolder('');
+			$aCurrentVersion = Service::singleton ()->version ();
+			$aExtractFolder = \org\opencomb\platform\ROOT;
 			break;
 		default:
 			$this->view->createMessage(Message::error,'param name error ：%s',$sName);
@@ -64,7 +63,7 @@ class InstallPatch extends ControlPanel{
 		$sFilePath = $aFile->localPath();
 		
 		// move file
-		$aUploadFolder = Extension::flyweight('coresystem')->publicFolder()->findFolder('upload' , Folder::FIND_AUTO_CREATE) ;
+		$aUploadFolder = Extension::flyweight('coresystem')->filesFolder()->findFolder('upload' , Folder::FIND_AUTO_CREATE) ;
 		$aUploadFile = $aUploadFolder->findFile($sFileName , Folder::FIND_AUTO_CREATE_OBJECT) ;
 		$sUploadFilePath = $aUploadFile->path() ;
 		$resmove = move_uploaded_file($sFilePath,$sUploadFilePath);
@@ -203,3 +202,4 @@ class InstallPatch extends ControlPanel{
 		return true;
 	}
 }
+

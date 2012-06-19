@@ -39,5 +39,3 @@ class LibCompiler extends NodeCompiler
 		
 	}
 }
-
-?>

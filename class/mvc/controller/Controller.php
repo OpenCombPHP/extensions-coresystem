@@ -34,7 +34,6 @@ class Controller extends JcController
     	{
     		$sNamespace = $this->application()->extensions()->extensionNameByClass( get_class($this) )?: '*' ;
     	}
-    	
     	return parent::buildBean($arrConfig,$sNamespace) ;
     }
     
@@ -133,21 +132,21 @@ class Controller extends JcController
     	// Extentsion::setting() 返回的 Setting对象只包含对应扩展的配置信息；
     	// Setting::singleton() 返回的 Setting对象包含全系统的配置信息，各个扩展的配置信息只是全系统配置树结构上的一个分支。
     	$aExtSetting = Extension::flyweight('coresystem')->setting() ;
-    	$aPlatformSetting = Setting::singleton() ;
+    	$aServiceSetting = Setting::singleton() ;
     		
     	// 系统缺省的网页title
     	$sTitleTemplate = $aExtSetting->item('/webpage','title-template','%s') ;
-    	$this->replaceSettingValue($sTitleTemplate,$aPlatformSetting) ;
+    	$this->replaceSettingValue($sTitleTemplate,$aServiceSetting) ;
     	$aWebpage->setTitle(sprintf($sTitleTemplate,$this->title())) ;
     
     	// 系统缺省的网页description
     	$sTemplate = $aExtSetting->item('/webpage','description-template','%s') ;
-    	$this->replaceSettingValue($sTemplate,$aPlatformSetting) ;
+    	$this->replaceSettingValue($sTemplate,$aServiceSetting) ;
     	$aWebpage->setDescription(sprintf($sTemplate,$this->description())) ;
     
     	// 系统缺省的网页keywords
     	$sTemplate = $aExtSetting->item('/webpage','keywords-template','%s') ;
-    	$this->replaceSettingValue($sTemplate,$aPlatformSetting) ;
+    	$this->replaceSettingValue($sTemplate,$aServiceSetting) ;
     	$aWebpage->setKeywords(sprintf($sTemplate,$this->keywords())) ;
     }
     
@@ -158,5 +157,3 @@ class Controller extends JcController
     	}, $sText) ;
     }
 }
-
-?>

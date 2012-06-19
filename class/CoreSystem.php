@@ -37,6 +37,13 @@ class CoreSystem extends Extension
 		// jquery
 		LibManager::singleton()->registerLibrary('jquery','1.7.1','coresystem:jquery-1.7.1.js',null,null,true) ;
 		
+		// jquery.ui
+		LibManager::singleton()->registerLibrary('jquery.ui','1.8.16'
+				, 'coresystem:jquery.ui/jquery-ui-1.8.16.full.min.js'
+				, 'coresystem:jquery.ui/jquery-ui-1.8.16.full.css'
+				, 'jquery', true
+		) ;
+		
 		// jquery.progressbar
 		LibManager::singleton()->registerLibrary('jquery.progressbar','*'
 				// js
@@ -56,6 +63,7 @@ class CoreSystem extends Extension
 	
 	public function active(Service $aService)
 	{
+		// 注册 ui
 		$this->registerLibNode() ;
 		return ;
 		// 从 cookie 中恢复 id
@@ -66,6 +74,7 @@ class CoreSystem extends Extension
 				IdManager::singleton()->addId($aId) ;
 			}
 		}
+		
 	}
 	
 	private function registerLibNode()
@@ -80,3 +89,4 @@ class CoreSystem extends Extension
 		MvcUIFactory::singleton()->calculateCompileStrategySignture() ;
 	}
 }
+

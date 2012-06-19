@@ -2,6 +2,15 @@
 
 <h1>系统重建</h1>
 
+<div title="调试模式下，系统消耗较多性能用于检查缓存文件是否有效">
+	<a href="?c=org.opencomb.coresystem.system.DebugStatSetting">调试模式</a>:
+<if "\org\opencomb\platform\service\Service::singleton()->isDebugging()" >
+	<span style="color:#FF8C00">开启</span>
+<else />
+	<span style="color:#006400">关闭</span>
+</if>
+</div>
+
 <div>
 	<div id="eleProgressbar" style="text-align:center;width:200px;float:left"></div>
 	<div>
@@ -127,6 +136,8 @@ function compileClasses()
 {
 	if( ! isContinue ){
 		restartSystem() ;
+		jQuery('#eleProgressbar').progressBar(0) ;
+		jquery('#spnCompiledClassNum').html(0) ;
 		isContinue = true ;
 		return ;
 	}
@@ -153,40 +164,34 @@ function compileClasses()
 			, complete: function(rspn) {
 				if(jQuery('#btnStart').attr('disabled') == 'disabled' ){
 					jQuery('#btnStart').attr('disabled',false) ;
-					jQuery('#btnStart').html('结束');
+					jQuery('#btnStart').html('取消');
 					jQuery('#btnStart').off('click');
 					jQuery('#btnStart').on('click',stop);
 				}
 				try{
 					var response = jQuery.parseJSON(rspn.responseText) ;
-					if( response.success == '1' )
-					{
-						for(var i=0;i<response.arrCompileds.length;i++)
-						{
-							// 从 arrUncompiledClasses 中删除已经编译完成的类
-							for(var n=0;n<arrUncompiledClasses.length;n++)
-							{
-								if(arrUncompiledClasses[n]==response.arrCompileds[i])
-								{
-									arrUncompiledClasses.splice(n,1) ;
-									break
-								}
-							}
-							
-							updateProgress() ;
-							
-							jquery('#divLog').append("<div>"+response.arrCompileds[i]+"</div>") ;
-						}
-
-						compileClasses() ;
-						
-						return ;
+					if( response.success != '1' ){
+						jquery('#divMessage').html("<div>编译类遇到错误:"+rspn.responseText+"</div>") ;
 					}
-					
+					for(var i=0;i<response.arrCompileds.length;i++)
+					{
+						// 从 arrUncompiledClasses 中删除已经编译完成的类
+						for(var n=0;n<arrUncompiledClasses.length;n++)
+						{
+							if(arrUncompiledClasses[n]==response.arrCompileds[i])
+							{
+								arrUncompiledClasses.splice(n,1) ;
+								break;
+							}
+						}
+						
+						updateProgress() ;
+						
+						jquery('#divLog').append("<div>"+response.arrCompileds[i]+"</div>") ;
+					}
+					compileClasses() ;
+					return ;
 				}catch (e){ }
-
-				jquery('#divMessage').html("<div>编译类遇到错误:"+rspn.responseText+"</div>") ;
-				jquery('#btnStart').attr('disabled',false) ;
 			}
 		}) ;
 	}

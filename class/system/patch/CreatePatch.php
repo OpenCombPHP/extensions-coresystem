@@ -2,7 +2,7 @@
 namespace org\opencomb\coresystem\system\patch ;
 
 use org\opencomb\coresystem\mvc\controller\ControlPanel;
-use org\jecat\framework\message\Message ;
+use org\jecat\framework\message\Message;
 use org\jecat\framework\lang\Exception;
 
 class CreatePatch extends ControlPanel
@@ -48,3 +48,4 @@ class CreatePatch extends ControlPanel
 		}
 	}
 }
+

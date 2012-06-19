@@ -2,16 +2,13 @@
 <span class='namecard_simple'>
 {? $aModel = $theWidget->model()}
 <if '$aModel'>
-	<span class='namecard_simple_card_name'>{=$aModel['username']}</span>
 	<if '$theWidget->isCurrent()'>
 		<select class='namecard_simple_card_id_select'>
 			<foreach for='$theWidget->idIterator()' item='aIdModel'>
-			{=$theWidget->uid()}
 				<option value="{=$aIdModel['uid']}" {=$aIdModel['uid'] == $theWidget->uid() ? 'selected':''}>{=$aIdModel['username']}</option>
 			</foreach>
 		</select>
 	</if>
-	<a class='namecard_simple_card_logout' href='?c=logout'>退出</a>
 </if>
 </span>
 <script>

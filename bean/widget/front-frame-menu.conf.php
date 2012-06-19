@@ -3,10 +3,9 @@ return array(
 	'class' => 'menu' ,
 	'id' => 'mainMenu' ,
 	'direction' => 'h' ,
-	'items' =>array(
-			array(
-				'title'=>'首页',
-				'link'=>'?c=index',
-			),
+	'item:index' =>array(
+			'title'=>'首页',
+			'link'=>'?c=index',
+			'query' => 'c=index' ,
 		),
 ) ;

@@ -1,5 +1,6 @@
 body{ background:#F6F8F7;font:12px "微软雅黑","宋体"; color:#333; }
 
+
 a{color:#09c; text-decoration:none}
 a:hover{ text-decoration:underline;}
 
@@ -9,19 +10,13 @@ h3{ font-size:13px; font-weight:bold; color:#333}
 h4{ font-size:12px; font-weight:bold; color:#333}
 
 
-
 /*头部*/
-.frontframe-header{ width:100%; height:80px; background:url(../images/black.gif) repeat-x 0 -5px; }
-	.frontframe-logo{width:220px; height:45px; background:url(../images/logo.jpg) no-repeat 0 0; display:block;clear:both; float:left; overflow:hidden; text-indent:-9999em;margin-left:10px;}
+.frontframe-header{ width:1000px; height:80px;margin:0 auto; }
+	.frontframe-logo{width:222px; height:46px; background:url(../images/logo.png) no-repeat 0 0; display:block;clear:both; float:left; overflow:hidden; text-indent:-9999em;margin-left:10px;}
 	.frontframe-othernav{ float:right;margin:10px 10px 8px 0}
 
-
-
-
-
-
 /*内容外围*/
-.frontframe-main{min-height:1000px; width:100%;}
+.frontframe-main{min-height:800px; width:1000px;margin:0 auto;}
 /*内容内部*/
 .frontframe-main-inner{ padding:10px;}
 	.frontframe-mainnav{ height:30px; background:url(../images/line.gif) repeat-x 0 bottom; padding:5px 0}
@@ -31,15 +26,69 @@ h4{ font-size:12px; font-weight:bold; color:#333}
 		.jc-widget-menu-item-depth-1 a{color:#333; display:block; float:left; height:30px; padding:0 6px;border-bottom:3px solid #F6F8F7;}
 		.jc-widget-menu-item-depth-1 a:hover{border-bottom:3px solid #09c; text-decoration:none;}
 	
-	#view-wrapper-3{padding:10px 0;}
-		.topList{background:url(../images/viewbg.jpg) repeat-x 0 0; margin:0 10px 15px; padding:10px; border:1px solid #dfdfdf; border-radius:2px; box-shadow:0 0 4px rgba(0,0,0,0.1)}
-		.frontframe-more{float:right; font-weight:normal; font-size:12px}
-		.topList h3{background:url(../images/line.gif) repeat-x 0 bottom; padding-bottom:5px; margin-bottom:5px;}
-		.topList li{ line-height:24px;}
-		.topList li a{color:#666;}
-		.topList li span{ float:right; color:#999;}
+#view-wrapper-3{padding:10px 0;}
 
+/*凤巢默认样式*/
+.jc-view-decorater-oc{background:url(../images/viewbg.jpg) repeat-x 0 0; margin:0 10px 15px; padding:10px; border:1px solid #dfdfdf; border-radius:2px; box-shadow:0 0 4px rgba(0,0,0,0.1)}
+
+/*toplist*/
+.topList{
+	position:relative;
+}
+
+.topList h3{background:url(../images/line.gif) repeat-x 0 bottom; padding-bottom:5px; margin-bottom:5px;}
+
+.topList_titles{
+	font:inherit;
+	width:100%;
+}
+.topList_titles tr{
+	line-height:24px;
+	height:24px;
+}
+.topList_titles tr a{
+	color:#666;
+	/*字截断*/
+	overflow:hidden;
+	text-overflow:ellipsis;
+	white-space:nowrap;
+}
+.topList_times{
+	width:100px;
+	color:#999;
+	line-height:24px;
+	height:24px;
+}
+.frontframe-more{
+	position:absolute;
+	top:0px;
+	right:5px;
+	display:block;
+	font-weight:normal;
+	font-size:12px
+}
+/*.topList .block{clear:both;}*/
+
+.place_center{ }
+
+/*内容*/
+.article_title{font-size:20px;font-weight: bold;}
+.article_createTime{margin:5px 0;color:#999;}
+.article_content{margin:5px 0;}
 
 /*尾部*/
-.frontframe-footer{ width:100%; height:30px;padding:0 0 8px 0; background:url(../images/black.gif) repeat-x 0 bottom;}
-	.frontframe-footer p{padding:0 8px; text-align:right; color:#999; line-height:30px; background:url(../images/line.gif) repeat-x 0 0;}
+.frontframe-footer{ width:1000px; margin:0 auto;height:30px;padding:0 0 8px 0; }
+.frontframe-footer p{padding:0 8px; text-align:right; color:#999; line-height:30px; background:url(../images/line.gif) repeat-x 0 0;}
+	
+/* Log in */
+.forgap{margin-top:10px;}
+.loginmess {padding:4px 0; margin:4px 0;}
+.loginmess span{text-align:right; font-size:14px; color:#666;}
+.loginmess input{width:196px; padding:5px 2px; border:1px solid #ccc; border-radius:5px; background:#fff;}
+.loginmess input:focus{ background:#fff; border:1px solid #0cf;box-shadow:0 1px 3px rgba(86,156,204,0.4) inset}
+.loginPadLeft{padding-left:75px;margin:5px 0;}
+.loginPadLeft label {color:#999}
+.loginPadLeft label input{ vertical-align:-2px;margin-right:4px;}
+.loginbtn{margin-left:43px;background:#3E8CC2;background:-moz-linear-gradient(0% 0% 270deg, #5B9FCE,#3E8CC2); background:-webkit-gradient(linear,0% 0%, 0% 100%, from(#5B9FCE), to(#3E8CC2)); border:1px solid #3E8CC2; border-radius:5px; width:88px; height:26px; color:#fff; font-size:14px; font-family:"微软雅黑",sans serif;padding-bottom:2px;cursor:pointer;}
+.loginMarginLeft{margin-left:75px;margin-bottom:5px;}
+.otherweb a{margin-right:4px;}

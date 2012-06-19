@@ -5,7 +5,7 @@
 	<view name='rebuild' />
 
 	<div>
-		<a class='ex_back' href='/?c=org.opencomb.coresystem.system.ExtensionManager'>返回</a>
+		<a class='ex_back' href='/?c=org.opencomb.coresystem.system.ExtensionManagerController'>返回</a>
 	</div>
 <else />
 
@@ -13,10 +13,10 @@
 var arrDependenceBy={=json_encode($arrDependenceBy)};
 var arrEnableState={=json_encode($arrEnableState)};
 function changePriority(name,priority){
-	window.location='/?c=org.opencomb.coresystem.system.ExtensionManager&act=changePriority&name='+name+'&priority='+priority;
+	window.location='/?c=org.opencomb.coresystem.system.ExtensionManagerController&act=changePriority&name='+name+'&priority='+priority;
 }
 function changeOrder(sExtName,direction){
-	window.location='/?c=org.opencomb.coresystem.system.ExtensionManager&act=changeOrder&name='+sExtName+'&dire='+direction;
+	window.location='/?c=org.opencomb.coresystem.system.ExtensionManagerController&act=changeOrder&name='+sExtName+'&dire='+direction;
 }
 </script>
 <div id="dialogUninstall" class="dialog">
@@ -25,9 +25,11 @@ function changeOrder(sExtName,direction){
 		<div class='depByList'>
 		</div>
 	</div>
-	<input type='checkbox' name='code' />清除源代码
-	<br />
-	<input type='checkbox' name='data' />清除数据
+	
+	<label>
+		<input type='checkbox' name='retainData' checked=true />
+		保留数据
+	</label>
 </div>
 <script type='text/javascript'>
 function unistallExtension(sExtName){
@@ -47,23 +49,12 @@ function unistallExtension(sExtName){
 		buttons:{
 			'确定':function(){
 				jQuery(this).dialog('close');
-				var code = jQuery(this).find('input[name="code"]').attr('checked');
-				console.log(code);
-				var sCode = '';
-				if(code=='checked'){
-					sCode = 'remove';
-				}else{
-					sCode = 'keep';
+				sUrl = '?c=org.opencomb.coresystem.system.ExtensionManagerController&act=uninstall&name='+sExtName ;
+				if( jQuery(this).find('input[name="retainData"]').attr('checked') )
+				{
+					sUrl+= '&retainData=1' ;
 				}
-				var data = jQuery(this).find('input[name="data"]').attr('checked');
-				console.log(data);
-				var sData = '';
-				if(data=='checked'){
-					sData = 'remove';
-				}else{
-					sData = 'keep';
-				}
-				window.location='/?c=org.opencomb.coresystem.system.ExtensionManager&act=uninstall&name='+sExtName+'&code='+sCode+'&data='+sData;
+				window.location = sUrl ;
 			},
 			'取消':function(){
 				jQuery(this).dialog('close');
@@ -118,7 +109,7 @@ function disableExtension(sExtName){
 	objDialog.dialog({
 		buttons:{
 			'确定':function(){
-				window.location='/?c=org.opencomb.coresystem.system.ExtensionManager&act=disable&name='+sExtName;
+				window.location='/?c=org.opencomb.coresystem.system.ExtensionManagerController&act=disable&name='+sExtName;
 				jQuery(this).dialog('close');
 			},
 			'取消':function(){
@@ -139,6 +130,42 @@ function disableExtension(sExtName){
 		</div>
 	</div>
 </div>
+
+
+
+
+<script>
+function switchExtensionList(lnk)
+{
+	jquery('.extensionListTab').removeClass('tabActive') ; 
+	jquery('.extensionListTab').addClass('tabUnactive') ; 
+	
+	jquery(lnk).removeClass('tabUnactive') ; 
+	jquery(lnk).addClass('tabActive') ;
+
+	if( lnk.id=='ext-lst-tab-all' )
+	{
+		jquery('#ext-lst-enable').show() ;
+		jquery('#ext-lst-disable').show() ;
+	}
+	else if( lnk.id=='ext-lst-tab-enable' )
+	{
+		jquery('#ext-lst-enable').show() ;
+		jquery('#ext-lst-disable').hide() ;
+	}
+	else if( lnk.id=='ext-lst-tab-disable' )
+	{
+		jquery('#ext-lst-enable').hide() ;
+		jquery('#ext-lst-disable').show() ;
+	}
+	
+}
+</script>
+<div class="ext-lst clearfix">
+<a href="javascript:void(0)" onclick="switchExtensionList(this)" class="extensionListTab tabUnactive" id="ext-lst-tab-all">所有扩展</a>
+<a href="javascript:void(0)" onclick="switchExtensionList(this)" class="extensionListTab tabActive" id="ext-lst-tab-enable">正在启用的扩展</a>
+<a href="javascript:void(0)" onclick="switchExtensionList(this)" class="extensionListTab tabUnactive" id="ext-lst-tab-disable">被禁用的扩展</a>
+</div>
 <script type='text/javascript'>
 var arrDependence = {=json_encode($arrDependence)};
 function enableExtension(sExtName){
@@ -157,7 +184,7 @@ function enableExtension(sExtName){
 	objDialog.dialog({
 		buttons:{
 			'确定':function(){
-				window.location='/?c=org.opencomb.coresystem.system.ExtensionManager&act=enable&name='+sExtName;
+				window.location='/?c=org.opencomb.coresystem.system.ExtensionManagerController&act=enable&name='+sExtName;
 				jQuery(this).dialog('close');
 			},
 			'取消':function(){
@@ -250,77 +277,108 @@ function hideDepBy(sName,o){
 	}
 }
 </script>
-<h2>已经启用的扩展</h2>
-<foreach for="$arrPriority" item="arrExtName" key="nPriority">
-	<h3>优先级：{=$nPriority}</h3>
+
+<div id="ext-lst-enable">
+	<h1>已经启用的扩展</h1>
+	<foreach for="$arrPriority" item="arrExtName" key="nPriority">
+		<h2>优先级：{=$nPriority}</h2>
+		<div class="priority">
+		<foreach for="$arrExtName" item="sExtName">
+			<dl class='extension'>
+				<dt class='logo'>
+					<img src='{/coresystem:images/ex_icon.png}' />
+				</dt>
+				<dd>
+				<div class='titleBlock'>
+					<h3 class='extTitle'>
+						{=$arrEnabledExtensions[$sExtName]->metainfo()->title()}
+						<span class='extName'>
+							（{=$sExtName} ver : {=$arrEnabledExtensions[$sExtName]->metainfo()->version()}）
+							<a href='#' onclick="javascript:jquery('#depRelation-{=$sExtName}').toggle()">依赖关系</a>
+						</span>
+					</h3>
+					<div class="extOther">
+						<span><a href='#' class='disable' onclick="disableExtension('{=$sExtName}');return false;">禁用</a>
+						<a href='#' class='uninstall' onclick="unistallExtension('{=$sExtName}');return false;">卸载</a></span>
+						<span>优先级：
+					<select onchange="changePriority('{=$sExtName}',this.value)">
+						<loop end='9' var='n'>
+							<if '$n == $nPriority'>
+								<option value='{=$n}' selected='selected'>{=$n}</option>
+							<else />
+								<option value='{=$n}'>{=$n}</option>
+							</if>
+						</loop>
+					</select>
+					</span>
+						<span>
+						加载顺序：
+						<a href='#' onclick="changeOrder('{=$sExtName}','up')" class="ex_up"><img src='/extensions/coresystem/0.1/public/images/ex_up.png' title="向上" /></a>
+						<a href='#' onclick="changeOrder('{=$sExtName}','down')" class="ex_down"><img src='/extensions/coresystem/0.1/public/images/ex_down.png' title="向下" /></a>
+						</span>
+					</div>
+				</div>
+				</dd>
+				<dd>
+				<div class='description'>
+					描述：<pre class='descontent'>{=$arrEnabledExtensions[$sExtName]->metainfo()->description()}</pre>
+				</div>
+				</dd>
+				<dd id="depRelation-{=$sExtName}" style="display:none">
+				<div class='showRelationBlock clearfix'>
+					<div class="yl">
+						<div class="yl_tit">依赖：</div>
+						<div class='showDepBlock'></div>
+					</div>
+					<div class="byl">
+						<div class="byl_tit">被依赖：</div>
+						<div class='showDepByBlock'></div>
+					</div>
+				</div>
+				</dd>
+			</dl>
+		</foreach>
+		</div>
+	</foreach>
+</div>
+
+
+<div id="ext-lst-disable" style="display:none">
+	<h1>禁用的扩展</h1>
 	<div class="priority">
-	<foreach for="$arrExtName" item="sExtName">
+	<foreach for="$arrDisabledExtensionMetainfos" item="aExtMeta">
 		<dl class='extension'>
 			<dt class='logo'>
-				<img src='/extensions/coresystem/0.1/public/images/ex_icon.png' />
+				<img src='{/coresystem:images/ex_icon.png}' />
 			</dt>
 			<dd>
-			<div class='titleBlock'>
-				<h4 class='extTitle'>{=$arrEnabledExtensions[$sExtName]->metainfo()->title()} <span class='extName'>（{=$sExtName} ver : {=$arrEnabledExtensions[$sExtName]->metainfo()->version()}）</span></h4>
-				<div class="extOther">
-					<span><a href='#' class='disable' onclick="disableExtension('{=$sExtName}');return false;">禁用</a>
-					<a href='#' class='uninstall' onclick="unistallExtension('{=$sExtName}');return false;">卸载</a></span>
-					<span>优先级：
-				<select onchange="changePriority('{=$sExtName}',this.value)">
-					<loop end='9' var='n'>
-						<if '$n == $nPriority'>
-							<option value='{=$n}' selected='selected'>{=$n}</option>
-						<else />
-							<option value='{=$n}'>{=$n}</option>
-						</if>
-					</loop>
-				</select>
-				</span>
-					<span>
-					加载顺序：
-					<a href='#' onclick="changeOrder('{=$sExtName}','up')" class="ex_up"><img src='/extensions/coresystem/0.1/public/images/ex_up.png' title="向上" /></a>
-					<a href='#' onclick="changeOrder('{=$sExtName}','down')" class="ex_down"><img src='/extensions/coresystem/0.1/public/images/ex_down.png' title="向下" /></a>
-					</span>
-				</div>			
-			</div>
-
-
-				
-
-			
+				<div class='titleBlock'>
+					<h3 class='extTitle'>
+						{=$aExtMeta->title()}					
+						<span class='extName'>
+							（{=$sExtName=$aExtMeta->name()} ver : {=$aExtMeta->version()}）
+							<a href='#' onclick="javascript:jquery('#depRelation-{=$sExtName}').toggle()">依赖关系</a>
+						</span>
+						
+					</h3>
+					<div class='extOther'>
+						<span><a class='disable' href='#' onclick='enableExtension("{=$aExtMeta->name()}");return false;'>启用</a></span>
+					</div>
+				</div>
 			</dd>
 			<dd>
-			<div class='description'>
-				描述：<pre class='descontent'>{=$arrEnabledExtensions[$sExtName]->metainfo()->description()}</pre>
-			</div>
+				<div class='description'>
+					描述：<pre class='descontent'>{=$aExtMeta->description()}</pre>
+				</div>
 			</dd>
-			<dd>
-			<div class='showRelationBlock clearfix'>
-				<div class="yl"><div class="yl_tit">依赖：<a class='btnShowDep' onclick='showDep("{=$sExtName}",this)'><img src='/extensions/coresystem/0.1/public/images/ex_jia.png' title="展开" /></a></div><div class='showDepBlock'></div></div>
-				<div class="byl"><div class="byl_tit">被依赖：<a class='btnShowDepBy' onclick='showDepBy("{=$sExtName}",this)'><img src='/extensions/coresystem/0.1/public/images/ex_jia.png' title="展开" /></a></div><div class='showDepByBlock'></div></div>
-			</div>
+			<dd id="depRelation-{=$sExtName}" style="display:none">
+				<div class='showRelationBlock clearfix'>
+					<div class="yl"><div class="yl_tit">依赖：<a class='btnShowDep' onclick='showDep("{=$aExtMeta->name()}",this)'><img src='/extensions/coresystem/0.1/public/images/ex_jia.png' title="展开" /></a></div><div class='showDepBlock'></div></div>
+					<div class="byl"><div class="byl_tit">被依赖：<a class='btnShowDepBy' onclick='showDepBy("{=$aExtMeta->name()}",this)'><img src='/extensions/coresystem/0.1/public/images/ex_jia.png' title="展开" /></a></div><div class='showDepByBlock'></div></div>
+				</div>
 			</dd>
 		</dl>
 	</foreach>
 	</div>
-</foreach>
-<h2>禁用的扩展</h2>
-<foreach for="$arrDisabledExtensionMetainfos" item="aExtensionMetainfo">
-	<div class='extension'>
-		<div class='logo'>
-			<img src='/extensions/coresystem/0.1/public/images/ex_icon.png' />
-		</div>
-		<div class='titleBlock'>
-			<div class='extTitle'>{=$aExtensionMetainfo->title()}</div>
-			(
-				<div class='extName'>{=$aExtensionMetainfo->name()}</div>
-				ver : <div class='extVer'>{=$aExtensionMetainfo->version()}</div>
-			)
-		</div>
-		<div class='enable'>
-			<a href='#' onclick='enableExtension("{=$aExtensionMetainfo->name()}");return false;'>启用</a>
-		</div>
-	</div>
-</foreach>
-
+</div>
 </if>

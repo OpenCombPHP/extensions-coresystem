@@ -12,5 +12,3 @@ class WelcomeControlPanel extends ControlPanel
 		) ;
 	}
 }
-
-?>

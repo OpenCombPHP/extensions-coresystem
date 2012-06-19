@@ -1,17 +1,17 @@
 <?php
 namespace org\opencomb\coresystem\system ;
 
-use org\jecat\framework\message\MessageQueue ;
-use org\jecat\framework\message\Message ;
-use org\opencomb\platform\ext\Extension ;
-use org\opencomb\platform\ext\ExtensionMetainfo ;
-use org\jecat\framework\fs\Folder ;
-use org\jecat\framework\fs\File ;
-use org\jecat\framework\fs\Folder ;
-use org\opencomb\platform\ext\ExtensionSetup as ExtensionSetupOperator ;;
-use org\jecat\framework\lang\Exception ;
-use org\opencomb\platform\system\PlatformSerializer ;
-use org\opencomb\platform\Platform ;
+use org\opencomb\platform\service\Service;
+use org\jecat\framework\message\MessageQueue;
+use org\jecat\framework\message\Message;
+use org\opencomb\platform\ext\Extension;
+use org\opencomb\platform\ext\ExtensionMetainfo;
+use org\jecat\framework\fs\Folder;
+use org\jecat\framework\fs\File;
+use org\opencomb\platform\ext\ExtensionSetup;
+use org\jecat\framework\lang\Exception;
+use org\opencomb\platform\service\ServiceSerializer;
+use org\opencomb\platform as oc;
 
 /**
  * 期待的改进：
@@ -29,7 +29,7 @@ class ExtensionSetupFunctions
 	 */
 	public function moveUploadFile( $sLocalFilePath , $sFileName ){
 		// upload temp file
-		$aTmpFile = Extension::flyweight('coresystem')->publicFolder()->findFile($sFileName , Folder::FIND_AUTO_CREATE_OBJECT) ;
+		$aTmpFile = Extension::flyweight('coresystem')->filesFolder()->findFile($sFileName , Folder::FIND_AUTO_CREATE_OBJECT) ;
 		$sTmpFilePath = $aTmpFile->path() ;
 		$resmove = move_uploaded_file($sLocalFilePath,$sTmpFilePath);
 		if( TRUE !== $resmove){
@@ -37,7 +37,7 @@ class ExtensionSetupFunctions
 					Message::error
 					, "转移上传文件失败"
 			) ;
-			return null;
+			return FALSE;
 		}
 		return $aTmpFile ;
 	}
@@ -62,14 +62,23 @@ class ExtensionSetupFunctions
 					Message::error
 					, "读取metainfo.xml失败"
 			) ;
-			return null;
+			return FALSE;
 		}
 	}
 	
-	public function unpackage(File $aZipFile , \SimpleXMLElement $aXML ){
+	public function unpackage(File $aZipFile , \SimpleXMLElement $aXML=null )
+	{
+		if(!$aXML)
+		{
+			if( !$aXML=$this->getXML($aZipFile) )
+			{
+				return false ;
+			}
+		}
+		
 		$sShortVersion = $aXML->version;
 		$sExtName = $aXML->name;
-		$aToFolder = Folder::singleton()->findFolder('/extensions/'.$sExtName.'/'.$sShortVersion , Folder::FIND_AUTO_CREATE);
+		$aToFolder = new Folder(oc\EXTENSIONS_FOLDER.'/'.$sExtName.'/'.$sShortVersion);
 		$aZip = new \ZipArchive;
 		$resOpen = $aZip->open($aZipFile->path()) ;
 		if( TRUE !==  $resOpen ){
@@ -77,21 +86,36 @@ class ExtensionSetupFunctions
 					Message::error
 					, "打开压缩文件失败"
 			) ;
-			return null;
+			return FALSE;
 		}
-		$aZip->extractTo($aToFolder->path());
+		if( $aToFolder->exists() ){
+			$this->aMessageQueue->create(
+				Message::error,
+				'解压缩失败，目标文件夹已存在：%s',
+				$aToFolder->path()
+			);
+			return FALSE;
+		}
+		$resExtract = $aZip->extractTo($aToFolder->path());
+		if( TRUE !== $resExtract ){
+			$this->aMessageQueue->create(
+					Message::error
+					, "解压缩文件失败"
+			) ;
+			return FALSE;
+		}
 		$aZip->close();
 		return $aToFolder ;
 	}
 	
 	public function clearRestoreCache(){
-		PlatformSerializer::singleton()->clearRestoreCache(Platform::singleton());
+		ServiceSerializer::singleton()->clearRestoreCache(Service::singleton());
 	}
 	
 	public function installPackage(Folder $aExtFolder){
 		// 安装
 		try{
-			$aExtMeta = ExtensionSetupOperator::singleton()->install($aExtFolder , $this->aMessageQueue ) ;
+			$aExtMeta = ExtensionSetup::singleton()->install($aExtFolder , $this->aMessageQueue ) ;
 		
 			$this->aMessageQueue->create(
 					Message::success
@@ -107,28 +131,31 @@ class ExtensionSetupFunctions
 					, $e->message()
 			) ;
 		}
-		return null ;
+		return FALSE ;
 	}
 	
 	public function enablePackage(ExtensionMetainfo $aExtMeta){
 		$sName = $aExtMeta->name() ;
 		// 激活
 		try{
-			ExtensionSetupOperator::singleton()->enable($sName) ;
+			ExtensionSetup::singleton()->enable($sName) ;
 			
 			$this->aMessageQueue->create(
 					Message::success
 					, "扩展 %s(%s:%s) 已经激活使用。"
 					, array( $aExtMeta->title(), $aExtMeta->name(), $aExtMeta->version() )
 			) ;
+			return true;
 		}catch(Exception $e){
 			$this->aMessageQueue->create(
 					Message::error
 					, "激活失败 : %s"
 					, $e->message()
 			) ;
+			return false;
 		}
 	}
 	
 	private $aMessageQueue = null;
 }
+

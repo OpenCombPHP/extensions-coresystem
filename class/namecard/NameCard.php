@@ -1,8 +1,8 @@
 <?php
-namespace org\opencomb\coresystem\widget;
+namespace org\opencomb\coresystem\namecard;
 
+use org\opencomb\coresystem\user\UserModel;
 use org\jecat\framework\mvc\model\db\Model;
-
 use org\jecat\framework\bean\BeanFactory;
 use org\opencomb\platform\ext\Extension;
 use org\jecat\framework\auth\IdManager;
@@ -140,28 +140,31 @@ class NameCard extends Widget {
 	 */
 	public function setUid($nId)
 	{
-		// 使用享元
-		if( !$aModel = Model::flyweight(array(__CLASS__,'user',$nId),false) )
-		{
-			$this->nId = $nId;
-			
-			$arrUserBean = array(
-				'class' => 'model' ,
-				'orm' => array(
-					'table' => 'coresystem:user' ,
-					'hasOne:info' => array(
-						'table' => 'coresystem:userinfo' ,
-					) ,
-				) ,
-			);
-			
-			$aModel = BeanFactory::singleton()->createBean($arrUserBean,'coresystem');
-			$aModel->load(array($nId),array('uid'));
-			
-			// 保存享元
-			Model::setFlyweight($aModel,array(__CLASS__,'user',$nId)) ;
-		}
-		
+		$aModel = UserModel::byUId($nId);
+	    if(empty($aModel))
+	    {
+    		// 使用享元
+    		if( !$aModel = Model::flyweight(array(__CLASS__,'user',$nId),false) )
+    		{
+    			$this->nId = $nId;
+    			
+    			$arrUserBean = array(
+    				'class' => 'model' ,
+    				'orm' => array(
+    					'table' => 'coresystem:user' ,
+    					'hasOne:info' => array(
+    						'table' => 'coresystem:userinfo' ,
+    					) ,
+    				) ,
+    			);
+    			
+    			$aModel = BeanFactory::singleton()->createBean($arrUserBean,'coresystem');
+    			$aModel->load(array($nId),array('uid'));
+    			// 保存享元
+    			Model::setFlyweight($aModel,array(__CLASS__,'user',$nId)) ;
+    		}
+	    }
+// 	    $aModel->printStrcut();exit;
 		$this->setModel($aModel);
 	}
 	
@@ -189,18 +192,18 @@ class NameCard extends Widget {
 	 * 取得头像地址
 	 * @throws Exception 如果模型中没有需要的列
 	 */
-	public function faceUrl()
+	static public function faceUrl($aModel)
 	{
 		//检查需要的列是否存在,目前支持头像地址(avatar), 以后支持更多
-		if(!$this->aModel['info.avatar'])
+		if(!$aModel['info.avatar'])
 		{
 			$sFaceUrl = Extension::flyweight('coresystem')->metainfo()->installPath().'/public/images/defaultavatar.jpg';
 		}else
 		{
-			if(strpos($this->aModel['info.avatar'], 'http://' , 0)==0 || strpos($this->aModel['info.avatar'], '/' , 0)==0){
-				$sFaceUrl =  $this->aModel['info.avatar'] ;
+			if(strpos($aModel['info.avatar'], 'http://' , 0)==0 || strpos($aModel['info.avatar'], '/' , 0)==0){
+				$sFaceUrl =  $aModel['info.avatar'] ;
 			}else{
-				$sFaceUrl = Extension::flyweight('coresystem')->publicFolder()->path() . '/avatar/' . $this->aModel['info.avatar'] ;
+				$sFaceUrl = Extension::flyweight('coresystem')->filesFolder()->path() . '/avatar/' . $aModel['info.avatar'] ;
 			}
 		}
 		return $sFaceUrl;
@@ -236,4 +239,4 @@ class NameCard extends Widget {
 	private $bMine = false;
 	private $nId;
 }
-?>
+
