@@ -1,22 +1,42 @@
 <lib name="jquery.ui" />
 <css src="coresystem:css/extension.css" />
 <msgqueue />
-<if '$rebuild === "1" '>
-	<view name='rebuild' />
-
-	<div>
-		<a class='ex_back' href='/?c=org.opencomb.coresystem.system.ExtensionManagerController'>返回</a>
-	</div>
-<else />
 
 <script type='text/javascript'>
 var arrDependenceBy={=json_encode($arrDependenceBy)};
 var arrEnableState={=json_encode($arrEnableState)};
+
+function postwith(url,data){
+	var myForm = document.createElement("form");
+	myForm.method = "post";
+	myForm.action = url;
+	for ( var k in data) {
+		var myInput = document.createElement("input");
+		myInput.setAttribute("name", k);
+		myInput.setAttribute("value", data[k]);
+		myForm.appendChild(myInput);
+	}
+	document.body.appendChild(myForm);
+	myForm.submit();
+	document.body.removeChild(myForm);
+}
+function postAction(data){
+	var actionUrl='?c=org.opencomb.coresystem.system.ExtensionManagerController';
+	postwith(actionUrl,data);
+}
 function changePriority(name,priority){
-	window.location='/?c=org.opencomb.coresystem.system.ExtensionManagerController&act=changePriority&name='+name+'&priority='+priority;
+	postAction({
+		a:'{=$theController->makeActionQuery("changePriority",false)}' ,
+		name: sExtName,
+		priority: priority
+	});
 }
 function changeOrder(sExtName,direction){
-	window.location='/?c=org.opencomb.coresystem.system.ExtensionManagerController&act=changeOrder&name='+sExtName+'&dire='+direction;
+	postAction({
+		a:'{=$theController->makeActionQuery("changePriority",false)}' ,
+		name: sExtName,
+		dire: direction
+	});
 }
 </script>
 <div id="dialogUninstall" class="dialog">
@@ -49,12 +69,17 @@ function unistallExtension(sExtName){
 		buttons:{
 			'确定':function(){
 				jQuery(this).dialog('close');
-				sUrl = '?c=org.opencomb.coresystem.system.ExtensionManagerController&act=uninstall&name='+sExtName ;
 				if( jQuery(this).find('input[name="retainData"]').attr('checked') )
 				{
-					sUrl+= '&retainData=1' ;
+					retainData = 1 ;
+				}else{
+					retainData = 0 ;
 				}
-				window.location = sUrl ;
+				postAction({
+					a:'{=$theController->makeActionQuery("uninstall",false)}' ,
+					name: sExtName,
+					retainData: retainData
+				});
 			},
 			'取消':function(){
 				jQuery(this).dialog('close');
@@ -109,7 +134,10 @@ function disableExtension(sExtName){
 	objDialog.dialog({
 		buttons:{
 			'确定':function(){
-				window.location='/?c=org.opencomb.coresystem.system.ExtensionManagerController&act=disable&name='+sExtName;
+				postAction({
+					a:'{=$theController->makeActionQuery("disable",false)}' ,
+					name: sExtName
+				});
 				jQuery(this).dialog('close');
 			},
 			'取消':function(){
@@ -184,7 +212,10 @@ function enableExtension(sExtName){
 	objDialog.dialog({
 		buttons:{
 			'确定':function(){
-				window.location='/?c=org.opencomb.coresystem.system.ExtensionManagerController&act=enable&name='+sExtName;
+				postAction({
+					a:'{=$theController->makeActionQuery("enable",false)}' ,
+					name: sExtName
+				});
 				jQuery(this).dialog('close');
 			},
 			'取消':function(){
@@ -381,4 +412,3 @@ function hideDepBy(sName,o){
 	</foreach>
 	</div>
 </div>
-</if>

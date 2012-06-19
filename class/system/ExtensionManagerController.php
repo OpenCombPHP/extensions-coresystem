@@ -8,15 +8,14 @@ use org\opencomb\platform\ext\ExtensionSetup;
 use org\jecat\framework\lang\Exception;
 use org\opencomb\platform\service\ServiceSerializer;
 use org\opencomb\platform\ext\dependence\RequireItem;
-use org\opencomb\platform\ext\ExtensionManager as ExtensionManagerOperator;
+use org\opencomb\platform\ext\ExtensionManager;
 
 class ExtensionManagerController extends ControlPanel
 {
-	public function createBeanConfig()
-	{
-		return array(
+	protected $arrConfig = 
+		array(
 			'title'=>'扩展管理',
-			'view:view' => array(
+			'view' => array(
 				'template' => 'system/ExtensionManager.html' ,
 			) ,
 			'perms' => array(
@@ -26,21 +25,13 @@ class ExtensionManagerController extends ControlPanel
 					'name' => Id::PLATFORM_ADMIN,
 				) ,
 			) ,
-			
-			'controller:rebuild' => array(
-				'class' => 'org\\opencomb\\coresystem\\system\\RebuildPlatform',
-				'param.exclude' => 'act',
-			),
 		) ;
-	}
 	
 	public function process()
 	{
 		$this->checkPermissions('您没有使用这个功能的权限,无法继续浏览',array()) ;
 		
-		$this->doActions() ;
-		
-		$aExtMgr = ExtensionManagerOperator::singleton() ;
+		$aExtMgr = ExtensionManager::singleton() ;
 		
 		// 已启用的扩展
 		$arrEnabledExtensions = array() ;
@@ -82,13 +73,9 @@ class ExtensionManagerController extends ControlPanel
 		$this->view->variables()->set('arrDependence',$arrDependence);
 		$this->view->variables()->set('arrDependenceBy',$arrDependenceBy);
 		$this->view->variables()->set('arrEnableState',$arrEnableState);
-		
-		if( '1' !== $this->view->variables()->get('rebuild') ){
-			$this->rebuild->disable() ;
-		}
 	}
 	
-	public function actionDisable(){
+	public function disable(){
 		$sExtName = $this->params['name'];
 		
 		try{
@@ -98,20 +85,21 @@ class ExtensionManagerController extends ControlPanel
 		}
 		ServiceSerializer::singleton()->clearRestoreCache();
 		\org\opencomb\platform\system\OcSession::singleton()->updateSignature() ;
-		$this->view->variables()->set('rebuild','1');
+		$this->process();
 	}
 	
-	public function actionUninstall(){
+	public function uninstall(){
 		$sExtName = $this->params['name'];
+		$bRetainData = $this->params->bool('retainData') ;
 		
-		try{			
-			$this->recursivelyUninstall($sExtName,$this->params->bool('retainData'));
+		try{
+			$this->recursivelyUninstall($sExtName,$bRetainData);
 		}catch(Exception $e){
 			$this->view->createMessage(Message::error,$e->getMessage(),$e->messageArgvs()) ;
 		}
 		ServiceSerializer::singleton()->clearRestoreCache();
 		\org\opencomb\platform\system\OcSession::singleton()->updateSignature() ;
-		$this->view->variables()->set('rebuild','1');
+		$this->process();
 	}
 	
 	public function actionChangePriority(){
@@ -149,7 +137,7 @@ class ExtensionManagerController extends ControlPanel
 		$this->view->variables()->set('rebuild','1');
 	}
 	
-	public function actionEnable(){
+	public function enable(){
 		$sExtName = $this->params['name'];
 		try{
 			$this->recursivelyEnable($sExtName);
@@ -158,12 +146,12 @@ class ExtensionManagerController extends ControlPanel
 		}
 		ServiceSerializer::singleton()->clearRestoreCache();
 		\org\opencomb\platform\system\OcSession::singleton()->updateSignature() ;
-		$this->view->variables()->set('rebuild','1');
+		$this->process();
 	}
 	
 	private function getDependenceBy(){
 		if( null === $this->arrDependenceBy ){
-			$aExtMgr = ExtensionManagerOperator::singleton() ;
+			$aExtMgr = ExtensionManager::singleton() ;
 			$this->arrDependenceBy = array();
 			foreach($aExtMgr->metainfoIterator() as $aExtMetainfo){
 				$sExtName = $aExtMetainfo->name();
@@ -206,7 +194,7 @@ class ExtensionManagerController extends ControlPanel
 	
 	private function getDependence(){
 		if( null === $this->arrDependence ){
-			$aExtensionManager = ExtensionManagerOperator::singleton();
+			$aExtensionManager = ExtensionManager::singleton();
 			$this->arrDependence = array();
 			foreach($aExtensionManager->metainfoIterator() as $aExtensionMetainfo){
 				$sExtName = $aExtensionMetainfo->name();
@@ -253,7 +241,7 @@ class ExtensionManagerController extends ControlPanel
 	}
 	
 	private function isExtensionEnabled($sExtName){
-		$aExtMgr = ExtensionManagerOperator::singleton() ;
+		$aExtMgr = ExtensionManager::singleton() ;
 		foreach($aExtMgr->enableExtensionNameIterator() as $enableExtensionName){
 			if($enableExtensionName == $sExtName){
 				return true;

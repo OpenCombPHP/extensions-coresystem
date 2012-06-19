@@ -9,13 +9,10 @@ use org\opencomb\platform\service\Service;
 
 class ExtensionSetupByUpload extends ControlPanel
 {
-	public function createBeanConfig()
-	{
-		return array(
+	protected $arrConfig = array(
 			'title'=>'上传并安装扩展',
-			'view:view' => array(
+			'view' => array(
 				'template' => 'system/ExtensionSetupByUpload.html' ,
-				'class' => 'form' ,
 			) ,
 			'perms' => array(
 					// 权限类型的许可
@@ -24,12 +21,10 @@ class ExtensionSetupByUpload extends ControlPanel
 					) ,
 			) ,
 		) ;
-	}
 	
 	public function process()
 	{
 		$this->checkPermissions('您没有使用这个功能的权限,无法继续浏览',array()) ;
-		$this->doActions() ;
 	}
 	
 	public function actionUpload(){

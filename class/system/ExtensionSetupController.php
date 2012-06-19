@@ -17,13 +17,10 @@ use org\opencomb\platform as oc;
 
 class ExtensionSetupController extends ControlPanel 
 {
-	public function createBeanConfig()
-	{
-		return array(
+	protected $arrConfig = array(
 			'title'=>'扩展安装',
-			'view:view' => array(
+			'view' => array(
 				'template' => 'system/ExtensionSetup.html' ,
-				'class' => 'form' ,
 				'widget:extensionPath' => array(
 						'class' => 'text' ,
 						'title'=>'扩展目录路径' ,
@@ -42,26 +39,17 @@ class ExtensionSetupController extends ControlPanel
 			) ,
 				
 		) ;
-	}
 	
 	public function process()
 	{
 		$this->checkPermissions('您没有使用这个功能的权限,无法继续浏览',array()) ;
-
-		$this->doActions() ;
-		
 		$this->view->variables()->set(
 				'arrPlatformExtensions'
 				, $this->scanPlatformExtensions(Platform::singleton())
 		) ;
-		
-		if( $this->view->isSubmit() )
-		{do{
-			
-		} while(0); }
 	}
 	
-	protected function actionSubmit()
+	protected function form()
 	{
 		if( !$this->view->loadWidgets() )
 		{
@@ -100,6 +88,8 @@ class ExtensionSetupController extends ControlPanel
 			$this->view->createMessage(Message::error,$e->getMessage(),$e->messageArgvs()) ;
 		}
 		OcSession::singleton()->updateSignature() ;
+		
+		$this->process();
 	}
 	
 	protected function scanPlatformExtensions(Platform $aPlatform)
