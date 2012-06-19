@@ -77,7 +77,14 @@ return array(
 		) ,
 		'item:group' => array(
 			'title'=>'用户组' ,
-			
+
+				'link'=>'?c=org.opencomb.coresystem.group.AdminGroups' ,
+				'query'=>array(
+					'c=org.opencomb.coresystem.group.CreateGroup' ,
+					'c=org.opencomb.coresystem.group.AdminGroups' ,
+					'c=org.opencomb.coresystem.auth.PurviewSetting&type=group' ,
+				) ,
+				
 			// items
 			'menu' => 1,
 			'item:create-group' => array(
