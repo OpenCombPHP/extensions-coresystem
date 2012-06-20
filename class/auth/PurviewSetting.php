@@ -37,7 +37,7 @@ class PurviewSetting extends ControlPanel
 	}
 	
 	public function process()
-	{		
+	{
 		if(!$this->params->string('type'))
 		{
 			$this->params->set('type',PurviewQuery::user) ;
