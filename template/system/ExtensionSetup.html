@@ -11,7 +11,11 @@
 			<foreach for="$arrExtensionList" item='aExtMeta'>
 				<li style="padding-left:40px">
 					版本：{=$aExtMeta->version()} 
-					<a style="padding-left:20px" href="?c=org.opencomb.coresystem.system.ExtensionSetupController&a={=$theController->makeActionQuery('form',false)}&extensionPath={=urlencode($aExtMeta->properties()->get('path'))}">安装</a>
+					<if "$aExtMeta->properties()->get('installed')">
+						<span style="padding-left:20px">已安装</span>
+					<else/>
+						<a style="padding-left:20px" href="?c=org.opencomb.coresystem.system.ExtensionSetupController&a={=$theController->makeActionQuery('form',false)}&extensionPath={=urlencode($aExtMeta->properties()->get('path'))}">安装</a>
+					</if>
 				</li>
 			</foreach>
 			</ul>

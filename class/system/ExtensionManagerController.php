@@ -31,6 +31,8 @@ class ExtensionManagerController extends ControlPanel
 	{
 		$this->checkPermissions('您没有使用这个功能的权限,无法继续浏览',array()) ;
 		
+		$this->doActions();
+		
 		$aExtMgr = ExtensionManager::singleton() ;
 		
 		// 已启用的扩展
@@ -85,7 +87,6 @@ class ExtensionManagerController extends ControlPanel
 		}
 		ServiceSerializer::singleton()->clearRestoreCache();
 		\org\opencomb\platform\system\OcSession::singleton()->updateSignature() ;
-		$this->process();
 	}
 	
 	public function uninstall(){
@@ -99,10 +100,9 @@ class ExtensionManagerController extends ControlPanel
 		}
 		ServiceSerializer::singleton()->clearRestoreCache();
 		\org\opencomb\platform\system\OcSession::singleton()->updateSignature() ;
-		$this->process();
 	}
 	
-	public function actionChangePriority(){
+	public function changePriority(){
 		$sExtName = $this->params['name'];
 		$nNewPriority = $this->params['priority'];
 		
@@ -121,7 +121,7 @@ class ExtensionManagerController extends ControlPanel
 	/**
 	 * @param dire 方向，'up'或'down'
 	 */
-	public function actionChangeOrder(){
+	public function changeOrder(){
 		$sExtName = $this->params['name'];
 		$sDire = $this->params['dire'];
 		
@@ -146,7 +146,6 @@ class ExtensionManagerController extends ControlPanel
 		}
 		ServiceSerializer::singleton()->clearRestoreCache();
 		\org\opencomb\platform\system\OcSession::singleton()->updateSignature() ;
-		$this->process();
 	}
 	
 	private function getDependenceBy(){
