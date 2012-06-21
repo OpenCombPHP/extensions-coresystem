@@ -23,8 +23,8 @@ class ControlPanel extends Controller
     {
     	// 注册菜单build事件的处理函数
     	Menu::registerBuildHandle(
-	    	'org\\jecat\\framework\\mvc\\controller\\WebpageFrame'
-	    	, 'org.jecat.framework.mvc.controller.WebpageFrame'
+	    	'org\jecat\framework\mvc\controller\WebpageFrame'
+	    	, 'org.jecat.framework.mvc.controller.WebpageFrame/frameView'
 	    	, 'mainMenu'
 	    	, $fnHandler
     	) ;
