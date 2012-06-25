@@ -65,7 +65,7 @@ function start()
 	
 	// 第一步关闭系统
 	jquery.ajax({
-		url: '?c=org.opencomb.coresystem.system.RebuildPlatform&act=shutdownPlatform&rspn=var.json'
+		url: '?c=org.opencomb.coresystem.system.RebuildPlatform&a={=$theController->makeActionQuery("actionShutdownPlatform",false)}&rspn=var.json'
 		, beforeSend: function(req){
 			jquery('#divLog').append("<div>"+this.url+"</div>") ;
 		}
@@ -93,7 +93,7 @@ function clearPlatformCache()
 
 	// 第二步清理系统缓存
 	jquery.ajax({
-		url: '?c=org.opencomb.coresystem.system.RebuildPlatform&act=clear&rspn=var.json&shutdown_backdoor_secret_key='+sShutDownBackdoorSecret
+		url: '?c=org.opencomb.coresystem.system.RebuildPlatform&a={=$theController->makeActionQuery("actionClear",false)}&rspn=var.json&shutdown_backdoor_secret_key='+sShutDownBackdoorSecret
 		, beforeSend: function(req){
 			jquery('#divLog').append("<div>"+this.url+"</div>") ;
 		}
@@ -156,7 +156,7 @@ function compileClasses()
 	
 		// 第三步陆续提交编译类
 		jquery.ajax({
-			url: '?c=org.opencomb.coresystem.system.RebuildPlatform&act=compileClasses&rspn=var.json&shutdown_backdoor_secret_key='+sShutDownBackdoorSecret
+			url: '?c=org.opencomb.coresystem.system.RebuildPlatform&a={=$theController->makeActionQuery("actionCompileClasses",false)}&rspn=var.json&shutdown_backdoor_secret_key='+sShutDownBackdoorSecret
 			, data: {classes:arrCompilingClasses}
 			, beforeSend: function(req){
 				jquery('#divLog').append("<div>"+this.url+"</div>") ;
@@ -205,7 +205,7 @@ function restartSystem()
 	
 	// 第四步 重启系统
 	jquery.ajax({
-		url: '?c=org.opencomb.coresystem.system.RebuildPlatform&act=restartPlatform&rspn=var.json&shutdown_backdoor_secret_key='+sShutDownBackdoorSecret
+		url: '?c=org.opencomb.coresystem.system.RebuildPlatform&a={=$theController->makeActionQuery("actionRestartPlatform",false)}&rspn=var.json&shutdown_backdoor_secret_key='+sShutDownBackdoorSecret
 		, complete: function(rspn) {
 			try{
 				var response = jQuery.parseJSON(rspn.responseText) ;

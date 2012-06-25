@@ -12,6 +12,7 @@ use org\opencomb\platform\ext\ExtensionSetup;
 use org\jecat\framework\lang\Exception;
 use org\opencomb\platform\service\ServiceSerializer;
 use org\opencomb\platform as oc;
+use org\opencomb\platform\system\OcSession;
 
 /**
  * 期待的改进：
@@ -154,6 +155,34 @@ class ExtensionSetupFunctions
 			) ;
 			return false;
 		}
+	}
+	
+	public function installAndEnableExtension(Folder $aExtFolder){
+		try{
+			// 清理缓存
+			ServiceSerializer::singleton()->clearRestoreCache(Service::singleton());
+			
+			// 安装
+			$aExtMeta = ExtensionSetup::singleton()->install($aExtFolder , $this->aMessageQueue ) ;
+			
+			$this->aMessageQueue->create(
+					Message::success
+					, "扩展% s(%s:%s) 已经成功安装到平台中。"
+					, array( $aExtMeta->title(), $aExtMeta->name(), $aExtMeta->version() )
+			) ;
+
+			// 激活
+			ExtensionSetup::singleton()->enable($aExtMeta->name()) ;
+			
+			$this->aMessageQueue->create(
+					Message::success
+					, "扩展 %s(%s:%s) 已经激活使用。"
+					, array( $aExtMeta->title(), $aExtMeta->name(), $aExtMeta->version() )
+			) ;
+		}catch(Exception $e){
+			$this->aMessageQueue->create(Message::error,$e->getMessage(),$e->messageArgvs()) ;
+		}
+		OcSession::singleton()->updateSignature() ;
 	}
 	
 	private $aMessageQueue = null;

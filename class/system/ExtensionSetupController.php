@@ -65,31 +65,8 @@ class ExtensionSetupController extends ControlPanel
 			return ;
 		}
 		
-		try{
-			// 清理缓存
-			ServiceSerializer::singleton()->clearRestoreCache(Service::singleton());
-			
-			// 安装
-			$aExtMeta = ExtensionSetup::singleton()->install($aExtFolder , $this->view->messageQueue() ) ;
-			
-			$this->view->createMessage(
-					Message::success
-					, "扩展% s(%s:%s) 已经成功安装到平台中。"
-					, array( $aExtMeta->title(), $aExtMeta->name(), $aExtMeta->version() )
-			) ;
-
-			// 激活
-			ExtensionSetup::singleton()->enable($aExtMeta->name()) ;
-			
-			$this->view->createMessage(
-					Message::success
-					, "扩展 %s(%s:%s) 已经激活使用。"
-					, array( $aExtMeta->title(), $aExtMeta->name(), $aExtMeta->version() )
-			) ;
-		}catch(Exception $e){
-			$this->view->createMessage(Message::error,$e->getMessage(),$e->messageArgvs()) ;
-		}
-		OcSession::singleton()->updateSignature() ;
+		$aExtSetupFun = new ExtensionSetupFunctions($this->messageQueue() );
+		$aExtSetupFun->installAndEnableExtension( $aExtFolder );
 	}
 	
 	protected function scanPlatformExtensions(Platform $aPlatform)

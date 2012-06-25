@@ -18,9 +18,7 @@ class RebuildPlatform extends ControlPanel
 	/**
 	 * @example /权限/Bean配置许可
 	 */
-	public function createBeanConfig()
-	{
-		return array(
+	protected $arrConfig = array(
 			'title'=>'系统重建',
 			// 配置许可
 			'perms' => array(
@@ -29,20 +27,15 @@ class RebuildPlatform extends ControlPanel
 					'name' => Id::PLATFORM_ADMIN		// 要求管理员权限
 				) ,
 			) ,
-
-			'view' => array(
-				'template' => 'coresystem:system/RebuildPlatform.html'
-			) ,
 		) ;
-	}
 
 	public function process()
 	{
 		$this->checkPermissions() ;
 		
-		if( $this->params->has('act') )
+		if( $this->params->has('a') )
 		{
-			$this->doActions('act') ;
+			$this->doActions() ;
 			return ;
 		}
 		
@@ -101,21 +94,6 @@ class RebuildPlatform extends ControlPanel
 		}
 		
 		$this->response()->putReturnVariable(1,'success') ;
-		
-		// 重建 shadow class
-		//  获得数据库所有表的名字
-		$aDB = DB::singleton() ;
-		$sDBName = $aDB->currentDBName() ;
-		$aDBReflecter = $aDB->reflecterFactory()->createDBReflecter($sDBName);
-		foreach($aDBReflecter->tableNameIterator() as $sTableName){
-			$aModelShadowClassName = Prototype::modelShadowClassName($sTableName) ;
-			$aPrototypeShadowClassName = Prototype::prototypeShadowClassName($sTableName) ;
-
-			// 加载时自动产生 shadow class
-			ClassLoader::singleton()->searchClass($aModelShadowClassName,Package::nocompiled);
-			ClassLoader::singleton()->searchClass($aPrototypeShadowClassName,Package::nocompiled);
-		}
-				
 		
 		// 输出所有的类
 		

@@ -12,11 +12,10 @@ class DataInstaller implements IExtensionDataInstaller
 {
 	public function install(MessageQueue $aMessageQueue,ExtensionMetainfo $aMetainfo)
 	{
-		$aExtension = new Extension($aMetainfo);
+		// create data table
+		$aDB = DB::singleton() ;
 		
-		// 1 . create data table
-		
-		DB::singleton()->execute( "CREATE TABLE IF NOT EXISTS `coresystem_group` (
+		$aDB->execute( "CREATE TABLE IF NOT EXISTS `".$aDB->transTableName('coresystem:group')."` (
   `gid` int(10) NOT NULL AUTO_INCREMENT,
   `name` varchar(60) NOT NULL,
   `lft` int(11) NOT NULL,
@@ -25,19 +24,19 @@ class DataInstaller implements IExtensionDataInstaller
   KEY `rgt` (`rgt`),
   KEY `lft-rgt` (`lft`,`rgt`)
 ) ENGINE=MyISAM AUTO_INCREMENT=0 DEFAULT CHARSET=utf8" );
-		$aMessageQueue->create(Message::success,'新建数据表： %s',"coresystem_group");
+		$aMessageQueue->create(Message::success,'新建数据表： %s成功',$aDB->transTableName('coresystem:group'));
 		
 		
-		DB::singleton()->execute( "CREATE TABLE IF NOT EXISTS `coresystem_group_user_link` (
+		$aDB->execute( "CREATE TABLE IF NOT EXISTS `".$aDB->transTableName('coresystem:group_user_link')."` (
   `uid` int(10) NOT NULL,
   `gid` int(10) NOT NULL,
   UNIQUE KEY `uid-gid` (`uid`,`gid`),
   UNIQUE KEY `gid-uid` (`gid`,`uid`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8" );
-		$aMessageQueue->create(Message::success,'新建数据表： %s',"coresystem_group_user_link");
+		$aMessageQueue->create(Message::success,'新建数据表： %s',$aDB->transTableName('coresystem:group_user_link'));
 		
 		
-		DB::singleton()->execute( "CREATE TABLE IF NOT EXISTS `coresystem_purview` (
+		$aDB->execute( "CREATE TABLE IF NOT EXISTS `".$aDB->transTableName('coresystem:purview')."` (
   `type` enum('user','group') NOT NULL,
   `id` int(10) NOT NULL,
   `extension` varchar(30) NOT NULL,
@@ -48,10 +47,10 @@ class DataInstaller implements IExtensionDataInstaller
   UNIQUE KEY `purview` (`type`,`extension`,`name`,`target`,`id`),
   KEY `id` (`type`,`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8" );
-		$aMessageQueue->create(Message::success,'新建数据表： %s',"coresystem_purview");
+		$aMessageQueue->create(Message::success,'新建数据表： %s',$aDB->transTableName('coresystem:purview'));
 		
 		
-		DB::singleton()->execute( "CREATE TABLE IF NOT EXISTS `coresystem_user` (
+		$aDB->execute( "CREATE TABLE IF NOT EXISTS `".$aDB->transTableName('coresystem:user')."` (
   `uid` int(10) NOT NULL AUTO_INCREMENT,
   `username` varchar(60) NOT NULL,
   `password` varchar(32) CHARACTER SET latin1 NOT NULL,
@@ -64,10 +63,10 @@ class DataInstaller implements IExtensionDataInstaller
   PRIMARY KEY (`uid`),
   UNIQUE KEY `username` (`username`)
 ) ENGINE=MyISAM AUTO_INCREMENT=0 DEFAULT CHARSET=utf8" );
-		$aMessageQueue->create(Message::success,'新建数据表： %s',"coresystem_user");
+		$aMessageQueue->create(Message::success,'新建数据表： %s',$aDB->transTableName('coresystem:user'));
 		
 		
-		DB::singleton()->execute( "CREATE TABLE IF NOT EXISTS `coresystem_userinfo` (
+		$aDB->execute( "CREATE TABLE IF NOT EXISTS `".$aDB->transTableName('coresystem:userinfo')."` (
   `uid` int(10) NOT NULL,
   `nickname` varchar(60) NOT NULL,
   `realname` varchar(60) NOT NULL,
@@ -87,22 +86,7 @@ class DataInstaller implements IExtensionDataInstaller
   KEY `hometown_coutry` (`hometown_coutry`,`hometown_province`,`hometown_city`),
   KEY `locale_coutry` (`locale_coutry`,`locale_province`,`locale_city`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8" );
-		$aMessageQueue->create(Message::success,'新建数据表： %s',"coresystem_userinfo");
-		
-		
-		
-		// 2. insert table data
-		
-		
-		
-		
-		
-		
-		// 3. settings
-		
-		
-		// 4. files
-		
+		$aMessageQueue->create(Message::success,'新建数据表： %s',$aDB->transTableName('coresystem:userinfo'));
 	}
 }
 

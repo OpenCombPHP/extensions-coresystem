@@ -12,8 +12,7 @@ use org\jecat\framework\message\Message;
 use org\opencomb\platform\service\Service;
 
 class SystemUpgrade extends ControlPanel{
-	public function createBeanConfig(){
-		return array(
+	protected $arrConfig = array(
 			'title'=>'系统重建',
 			// 配置许可
 			'perms' => array(
@@ -22,12 +21,7 @@ class SystemUpgrade extends ControlPanel{
 					'name' => Id::PLATFORM_ADMIN		// 要求管理员权限
 				) ,
 			) ,
-			
-			'view' => array(
-				'template' => 'coresystem:system/SystemUpgrade.html',
-			) ,
-		) ;
-	}
+	);
 	
 	public function process(){
 		$this->checkPermissions() ;

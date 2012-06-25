@@ -279,14 +279,14 @@ jQuery(function(){
 function showDep(sName,o){
 	var inner = getDependenceRecursively(sName , false );
 	jQuery(o).closest('.showRelationBlock').find('.showDepBlock').append( inner );
-	o.innerHTML = "<img src='/extensions/coresystem/0.1/public/images/ex_jian.png' title='收起' />";
+	o.innerHTML = "<img src='{/coresystem:images/ex_jian.png}' title='收起' />";
 	o.onclick = function(){
 		hideDep(sName,o);
 	}
 }
 function hideDep(sName,o){
 	jQuery(o).closest('.showRelationBlock').find('.showDepBlock').empty();
-	o.innerHTML = "<img src='/extensions/coresystem/0.1/public/images/ex_jia.png' title='展开' />";
+	o.innerHTML = "<img src='{/coresystem:images/ex_jia.png}' title='展开' />";
 	o.onclick = function(){
 		showDep(sName,o);
 	}
@@ -295,14 +295,14 @@ function hideDep(sName,o){
 function showDepBy(sName,o){
 	var inner = getDependenceByRecursively(sName , false );
 	jQuery(o).closest('.showRelationBlock').find('.showDepByBlock').append( inner );
-	o.innerHTML ="<img src='/extensions/coresystem/0.1/public/images/ex_jian.png' title='收起' />";
+	o.innerHTML ="<img src='{/coresystem:images/ex_jian.png}' title='收起' />";
 	o.onclick = function(){
 		hideDepBy(sName,o);
 	}
 }
 function hideDepBy(sName,o){
 	jQuery(o).closest('.showRelationBlock').find('.showDepByBlock').empty();
-	o.innerHTML = "<img src='/extensions/coresystem/0.1/public/images/ex_jia.png' title='展开' />";
+	o.innerHTML = "<img src='{/coresystem:images/ex_jia.png}' title='展开' />";
 	o.onclick = function(){
 		showDepBy(sName,o);
 	}
@@ -325,7 +325,7 @@ function hideDepBy(sName,o){
 						{=$arrEnabledExtensions[$sExtName]->metainfo()->title()}
 						<span class='extName'>
 							（{=$sExtName} ver : {=$arrEnabledExtensions[$sExtName]->metainfo()->version()}）
-							<a href='#' onclick="javascript:jquery('#depRelation-{=$sExtName}').toggle()">依赖关系</a>
+							<a href='#' onclick="jquery('#depRelation-{=$sExtName}').toggle();return false;">依赖关系</a>
 						</span>
 					</h3>
 					<div class="extOther">
@@ -344,8 +344,8 @@ function hideDepBy(sName,o){
 					</span>
 						<span>
 						加载顺序：
-						<a href='#' onclick="changeOrder('{=$sExtName}','up')" class="ex_up"><img src='/extensions/coresystem/0.1/public/images/ex_up.png' title="向上" /></a>
-						<a href='#' onclick="changeOrder('{=$sExtName}','down')" class="ex_down"><img src='/extensions/coresystem/0.1/public/images/ex_down.png' title="向下" /></a>
+						<a href='#' onclick="changeOrder('{=$sExtName}','up')" class="ex_up"><img src='{/coresystem:images/ex_up.png}' title="向上" /></a>
+						<a href='#' onclick="changeOrder('{=$sExtName}','down')" class="ex_down"><img src='{/coresystem:images/ex_down.png}' title="向下" /></a>
 						</span>
 					</div>
 				</div>
@@ -356,16 +356,10 @@ function hideDepBy(sName,o){
 				</div>
 				</dd>
 				<dd id="depRelation-{=$sExtName}" style="display:none">
-				<div class='showRelationBlock clearfix'>
-					<div class="yl">
-						<div class="yl_tit">依赖：</div>
-						<div class='showDepBlock'></div>
+					<div class='showRelationBlock clearfix'>
+						<div class="yl"><div class="yl_tit">依赖：<a class='btnShowDep' onclick='showDep("{=$sExtName}",this)'><img src='{/coresystem:images/ex_jia.png}' title="展开" /></a></div><div class='showDepBlock'></div></div>
+						<div class="byl"><div class="byl_tit">被依赖：<a class='btnShowDepBy' onclick='showDepBy("{=$sExtName}",this)'><img src='{/coresystem:images/ex_jia.png}' title="展开" /></a></div><div class='showDepByBlock'></div></div>
 					</div>
-					<div class="byl">
-						<div class="byl_tit">被依赖：</div>
-						<div class='showDepByBlock'></div>
-					</div>
-				</div>
 				</dd>
 			</dl>
 		</foreach>
@@ -388,7 +382,7 @@ function hideDepBy(sName,o){
 						{=$aExtMeta->title()}					
 						<span class='extName'>
 							（{=$sExtName=$aExtMeta->name()} ver : {=$aExtMeta->version()}）
-							<a href='#' onclick="javascript:jquery('#depRelation-{=$sExtName}').toggle()">依赖关系</a>
+							<a href='#' onclick="jquery('#depRelation-{=$sExtName}').toggle();return false;">依赖关系</a>
 						</span>
 						
 					</h3>
@@ -404,8 +398,8 @@ function hideDepBy(sName,o){
 			</dd>
 			<dd id="depRelation-{=$sExtName}" style="display:none">
 				<div class='showRelationBlock clearfix'>
-					<div class="yl"><div class="yl_tit">依赖：<a class='btnShowDep' onclick='showDep("{=$aExtMeta->name()}",this)'><img src='/extensions/coresystem/0.1/public/images/ex_jia.png' title="展开" /></a></div><div class='showDepBlock'></div></div>
-					<div class="byl"><div class="byl_tit">被依赖：<a class='btnShowDepBy' onclick='showDepBy("{=$aExtMeta->name()}",this)'><img src='/extensions/coresystem/0.1/public/images/ex_jia.png' title="展开" /></a></div><div class='showDepByBlock'></div></div>
+					<div class="yl"><div class="yl_tit">依赖：<a class='btnShowDep' onclick='showDep("{=$aExtMeta->name()}",this)'><img src='{/coresystem:images/ex_jia.png}' title="展开" /></a></div><div class='showDepBlock'></div></div>
+					<div class="byl"><div class="byl_tit">被依赖：<a class='btnShowDepBy' onclick='showDepBy("{=$aExtMeta->name()}",this)'><img src='{/coresystem:images/ex_jia.png}' title="展开" /></a></div><div class='showDepByBlock'></div></div>
 				</div>
 			</dd>
 		</dl>
