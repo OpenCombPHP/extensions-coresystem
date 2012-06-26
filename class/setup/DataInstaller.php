@@ -24,7 +24,7 @@ class DataInstaller implements IExtensionDataInstaller
   KEY `rgt` (`rgt`),
   KEY `lft-rgt` (`lft`,`rgt`)
 ) ENGINE=MyISAM AUTO_INCREMENT=0 DEFAULT CHARSET=utf8" );
-		$aMessageQueue->create(Message::success,'新建数据表： %s成功',$aDB->transTableName('coresystem:group'));
+		$aMessageQueue->create(Message::success,'新建数据表： `%s`成功',$aDB->transTableName('coresystem:group'));
 		
 		
 		$aDB->execute( "CREATE TABLE IF NOT EXISTS `".$aDB->transTableName('coresystem:group_user_link')."` (
@@ -33,7 +33,7 @@ class DataInstaller implements IExtensionDataInstaller
   UNIQUE KEY `uid-gid` (`uid`,`gid`),
   UNIQUE KEY `gid-uid` (`gid`,`uid`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8" );
-		$aMessageQueue->create(Message::success,'新建数据表： %s',$aDB->transTableName('coresystem:group_user_link'));
+		$aMessageQueue->create(Message::success,'新建数据表： `%s`成功',$aDB->transTableName('coresystem:group_user_link'));
 		
 		
 		$aDB->execute( "CREATE TABLE IF NOT EXISTS `".$aDB->transTableName('coresystem:purview')."` (
@@ -47,7 +47,7 @@ class DataInstaller implements IExtensionDataInstaller
   UNIQUE KEY `purview` (`type`,`extension`,`name`,`target`,`id`),
   KEY `id` (`type`,`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8" );
-		$aMessageQueue->create(Message::success,'新建数据表： %s',$aDB->transTableName('coresystem:purview'));
+		$aMessageQueue->create(Message::success,'新建数据表： `%s`成功',$aDB->transTableName('coresystem:purview'));
 		
 		
 		$aDB->execute( "CREATE TABLE IF NOT EXISTS `".$aDB->transTableName('coresystem:user')."` (
@@ -63,7 +63,7 @@ class DataInstaller implements IExtensionDataInstaller
   PRIMARY KEY (`uid`),
   UNIQUE KEY `username` (`username`)
 ) ENGINE=MyISAM AUTO_INCREMENT=0 DEFAULT CHARSET=utf8" );
-		$aMessageQueue->create(Message::success,'新建数据表： %s',$aDB->transTableName('coresystem:user'));
+		$aMessageQueue->create(Message::success,'新建数据表： `%s`成功',$aDB->transTableName('coresystem:user'));
 		
 		
 		$aDB->execute( "CREATE TABLE IF NOT EXISTS `".$aDB->transTableName('coresystem:userinfo')."` (
@@ -86,7 +86,7 @@ class DataInstaller implements IExtensionDataInstaller
   KEY `hometown_coutry` (`hometown_coutry`,`hometown_province`,`hometown_city`),
   KEY `locale_coutry` (`locale_coutry`,`locale_province`,`locale_city`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8" );
-		$aMessageQueue->create(Message::success,'新建数据表： %s',$aDB->transTableName('coresystem:userinfo'));
+		$aMessageQueue->create(Message::success,'新建数据表： `%s`成功',$aDB->transTableName('coresystem:userinfo'));
 	}
 }
 
