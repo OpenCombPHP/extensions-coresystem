@@ -23,13 +23,48 @@
 	</div>
 	<p class="coresystem-slogan">Hi, here is the Control Panel of OpenComb.</p>
 	<div class="coresystem-mainnav">
-		<widget id="mainMenu" attr.showDepths="1" />
+	
+		<widget id="mainMenu" type='menu' attr.showDepths="1">
+			<item title="系统" id="system" controller="org.opencomb.coresystem.system.DebugStatSetting">
+				<item title="平台维护" id="platform-manage" controller="org.opencomb.coresystem.system.ExtensionSetupController">
+					<item title="安装扩展" id="extension-setup" controller="org.opencomb.coresystem.system.ExtensionSetupController" />
+					<item title="扩展管理" id="extension-manage" controller="org.opencomb.coresystem.system.ExtensionManagerController" />
+					<item title="扩展中心" id="extensionstoresetup" controller="org.opencomb.coresystem.system.ExtensionStoreOpen" />
+					<item title="系统升级" id="platform-upgrade" controller="org.opencomb.coresystem.system.SystemUpgrade" />
+					<item title="系统重建" id="platform-rebuiild" controller="org.opencomb.coresystem.system.RebuildPlatform" />
+					<item title="调式状态" id="debug-stat" controller="org.opencomb.coresystem.system.DebugStatSetting" />
+				</item>
+			</item>
+			<item title="用户" id="user" controller="org.opencomb.coresystem.user.AdminUsers">
+			
+				<item title="用户管理" id="user-manager" controller="org.opencomb.coresystem.user.AdminUsers">
+					<query type="string">c=org.opencomb.coresystem.user.AdminUsers</query>
+					<query type="string">c=org.opencomb.coresystem.user.AdminUsers</query>
+					<query type="string">c=org.opencomb.coresystem.auth.PurviewSetting&type=user</query>
+					<query type="string">c=org.opencomb.coresystem.auth.PurviewTester</query>
+					<query type="string">c=org.opencomb.coresystem.user.UserGroupsSetting</query>
+				</item>
+				
+				<item title="用户组" id="group" controller="org.opencomb.coresystem.group.AdminGroups">
+					<query type="string">c=org.opencomb.coresystem.group.CreateGroup"</query>
+					<query type="string">c=org.opencomb.coresystem.group.AdminGroups"</query>
+					<query type="string">c=org.opencomb.coresystem.auth.PurviewSetting&type=group"</query>
+					
+					<item title="新建用户组" id="create-group" controller="org.opencomb.coresystem.group.CreateGroup" />
+					<item title="管理用户组" id="group-manager" controller="org.opencomb.coresystem.group.AdminGroups">
+						<query type="string">c=org.opencomb.coresystem.group.AdminGroups</query>
+						<query type="string">c=org.opencomb.coresystem.auth.PurviewSetting&type=group</query>
+					</item>
+				</item>
+			</item>
+		</widget>
+		
 	</div>
 </div>
 <div class="coresystem-main">
 	<div class="coresystem-leftnav">
 		
-		<widget id="mainMenu" attr.depth="1" attr.showDepths="4" />
+		<widget id="mainMenu" type='menu' attr.depth="1" attr.showDepths="4" />
 		
 	</div>
 	<div class="coresystem-content">
