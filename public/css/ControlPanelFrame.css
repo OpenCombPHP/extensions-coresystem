@@ -102,9 +102,3 @@ a:hover.coresystem-pagecurrent{ text-decoration:none;}
 
 /**/
 span.cke_skin_kama{ background:#fff;}
-
-table{ width:100%;color:#666; font-size:12px;border:1px solid #e4e4e4;  margin:10px 0;}/*background:url(../images/tablebg.gif) repeat 0 0;*/
-th{ font-weight:bold; color:#666;height:30px;padding:0 8px; background:url(../images/thbg.jpg) repeat-x 0 0;}
-tr{}
-tr:hover{ background:#F9F7EA}
-td{ height:30px; vertical-align: middle; padding:0 8px;}
