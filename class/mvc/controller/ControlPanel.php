@@ -1,7 +1,6 @@
 <?php
 namespace org\opencomb\coresystem\mvc\controller ;
 
-use org\opencomb\platform\mvc\view\widget\Menu;
 use org\opencomb\coresystem\mvc\controller\Controller;
 use org\opencomb\platform\ext\ExtensionManager;
 use org\jecat\framework\mvc\view\Webpage;
@@ -16,17 +15,6 @@ class ControlPanel extends Controller
 				'template' => 'coresystem:ControlPanelFrame.html' ,
 				'widget:mainMenu' => array( 'config'=>'coresystem:widget/control-panel-frame-menu' ) ,
 			) ,
-    	) ;
-    }
-    
-    static public function registerMenuHandler($fnHandler)
-    {
-    	// 注册菜单build事件的处理函数
-    	Menu::registerBuildHandle(
-	    	'org\jecat\framework\mvc\controller\WebpageFrame'
-	    	, 'org.jecat.framework.mvc.controller.WebpageFrame/frameView'
-	    	, 'mainMenu'
-	    	, $fnHandler
     	) ;
     }
     
