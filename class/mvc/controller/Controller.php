@@ -49,17 +49,16 @@ class Controller extends JcController
     	}
     	catch (AuthenticationException $e)
     	{
-    		$aController = new self( new DataSrc($this->params) ) ;
-    		$aController->buildBean($arrBeanConfig=array(
+    		Controller::createBean($arrBeanConfig=array(
     			'title' => '权限拒绝' ,
+    			'params' => $this->params ,
     			'view' => array(
-    					'template'=>'coresystem:auth/PermissionDenied.html' ,
-    					'vars'=>array(
-    							'message' => $e->message() ?: '访问权限被拒绝' ,
-    					) ,
-    			)
-    		)) ;
-    		$aController->mainRun() ;
+					'template'=>'coresystem:auth/PermissionDenied.html' ,
+						'vars'=>array(
+						'message' => $e->message() ?: '访问权限被拒绝' ,
+					) ,
+    			) ,
+    		))->mainRun() ;
     	}
     }
     
