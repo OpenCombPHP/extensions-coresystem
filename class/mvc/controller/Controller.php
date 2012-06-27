@@ -1,8 +1,8 @@
 <?php
 namespace org\opencomb\coresystem\mvc\controller ;
 
-use org\opencomb\platform\mvc\view\widget\Menu;
-
+use org\jecat\framework\util\EventManager;
+use org\jecat\framework\mvc\view\widget\Widget;
 use org\jecat\framework\util\DataSrc;
 use org\opencomb\coresystem\auth\PurviewPermission;
 use org\jecat\framework\mvc\view\UIFactory;
@@ -64,13 +64,13 @@ class Controller extends JcController
     
     static public function registerMenuHandler($fnHandler)
     {
-    	// 注册菜单build事件的处理函数
-    	Menu::registerBuildHandle(
-    	'org\opencomb\coresystem\mvc\controller\FrontFrame'
-    	, 'mvc.controller.FrontFrame/frameView'
-    	, 'mainMenu'
-    	, $fnHandler
-    	) ;
+		EventManager::singleton()->registerEventHandle(
+			'org\jecat\framework\mvc\view\widget\Widget'
+			, Widget::beforeBuildBean
+			, $fnHandler
+			, null
+			, ''
+		) ;
     }
     
     protected function requirePurview($sPurview,$sExtension,$target=null,$sDenyMessage=null,array $arrDenyArgvs=array())

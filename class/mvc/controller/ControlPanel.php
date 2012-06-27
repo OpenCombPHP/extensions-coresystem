@@ -1,6 +1,8 @@
 <?php
 namespace org\opencomb\coresystem\mvc\controller ;
 
+use org\jecat\framework\util\EventManager;
+use org\jecat\framework\mvc\view\widget\Widget;
 use org\opencomb\platform\mvc\view\widget\Menu;
 use org\opencomb\coresystem\mvc\controller\Controller;
 use org\opencomb\platform\ext\ExtensionManager;
@@ -21,13 +23,13 @@ class ControlPanel extends Controller
     
 	static public function registerMenuHandler($fnHandler)
 	{
-    	// 注册菜单build事件的处理函数
-    	Menu::registerBuildHandle(
-	    	'org\jecat\framework\mvc\controller\WebpageFrame'
-	    	, '/frameView'
-	    	, 'mainMenu'
-	    	, $fnHandler
-    	) ;
+		EventManager::singleton()->registerEventHandle(
+			'org\jecat\framework\mvc\view\widget\Widget'
+			, Widget::beforeBuildBean
+			, $fnHandler
+			, null
+			, 'coresystem:ControlPanelFrame.html-mainMenu'
+		) ;
 	}
     
     protected function setupWebpageHtmlHead(Webpage $aWebpage)
