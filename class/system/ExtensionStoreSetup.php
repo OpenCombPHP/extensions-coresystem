@@ -1,7 +1,7 @@
 <?php
 namespace org\opencomb\extensionstoresetup;
 
-use org\opencomb\platform\mvc\view\widget\Menu;
+use org\jecat\framework\mvc\view\widget\menu\Menu;
 use org\jecat\framework\lang\aop\AOP;
 use org\opencomb\platform\ext\Extension;
 use org\jecat\framework\bean\BeanFactory;

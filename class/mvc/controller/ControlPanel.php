@@ -3,7 +3,6 @@ namespace org\opencomb\coresystem\mvc\controller ;
 
 use org\jecat\framework\util\EventManager;
 use org\jecat\framework\mvc\view\widget\Widget;
-use org\opencomb\platform\mvc\view\widget\Menu;
 use org\opencomb\coresystem\mvc\controller\Controller;
 use org\opencomb\platform\ext\ExtensionManager;
 use org\jecat\framework\mvc\view\Webpage;
@@ -16,7 +15,7 @@ class ControlPanel extends Controller
     		'class'=>'webframe' ,
     		'frameview:frameView' => array(
 				'template' => 'coresystem:ControlPanelFrame.html' ,
-				'widget:mainMenu' => array( 'config'=>'coresystem:widget/control-panel-frame-menu' ) ,
+				//'widget:mainMenu' => array( 'config'=>'coresystem:widget/control-panel-frame-menu' ) ,
 			) ,
     	) ;
     }
