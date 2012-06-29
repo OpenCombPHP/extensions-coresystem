@@ -182,7 +182,7 @@ class ExtensionManagerController extends ControlPanel
 			if(count($arrIntersect)>0){
 				// 全部依赖路径
 				$arrRecDepPath = $arrDepPath ;
-				$arrRecDepPath [] = $arrIntersect[0];
+				$arrRecDepPath [] = reset($arrIntersect);
 				
 				// 去除开头的无关项
 				while( end($arrRecDepPath) !== $arrRecDepPath[0] ){
