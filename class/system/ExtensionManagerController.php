@@ -169,38 +169,32 @@ class ExtensionManagerController extends ControlPanel
 		return $this->arrDependenceBy ;
 	}
 	
-	private function getDependenceByRecursively($sExtName , array $arrInArray = array() , array $arrDepPath = array() ){
+	private function getDependenceByRecursively($sExtName , array $arrDepPath = array() ){
 		$arrDepRec = array();
 		$arrDependenceBy = $this->getDependenceBy() ;
-		$arrInArray = array_merge($arrInArray,array($sExtName));
 		
 		$arrDepPath[] = $sExtName ;
 		if(isset($arrDependenceBy[$sExtName])){
-			
-			// 出现环
-			$arrIntersect = array_intersect( $arrInArray , $arrDependenceBy[$sExtName] ) ;
-			if(count($arrIntersect)>0){
-				// 全部依赖路径
-				$arrRecDepPath = $arrDepPath ;
-				$arrRecDepPath [] = reset($arrIntersect);
-				
-				// 去除开头的无关项
-				while( end($arrRecDepPath) !== $arrRecDepPath[0] ){
-					array_shift( $arrRecDepPath );
-				}
-				
-				// 抛异常
-				throw new Exception(
-					'扩展之间发生循环依赖 : 在扩展`%s`之间',
-					implode(' <= ',$arrRecDepPath)
-				);
-			}
-			
 			$arrDepRec = array_merge($arrDepRec,$arrDependenceBy[$sExtName]);
 			foreach($arrDependenceBy[$sExtName] as $sByExtName){
-				$arrInArray = array_merge($arrInArray,array($sByExtName));
-				
-				$arrD = $this->getDependenceByRecursively($sByExtName , $arrInArray , $arrDepPath) ;
+				// 出现环
+				if( in_array( $sByExtName , $arrDepPath ) ){
+					// 全部依赖路径
+					$arrRecDepPath = $arrDepPath ;
+					$arrRecDepPath [] = $sByExtName ;
+					
+					// 去除开头的无关项
+					while( end($arrRecDepPath) !== $sByExtName ){
+						array_shift( $arrRecDepPath );
+					}
+					
+					// 抛异常
+					throw new Exception(
+						'扩展之间发生循环依赖 : 在扩展`%s`之间',
+						implode(' <= ',$arrRecDepPath)
+					);
+				}
+				$arrD = $this->getDependenceByRecursively($sByExtName , $arrDepPath) ;
 				$arrDepRec = array_merge($arrDepRec,$arrD);
 			}
 		}
