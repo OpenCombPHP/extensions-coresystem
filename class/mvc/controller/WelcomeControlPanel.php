@@ -3,12 +3,9 @@ namespace org\opencomb\coresystem\mvc\controller ;
 
 class WelcomeControlPanel extends ControlPanel
 {
-	public function createBeanConfig()
-	{
-		return array(
-			'view:welcome' => array(
+	protected $arrConfig = array(
+			'view' => array(
 				'template' => 'WelcomeControlPanel.html'
 			) ,
 		) ;
-	}
 }

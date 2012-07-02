@@ -38,22 +38,22 @@
 			<item title="用户" id="user" controller="org.opencomb.coresystem.user.AdminUsers">
 			
 				<item title="用户管理" id="user-manager" controller="org.opencomb.coresystem.user.AdminUsers">
-					<query bean.type="array">c=org.opencomb.coresystem.user.AdminUsers</query>
-					<query bean.type="array">c=org.opencomb.coresystem.user.AdminUsers</query>
-					<query bean.type="array">c=org.opencomb.coresystem.auth.PurviewSetting&type=user</query>
-					<query bean.type="array">c=org.opencomb.coresystem.auth.PurviewTester</query>
-					<query bean.type="array">c=org.opencomb.coresystem.user.UserGroupsSetting</query>
+					<query bean.type="string">c=org.opencomb.coresystem.user.AdminUsers</query>
+					<query bean.type="string">c=org.opencomb.coresystem.user.AdminUsers</query>
+					<query bean.type="string">c=org.opencomb.coresystem.auth.PurviewSetting&type=user</query>
+					<query bean.type="string">c=org.opencomb.coresystem.auth.PurviewTester</query>
+					<query bean.type="string">c=org.opencomb.coresystem.user.UserGroupsSetting</query>
 				</item>
 				
 				<item title="用户组" id="group" controller="org.opencomb.coresystem.group.AdminGroups">
-					<query bean.type="array">c=org.opencomb.coresystem.group.CreateGroup"</query>
-					<query bean.type="array">c=org.opencomb.coresystem.group.AdminGroups"</query>
-					<query bean.type="array">c=org.opencomb.coresystem.auth.PurviewSetting&type=group"</query>
+					<query bean.type="string">c=org.opencomb.coresystem.group.CreateGroup"</query>
+					<query bean.type="string">c=org.opencomb.coresystem.group.AdminGroups"</query>
+					<query bean.type="string">c=org.opencomb.coresystem.auth.PurviewSetting&type=group"</query>
 					
 					<item title="新建用户组" id="create-group" controller="org.opencomb.coresystem.group.CreateGroup" />
 					<item title="管理用户组" id="group-manager" controller="org.opencomb.coresystem.group.AdminGroups">
-						<query bean.type="array">c=org.opencomb.coresystem.group.AdminGroups</query>
-						<query bean.type="array">c=org.opencomb.coresystem.auth.PurviewSetting&type=group</query>
+						<query bean.type="string">c=org.opencomb.coresystem.group.AdminGroups</query>
+						<query bean.type="string">c=org.opencomb.coresystem.auth.PurviewSetting&type=group</query>
 					</item>
 				</item>
 			</item>

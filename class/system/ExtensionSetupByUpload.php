@@ -25,9 +25,11 @@ class ExtensionSetupByUpload extends ControlPanel
 	public function process()
 	{
 		$this->checkPermissions('您没有使用这个功能的权限,无法继续浏览',array()) ;
+		
+		$this->doActions();
 	}
 	
-	public function actionUpload(){
+	public function form(){
 				// error
 				$nError = $this->params['file']['error'] ;
 				if( UPLOAD_ERR_OK !==  $nError ){
