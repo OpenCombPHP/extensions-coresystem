@@ -69,7 +69,7 @@ class Controller extends JcController
 			, Widget::beforeBuildBean
 			, $fnHandler
 			, null
-			, ''
+			, 'coresystem:FrontFrame.html-mainMenu'
 		) ;
     }
     
