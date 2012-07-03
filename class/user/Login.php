@@ -22,24 +22,25 @@ class Login extends Controller
 			return ;
 		}
 		
-		$aUser = Model::create('coresystem:user')
+		$this->model('coresystem:user','user')
+				->hasOne('coresystem:userinfo',null,null,'info')
 				->limit(1)
 				->load($this->params['username'],'username') ;
 		
-		if( !$aUser->rowNum() )
+		if( !$this->user->rowNum() )
 		{
 			$this->createMessage(Message::failed,"用户名无效") ;
 			return ;
 		}
 		
-		if( $aUser['password']!=Authenticate::encryptPassword($aUser,$this->params['username'],$this->params['password']) )
+		if( $this->user['password']!=Authenticate::encryptPassword($this->user,$this->params['username'],$this->params['password']) )
 		{
 			$this->createMessage(Message::failed,"密码错误，请检查键盘大小写状态") ;
 			return ;
 		}
 		
 		//
-		$aId = new Id($aUser) ;
+		$aId = new Id($this->user) ;
 		IdManager::singleton()->addId($aId,true) ;
 
 		// 保存 last login 信息
