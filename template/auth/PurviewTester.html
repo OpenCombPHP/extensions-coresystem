@@ -7,18 +7,18 @@
 <form method="post">
 
 	<div>
-		权限: <widget id="purview" define=false onchange="onPurviewSelectChange(this)" />
-		　　　名称：<widget define=false id="purviewName" />
-		扩展：<widget define=false id="purviewNamespace" />
+		权限: <widget id="purview" define="false" onchange="onPurviewSelectChange(this)" />
+		　　　名称：<widget define="false" id="purviewName" />
+		扩展：<widget define="false" id="purviewNamespace" />
 	</div>
 
 	<div>
-		用户ID: <widget define=false id="userid" />
+		用户ID: <widget define="false" id="userid" />
 	</div>
 
 	<div>
-		内容ID: <widget define=false id="target" />
-		<widget id="ignoreTarget" define=false attr.onclick="jquery('#target').attr('disabled',this.checked)" />
+		内容ID: <widget define="false" id="target" />
+		<widget id="ignoreTarget" define="false" attr.onclick="jquery('#target').attr('disabled',this.checked)" />
 	</div>
 	
 	<input type="submit" value="测试" />
