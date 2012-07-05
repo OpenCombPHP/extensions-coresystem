@@ -22,7 +22,7 @@ class CreateGroup extends ControlPanel
 	
 	public function process()
 	{
-		$aGourps = $this->view()->setModel('coresystem:group')->model() ;
+		$aGourps = $this->view()->setModel('coresystem:group') ;
 		
 		// 增加新菜单
 		$this->doActions() ;

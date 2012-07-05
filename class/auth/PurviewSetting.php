@@ -55,11 +55,11 @@ class PurviewSetting extends ControlPanel
 		
 		if( $this->params->string('type')==PurviewQuery::user )
 		{
-			$aModel = $this->view->setModel('coresystem:user')->model()->hasOne('coresystem:userinfo') ;
+			$aModel = $this->view->setModel('coresystem:user')->hasOne('coresystem:userinfo') ;
 		}
 		else if( $this->params->string('type')==PurviewQuery::group )
 		{
-			$aModel = $this->view->setModel('coresystem:group')->model() ;
+			$aModel = $this->view->setModel('coresystem:group') ;
 		}
 		else
 		{

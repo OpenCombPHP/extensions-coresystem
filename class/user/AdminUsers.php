@@ -27,7 +27,7 @@ class AdminUsers extends ControlPanel
 	
 	public function process()
 	{
-		$aModel = $this->view->setModel('coresystem:user')->model()
+		$aModel = $this->view->setModel('coresystem:user')
 						->hasOne('coresystem:userinfo') ;
 		
 		if( $this->params->has('username') )

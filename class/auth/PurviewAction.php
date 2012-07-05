@@ -52,7 +52,7 @@ class PurviewAction extends Object
 				$arrData['bubble'] = $bBubble?'1':'0' ;
 			}
 			
-			return Model::create('coresystem:purview')->insert($arrData)->affected() ;
+			return Model::create('coresystem:purview')->insert($arrData) ;
 		}
 	}
 	public function removePurview($id,$sType,$sNamespace,$sPurviewName,$target=null)

@@ -24,7 +24,7 @@ class AdminGroups extends ControlPanel
 	public function process()
 	{
 		// 为视图创建模型
-		$aModel = $this->view()->setModel('coresystem:group')->model() ;
+		$aModel = $this->view()->setModel('coresystem:group') ;
 		
 		$this->doActions() ;
 		

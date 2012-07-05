@@ -26,12 +26,11 @@ class Register extends Controller
 
 		
 		$aModel = $this->view()
+				->exchangeData(DataExchanger::WIDGET_TO_MODEL)
 				->setModel(
 					Model::create('coresystem:user')
 						->hasOne('coresystem:userinfo')
-				)
-				->exchangeData(DataExchanger::WIDGET_TO_MODEL)
-				->model() ;
+				) ;
 		
 
 		try {
