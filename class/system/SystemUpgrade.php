@@ -13,7 +13,7 @@ use org\opencomb\platform\service\Service;
 
 class SystemUpgrade extends ControlPanel{
 	protected $arrConfig = array(
-			'title'=>'系统重建',
+			'title'=>'系统升级',
 			// 配置许可
 			'perms' => array(
 				// 权限类型的许可
@@ -68,9 +68,9 @@ class SystemUpgrade extends ControlPanel{
 		$this->view->variables()->set('aFrameworkVersion',$aFrameworkVersion);
 	}
 	
-	public function actionDownload(){
+	public function form(){
 		$sTitle = $this->params['title'];
-		$sUrl = $this->params['url'];
+		$sUrl = urldecode($this->params['url']);
 		
 		$sDownloadFolder = Extension::flyweight('coresystem')->dataFolder();
 		$sFileName = array_pop( explode('/',$sUrl) );
@@ -80,8 +80,9 @@ class SystemUpgrade extends ControlPanel{
 		try{
 			$this->createMessage(
 				Message::notice,
-				'framework:`%s`,platform:`%s`',
+				'开始安装版本`%s`，JeCat框架版本:`%s`,蜂巢平台版本:`%s`',
 				array(
+					$sTitle,
 					$this->arrRelease[$sTitle]['version']['framework'],
 					$this->arrRelease[$sTitle]['version']['platform'],
 				)
@@ -103,10 +104,10 @@ class SystemUpgrade extends ControlPanel{
 	}
 	
 	private function downloadFile($sUrl,$sSaveFilePath){
-		$aRemoteFile = fopen($sUrl,'rb');
+		@$aRemoteFile = fopen($sUrl,'rb');
 		if(!$aRemoteFile){
 			throw new Exception(
-				'open remote file failed:`%s`',
+				'请求安装文件失败:`%s`',
 				$sUrl
 			);
 			return false;
@@ -115,7 +116,7 @@ class SystemUpgrade extends ControlPanel{
 		$aLocalFile = fopen($sSaveFilePath,'wb');
 		if(!$aLocalFile){
 			throw new Exception(
-				'open local file failed:`%s`',
+				'打开保存文件失败:`%s`',
 				$sSaveFilePath
 			);
 			return false;
@@ -137,7 +138,14 @@ class SystemUpgrade extends ControlPanel{
 		$res = $aZipObj->open($sFilePath) ;
 		if( TRUE === $res){
 			$sExtPath = \org\opencomb\platform\ROOT;
-			$aZipObj->extractTo( $sExtPath );
+			$r = $aZipObj->extractTo( $sExtPath );
+			if( ! $r ){
+				throw new Exception(
+					'解压缩失败:`%s`',
+					$sExtPath
+				);
+				return false;
+			}
 			return TRUE;
 		}else{
 			throw new Exception(
@@ -160,7 +168,7 @@ class SystemUpgrade extends ControlPanel{
 		
 		if( !file_put_contents($sServiceSettingFile,'<?php return $arrServiceSettings = '.var_export($arrServiceSettings,true).';') )
 		{
-			throw new \Exception('can not write file: '.$sServiceSettingFile) ;
+			throw new Exception('无法写入文件: '.$sServiceSettingFile) ;
 		}
 		
 		return true;

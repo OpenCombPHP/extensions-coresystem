@@ -3,15 +3,20 @@
 	padding-top:10px;
 	padding-left:10px;
 }
+.crnv{
+	color: #09C;
+	text-decoration: none;
+}
 </style>
 <msgqueue />
+<h1>当前版本</h1>
+<ul>
+	<li>蜂巢平台:{=$aPlatformVersion}</li>
+	<li>JeCat框架:{=$aFrameworkVersion}</li>
+</ul>
 <h1>可用的发行版本</h1>
 <ul class="system-release">
 	<foreach for="$arrRelease" item="aRelease">
-		<if "$aRelease['version']['platform']->compare( $aPlatformVersion ) === 0 
-			and $aRelease['version']['framework']->compare( $aFrameworkVersion ) === 0 ">
-			<continue/>
-		</if>
 		<li>
 			<h4>{=$aRelease['title']}</h4>
 			<ul>
@@ -23,7 +28,18 @@
 				</li>
 				<li>状态：{=$aRelease['status']}</li>
 				<li>版本仓库：{=$aRelease['repos']}</li>
-				<li><a href='/?c=org.opencomb.coresystem.system.SystemUpgrade&act=download&url={=urlencode($aRelease["url"])}&title={=$aRelease["title"]}'>下载安装</a></li>
+				<li>
+					<if "$aRelease['version']['platform']->compare( $aPlatformVersion ) === 0
+						and $aRelease['version']['framework']->compare( $aFrameworkVersion ) === 0 ">
+						<div class="crnv">与当前版本相同</div>
+					<else/>
+						<form method="post" action="?c=org.opencomb.coresystem.system.SystemUpgrade">
+							<input type="hidden" name="url" value="{=urlencode($aRelease['url'])}" />
+							<input type="hidden" name="title" value='{=$aRelease["title"]}' />
+							<input type='submit' value="下载安装" />
+						</form>
+					</if>
+				</li>
 			</ul>
 		</li>
 	</foreach>
