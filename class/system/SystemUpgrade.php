@@ -10,6 +10,7 @@ use org\opencomb\platform\Platform;
 use org\jecat\framework\fs\Folder;
 use org\jecat\framework\message\Message;
 use org\opencomb\platform\service\Service;
+use org\jecat\framework\setting\Setting;
 
 class SystemUpgrade extends ControlPanel{
 	protected $arrConfig = array(
@@ -53,6 +54,12 @@ class SystemUpgrade extends ControlPanel{
 				
 				$aRelease['url'] = str_replace('${title}',$aRelease['title'],$aRelease['url'] );
 				$aRelease['url'] = str_replace('${status}',$aRelease['status'],$aRelease['url'] );
+				$aRelease['url'] = str_replace('${baseurl}',dirname($sXmlUrl),$aRelease['url'] );
+				
+				$aRelease['version']['extension'] = array() ;
+				foreach( $aXmlPkgObj->version->extension->children() as $key => $aXmlExtObj ){
+					$aRelease['version']['extension'][ $key ] = Version::fromString((string)$aXmlExtObj);
+				}
 				
 				$this->arrRelease [ $aRelease['title'] ] = $aRelease ;
 			}
@@ -87,12 +94,17 @@ class SystemUpgrade extends ControlPanel{
 					$this->arrRelease[$sTitle]['version']['platform'],
 				)
 			);
+			$this->checkFilePermission($this->arrRelease[$sTitle]);
 			$this->downloadFile($sUrl,$sDownloadFilePath);
 			$this->installFile($sDownloadFilePath);
 			$this->updateVersion(
 				$this->arrRelease[$sTitle]['version']['framework'],
 				$this->arrRelease[$sTitle]['version']['platform']
 			);
+			
+			foreach( $this->arrRelease[ $sTitle ]['version']['extension'] as $key => $aVersion ){
+				$this->updateExtVer( $key , $aVersion );
+			}
 			$this->createMessage(
 				Message::success,
 				'安装`%s`成功',
@@ -103,8 +115,48 @@ class SystemUpgrade extends ControlPanel{
 		}
 	}
 	
+	private function checkFilePermission( array $aRelease ){
+		// loader
+		$sRootPath = \org\opencomb\platform\ROOT;
+		$aDir = opendir($sRootPath);
+		while($aDirObj = readdir($aDir) ){
+			if( is_file($aDirObj) ){
+				$sFilePath = $sRootPath.'/'.$aDirObj ;
+				if(!is_writable( $sFilePath ) ){
+					throw new Exception(
+						'%s文件没有写入权限，无法安装新系统',
+						$sFilePath
+					);
+				}
+			}
+		}
+		
+		// platform and framework
+		foreach( array('platform','framework') as $str){
+			$sInstallPath = $sRootPath.'/'.$str.'/'.$aRelease['version'][$str];
+			if( file_exists( $sInstallPath ) ){
+				throw new Exception(
+					'%s已存在，无法安装新系统',
+					$sInstallPath
+				);
+			}
+		}
+		
+		// extensions
+		foreach( $aRelease['version']['extension'] as $sExtName => $aExtVersion){
+			$sExtPath = $sRootPath.'/extensions/'.$sExtName.'/'.$aExtVersion;
+			if( file_exists( $sExtPath ) ){
+				throw new Exception(
+					'%s已存在，无法安装新系统',
+					$sExtPath
+				);
+			}
+		}
+		return true;
+	}
+	
 	private function downloadFile($sUrl,$sSaveFilePath){
-		@$aRemoteFile = fopen($sUrl,'rb');
+		@$aRemoteFile = fopen($sUrl,'r');
 		if(!$aRemoteFile){
 			throw new Exception(
 				'请求安装文件失败:`%s`',
@@ -113,7 +165,7 @@ class SystemUpgrade extends ControlPanel{
 			return false;
 		}
 		
-		$aLocalFile = fopen($sSaveFilePath,'wb');
+		$aLocalFile = fopen($sSaveFilePath,'w');
 		if(!$aLocalFile){
 			throw new Exception(
 				'打开保存文件失败:`%s`',
@@ -139,9 +191,9 @@ class SystemUpgrade extends ControlPanel{
 		if( TRUE === $res){
 			$sExtPath = \org\opencomb\platform\ROOT;
 			$r = $aZipObj->extractTo( $sExtPath );
-			if( ! $r ){
+			if( $r !== true ){
 				throw new Exception(
-					'解压缩失败:`%s`',
+					'解压缩失败:`%s`,请检查framework/目录,platform/目录,extensions/目录的权限',
 					$sExtPath
 				);
 				return false;
@@ -172,6 +224,21 @@ class SystemUpgrade extends ControlPanel{
 		}
 		
 		return true;
+	}
+	
+	private function updateExtVer($sExtName , Version $aVer ){
+		$arrExtList = Setting::singleton()->item('/extensions','installeds') ;
+		foreach($arrExtList as &$sExtPath){
+			if( self::isStartWith( $sExtPath , $sExtName.'/' ) ){
+				$sExtPath = $sExtName.'/'.$aVer->toString(true);
+				break;
+			}
+		}
+		Setting::singleton()->setItem('/extensions','installeds',$arrExtList) ;
+	}
+	
+	static private function isStartWith($sLong , $sShort){
+		return substr($sLong,0,strlen($sShort)) === $sShort ;
 	}
 	
 	private $arrRelease = array();

@@ -24,6 +24,13 @@
 					<ul>
 						<li>蜂巢平台:{=$aRelease['version']['platform']}</li>
 						<li>JeCat框架:{=$aRelease['version']['framework']}</li>
+						<li>扩展
+							<ul>
+								<foreach for="$aRelease['version']['extension']" item="aExt" key="sExtName">
+									<li>{=$sExtName}:{=$aExt}</li>
+								</foreach>
+							</ul>
+						</li>
 					</ul>
 				</li>
 				<li>状态：{=$aRelease['status']}</li>
