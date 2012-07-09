@@ -19,29 +19,28 @@ class Register extends Controller
 	{
 		$this->params['username'] = trim($this->params['username']) ;
 		
+		$aModel = $this->view()->setModel('coresystem:user')->hasOne('coresystem:userinfo') ;
+		
 		if( !$this->view()->loadWidgets($this->params) )
 		{
 			return ;
 		}
+		
+		if( $this->params['password'] != $this->params['passwordRepeat'] )
+		{
+			$this->createMessage(Message::error, "两次密码输入不一致。") ;
+			return ;
+		}
 
-		
-		$aModel = $this->view()
-				->exchangeData(DataExchanger::WIDGET_TO_MODEL)
-				->setModel(
-					Model::create('coresystem:user')
-						->hasOne('coresystem:userinfo')
-				) ;
-		
+		$this->view()->fetch()  ;
 
 		try {
-			
 			$aModel->setRow(array(
 						'registerTime' => time() ,
 						'registerIp' => $_SERVER['REMOTE_ADDR'] ,
 						'userinfo.nickname' => $aModel['username'] ,
 						'password' => Authenticate::encryptPassword($aModel,$aModel['username'],$aModel['password']) ,
-				))
-				->insert() ;
+			))->insert() ;
 			
 			$this->createMessage( Message::success, "注册成功！" ) ;
 
@@ -59,5 +58,3 @@ class Register extends Controller
 		}
 	}
 }
-
-?>
