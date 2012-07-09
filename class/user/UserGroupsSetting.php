@@ -2,16 +2,25 @@
 namespace org\opencomb\coresystem\user ;
 
 use org\opencomb\coresystem\auth\Id;
-
-use org\opencomb\platform\mvc\model\db\orm\Prototype;
 use org\jecat\framework\db\DB;
-use org\jecat\framework\mvc\model\db\Category;
+use org\jecat\framework\mvc\model\Prototype;
+use org\jecat\framework\mvc\model\Category;
 use org\jecat\framework\bean\BeanFactory;
 use org\jecat\framework\message\Message;
 use org\opencomb\coresystem\mvc\controller\ControlPanel;
 
 class UserGroupsSetting extends ControlPanel
 {
+	protected $arrConfig = array(
+			'title'=>'用户组设置',
+			'view' => 'UserGroupsSetting.html',
+			'perms' => array(
+				'perm.purview'=>array(
+						'name' => Id::PLATFORM_ADMIN,
+				) ,
+			) ,
+	) ;
+	
 	public function createBeanConfig()
 	{
 		// 加载 Model group 的 Bean Config
@@ -55,27 +64,37 @@ class UserGroupsSetting extends ControlPanel
 	
 	public function process()
 	{
-		$this->checkPermissions('您没有使用这个功能的权限,无法继续浏览',array()) ;
 		// 检查参数
 		if( !$nUId = $this->params->int('uid') )
 		{
-			$this->userGroups->hideForm() ;
-			$this->userGroups->createMessage(Message::error,"缺少参数 uid") ;
+			$this->view->hideForm() ;
+			$this->createMessage(Message::error,"缺少参数 uid") ;
 			return ;
 		}
 		
 		// 检查 uid 用户是否存在
-		if( !$this->user->load($nUId) )
+		if( !$this->model('coresystem:user')->load($nUId)->rowNum() )
 		{
-			$this->userGroups->hideForm() ;
-			$this->userGroups->createMessage(Message::error,"指定的用户无效。") ;
+			$this->view->hideForm() ;
+			$this->createMessage(Message::error,"指定的用户无效。") ;
 			return ;
 		}
+
+		$this->view()->setModel('coresystem:group')
+				->ass(array(
+					'assoc' => Prototype::belongsTo ,
+					'name' => 'user' ,
+					'table'=>'coresystem:group_user_link',
+					'fromKeys' =>'gid',
+					'toKeys'=>'gid',
+					'on' => "user.uid='{$this->params->string('uid')}'" ,
+				))
+				->load() ;
 		
-		$this->groups->load() ;
-		Category::buildTree($this->groups) ;
+		Category::buildTree($this->group) ;
 		
-		if( $this->userGroups->isSubmit($this->params) )
+		$this->doActions() ;
+		/*if( $this->userGroups->isSubmit($this->params) )
 		{
 			if(empty($this->params['groups']))
 			{
@@ -114,6 +133,11 @@ class UserGroupsSetting extends ControlPanel
 					}
 				}
 			}
-		}
+		}*/
+	}
+	
+	protected function form()
+	{
+		$this->params['groups'] = $this->params['groups'] ?: array() ;
 	}
 }
