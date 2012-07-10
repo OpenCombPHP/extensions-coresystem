@@ -56,7 +56,7 @@ class Login extends Controller
 		}
 			
 		//
-		if( !empty($this->params['rememberme']) )
+		if( $this->params->bool('rememberme') )
 		{
 			Id::buryCookie($aId) ;
 		}
