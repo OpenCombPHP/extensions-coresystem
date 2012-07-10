@@ -34,6 +34,13 @@
 	<require type="framework"><![CDATA[ =0.8 ]]></require>
 	<require type="platform"><![CDATA[ =0.4 ]]></require>
 	
-	<data><installer>org\opencomb\coresystem\setup\DataInstaller</installer></data>
+	<data>
+		<version>
+			0.2
+		</version>
+		<installer>
+			org\opencomb\coresystem\setup\DataInstaller
+		</installer>
+	</data>
 	
 </Extension>
