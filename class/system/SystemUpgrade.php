@@ -105,6 +105,9 @@ class SystemUpgrade extends ControlPanel{
 			foreach( $this->arrRelease[ $sTitle ]['version']['extension'] as $key => $aVersion ){
 				$this->updateExtVer( $key , $aVersion );
 			}
+			
+			$aService = Service::singleton() ;
+			$aService->setEnableDataUpgrader(true);
 			$this->createMessage(
 				Message::success,
 				'安装`%s`成功',
