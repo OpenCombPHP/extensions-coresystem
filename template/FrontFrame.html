@@ -7,7 +7,7 @@
 	<if "$aId=\org\jecat\framework\auth\IdManager::singleton()->currentId()">
 		
 		Hi,
-		<select onchange="window.location.href='/?c=org.opencomb.coresystem.user.SwichId&uid=' + this.options[this.selectedOption].value">
+		<select onchange="window.location.href='?c=org.opencomb.coresystem.user.SwichId&uid=' + this.options[this.selectedOption].value">
 			<foreach for="\org\jecat\framework\auth\IdManager::singleton()->iterator()" item='aId'>
 			<option value="{=$aId->userId()}"{= $aId===$aCurrentId? ' selected': ''}>{=$aId->displayName()}</option>
 			</foreach>
@@ -30,13 +30,12 @@
 
 <div class="frontframe-main">
 	<div class="frontframe-main-inner">
-		<div class="frontframe-mainnav">
+		<div class="frontframe-mainnav" style="margin-bottom: 5px">
 		<div class="frontframe-slogan"></div>
 			<widget id="mainMenu" type='menu' >
 				<item id="index" title="首页" link="?c=index" />
 			</widget>
 		</div>
-		
 		<div class="frontframe-body">
 			<views />
 		</div>
@@ -49,7 +48,7 @@
 <script>
 jquery(function(){
 	jquery('.namecard_simple_card_id_select').change(function(){
-		window.location.href='/?c=org.opencomb.coresystem.user.SwichId&uid=' + jquery(this).val();
+		window.location.href='?c=org.opencomb.coresystem.user.SwichId&uid=' + jquery(this).val();
 	});
 });
 </script>

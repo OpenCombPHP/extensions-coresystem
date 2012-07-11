@@ -10,7 +10,7 @@
 			
 			<if "$aCurrentId=\org\jecat\framework\auth\IdManager::singleton()->currentId()">
 			
-				<select onchange="window.location.href='/?c=org.opencomb.coresystem.user.SwichId&uid=' + this.options[this.selectedOption].value">
+				<select onchange="window.location.href='?c=org.opencomb.coresystem.user.SwichId&uid=' + this.options[this.selectedOption].value">
 					<foreach for="\org\jecat\framework\auth\IdManager::singleton()->iterator()" item='aId'>
 					<option value="{=$aId->userId()}"{= $aId===$aCurrentId? ' selected': ''}>{=$aId->displayName()}</option>
 					</foreach>

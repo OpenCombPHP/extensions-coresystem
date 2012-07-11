@@ -13,15 +13,15 @@
 	<class>org.opencomb.coresystem.CoreSystem</class>
 	<classSetup>org.opencomb.coresystem.CoreSystemSetup</classSetup>
 	
-	<package folder="/class" namespace="org.opencomb.coresystem" />
+	<package folder="/class" namespace="org.opencomb.coresystem"/>
 
-	<publicFolder folder="/public" />
+	<publicFolder folder="/public"/>
 	
-	<template folder="/template" />
+	<template folder="/template"/>
 	
-	<licences folder="/licence" />
+	<licences folder="/licence"/>
 	
-	<beanFolder folder="/bean" />
+	<beanFolder folder="/bean"/>
 		
 	<!-- 依赖脚本语言-->
 	<require type="language" item="php">
@@ -38,9 +38,7 @@
 		<version>
 			0.2
 		</version>
-		<installer>
-			org\opencomb\coresystem\setup\DataInstaller
-		</installer>
+		<installer>org\opencomb\coresystem\setup\DataInstaller</installer>
 	</data>
 	
 </Extension>
