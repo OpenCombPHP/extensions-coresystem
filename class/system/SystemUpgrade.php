@@ -10,7 +10,9 @@ use org\opencomb\platform\Platform;
 use org\jecat\framework\fs\Folder;
 use org\jecat\framework\message\Message;
 use org\opencomb\platform\service\Service;
+use org\opencomb\platform\service\ServiceSerializer;
 use org\jecat\framework\setting\Setting;
+use org\opencomb\platform\system\OcSession;
 
 class SystemUpgrade extends ControlPanel{
 	protected $arrConfig = array(
@@ -108,6 +110,9 @@ class SystemUpgrade extends ControlPanel{
 			
 			$aService = Service::singleton() ;
 			$aService->setEnableDataUpgrader(true);
+			
+			ServiceSerializer::singleton()->clearRestoreCache(Service::singleton());
+			OcSession::singleton()->updateSignature() ;
 			$this->createMessage(
 				Message::success,
 				'安装`%s`成功',
