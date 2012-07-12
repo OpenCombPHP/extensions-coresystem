@@ -67,6 +67,12 @@ class ExtensionSetupFunctions
 		}
 	}
 	
+	public function checkBeforeUnpackage(\SimpleXMLElement $aXML){
+		$aExtMeta = ExtensionMetainfo::loadFromXML($aXML);
+		$aExtSetup = ExtensionSetup::singleton() ;
+		$aExtSetup->checkDependence($aExtMeta,false);
+	}
+	
 	public function unpackage(File $aZipFile , \SimpleXMLElement $aXML=null )
 	{
 		if(!$aXML)
@@ -75,6 +81,16 @@ class ExtensionSetupFunctions
 			{
 				return false ;
 			}
+		}
+		
+		try(
+			$this->checkBeforeUnpackage($aXML) ;
+		)catch(Exception $e){
+			$this->aMessageQueue->create(
+					Message::error
+					, $e->message()
+			) ;
+			return FALSE;
 		}
 		
 		$sShortVersion = $aXML->version;
