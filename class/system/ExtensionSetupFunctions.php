@@ -76,7 +76,7 @@ class ExtensionSetupFunctions
 	private function getUnpackageFolder(ExtensionMetainfo $aExtMeta){
 		$sExtName = $aExtMeta->name();
 		$aVersion = $aExtMeta->version();
-		$aToFolder = new Folder(oc\EXTENSIONS_FOLDER.'/'.$sExtName.'/'.$sShortVersion);
+		$aToFolder = new Folder(oc\EXTENSIONS_FOLDER.'/'.$sExtName.'/'.$aVersion);
 		
 		return $aToFolder ;
 	}
@@ -91,9 +91,9 @@ class ExtensionSetupFunctions
 			}
 		}
 		
-		try(
+		try{
 			$this->checkBeforeUnpackage($aXML) ;
-		)catch(Exception $e){
+		}catch(Exception $e){
 			$this->aMessageQueue->create(
 					Message::error
 					, $e->message()
