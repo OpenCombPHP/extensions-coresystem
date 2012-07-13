@@ -2,7 +2,7 @@
 <Extension>
 
 	<name>coresystem</name>
-	<version>0.2</version>
+	<version>0.2.0.1</version>
 	<priority>3</priority>
 	
 	<title>核心系统</title>
@@ -32,7 +32,7 @@
 	
 	<!-- 依赖蜂巢系统-->
 	<require type="framework"><![CDATA[ =0.8 ]]></require>
-	<require type="platform"><![CDATA[ =0.4 ]]></require>
+	<require type="platform"><![CDATA[ =0.4.0.1 ]]></require>
 	
 	<data>
 		<version>
