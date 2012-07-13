@@ -19,6 +19,10 @@ use org\jecat\framework\mvc\view\Webpage;
 
 class Controller extends JcController
 {
+	const default_title_template = '%s - 蜂巢平台' ;
+	const default_keywords = '' ;
+	const default_description = '' ;
+	
     /**
      * properties:
      * 	name				string						名称
@@ -110,7 +114,12 @@ class Controller extends JcController
 
     protected function defaultFrameConfig()
     {
-    	return array('class'=>'org\\opencomb\\coresystem\\mvc\\controller\\FrontFrame') ;
+    	return array(
+    		'class'=>'webframe' ,
+    		'frameview:frameView' => array(
+				'template' => 'coresystem:FrontFrame.html' ,
+			) ,
+    	) ;
     }
     
     public function renderMainView(IView $aMainView)
@@ -166,5 +175,21 @@ class Controller extends JcController
     	$sText = preg_replace_callback('|%%(.+?):(.+?)%%|', function($arrMatches) use ($aSetting){
     		return $aSetting->item($arrMatches[1],$arrMatches[2]) ;
     	}, $sText) ;
+    }
+        
+    public function title()
+    {
+    	$sTitleTpl = Setting::flyweight('coresystem')->item('frontframe','title_template',self::default_title_template) ;
+    	return @sprintf( $sTitleTpl, parent::title()?:'未命名网页' ) ;
+    }
+    
+    public function description()
+    {
+    	return parent::description() . "\r\n" . Setting::flyweight('coresystem')->item('frontframe','description',self::default_description) ;
+    }
+    
+    public function keywords($bImplode=true)
+    {
+    	return parent::keywords($bImplode) . " " . Setting::flyweight('coresystem')->item('frontframe','keywords',self::default_keywords) ;
     }
 }

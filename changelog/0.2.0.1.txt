@@ -1,0 +1,3 @@
+2012.7.13
+
+* 修改 FrontFrame 和 ControlPanel 的 title/keywords/description 机制
