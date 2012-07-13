@@ -11,6 +11,8 @@ class ExtensionStoreOpen extends ControlPanel
 	
 	public function process()
 	{
+	    $sUrlHost = $_SERVER['HTTP_HOST'].$_SERVER['PHP_SELF'];
+	    $this->view()->variables()->set('sUrlHost',$sUrlHost);
 		$this->setCatchOutput(false) ;
 	}
 }
