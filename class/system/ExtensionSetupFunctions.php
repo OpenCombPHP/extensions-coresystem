@@ -73,6 +73,14 @@ class ExtensionSetupFunctions
 		$aExtSetup->checkDependence($aExtMeta,false);
 	}
 	
+	private function getUnpackageFolder(ExtensionMetainfo $aExtMeta){
+		$sExtName = $aExtMeta->name();
+		$aVersion = $aExtMeta->version();
+		$aToFolder = new Folder(oc\EXTENSIONS_FOLDER.'/'.$sExtName.'/'.$aVersion);
+		
+		return $aToFolder ;
+	}
+	
 	public function unpackage(File $aZipFile , \SimpleXMLElement $aXML=null )
 	{
 		if(!$aXML)
@@ -83,9 +91,9 @@ class ExtensionSetupFunctions
 			}
 		}
 		
-		try(
+		try{
 			$this->checkBeforeUnpackage($aXML) ;
-		)catch(Exception $e){
+		}catch(Exception $e){
 			$this->aMessageQueue->create(
 					Message::error
 					, $e->message()
@@ -93,9 +101,8 @@ class ExtensionSetupFunctions
 			return FALSE;
 		}
 		
-		$sShortVersion = $aXML->version;
-		$sExtName = $aXML->name;
-		$aToFolder = new Folder(oc\EXTENSIONS_FOLDER.'/'.$sExtName.'/'.$sShortVersion);
+		$aExtMeta = ExtensionMetainfo::loadFromXML($aXML);
+		$aToFolder = $this->getUnpackageFolder($aExtMeta);
 		$aZip = new \ZipArchive;
 		$resOpen = $aZip->open($aZipFile->path()) ;
 		if( TRUE !==  $resOpen ){
@@ -105,21 +112,15 @@ class ExtensionSetupFunctions
 			) ;
 			return FALSE;
 		}
-		if( $aToFolder->exists() ){
-			$this->aMessageQueue->create(
-				Message::error,
-				'解压缩失败，目标文件夹已存在：%s',
-				$aToFolder->path()
-			);
-			return FALSE;
-		}
-		$resExtract = $aZip->extractTo($aToFolder->path());
-		if( TRUE !== $resExtract ){
-			$this->aMessageQueue->create(
-					Message::error
-					, "解压缩文件失败"
-			) ;
-			return FALSE;
+		if( !$aToFolder->exists() ){
+			$resExtract = $aZip->extractTo($aToFolder->path());
+			if( TRUE !== $resExtract ){
+				$this->aMessageQueue->create(
+						Message::error
+						, "解压缩文件失败"
+				) ;
+				return FALSE;
+			}
 		}
 		$aZip->close();
 		return $aToFolder ;
