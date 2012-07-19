@@ -98,6 +98,9 @@ class ExtensionManagerController extends ControlPanel
 		}catch(Exception $e){
 			$this->view->createMessage(Message::error,$e->getMessage(),$e->messageArgvs()) ;
 		}
+		// 禁止写入缓存
+		ServiceSerializer::singleton()->clearSystemObjects() ;
+		// 清空缓存
 		ServiceSerializer::singleton()->clearRestoreCache();
 		\org\opencomb\platform\system\OcSession::singleton()->updateSignature() ;
 	}

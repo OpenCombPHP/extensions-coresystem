@@ -62,7 +62,7 @@ function unistallExtension(sExtName){
 		divDep.css('display','none');
 	}else{
 		divDep.css('display','block');
-		objDepByList.append(getDependenceByRecursively(sExtName));
+		objDepByList.append('<ul class="ulDepByList">'+getDependenceByRecursively(sExtName)+'</ul>');
 	}
 	
 	objDialog.dialog({
@@ -91,20 +91,20 @@ function unistallExtension(sExtName){
 }
 function getDependenceByRecursively(sExtName , bIgnoreEnable ){
 	var str = '';
+	str += '<li>'+sExtName;
 	str += '<ul class="ulDepByList">';
 	for(var i=0;i<arrDependenceBy[sExtName].length;++i){
 		var sDepByExtName = arrDependenceBy[sExtName][i];
 		
 		// 不包含未启用的扩展
 		if(!bIgnoreEnable || arrEnableState[sDepByExtName]){
-			str += '<li>'+sDepByExtName;
 			if(typeof(arrDependenceBy[sDepByExtName]) != 'undefined'){
 				str += getDependenceByRecursively(sDepByExtName , bIgnoreEnable);
 			}
-			str += '</li>';
 		}
 	}
 	str += '</ul>';
+	str += '</li>';
 	return str;
 }
 </script>
