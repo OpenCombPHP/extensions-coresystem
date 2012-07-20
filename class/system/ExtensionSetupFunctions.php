@@ -124,10 +124,6 @@ class ExtensionSetupFunctions
 		return $aToFolder ;
 	}
 	
-	public function clearRestoreCache(){
-		ServiceSerializer::singleton()->clearRestoreCache(Service::singleton());
-	}
-	
 	public function installPackage(Folder $aExtFolder){
 		// 安装
 		try{

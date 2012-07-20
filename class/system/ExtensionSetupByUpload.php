@@ -64,7 +64,7 @@ class ExtensionSetupByUpload extends ControlPanel
 				// remove upload file
 				$aExtensionSetupFunctions->removeUploadFile( $aUploadFile );
 				// clearRestoreCache
-				$aExtensionSetupFunctions ->clearRestoreCache();
+				$aExtensionSetupFunctions ->clearSystem();
 				// install
 				$aExtMeta = $aExtensionSetupFunctions->installPackage($aUnpackageFolder) ;
 				if( FALSE === $aExtMeta ){
