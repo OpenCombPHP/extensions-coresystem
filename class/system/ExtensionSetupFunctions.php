@@ -10,9 +10,7 @@ use org\jecat\framework\fs\Folder;
 use org\jecat\framework\fs\File;
 use org\opencomb\platform\ext\ExtensionSetup;
 use org\jecat\framework\lang\Exception;
-use org\opencomb\platform\service\ServiceSerializer;
 use org\opencomb\platform as oc;
-use org\opencomb\platform\system\OcSession;
 
 /**
  * 期待的改进：
@@ -126,10 +124,6 @@ class ExtensionSetupFunctions
 		return $aToFolder ;
 	}
 	
-	public function clearRestoreCache(){
-		ServiceSerializer::singleton()->clearRestoreCache(Service::singleton());
-	}
-	
 	public function installPackage(Folder $aExtFolder){
 		// 安装
 		try{
@@ -176,9 +170,6 @@ class ExtensionSetupFunctions
 	
 	public function installAndEnableExtension(Folder $aExtFolder){
 		try{
-			// 清理缓存
-			ServiceSerializer::singleton()->clearRestoreCache(Service::singleton());
-			
 			// 安装
 			$aExtMeta = ExtensionSetup::singleton()->install($aExtFolder , $this->aMessageQueue ) ;
 			
@@ -196,10 +187,23 @@ class ExtensionSetupFunctions
 					, "扩展 %s(%s:%s) 已经激活使用。"
 					, array( $aExtMeta->title(), $aExtMeta->name(), $aExtMeta->version() )
 			) ;
+			
+			$this->clearSystem() ;
 		}catch(Exception $e){
 			$this->aMessageQueue->create(Message::error,$e->getMessage(),$e->messageArgvs()) ;
 		}
-		OcSession::singleton()->updateSignature() ;
+	}
+	
+	public function clearSystem(){
+		// 禁止写入缓存
+		\org\opencomb\platform\service\ServiceSerializer::singleton()->clearSystemObjects() ;
+		// 清空缓存
+		\org\opencomb\platform\service\ServiceSerializer::singleton()->clearRestoreCache();
+		$aUI = \org\jecat\framework\ui\xhtml\UIFactory::singleton()->create();
+		$sCompiledFolderPath = $aUI->sourceFileManager()->compiledFolderPath();
+		$aFolder = new Folder( $sCompiledFolderPath );
+		$aFolder->delete(true) ;
+		\org\opencomb\platform\system\OcSession::singleton()->updateSignature() ;
 	}
 	
 	private $aMessageQueue = null;
