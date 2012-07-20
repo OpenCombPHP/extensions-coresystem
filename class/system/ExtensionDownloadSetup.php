@@ -51,7 +51,7 @@ class ExtensionDownloadSetup extends ControlPanel
 			return ;
 		}
 		
-		\org\opencomb\platform\system\OcSession::singleton()->updateSignature() ;
+		$aExtensionSetupFunctions->clearSystem() ;
 		$this->response()->putReturnVariable('result',true) ;
 	}
 
