@@ -6,7 +6,6 @@ use org\opencomb\coresystem\mvc\controller\ControlPanel;
 use org\jecat\framework\message\Message;
 use org\opencomb\platform\ext\ExtensionSetup;
 use org\jecat\framework\lang\Exception;
-use org\opencomb\platform\service\ServiceSerializer;
 use org\opencomb\platform\ext\dependence\RequireItem;
 use org\opencomb\platform\ext\ExtensionManager;
 
@@ -85,8 +84,8 @@ class ExtensionManagerController extends ControlPanel
 		}catch(Exception $e){
 			$this->view->createMessage(Message::error,$e->getMessage(),$e->messageArgvs()) ;
 		}
-		ServiceSerializer::singleton()->clearRestoreCache();
-		\org\opencomb\platform\system\OcSession::singleton()->updateSignature() ;
+		$aExtSetupFun = new ExtensionSetupFunctions( $this->view->messageQueue() ) ;
+		$aExtSetupFun->clearSystem() ;
 	}
 	
 	public function uninstall(){
@@ -98,11 +97,8 @@ class ExtensionManagerController extends ControlPanel
 		}catch(Exception $e){
 			$this->view->createMessage(Message::error,$e->getMessage(),$e->messageArgvs()) ;
 		}
-		// 禁止写入缓存
-		ServiceSerializer::singleton()->clearSystemObjects() ;
-		// 清空缓存
-		ServiceSerializer::singleton()->clearRestoreCache();
-		\org\opencomb\platform\system\OcSession::singleton()->updateSignature() ;
+		$aExtSetupFun = new ExtensionSetupFunctions( $this->view->messageQueue() ) ;
+		$aExtSetupFun->clearSystem() ;
 	}
 	
 	public function changePriority(){
@@ -147,8 +143,8 @@ class ExtensionManagerController extends ControlPanel
 		}catch(Exception $e){
 			$this->view->createMessage(Message::error,$e->getMessage(),$e->messageArgvs()) ;
 		}
-		ServiceSerializer::singleton()->clearRestoreCache();
-		\org\opencomb\platform\system\OcSession::singleton()->updateSignature() ;
+		$aExtSetupFun = new ExtensionSetupFunctions( $this->view->messageQueue() ) ;
+		$aExtSetupFun->clearSystem() ;
 	}
 	
 	private function getDependenceBy(){
