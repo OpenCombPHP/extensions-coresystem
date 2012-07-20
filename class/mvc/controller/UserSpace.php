@@ -6,7 +6,12 @@ use org\opencomb\coresystem\mvc\controller\Controller;
 class UserSpace extends Controller
 {
     protected function defaultFrameConfig()
-    {
-    	return array('class'=>'org\\opencomb\\coresystem\\mvc\\controller\\UserSpaceFrame') ;
+    {    	
+    	return array(
+    			'class'=>'webframe' ,
+    			'frameview:frameView' => array(
+    					'template' => 'coresystem:UserSpaceFrame.html' ,
+    			) ,
+    	) ;
     }
 }
