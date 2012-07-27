@@ -23,7 +23,7 @@ h4{ font-size:12px; font-weight:bold; color:#333}
 		.frontframe-slogan{width:220px; height:30px; background:url(../images/slogan.gif) no-repeat right 0; float:left}
 		.jc-widget-menu-depth-1{margin-left:300px;}
 		.jc-widget-menu-item-depth-1{ float:left; font-size:14px; margin-right:20px;}
-		.jc-widget-menu-item-depth-1 a{color:#333; display:block; float:left; height:30px; padding:0 6px;border-bottom:3px solid #F6F8F7;}
+		.jc-widget-menu-item-depth-1 a{color:#333; display:block; height:30px; padding:0 6px;border-bottom:3px solid #F6F8F7;}
 		.jc-widget-menu-item-depth-1 a:hover{border-bottom:3px solid #09c; text-decoration:none;}
 	
 #view-wrapper-3{padding:10px 0;}
