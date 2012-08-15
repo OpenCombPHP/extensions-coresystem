@@ -41,7 +41,7 @@
 		<version>
 			0.2
 		</version>
-		<!-- <installer>org\opencomb\coresystem\setup\DataInstaller</installer> -->
+		<installer>org\opencomb\coresystem\setup\DataInstaller</installer>
 	</data>
 	
 </Extension>
