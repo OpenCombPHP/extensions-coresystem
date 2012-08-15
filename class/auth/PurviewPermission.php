@@ -45,14 +45,23 @@ class PurviewPermission extends PermissionBase
 	
 	public function buildBean(array & $arrConfig,$sNamespace='*',BeanFactory $aBeanFactory=null)
 	{
+		// purview namespace
+		$this->sPurviewNamespace = empty($arrConfig['namespace'])? $sNamespace: $arrConfig['namespace'] ;
+		
 		// purview name
 		if(!empty($arrConfig['name']))
 		{
-			$this->sPurviewName = $arrConfig['name'] ;
+			$pos = strpos($arrConfig['name'],':') ;
+			if($pos===false)
+			{
+				$this->sPurviewName = $arrConfig['name'] ;
+			}
+			else 
+			{
+				$this->sPurviewName = substr($arrConfig['name'],$pos+1) ;
+				$this->sPurviewNamespace = substr($arrConfig['name'],0,$pos) ;
+			}
 		}
-		
-		// purview namespace
-		$this->sPurviewNamespace = empty($arrConfig['namespace'])? $sNamespace: $arrConfig['namespace'] ;
 		
 		// purview target
 		if(!empty($arrConfig['target']))
