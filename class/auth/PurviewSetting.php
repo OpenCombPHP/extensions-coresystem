@@ -272,6 +272,62 @@ class PurviewSetting extends ControlPanel
 	}
 	
 	
+	static public function registeredPurview($sExtensionName , $sType , $sName , $sTitle , $nTarget=null){
+		if( empty($sExtensionName) 
+				|| empty($sType) 
+				|| empty($sName) 
+				|| empty($sTitle) 
+		){
+			return false;
+		}
+		
+		
+		if( !isset( self::$arrRegisteredPurviews[$sExtensionName]) ){
+			self::$arrRegisteredPurviews[$sExtensionName] = array();
+		}
+		
+		if( !isset( self::$arrRegisteredPurviews[$sExtensionName][$sType]) ){
+			self::$arrRegisteredPurviews[$sExtensionName][$sType] = array();
+		}
+		
+		//已有?
+		foreach( self::$arrRegisteredPurviews[$sExtensionName][$sType] as $arrPurview){
+			if($arrPurview['name'] === $sName){
+				return true;
+			}
+		}
+		
+		self::$arrRegisteredPurviews[$sExtensionName][$sType][] = array(
+				'name' => $sName ,
+				'title' => $sTitle ,
+				'target' => $nTarget
+		) ;
+		return true;
+	}
+	
+	static public function unRegisteredPurview($sExtensionName , $sType , $sName){
+		if( empty($sExtensionName)
+				|| empty($sType)
+				|| empty($sName)
+		){
+			return false;
+		}
+		
+		if( !isset( self::$arrRegisteredPurviews[$sExtensionName]) 
+				|| !isset( self::$arrRegisteredPurviews[$sExtensionName][$sType])
+		){
+			return true;
+		}
+		
+		foreach( self::$arrRegisteredPurviews[$sExtensionName][$sType] as $key => $arrPurview){
+			if($arrPurview['name'] === $sName){
+				unset( self::$arrRegisteredPurviews[$sExtensionName][$sType][$key] );
+				return true;
+			}
+		}
+	}
+	
+	
 	static private $arrRegisteredPurviews = array(
 	
 			'coresystem' => array(										// 扩展 =========
