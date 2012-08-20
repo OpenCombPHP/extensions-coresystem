@@ -19,15 +19,6 @@ class ExtensionSetupController extends ControlPanel
 {
 	protected $arrConfig = array(
 			'title'=>'扩展安装',
-			'view' => array(
-				'template' => 'system/ExtensionSetup.html' ,
-				'widget:extensionPath' => array(
-						'class' => 'text' ,
-						'title'=>'扩展目录路径' ,
-						'value' => 'extensions/...' ,
-						'verifier:notempty' => array() ,
-				)
-			) ,
 			'controller:byUpload' => array(
 					'class' => 'org\\opencomb\\coresystem\\system\\ExtensionSetupByUpload' ,
 			) ,

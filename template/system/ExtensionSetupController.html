@@ -1,3 +1,4 @@
+<css src="coresystem:css/ExtensionSetupController.css" />
 <h1>安装扩展</h1>
 
 <msgqueue />
@@ -10,11 +11,14 @@
 			<ul>
 			<foreach for="$arrExtensionList" item='aExtMeta'>
 				<li style="padding-left:40px">
-					版本：{=$aExtMeta->version()} 
+					版本：{=$aExtMeta->version()}
 					<if "$aExtMeta->properties()->get('installed')">
 						<span style="padding-left:20px">已安装</span>
 					<else/>
-						<a style="padding-left:20px" href="?c=org.opencomb.coresystem.system.ExtensionSetupController&a={=$theController->makeActionQuery('form',false)}&extensionPath={=urlencode($aExtMeta->properties()->get('path'))}">安装</a>
+						<form class="extsetup" action="?c=org.opencomb.coresystem.system.ExtensionSetupController" method="post">
+							<input type='hidden' name='extensionPath' value="{=$aExtMeta->properties()->get('path')}" />
+							<input type='submit' value='安装' />
+						</form>
 					</if>
 				</li>
 			</foreach>
@@ -29,7 +33,14 @@
 <div>
 	<h2>指定安装路径</h2>
 	<form method="post">
-		扩展目录路径：<widget type="text" id='extensionPath' attr.style="width:400px" />
+		扩展目录路径：
+		<widget
+			type="text"
+			id='extensionPath'
+			bean.title='扩展目录路径'
+			bean.value ='extensions/...'
+			bean.verifiers.notempty.x='1'
+			attr.style="width:400px" />
 		<input type="submit" name="安装" />
 	</form>
 </div>
