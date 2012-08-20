@@ -26,6 +26,8 @@ class CoreSystem extends Extension
 		$aAccessRouter->addController("org\\opencomb\\coresystem\\mvc\\controller\\WelcomeControlPanel",'control.panel','') ;
 		$aAccessRouter->addController("org\\opencomb\\coresystem\\user\\UserPanel",'user.panel','') ;
 		
+		$aAccessRouter->setDefaultController("org\\opencomb\\coresystem\\mvc\\controller\\WelcomeControlPanel") ;
+		
 		// bean class alias
 		BeanFactory::singleton()->registerBeanClass("org\\opencomb\\coresystem\\auth\\Authorizer",'authorizer') ;
 		BeanFactory::singleton()->registerBeanClass("org\\opencomb\\coresystem\\auth\\PurviewPermission",'perm.purview') ;
