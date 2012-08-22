@@ -14,9 +14,6 @@ class ExtensionManagerController extends ControlPanel
 	protected $arrConfig = 
 		array(
 			'title'=>'扩展管理',
-			'view' => array(
-				'template' => 'system/ExtensionManager.html' ,
-			) ,
 			'perms' => array(
 				// 权限类型的许可
 				'perm.purview'=>array(
@@ -82,7 +79,7 @@ class ExtensionManagerController extends ControlPanel
 		try{
 			$this->recursivelyDisable($sExtName);
 		}catch(Exception $e){
-			$this->view->createMessage(Message::error,$e->getMessage(),$e->messageArgvs()) ;
+			$this->createMessage(Message::error,$e->getMessage(),$e->messageArgvs()) ;
 		}
 		$aExtSetupFun = new ExtensionSetupFunctions( $this->view->messageQueue() ) ;
 		$aExtSetupFun->clearSystem() ;
@@ -95,7 +92,7 @@ class ExtensionManagerController extends ControlPanel
 		try{
 			$this->recursivelyUninstall($sExtName,$bRetainData);
 		}catch(Exception $e){
-			$this->view->createMessage(Message::error,$e->getMessage(),$e->messageArgvs()) ;
+			$this->createMessage(Message::error,$e->getMessage(),$e->messageArgvs()) ;
 		}
 		$aExtSetupFun = new ExtensionSetupFunctions( $this->view->messageQueue() ) ;
 		$aExtSetupFun->clearSystem() ;
@@ -105,14 +102,14 @@ class ExtensionManagerController extends ControlPanel
 		$sExtName = $this->params['name'];
 		$nNewPriority = $this->params['priority'];
 		
-		$this->view->createMessage(Message::notice, '更改扩展优先级 ： %s , %d',array($sExtName,$nNewPriority));
+		$this->createMessage(Message::notice, '更改扩展优先级 ： %s , %d',array($sExtName,$nNewPriority));
 		$aExtensionSetup = ExtensionSetup::singleton();
 		try{
 			$aExtensionSetup->changePriority($sExtName,$nNewPriority);
 			ServiceSerializer::singleton()->clearRestoreCache();
-			$this->view->createMessage(Message::success,'成功修改扩展 `%s` 的优先级为 `%d`',array($sExtName,$nNewPriority));
+			$this->createMessage(Message::success,'成功修改扩展 `%s` 的优先级为 `%d`',array($sExtName,$nNewPriority));
 		}catch(Exception $e){
-			$this->view->createMessage(Message::error,$e->getMessage(),$e->messageArgvs()) ;
+			$this->createMessage(Message::error,$e->getMessage(),$e->messageArgvs()) ;
 		}
 		$this->view->variables()->set('rebuild','1');
 	}
@@ -124,14 +121,14 @@ class ExtensionManagerController extends ControlPanel
 		$sExtName = $this->params['name'];
 		$sDire = $this->params['dire'];
 		
-		$this->view->createMessage(Message::notice, '更改扩展顺序 ： %s , %s',array($sExtName,$sDire));
+		$this->createMessage(Message::notice, '更改扩展顺序 ： %s , %s',array($sExtName,$sDire));
 		$aExtSetup = ExtensionSetup::singleton();
 		try{
 			$aExtSetup->changeOrder($sExtName,$sDire);
 			ServiceSerializer::singleton()->clearRestoreCache();
-			$this->view->createMessage(Message::success, '成功更改扩展顺序 ： %s , %s',array($sExtName,$sDire));
+			$this->createMessage(Message::success, '成功更改扩展顺序 ： %s , %s',array($sExtName,$sDire));
 		}catch(Exception $e){
-			$this->view->createMessage(Message::error,$e->getMessage(),$e->messageArgvs()) ;
+			$this->createMessage(Message::error,$e->getMessage(),$e->messageArgvs()) ;
 		}
 		$this->view->variables()->set('rebuild','1');
 	}
@@ -141,7 +138,7 @@ class ExtensionManagerController extends ControlPanel
 		try{
 			$this->recursivelyEnable($sExtName);
 		}catch(Exception $e){
-			$this->view->createMessage(Message::error,$e->getMessage(),$e->messageArgvs()) ;
+			$this->createMessage(Message::error,$e->getMessage(),$e->messageArgvs()) ;
 		}
 		$aExtSetupFun = new ExtensionSetupFunctions( $this->view->messageQueue() ) ;
 		$aExtSetupFun->clearSystem() ;
@@ -219,33 +216,33 @@ class ExtensionManagerController extends ControlPanel
 	}
 	
 	private function recursivelyDisable($sExtName){
-		$this->view->createMessage(Message::notice, '开始禁用扩展 ： %s',array($sExtName));
+		$this->createMessage(Message::notice, '开始禁用扩展 ： %s',array($sExtName));
 		$aExtensionSetup = ExtensionSetup::singleton();
 		$arrDepBy = $this->getDependenceBy() ;
 		if(isset($arrDepBy[$sExtName])){
 			foreach($arrDepBy[$sExtName] as $sDepByExtName){
 				if($this->isExtensionEnabled($sDepByExtName)){
-					$this->view->createMessage(Message::notice, '发现被扩展 `%s` 依赖',array($sDepByExtName));
+					$this->createMessage(Message::notice, '发现被扩展 `%s` 依赖',array($sDepByExtName));
 					$this->recursivelyDisable($sDepByExtName);
 				}
 			}
 		}
 		$aExtensionSetup->disable($sExtName);
-		$this->view->createMessage(Message::success,'成功禁用扩展 ： %s',array($sExtName));
+		$this->createMessage(Message::success,'成功禁用扩展 ： %s',array($sExtName));
 	}
 	
 	private function recursivelyEnable($sExtName){
-		$this->view->createMessage(Message::notice, '开始启用扩展 ： %s',array($sExtName));
+		$this->createMessage(Message::notice, '开始启用扩展 ： %s',array($sExtName));
 		$aExtensionSetup = ExtensionSetup::singleton();
 		$arrDep = $this->getDependence() ;
 		foreach($arrDep[$sExtName] as $sDepExtName){
 			if(!$this->isExtensionEnabled($sDepExtName)){
-				$this->view->createMessage(Message::notice, '发现依赖扩展 `%s`',array($sDepExtName));
+				$this->createMessage(Message::notice, '发现依赖扩展 `%s`',array($sDepExtName));
 				$this->recursivelyEnable($sDepExtName);
 			}
 		}
 		$aExtensionSetup->enable($sExtName);
-		$this->view->createMessage(Message::success,'成功启用扩展 ： %s',array($sExtName));
+		$this->createMessage(Message::success,'成功启用扩展 ： %s',array($sExtName));
 	}
 	
 	private function isExtensionEnabled($sExtName){
@@ -264,7 +261,7 @@ class ExtensionManagerController extends ControlPanel
 		$arrDepBy = $this->getDependenceBy() ;
 		if(isset($arrDepBy[$sExtName])){
 			foreach($arrDepBy[$sExtName] as $sDepByExtName){
-				$this->view->createMessage(Message::notice, '发现被扩展 `%s` 依赖',array($sDepByExtName));
+				$this->createMessage(Message::notice, '发现被扩展 `%s` 依赖',array($sDepByExtName));
 				$this->recursivelyUninstall($sDepByExtName,$bRetainData);
 			}
 		}
