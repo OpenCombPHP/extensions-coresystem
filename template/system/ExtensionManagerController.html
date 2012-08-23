@@ -109,26 +109,24 @@ function getDependenceByRecursively(sExtName , bIgnoreEnable ){
 }
 </script>
 <div id="dialogDisable" class="dialog">
-	<div class="warning depwarning">
+	<div class="warning dep">
 		将会禁用以下扩展：
-		<div class="depbyBlock">
-			<ul class="ulDepByList">
-			</ul>
+		<div class="depByList">
 		</div>
 	</div>
 </div>
 <script type='text/javascript'>
 function disableExtension(sExtName){
 	var objDialog = jQuery('#dialogDisable');
-	var divDep = objDialog.find('.depwarning');
-	var objDepByList = objDialog.find('.depbyBlock');
+	var divDep = objDialog.find('.dep');
+	var objDepByList = objDialog.find('.depByList');
 	
 	objDepByList.empty();
 	if( typeof(arrDependenceBy[sExtName]) == 'undefined'){
 		divDep.css('display','none');
 	}else{
 		divDep.css('display','block');
-		objDepByList.append(getDependenceByRecursively(sExtName,true));
+		objDepByList.append('<ul class="ulDepByList">'+getDependenceByRecursively(sExtName)+'</ul>');
 	}
 	
 	objDialog.dialog({
