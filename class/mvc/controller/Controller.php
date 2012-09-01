@@ -179,17 +179,17 @@ class Controller extends JcController
         
     public function title()
     {
-    	$sTitleTpl = Setting::flyweight('coresystem')->item('frontframe','title_template',self::default_title_template) ;
+    	$sTitleTpl = Setting::flyweight('coresystem')->value('/frontframe/title_template',self::default_title_template) ;
     	return @sprintf( $sTitleTpl, parent::title()?:'未命名网页' ) ;
     }
     
     public function description()
     {
-    	return parent::description() . "\r\n" . Setting::flyweight('coresystem')->item('frontframe','description',self::default_description) ;
+    	return parent::description() . "\r\n" . Setting::flyweight('coresystem')->value('/frontframe/description',self::default_description) ;
     }
     
     public function keywords($bImplode=true)
     {
-    	return parent::keywords($bImplode) . " " . Setting::flyweight('coresystem')->item('frontframe','keywords',self::default_keywords) ;
+    	return parent::keywords($bImplode) . " " . Setting::flyweight('coresystem')->value('/frontframe/keywords',self::default_keywords) ;
     }
 }

@@ -33,7 +33,7 @@ class DebugStatSetting extends ControlPanel
 			foreach($arrItemList as $sItemName=>&$arrItem)
 			{
 				// 加载状态
-				$arrItem['setting'] = (bool)$aSetting->item($sPath,$sItemName) ;
+				$arrItem['setting'] = (bool)$aSetting->value($sPath.'/'.$sItemName) ;
 				
 				// 保存内状态
 				if($bIsSubmiting)
@@ -43,7 +43,7 @@ class DebugStatSetting extends ControlPanel
 					if($arrItem['setting']!=$bSubmitItemValue)
 					{
 						$arrItem['setting'] = $bSubmitItemValue ;
-						$aSetting->setItem($sPath,$sItemName,$bSubmitItemValue) ;
+						$aSetting->setValue($sPath.'/'.$sItemName,$bSubmitItemValue) ;
 						
 						$this->view->createMessage(Message::success,"系统状态 %s 已经保存",array($arrItem['title'])) ;
 					}

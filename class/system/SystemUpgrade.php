@@ -30,7 +30,7 @@ class SystemUpgrade extends ControlPanel{
 		$this->checkPermissions() ;
 		
 		$aSetting = Extension::flyweight('coresystem')->setting();
-		$sXmlUrl = $aSetting->item('/systemupgrade','xmlUrl','http://release.opencomb.com/releases.xml');
+		$sXmlUrl = $aSetting->value('/systemupgrade/xmlUrl','http://release.opencomb.com/releases.xml');
 		
 		$sContent = @file_get_contents($sXmlUrl);
 		

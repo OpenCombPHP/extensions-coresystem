@@ -56,15 +56,15 @@ class ControlPanel extends Controller
     public function title()
     {
     	$sTitle = JcController::title() ;
-    	$sTitleTpl = Setting::flyweight('coresystem')->item('controlpanel','title_template',self::default_title_template) ;
+    	$sTitleTpl = Setting::flyweight('coresystem')->value('/controlpanel/title_template',self::default_title_template) ;
     	return @sprintf( $sTitleTpl, $sTitle?:'未命名网页' ) ;
     }
     public function description()
     {
-    	return JcController::description() . "\r\n" . Setting::flyweight('coresystem')->item('controlpanel','description',self::default_description) ;
+    	return JcController::description() . "\r\n" . Setting::flyweight('coresystem')->value('/controlpanel/description',self::default_description) ;
     }
     public function keywords($bImplode=true)
     {
-    	return JcController::keywords($bImplode) . " " . Setting::flyweight('coresystem')->item('controlpanel','keywords',self::default_keywords) ;
+    	return JcController::keywords($bImplode) . " " . Setting::flyweight('coresystem')->value('/controlpanel/keywords',self::default_keywords) ;
     }
 }
