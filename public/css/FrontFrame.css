@@ -28,8 +28,6 @@ h4{ font-size:12px; font-weight:bold; color:#333}
 	
 #view-wrapper-3{padding:10px 0;}
 
-/*凤巢默认样式*/
-.jc-view-decorater-oc{background:url(../images/viewbg.jpg) repeat-x 0 0; margin:0 10px 15px; padding:10px; border:1px solid #dfdfdf; border-radius:2px; box-shadow:0 0 4px rgba(0,0,0,0.1)}
 
 /*toplist*/
 .topList{
