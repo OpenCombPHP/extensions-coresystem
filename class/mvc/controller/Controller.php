@@ -16,6 +16,7 @@ use org\jecat\framework\mvc\controller\Controller as JcController ;
 use org\opencomb\platform\ext\ExtensionManager;
 use org\jecat\framework\setting\Setting;
 use org\jecat\framework\mvc\view\Webpage;
+use org\jecat\framework\message\Message;
 
 class Controller extends JcController
 {
@@ -53,16 +54,15 @@ class Controller extends JcController
     	}
     	catch (AuthenticationException $e)
     	{
-    		Controller::createBean($arrBeanConfig=array(
+    		$msgController = Controller::createBean($arrBeanConfig=array(
     			'title' => '权限拒绝' ,
     			'params' => $this->params ,
     			'view' => array(
 					'template'=>'coresystem:auth/PermissionDenied.html' ,
-						'vars'=>array(
-						'message' => $e->message() ?: '访问权限被拒绝' ,
-					) ,
     			) ,
-    		))->mainRun() ;
+    		));
+            $msgController->messageQueue ()->create ( Message::error, "访问权限被拒绝" );
+            $msgController->mainRun() ;
     	}
     }
     
