@@ -122,6 +122,11 @@ class Controller extends JcController
     	) ;
     }
     
+    static public function checkSinglePermission($sPurview,$sExtension,$target=null){
+        $aPurviewPermission = PurviewPermission::flyweight(array($sPurview , $target , $sExtension));
+        return $aPurviewPermission->check(IdManager::singleton());
+    }
+
     public function renderMainView(IView $aMainView)
     {
     	if( $aMainView instanceof Webpage )
